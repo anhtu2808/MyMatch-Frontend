@@ -1,0 +1,25 @@
+.header {
+    background-color: white;
+    width: 100%;
+    padding-left: 200px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    text-align: start;
+    border-style: solid;
+    box-sizing: border-box;
+    border-width: 1px;
+    border-color: rgb(232 232 232 / var(--tw-border-opacity, 1));
+}
+
+.title {
+    margin-top: 20px;
+    font-size: 40px;
+    font-weight: bold;
+    color: #000000;
+}
+
+.script {
+    margin-top: 10px;
+    font-size: 25px;
+    color: gray;
+}

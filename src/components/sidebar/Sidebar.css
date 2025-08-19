@@ -1,0 +1,151 @@
+.sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100vh;
+  background-color: white;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  border-right: 1px solid #E5E7EB;
+  width: 6rem; /* 16 */
+}
+
+.logoSection {
+  padding: 1.5rem 1rem;
+  border-bottom: 1px solid #F3F4F6;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.logoImg {
+  width: 4rem; /* 10 */
+  height: 4rem; /* 10 */
+  border-radius: 0.5rem;
+  object-fit: cover;
+}
+
+.nav {
+  flex: 1;
+  padding: 1rem 0.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.navList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 0.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.navItem {}
+
+.navLink {
+  display: flex;
+  justify-content: center;   /* giữ icon ở giữa */
+  align-items: center;
+  width: 4rem;               /* vừa bằng icon */
+  height: 4rem;              /* làm nó vuông */
+  margin: 0 auto;            /* căn giữa trong sidebar */
+  border-radius: 0.75rem;
+  text-decoration: none;
+  color: #4B5563;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  position: relative;
+}
+
+.navLinkActive {
+  background-color: #2b2c8c; /* primary */
+  color: white;
+  box-shadow: 0 4px 6px rgba(99, 102, 241, 0.4);
+}
+
+.navLinkHover:hover:not(.navLinkActive) {
+  background-color: #F3F4F6; /* gray-100 */
+  color: #374151; /* gray-800 */
+}
+
+.navIcon {
+  display: flex;
+  justify-content: center;
+  min-width: 3rem;
+}
+
+.tooltip {
+  position: absolute;
+  left: 100%;
+  margin-left: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  background-color: #111827; /* gray-900 */
+  color: white;
+  font-size: 0.875rem;
+  border-radius: 0.5rem;
+  opacity: 0;
+  pointer-events: none;
+  white-space: nowrap;
+  transition: opacity 0.2s ease;
+  z-index: 50;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.navLink:hover .tooltip,
+.group:hover .tooltip {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.tooltipArrow {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%) translateX(-50%) rotate(45deg);
+  width: 0.5rem;
+  height: 0.5rem;
+  background-color: #111827; /* gray-900 */
+}
+
+.settingsSection,
+.userProfileSection {
+  padding: 0 0.5rem 1rem;
+}
+
+.userProfile {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 0.75rem;
+  cursor: pointer;
+  position: relative;
+  transition: background-color 0.2s ease;
+}
+
+.userProfile:hover {
+  background-color: #F3F4F6;
+}
+
+.userAvatar {
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 9999px;
+  background: linear-gradient(to bottom right, #ec4899, #8b5cf6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-weight: 600;
+  font-size: 0.75rem;
+  min-width: 1.5rem;
+}
+
+.balanceText {
+  color: #d1d5db; /* gray-300 */
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+}
