@@ -9,7 +9,7 @@
   flex-direction: column;
   box-shadow: 0 0 10px rgba(0,0,0,0.1);
   border-right: 1px solid #E5E7EB;
-  width: 6rem; /* 16 */
+  width: 4rem; /* 16 */
 }
 
 .logoSection {
@@ -18,11 +18,12 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-bottom: 20px;
 }
 
 .logoImg {
-  width: 4rem; /* 10 */
-  height: 4rem; /* 10 */
+  width: 3rem; /* 10 */
+  height: 3rem; /* 10 */
   border-radius: 0.5rem;
   object-fit: cover;
 }
@@ -43,14 +44,16 @@
   flex-direction: column;
 }
 
-.navItem {}
+.navItem {
+  margin: 5px 0;
+}
 
 .navLink {
   display: flex;
   justify-content: center;   /* giữ icon ở giữa */
   align-items: center;
-  width: 4rem;               /* vừa bằng icon */
-  height: 4rem;              /* làm nó vuông */
+  width: 3rem;               /* vừa bằng icon */
+  height: 3rem;              /* làm nó vuông */
   margin: 0 auto;            /* căn giữa trong sidebar */
   border-radius: 0.75rem;
   text-decoration: none;
@@ -73,7 +76,7 @@
 .navIcon {
   display: flex;
   justify-content: center;
-  min-width: 3rem;
+  min-width: 2rem;
 }
 
 .tooltip {
@@ -118,8 +121,8 @@
 .userProfile {
   display: flex;
   align-items: center;
-  width: 100%;
-  padding: 0.75rem;
+  width: 2rem;
+  padding: 0.5rem;
   border-radius: 0.75rem;
   cursor: pointer;
   position: relative;
@@ -131,8 +134,8 @@
 }
 
 .userAvatar {
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 2rem;
+  height: 2rem;
   border-radius: 9999px;
   background: linear-gradient(to bottom right, #ec4899, #8b5cf6);
   display: flex;
@@ -148,4 +151,40 @@
   color: #d1d5db; /* gray-300 */
   font-size: 0.75rem;
   margin-top: 0.25rem;
+}
+
+/* Sidebar.css */
+.userProfileSection {
+  position: relative; /* Quan trọng để dropdown hiển thị đúng vị trí */
+}
+
+.dropdownMenu {
+  position: absolute;
+  bottom: 100%; /* Đặt menu lên trên user profile */
+  left: 100%;
+  transform: translateX(-10%);
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  min-width: 150px;
+  padding: 8px 0;
+  z-index: 100;
+}
+
+.dropdownItem {
+  display: block;
+  width: 70%;
+  padding: 10px 16px;
+  text-align: left;
+  color: #333;
+  text-decoration: none;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.dropdownItem:hover {
+  background-color: #f0f0f0;
 }

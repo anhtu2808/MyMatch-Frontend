@@ -9,12 +9,12 @@ type HeaderProps = {
 
 const Header: React.FC<HeaderProps> = ({ title, script }) => {
   return (
-    <header
+    <div
       className="header"
     >
       <div className="title">{title}</div>
       <div className="script">{script}</div>
-    </header>
+    </div>
   );
 };
 

@@ -1,1 +1,2 @@
-export const API_ROOT = "http://localhost:3000/api";
+export const API_ROOT = process.env.REACT_APP_API_URL;
+export const GOOGLE_CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID as string;
