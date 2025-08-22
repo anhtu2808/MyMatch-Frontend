@@ -1,0 +1,281 @@
+.my-request-container {
+    width: 1300px;
+    margin: 20px 20px 20px 0;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.section-header h2 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin: 0;
+}
+
+.view-all {
+    color: #4A90E2;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.request-card {
+    background-color: white;
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    border: 1px solid #f0f0f0;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 24px;
+}
+
+.user-info {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    overflow: hidden;
+    background-color: #f0f0f0;
+}
+
+.avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.user-details h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+    margin: 0 0 4px 0;
+}
+
+.user-details p {
+    font-size: 14px;
+    color: #666;
+    margin: 0 0 4px 0;
+}
+
+.time {
+    font-size: 12px;
+    color: #999;
+}
+
+.status-badges {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+}
+
+.status-badge {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.status-badge.pending {
+    background-color: #FFF3CD;
+    color: #856404;
+}
+
+.status-badge.accepted {
+    background-color: #D4EDDA;
+    color: #155724;
+}
+
+.subject-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+}
+
+.subject-label {
+    font-size: 12px;
+    color: #666;
+}
+
+.subject-code {
+    background-color: #E3F2FD;
+    color: #1976D2;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.swap-details {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    margin-bottom: 24px;
+}
+
+.swap-section {
+    flex: 1;
+}
+
+.swap-section h4 {
+    font-size: 16px;
+    color: #666;
+    margin: 0 0 12px 0;
+    text-align: center;
+}
+
+.class-card {
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 16px;
+    text-align: center;
+}
+
+.class-card.want-swap {
+    border-color: #ddd;
+    background-color: #fafafa;
+}
+
+.class-card.your-class {
+    border-color: #4CAF50;
+    background-color: #f8fff8;
+}
+
+.class-header {
+    margin-bottom: 8px;
+}
+
+.subject-small {
+    font-size: 12px;
+    color: #4A90E2;
+    background-color: #E3F2FD;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+.class-code {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+.class-info {
+    font-size: 14px;
+    color: #666;
+}
+
+.schedule {
+    color: #FF6B35;
+    font-weight: 500;
+    margin-top: 4px;
+}
+
+.swap-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+}
+
+.arrow-icon {
+    background-color: #1976D2;
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 12px;
+}
+
+.action-buttons button {
+    flex: 1;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn-call {
+    background-color: #4285F4;
+    color: white;
+}
+
+.btn-call:hover {
+    background-color: #3367D6;
+}
+
+.btn-message {
+    background-color: #7B68EE;
+    color: white;
+}
+
+.btn-message:hover {
+    background-color: #6A5ACD;
+}
+
+.success-message {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: #D4EDDA;
+    color: #155724;
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+.success-icon {
+    font-size: 16px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1400px) {
+    .my-request-container {
+        width: 100%;
+        max-width: 1260px;
+    }
+}
+
+@media (max-width: 768px) {
+    .swap-details {
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .swap-arrow {
+        transform: rotate(90deg);
+    }
+
+    .action-buttons {
+        flex-direction: column;
+    }
+}
