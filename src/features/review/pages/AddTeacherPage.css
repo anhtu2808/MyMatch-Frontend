@@ -1,0 +1,27 @@
+.add-teacher-page-container {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: #f8fafc;
+}
+
+.add-teacher-content {
+  flex: 1;
+  margin: 98px 0px 0px 70px;
+  padding: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+
+}
+
+
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .add-teacher-content {
+    margin-left: 0;
+    padding: 20px;
+  }
+}
