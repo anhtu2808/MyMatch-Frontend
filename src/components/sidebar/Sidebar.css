@@ -9,7 +9,7 @@
   flex-direction: column;
   box-shadow: 0 0 10px rgba(0,0,0,0.1);
   border-right: 1px solid #E5E7EB;
-  width: 4rem; /* 16 */
+  width: 4rem;
 }
 
 .logoSection {
@@ -113,27 +113,22 @@
   background-color: #111827; /* gray-900 */
 }
 
-.settingsSection,
-.userProfileSection {
-  padding: 0 0.5rem 1rem;
+.sidebar .userProfileSection {
+  padding-bottom: 10px;
+  margin-bottom: 10px;
 }
 
-.userProfile {
+.sidebar .userProfile {
   display: flex;
   align-items: center;
-  width: 2rem;
+  justify-content: center;
   padding: 0.5rem;
-  border-radius: 0.75rem;
   cursor: pointer;
   position: relative;
-  transition: background-color 0.2s ease;
+  margin: 0 auto;
 }
 
-.userProfile:hover {
-  background-color: #F3F4F6;
-}
-
-.userAvatar {
+.sidebar .userAvatar {
   width: 2rem;
   height: 2rem;
   border-radius: 9999px;
@@ -144,21 +139,17 @@
   color: white;
   font-weight: 600;
   font-size: 0.75rem;
-  min-width: 1.5rem;
-}
-
-.balanceText {
-  color: #d1d5db; /* gray-300 */
-  font-size: 0.75rem;
-  margin-top: 0.25rem;
+  min-width: 2rem;
+  max-width: 2rem;
+  flex-shrink: 0;
 }
 
 /* Sidebar.css */
-.userProfileSection {
+.sidebar .userProfileSection {
   position: relative; /* Quan trọng để dropdown hiển thị đúng vị trí */
 }
 
-.dropdownMenu {
+.sidebar .dropdownMenu {
   position: absolute;
   bottom: 100%; /* Đặt menu lên trên user profile */
   left: 100%;
@@ -172,7 +163,7 @@
   z-index: 1300;
 }
 
-.dropdownItem {
+.sidebar .dropdownItem {
   display: block;
   width: 70%;
   padding: 10px 16px;
@@ -185,6 +176,6 @@
   font-size: 14px;
 }
 
-.dropdownItem:hover {
-  background-color: #f0f0f0;
+.sidebar .dropdownItem:hover {
+  font-weight: 600;
 }

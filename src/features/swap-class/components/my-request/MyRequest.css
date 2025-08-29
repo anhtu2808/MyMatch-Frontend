@@ -148,13 +148,21 @@
 }
 
 .class-card.want-swap {
-    border-color: #ddd;
-    background-color: #fafafa;
+    border-color: #c02020;
+    background-color: #fddddd;
+    height: 100px;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
 }
 
 .class-card.your-class {
+    height: 100px;
     border-color: #4CAF50;
     background-color: #f8fff8;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
 }
 
 .class-header {
@@ -162,9 +170,8 @@
 }
 
 .subject-small {
-    font-size: 12px;
+    font-size: 18px;
     color: #4A90E2;
-    background-color: #E3F2FD;
     padding: 2px 6px;
     border-radius: 4px;
 }
@@ -173,7 +180,6 @@
     font-size: 18px;
     font-weight: bold;
     color: #333;
-    margin-bottom: 8px;
 }
 
 .class-info {
@@ -196,7 +202,7 @@
 }
 
 .arrow-icon {
-    background-color: #1976D2;
+    background-color: #0c326f;
     color: white;
     width: 40px;
     height: 40px;
@@ -224,22 +230,13 @@
     transition: background-color 0.2s;
 }
 
-.btn-call {
-    background-color: #4285F4;
-    color: white;
-}
-
-.btn-call:hover {
-    background-color: #3367D6;
-}
-
 .btn-message {
-    background-color: #7B68EE;
+    background-color: #1e3a8a;
     color: white;
 }
 
 .btn-message:hover {
-    background-color: #6A5ACD;
+    background-color: #1e40af;
 }
 
 .success-message {
@@ -255,6 +252,16 @@
 
 .success-icon {
     font-size: 16px;
+}
+
+.delete-request {
+    background:rgb(198, 109, 109);
+    color: white;
+}
+
+.delete-request:hover {
+    background-color: rgb(255, 152, 152);
+    color: red
 }
 
 /* Responsive adjustments */

@@ -1,13 +1,16 @@
-import React, { useState } from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
+
+import React, { useState, useEffect, useRef } from 'react';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 // import { useSelector } from 'react-redux';
 // import { selectCoinsBalance, selectCurrentUser } from '../store/slices/userSlice';
 import './Sidebar.css';
+import { logOut } from '../../features/login/services/authenticationService';
 
 const Sidebar = () => {
 //   const coinsBalance = useSelector(selectCoinsBalance);
 //   const currentUser = useSelector(selectCurrentUser);
 const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
 const location = useLocation();
 
 // Function to check if a nav item should be active
@@ -21,6 +24,10 @@ const isNavItemActive = (path: string) => {
   }
   return location.pathname === path;
 };
+
+const navigation = useNavigate();
+const dropdownRef = useRef<HTMLDivElement>(null);
+
   const navItems = [
     {
       id: 'home',
@@ -64,9 +71,32 @@ const isNavItemActive = (path: string) => {
     // others ...
   ];
 
+  // Handle click outside to close dropdown
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsDropdownOpen(false);
+      }
+    };
+
+    if (isDropdownOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isDropdownOpen]);
+
   const handleDropdownToggle = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
+
+  const handleLogout = () => {
+    logOut();
+    setIsDropdownOpen(false);
+    navigation('/login');
+  }
 
   return (
     <>
@@ -100,24 +130,7 @@ const isNavItemActive = (path: string) => {
           </ul>
         </nav>
 
-        {/* <div className="settingsSection">
-          <NavLink
-            to="/settings"
-            className={({ isActive }) =>
-              `${isActive ? 'navLinkActive' : ''} ${!isActive ? 'navLinkHover' : ''}`
-            }
-          >
-            <div className="navIcon">
-              
-            </div>
-            <div className="tooltip">
-              Cài đặt
-              <div className="tooltipArrow"></div>
-            </div>
-          </NavLink>
-        </div> */}
-
-        <div className="userProfileSection">
+        <div className="userProfileSection" ref={dropdownRef}>
           <div className="userProfile" onClick={() => handleDropdownToggle()}>
             <div className="userAvatar">
               {/* {(currentUser?.name || 'Alex Johnson').charAt(0).toUpperCase()} */}
@@ -135,14 +148,15 @@ const isNavItemActive = (path: string) => {
               <NavLink to="/profile" className="dropdownItem" onClick={() => setIsDropdownOpen(false)}>
                 Hồ sơ
               </NavLink>
-              <NavLink to="/login" className="dropdownItem" onClick={() => setIsDropdownOpen(false)}>
+              <NavLink 
+                to="/login" 
+                className={({ isActive }) => `dropdownItem ${isActive ? "active" : ""}`} 
+                onClick={() => setIsDropdownOpen(false)}
+              >
                 Đăng nhập
               </NavLink>
-              <button className="dropdownItem" onClick={() => {
-                // Logout logic here
-                // Set dropdown state to false after logging out
-                setIsDropdownOpen(false);
-              }}>
+
+              <button className="dropdownItem" onClick={() => handleLogout()}>
                 Đăng xuất
               </button>
             </div>
