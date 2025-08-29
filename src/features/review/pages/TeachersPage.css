@@ -1,0 +1,45 @@
+.teachers-page {
+  flex: 1;
+    margin-left: 150px;
+    margin-top: 97px;
+    padding: 20px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: calc(100vw - 150px);
+    box-sizing: border-box;
+}
+
+.teachers-page-components .stat-label{
+  color:#666;
+}
+
+
+.teachers-page-container {
+   width: 100vw;
+   height: 100vh;
+   background-color: #FBFAF9;
+   margin: 0;
+   box-sizing: border-box;
+   display: flex;
+   flex-direction: column;
+}
+
+
+
+.teachers-page-components{
+    flex:1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 20px 20px 20px 0;
+    margin: 0px 20px 20px 0;
+}
+
+.h1 {
+  font-size: 25px;
+  font-weight: 700;
+  margin:5px 20px 5px 5px;
+  color: #333;
+}

@@ -1,0 +1,30 @@
+.add-review-page-container {
+  min-height: 100vh; /* thay vì height: 100vh */
+  width: 100%; 
+  background-color: #FBFAF9;
+  margin: 0;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+.add-review-content {
+  flex: 1;
+  margin-left: 100px;
+  margin-top: 97px;
+  padding: 20px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  width: calc(100vw - 150px);
+  box-sizing: border-box;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .add-review-content {
+    margin-left: 0;
+    width: 100vw;
+    padding: 16px;
+  }
+}
