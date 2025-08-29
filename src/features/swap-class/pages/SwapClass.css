@@ -1,25 +1,41 @@
 .swap-class {
     width: 100vw;
-    height: 100vh;
-    background-color: #E8E8E8;
-    position: fixed;
-    top: 0;
-    left: 0;
+    min-height: 100vh;
+    background-color: #fbfbfb;
+    position: relative;
     margin: 0;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
 }
 
-.main-content {
+.main-content-swap-class {
     flex: 1;
-    margin-left: 150px; /* Reduced margin to move content left */
-    margin-top: 80px; /* Account for header height */
-    padding: 0; /* Remove padding to allow content to be flush left */
-    overflow-y: auto;
+    margin-left: 150px;
+    padding: 20px;
     display: flex;
     flex-direction: column;
-    align-items: flex-start; /* Align to left instead of center */
-    width: calc(100vw - 150px); /* Account for reduced sidebar margin */
+    align-items: flex-start;
+    width: calc(100vw - 150px);
     box-sizing: border-box;
+    min-height: auto;
+}
+
+.create-btn {
+    background-color: #1e3a8a;
+    color: white;
+    border: none;
+    padding: 20px 24px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 500;
+    transition: background-color 0.2s;
+}
+
+.create-btn:hover {
+    background-color: #1e40af;
 }
