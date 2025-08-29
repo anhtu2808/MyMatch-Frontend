@@ -11,3 +11,31 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+/* Global protection for sidebar avatar - no hover */
+.sidebar .userProfile {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 0.5rem !important;
+  cursor: pointer !important;
+  position: relative !important;
+  margin: 0 auto !important;
+}
+
+.sidebar .userAvatar {
+  width: 2rem !important;
+  height: 2rem !important;
+  border-radius: 9999px !important;
+  background: linear-gradient(to bottom right, #ec4899, #8b5cf6) !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  color: white !important;
+  font-weight: 600 !important;
+  font-size: 0.75rem !important;
+  min-width: 2rem !important;
+  max-width: 2rem !important;
+  flex-shrink: 0 !important;
+  aspect-ratio: 1 !important;
+}
