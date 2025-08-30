@@ -22,15 +22,17 @@ function AddInformation({ isOpen, onClose, onSuccess, forceOpen = false }: AddIn
   })
 
   const [campuses, setCampuses] = useState<any[]>([])
+  console.log("campussssssss", campuses);
   const [isSubmitting, setIsSubmitting] = useState(false)
   const user = useAppSelector((state) => state.user)
-    console.log(user?.id);
+    console.log("userId", user?.id);
   const userId = user?.id
   useEffect(() => {
     const fetchCampuses = async () => {
       try {
         const response = await getCampusesAPI(1)
         setCampuses(response?.result?.data || [])
+        console.log("campussssss get", response?.result?.data);
       } catch (error) {
         console.error('Error fetching campuses:', error)
       }

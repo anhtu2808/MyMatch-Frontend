@@ -29,6 +29,7 @@ const CreateSwapRequest: React.FC = () => {
   const { id } = useParams<{ id: string }>()
   const isEdit = Boolean(id)
   console.log("request ID", id );
+  
   useEffect(() => {
   if (isEdit) {
     const fetchData = async () => {
