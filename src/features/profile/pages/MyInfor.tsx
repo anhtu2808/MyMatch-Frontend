@@ -38,7 +38,7 @@ const MyInfor: React.FC = () => {
   const [isEditing, setIsEditing] = useState(false)
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
   const user = useAppSelector((state) => state.user)
-  console.log("userIdddđ", user?.id);
+  console.log(user?.id);
   const dispatch = useAppDispatch();
   console.log("TOken", getToken());
   useEffect(() => {
@@ -107,9 +107,9 @@ const MyInfor: React.FC = () => {
                 </div>
 
                 {/* Nếu campus rỗng -> bắt nhập thông tin */}
-              {/* {(!user?.campus || user?.campus === '') && (
+              {(!user?.campus || user?.campus === '') && (
                 <AddInformationModal forceOpen />
-              )} */}
+              )}
 
                 <div className="profile-content">
                   {/* Avatar Section */}
