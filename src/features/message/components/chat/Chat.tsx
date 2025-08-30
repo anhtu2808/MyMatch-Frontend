@@ -1,243 +1,216 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './Chat.css'
 import ViewRequestPopup from '../view-request-popup/ViewRequestPopup'
+import { useParams } from 'react-router-dom'
+import { createConversationAPI, createMessageAPI, getConversationAPI } from '../../api.ts'
 
-interface ChatUser {
-  id: string
-  name: string
-  status: string
-  avatar: string
-  lastMessage: string
-  time: string
-  unread?: number
-  studentId: string
-  wantedClass: string
+interface Participant {
+  id: number
+  createAt: string
+  updateAt: string
+  deleted: number
+}
+
+interface Conversation {
+  id: number
+  type: string
+  participantsHash: string
+  conversationAvatar: string
+  conversationName: string
+  participants: Participant[]
+  me: boolean
+}
+
+interface MessageResponse {
+  id: number
+  conversationResponse: Conversation
+  me: boolean
+  message: string
+  sender: {
+    id: number
+    studentCode: string
+    user: {
+      id: number
+      username: string
+      email: string
+      avatarUrl: string
+    }
+  }
+  createdDate: string
 }
 
 interface Message {
-  id: string
-  senderId: string
+  id: number
   content: string
-  time: string
-  isOwn: boolean
+  createdDate: string
+  me: boolean
 }
 
 const Chat = () => {
-  const [selectedUser, setSelectedUser] = useState<ChatUser | null>(null)
-  const [activeTab, setActiveTab] = useState('all')
-  const [searchTerm, setSearchTerm] = useState('')
+  const { id } = useParams<{ id: string }>()
+  const [conversations, setConversations] = useState<Conversation[]>([]) // chỉ là list Conversation
+  const [selectedConversation, setSelectedConversation] = useState<Conversation | null>(null)
+  const [messages, setMessages] = useState<Message[]>([])
   const [newMessage, setNewMessage] = useState('')
+  const [searchTerm, setSearchTerm] = useState('')
   const [showRequestPopup, setShowRequestPopup] = useState(false)
 
-  const chatUsers: ChatUser[] = [
-    {
-      id: '1',
-      name: 'Nguyễn Văn A',
-      status: 'Đang hoạt động',
-      avatar: '/api/placeholder/40/40',
-      lastMessage: 'Có thể đổi lớp không bạn?',
-      time: '2 phút',
-      unread: 2,
-      studentId: 'SE5678',
-      wantedClass: 'SE1234'
-    },
-    {
-      id: '2',
-      name: 'Trần Thị B',
-      status: 'Vừa mới online',
-      avatar: '/api/placeholder/40/40',
-      lastMessage: 'Cảm ơn bạn nhé!',
-      time: '10 phút',
-      studentId: 'MAR1234',
-      wantedClass: 'MAR2345'
-    },
-    {
-      id: '3',
-      name: 'Lê Văn C',
-      status: 'Đang hoạt động',
-      avatar: '/api/placeholder/40/40',
-      lastMessage: 'Gặp thứ 2 được không?',
-      time: '1 giờ',
-      unread: 1,
-      studentId: 'BUS7345',
-      wantedClass: 'BUS3456'
-    },
-    {
-      id: '4',
-      name: 'Phạm Thị D',
-      status: 'Hoạt động 30 phút trước',
-      avatar: '/api/placeholder/40/40',
-      lastMessage: 'OK, mình đồng ý!',
-      time: '3 giờ',
-      studentId: 'IT3456',
-      wantedClass: 'IT4567'
+  console.log("iddd student", id);
+
+  // Tạo conversation khi vào chat với 1 user cụ thể
+  useEffect(() => {
+    const handleCreateConversation = async () => {
+      if (!id) return
+      try {
+        const response = await createConversationAPI({
+          type: 'DIRECT',
+          participantIds: [Number(id)]
+        })
+        console.log('Created conversation:', response.result)
+        fetchConversations()
+      } catch (err) {
+        console.error('Error creating conversation:', err)
+      }
     }
-  ]
+    handleCreateConversation()
+  }, [id])
 
-  const messages: Message[] = [
-    {
-      id: '1',
-      senderId: '1',
-      content: 'Chào bạn! Mình muốn đổi lớp SE1234 - Nhóm 2',
-      time: '14:30',
-      isOwn: false
-    },
-    {
-      id: '2',
-      senderId: 'me',
-      content: 'Chào bạn! Đúng rồi, mình cần đổi sang nhóm 1. Bạn có đồng ý không?',
-      time: '14:32',
-      isOwn: true
-    },
-    {
-      id: '3',
-      senderId: '1',
-      content: 'Lịch học nhóm 1 như thế nào?',
-      time: '14:35',
-      isOwn: false
-    },
-    {
-      id: '4',
-      senderId: 'me',
-      content: 'Nhóm 1 học thứ 2, 4, 6 từ 7h-9h30. Còn nhóm 2 của bạn?',
-      time: '14:37',
-      isOwn: true
-    },
-    {
-      id: '5',
-      senderId: '1',
-      content: 'Nhóm 2 học thứ 3, 5, 7 từ 12h30-15h. Mình OK!',
-      time: '14:40',
-      isOwn: false
-    },
-    {
-      id: '6',
-      senderId: 'me',
-      content: 'Tuyệt! Vậy mình gặp nhau để làm thủ tục nhé 👍',
-      time: '14:42',
-      isOwn: true
+  // Fetch danh sách conversation
+  const fetchConversations = async () => {
+    try {
+      const response = await getConversationAPI()
+      setConversations(response.result || [])
+      console.log('getConversationAPI', response.result)
+    } catch (err) {
+      console.error('Error fetching conversations:', err)
     }
-  ]
+  }
 
-  const filteredUsers = chatUsers.filter(user => 
-    user.name.toLowerCase().includes(searchTerm.toLowerCase())
-  )
+  useEffect(() => {
+    fetchConversations()
+  }, [])
 
-  const handleSendMessage = () => {
-    if (newMessage.trim()) {
-      // Logic to send message
+  // Gửi tin nhắn
+  const handleSendMessage = async () => {
+    if (!newMessage.trim() || !selectedConversation) return
+    try {
+      const response = await createMessageAPI({
+        conversationId: selectedConversation.id,
+        message: newMessage
+      })
+
+      const result: MessageResponse = response.result
+      console.log('createMessageAPI', result)
+
+      const newMsg: Message = {
+        id: result.id,
+        content: result.message,
+        createdDate: result.createdDate,
+        me: result.me
+      }
+
+      setMessages(prev => [...prev, newMsg])
       setNewMessage('')
+    } catch (err) {
+      console.error('Error sending message:', err)
     }
   }
 
-  const handleViewRequest = () => {
-    setShowRequestPopup(true)
-  }
+  const handleViewRequest = () => setShowRequestPopup(true)
+  const handleClosePopup = () => setShowRequestPopup(false)
 
-  const handleClosePopup = () => {
-    setShowRequestPopup(false)
-  }
+  const filteredConversations = conversations.filter(conv =>
+    conv.conversationName?.toLowerCase().includes(searchTerm.toLowerCase())
+  )
 
   return (
     <div className='chat-container'>
-      {/* Left Sidebar - Chat List */}
+      {/* Sidebar */}
       <div className='chat-sidebar'>
         <div className='chat-sidebar-header'>
           <h2>Tin nhắn</h2>
         </div>
 
-        <div className='chat-tabs'>
-          <button 
-            className={`tab-btn ${activeTab === 'all' ? 'active' : ''}`}
-            onClick={() => setActiveTab('all')}
-          >
-            Tất cả
-          </button>
-          {/* <button 
-            className={`tab-btn ${activeTab === 'swap' ? 'active' : ''}`}
-            onClick={() => setActiveTab('swap')}
-          >
-            Đổi lớp
-          </button>
-          <button 
-            className={`tab-btn ${activeTab === 'group' ? 'active' : ''}`}
-            onClick={() => setActiveTab('group')}
-          >
-            Chép nhóm
-          </button> */}
-        </div>
-
         <div className='search-box'>
-          <input 
-            type="text"
-            placeholder="Tìm kiếm tin nhắn..."
+          <input
+            type='text'
+            placeholder='Tìm kiếm tin nhắn...'
             value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            onChange={e => setSearchTerm(e.target.value)}
           />
         </div>
 
         <div className='chat-list'>
-          {filteredUsers.map(user => (
-            <div 
-              key={user.id}
-              className={`chat-item ${selectedUser?.id === user.id ? 'active' : ''}`}
-              onClick={() => setSelectedUser(user)}
+          {filteredConversations.map(conv => (
+            <div
+              key={conv.id}
+              className={`chat-item ${selectedConversation?.id === conv.id ? 'active' : ''}`}
+              onClick={() => {
+                setSelectedConversation(conv)
+                setMessages([]) // TODO: call API get messages theo conv.id
+              }}
             >
               <div className='chat-avatar'>
-                <img src={user.avatar} alt={user.name} />
-                {user.unread && <span className='unread-badge'>{user.unread}</span>}
+                <img
+                  src={conv.conversationAvatar || '/api/placeholder/40/40'}
+                  alt={conv.conversationName}
+                />
               </div>
+               <div>{conv.id}</div>
               <div className='chat-info'>
-                <div className='chat-name'>{user.name}</div>
-                <div className='chat-message'>{user.lastMessage}</div>
+              <div className='chat-name'>
+                {conv.conversationName || conv.id}
               </div>
-              <div className='chat-time'>{user.time}</div>
+              <div className='chat-message'>Tin nhắn gần nhất...</div>
+            </div>
             </div>
           ))}
         </div>
       </div>
 
-      {/* Right Side - Chat Window */}
+      {/* Chat window */}
       <div className='chat-window'>
-        {selectedUser ? (
+        {selectedConversation ? (
           <>
             <div className='chat-conversation-header'>
               <div className='user-info'>
-                <img src={selectedUser.avatar} alt={selectedUser.name} />
+                <img
+                  src={selectedConversation.conversationAvatar || '/api/placeholder/40/40'}
+                  alt={selectedConversation.conversationName}
+                />
                 <div>
-                  <h3>{selectedUser.name}</h3>
-                  <span className='status'>{selectedUser.status}</span>
+                  <h3>{selectedConversation.conversationName}</h3>
                 </div>
               </div>
-              <button className='view-request-btn' onClick={handleViewRequest}>Xem yêu cầu</button>
+              <button className='view-request-btn' onClick={handleViewRequest}>
+                Xem yêu cầu
+              </button>
             </div>
 
             <div className='messages-container'>
               {messages.map(message => (
-                <div 
+                <div
                   key={message.id}
-                  className={`message ${message.isOwn ? 'own' : 'other'}`}
+                  className={`message ${message.me ? 'own' : 'other'}`}
                 >
-                  <div className='message-content'>
-                    {message.content}
+                  <div className='message-content'>{message.content}</div>
+                  <div className='message-time'>
+                    {new Date(message.createdDate).toLocaleTimeString('vi-VN')}
                   </div>
-                  <div className='message-time'>{message.time}</div>
                 </div>
               ))}
             </div>
 
             <div className='message-input'>
-              <button className='attach-btn'>📎</button>
-              <input 
-                type="text"
-                placeholder="Nhập tin nhắn..."
+              <input
+                type='text'
+                placeholder='Nhập tin nhắn...'
                 value={newMessage}
-                onChange={(e) => setNewMessage(e.target.value)}
-                onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
+                onChange={e => setNewMessage(e.target.value)}
+                onKeyDown={e => e.key === 'Enter' && handleSendMessage()}
               />
-              <button className='emoji-btn'>😊</button>
               <button className='send-btn' onClick={handleSendMessage}>
-                <span>▲</span>
+                Gửi
               </button>
             </div>
           </>
@@ -248,33 +221,23 @@ const Chat = () => {
         )}
       </div>
 
-      {/* View Request Popup */}
-      {selectedUser && (
+      {/* Popup xem yêu cầu */}
+      {selectedConversation && (
         <ViewRequestPopup
           isOpen={showRequestPopup}
           onClose={handleClosePopup}
           userInfo={{
-            id: selectedUser.id,
-            name: selectedUser.name,
-            email: `${selectedUser.name.toLowerCase().replace(/\s+/g, '')}@fpt.edu.vn`,
-            studentId: selectedUser.studentId,
-            wantedClass: selectedUser.wantedClass,
-            currentClass: selectedUser.studentId.includes('SE') ? 'SE1234-02' :
-                         selectedUser.studentId.includes('MAR') ? 'MAR1234-01' :
-                         selectedUser.studentId.includes('BUS') ? 'BUS7345-03' : 'IT3456-01',
-            subject: selectedUser.studentId.includes('SE') ? 'SE1234 - Software Engineering' :
-                    selectedUser.studentId.includes('MAR') ? 'MAR1234 - Marketing Management' :
-                    selectedUser.studentId.includes('BUS') ? 'BUS7345 - Business Strategy' : 'IT3456 - Information Technology',
-            teacher: selectedUser.studentId.includes('SE') ? 'Nguyễn Văn Hùng - HungNV24' :
-                    selectedUser.studentId.includes('MAR') ? 'Trần Thị Lan - LanTT23' :
-                    selectedUser.studentId.includes('BUS') ? 'Lê Minh Tuấn - TuanLM25' : 'Phạm Văn Nam - NamPV22',
-            schedule: selectedUser.studentId.includes('SE') ? 'Thứ 2 - Slot 1 (7:00 - 9:30)' :
-                     selectedUser.studentId.includes('MAR') ? 'Thứ 3 - Slot 2 (9:30 - 12:00)' :
-                     selectedUser.studentId.includes('BUS') ? 'Thứ 4 - Slot 3 (12:30 - 15:00)' : 'Thứ 5 - Slot 4 (15:15 - 17:45)',
-            wantedSchedule: selectedUser.studentId.includes('SE') ? 'Thứ 6 - Slot 3 (12:30 - 15:00)' :
-                           selectedUser.studentId.includes('MAR') ? 'Thứ 7 - Slot 1 (7:00 - 9:30)' :
-                           selectedUser.studentId.includes('BUS') ? 'Thứ 2 - Slot 2 (9:30 - 12:00)' : 'Thứ 3 - Slot 4 (15:15 - 17:45)',
-            time: selectedUser.time
+            id: selectedConversation.id,
+            name: selectedConversation.conversationName,
+            email: '', // cần lấy từ API message hoặc participant
+            studentId: '',
+            wantedClass: 'TODO',
+            currentClass: 'TODO',
+            subject: 'TODO',
+            teacher: 'TODO',
+            schedule: 'TODO',
+            wantedSchedule: 'TODO',
+            time: new Date().toLocaleString('vi-VN')
           }}
         />
       )}

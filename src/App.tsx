@@ -7,8 +7,6 @@ import Message from "./features/message/pages/Message";
 import Authenticate from "./features/login/pages/Authenticated";
 import Login from "./features/login/pages/Login";
 import MyInfor from "./features/profile/pages/MyInfor";
-import { Provider } from "react-redux";
-import { store } from "./store/Store";
 
 
 function App() {
@@ -23,6 +21,7 @@ function App() {
         <Route path="/swap_class/edit/:id" element={<CreateSwapRequest />} />
         <Route path="/messages" element={<Message />} />
         <Route path="/profile" element={<MyInfor />} />
+        <Route path="/message/:id" element={<Message />} />
       </Routes>
     </Router>
   );

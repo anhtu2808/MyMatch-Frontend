@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import './NewsFeed.css'
 import { getSwapRequestAPI } from '../../api.ts'
 import Filter from '../filter/Filter'
+import { useNavigate } from 'react-router-dom'
 
 interface Course {
   id: number
@@ -66,7 +67,7 @@ interface MyRequest {
 function NewsFeed() {
   const [newsFeeds, setNewsFeeds] = useState<MyRequest[]>([])
   const [filteredFeeds, setFilteredFeeds] = useState<MyRequest[]>([])
-
+  const naviagte = useNavigate();
   useEffect(() => {
     const fetchNewsFeed = async () => {
       try {
@@ -205,8 +206,10 @@ function NewsFeed() {
           </div>
 
           <div className='action-buttons'>
-            <button className='btn-message'>💬 Nhắn tin</button>
+            <button className='btn-message' onClick={() => naviagte(`/message/${request.student.id}`)}>💬 Nhắn tin</button>
           </div>
+          <div>student {request.student.id}</div>
+          <div>user {request.student.user.id}</div>
         </div>
       ))}
     </div>
