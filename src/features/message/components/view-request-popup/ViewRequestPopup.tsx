@@ -5,7 +5,7 @@ interface ViewRequestPopupProps {
   isOpen: boolean
   onClose: () => void
   userInfo: {
-    id: string
+    id: number
     name: string
     email: string
     studentId: string

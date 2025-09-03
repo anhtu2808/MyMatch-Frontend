@@ -26,7 +26,7 @@ jobs:
 
     - name: Build React
       env:
-        REACT_APP_API_ROOT: ${{ vars.MYMATCH_DOMAIN }}/api/
+        REACT_APP_API_URL: ${{ vars.MYMATCH_DOMAIN }}/api/
       run: |
         echo "Building with API Root: $REACT_APP_API_ROOT"
         CI=false npm run build
