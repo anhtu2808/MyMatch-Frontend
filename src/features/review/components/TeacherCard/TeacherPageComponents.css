@@ -1,0 +1,303 @@
+.teacher-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 0;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+  min-height: 500px;
+  transition: all 0.2s ease;
+  border: 1px solid #f0f0f0;
+  overflow: hidden;
+}
+
+.teacher-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+}
+
+/* Top Section with gray background */
+.teacher-card-top {
+  background: #F3F6FA;
+  padding: 28px 24px;
+  flex: 1;
+}
+
+/* Header */
+.teacher-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
+}
+
+.teacher-avatar-container {
+  position: relative;
+}
+
+.teacher-avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.online-indicator {
+  position: absolute;
+  bottom: 4px;
+  right: 4px;
+  width: 16px;
+  height: 16px;
+  background: #10B981;
+  border-radius: 50%;
+  border: 3px solid #fff;
+}
+
+.teacher-rating-badge {
+  background: #10B981;
+  color: white;
+  padding: 10px 14px;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.badge-star {
+  width: 16px;
+  height: 16px;
+  color: #FFC107;
+}
+
+/* Teacher Info */
+.teacher-info {
+  margin-bottom: 0;
+}
+
+/* Bottom Section with white background */
+.teacher-card-bottom {
+  background: #fff;
+  padding: 24px;
+  flex: 1.2;
+}
+
+.teacher-name {
+  margin: 0 0 8px 0;
+  font-size: 24px;
+  font-weight: 700;
+  color: #333;
+}
+
+.teacher-username {
+  font-size: 15px;
+  color: #666;
+  margin: 0 0 12px 0;
+}
+
+.teacher-courses {
+  font-size: 15px;
+  color: #666;
+  margin: 0;
+}
+
+/* Rating Section */
+.teacher-rating-section {
+  margin-bottom: 16px;
+}
+
+.rating-stars {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+}
+
+.stars-container {
+  display: flex;
+  gap: 2px;
+}
+
+.rating-star {
+  width: 16px;
+  height: 16px;
+  color: #FFC107;
+}
+
+.rating-star[fill="currentColor"] {
+  fill: #FFC107;
+}
+
+.rating-text {
+  font-weight: bold;
+  color: #1DA078;
+  margin-left: 8px;
+}
+
+.review-count {
+  color: #777;
+  font-size: 13px;
+  margin-left: auto;
+}
+
+/* Progress Section */
+.progress-section {
+  margin-bottom: 16px;
+}
+
+.progress-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.progress-label {
+  font-size: 13px;
+  color: #666;
+  min-width: 60px;
+}
+
+.progress-bar-container {
+  flex: 1;
+  height: 8px;
+  border-radius: 4px;
+  background: #eee;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.progress-bar.green {
+  background: #4BD8A5;
+}
+
+.progress-bar.gray {
+  background: #A1AEC1;
+}
+
+.progress-value {
+  font-size: 13px;
+  color: #777;
+  min-width: 30px;
+  text-align: right;
+}
+
+/* Stats */
+.teacher-stats {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.stat {
+  flex: 1;
+  text-align: center;
+  background: #F3F6FA;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.stat-number {
+  font-size: 20px;
+  font-weight: bold;
+  display: block;
+  color: #333;
+}
+
+.stat-label {
+  font-size: 13px;
+  color: #666;
+  margin: 4px 0 0 0;
+}
+
+/* Footer */
+.teacher-card-footer {
+  display: flex;
+  gap: 8px;
+  margin-top: auto;
+}
+
+.btn-rate {
+  flex: 2;
+  background: #0C326F;
+  color: white;
+  border: none;
+  padding: 12px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: background-color 0.2s ease;
+}
+
+.btn-rate:hover {
+  background: #50617D;
+}
+
+.btn-star {
+  width: 16px;
+  height: 16px;
+  stroke: white;
+}
+
+.btn-eye {
+  width: 18px;
+  height: 18px;
+  stroke: #666;
+}
+
+.btn-bookmark-icon {
+  width: 18px;
+  height: 18px;
+  stroke: #666;
+}
+
+.btn-view,
+.btn-bookmark {
+  width: 44px;
+  height: 44px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  transition: background-color 0.2s ease;
+}
+
+.btn-view {
+  background: #F3F6FA;
+  color: #666;
+}
+
+.btn-view:hover {
+  background: #e0e0e0;
+}
+
+.btn-bookmark {
+  background: #F3F6FA;
+  color: #666;
+}
+
+.btn-bookmark:hover {
+  background: #DF8F34;
+  .btn-bookmark-icon {
+    stroke: white;
+  }
+}
+
+
