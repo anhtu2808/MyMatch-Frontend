@@ -74,13 +74,12 @@ function MyRequest() {
   const [filteredFeeds, setFilteredFeeds] = useState<MyRequest[]>([])
   const navigate = useNavigate();
 
-
   useEffect(() => {
     const fetchMyRequests = async () => {
       try {
-        if (!user?.id) return
+        if (!user?.studentId) return
         // truyền đúng studentId từ redux user
-        const response = await getSwapRequestAPI({ studentId: user.id ?? undefined})
+        const response = await getSwapRequestAPI({ studentId: user.studentId ?? undefined})
         console.log('MyRequest API response:', response)
         console.log('MyRequest data:', response?.result?.data)
         setMyRequests(response?.result?.data || [])
@@ -90,7 +89,7 @@ function MyRequest() {
       }
     }
     fetchMyRequests()
-  }, [user?.id])
+  }, [user?.studentId])
 
   const handleFilter = (filters: {
     courseCode: string

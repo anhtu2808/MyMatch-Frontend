@@ -7,11 +7,12 @@ import './SwapClass.css'
 import MyRequest from '../components/my-request/MyRequest'
 import RequestToMe from '../components/request-to-me/RequestToMe'
 import NewsFeed from '../components/news-feed/NewsFeed'
+import { getToken } from '../../login/services/localStorageService'
 
 function SwapClass() {
   const navigate = useNavigate()
   const [activeTab, setActiveTab] = useState(0)
-
+  console.log("Token", getToken()); 
   const handleCreateRequest = () => {
     navigate('/swap_class/create')
   }

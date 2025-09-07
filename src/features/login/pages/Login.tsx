@@ -2,11 +2,12 @@ import { OAuthConfig } from "../configurations/configuration";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getToken } from "../services/localStorageService";
-import background from "../../../assets/background1.jpg";
+import background from "../../../assets/background1.png";
 import "./Login.css";
 
 export default function Login() {
   const navigate = useNavigate();
+  const [checkingToken, setCheckingToken] = useState(true);
 
   const handleClick = () => {
     const callbackUrl = OAuthConfig.redirectUri;
@@ -22,16 +23,20 @@ export default function Login() {
     window.location.href = targetUrl;
   };
 
+  
   useEffect(() => {
-  const accessToken = getToken();
-    console.log("Access Token on Login Page:", accessToken);
-  if (accessToken) {
-    // Nếu user đang ở /login thì vẫn cho navigate("/")
-    if (window.location.pathname === "/login") {
-      navigate("/");
-    }
+    const accessToken = getToken();
+
+    if (accessToken) {
+      navigate("/", { replace: true });
+    } 
+    setCheckingToken(false);
+  }, [navigate]);
+
+  if (checkingToken) {
+    // Hiển thị loading hoặc placeholder trong lúc check token
+    return <div>Loading...</div>;
   }
-}, [navigate]);
 
   return (
     <div className="login-container">

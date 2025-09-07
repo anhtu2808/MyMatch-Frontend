@@ -33,11 +33,8 @@ function App() {
         <Route path="/add-review" element={<AddReviewPage />} />
         <Route path="/add-review/:teacherId" element={<AddReviewPage />} />
         <Route path="/add-teacher" element={<AddTeacherPage />} />
-
         <Route path="/profile" element={<MyInfor />} />
-
-        <Route path="/message/:id" element={<Message />} />
-
+        <Route path="/message/:studentId/:requestId" element={<Message />} />
       </Routes>
     </Router>
   );
