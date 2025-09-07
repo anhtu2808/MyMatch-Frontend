@@ -3,10 +3,9 @@ import "./MyInfor.css"
 import Header from '../../../components/header/Header'
 import Sidebar from '../../../components/sidebar/Sidebar'
 import { getProfileAPI } from '../api.ts'
-import { useAppDispatch, useAppSelector } from '../../../store/hooks'
-import { setUser } from '../../../store/Slice'
 import AddInformationModal from '../../add-personal-information/components/AddInformationModal'
 import { getToken } from '../../login/services/localStorageService'
+import { useAppSelector } from '../../../store/hooks'
 
 interface UserInfo {
   id: number
@@ -38,24 +37,12 @@ const MyInfor: React.FC = () => {
   const [isEditing, setIsEditing] = useState(false)
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
   const user = useAppSelector((state) => state.user)
-  console.log(user?.id);
-  const dispatch = useAppDispatch();
+
   console.log("TOken", getToken());
   useEffect(() => {
     const handleFetchProfile = async () => {  
       const response = await getProfileAPI()
       setUserInfo(response?.result)
-      dispatch(
-              setUser({
-                id: response?.result?.student?.id,
-                studentId: response?.result?.student?.id,
-                email: response?.result?.email,
-                campus: response?.result?.student?.campus,
-                studentCode: response?.result?.student?.studentCode,
-                role: response?.result?.role,
-                token: response?.result?.token,
-              })
-            );
     }
     handleFetchProfile()
   }, [])

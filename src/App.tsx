@@ -21,7 +21,7 @@ function App() {
         <Route path="/swap_class/edit/:id" element={<CreateSwapRequest />} />
         <Route path="/messages" element={<Message />} />
         <Route path="/profile" element={<MyInfor />} />
-        <Route path="/message/:id" element={<Message />} />
+        <Route path="/message/:studentId/:requestId" element={<Message />} />
       </Routes>
     </Router>
   );
