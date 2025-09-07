@@ -1,0 +1,357 @@
+.lecturer-information {
+  background: linear-gradient(135deg, #544661 0%, #343D67 50%, #14346E 100%);
+  display: flex;
+ flex-direction: column;
+  border-radius: 12px;
+  padding: 20px;
+  font-family: 'Inter', sans-serif;
+  width: 88%;  
+    padding-bottom: 30px;
+}
+
+/* .lecturer-information::before {
+  content: '';
+  position: absolute;
+  top: -50px;
+  right: -50px;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 60%);
+  border-radius: 50%;
+}
+
+.lecturer-information::after {
+  content: '';
+  position: absolute;
+  bottom: -100px;
+  right: 100px;
+  width: 150px;
+  height: 150px;
+  background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%);
+  border-radius: 50%;
+} */
+
+.lecturer-header {
+  position: relative;
+  z-index: 2;
+}
+
+.back-button {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.9);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  cursor: pointer;
+  margin-bottom: 24px;
+  padding: 8px 0;
+  transition: all 0.2s ease;
+  font-weight: 500;
+}
+
+.back-button:hover {
+  color: white;
+  transform: translateX(-2px);
+}
+
+.breadcrumb {
+  opacity: 0.6;
+  margin-left: 4px;
+  font-weight: 400;
+}
+
+.lecturer-main-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 32px;
+}
+
+.lecturer-avatar-section {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex: 1;
+}
+
+.avatar-container {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.lecturer-avatar {
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.online-indicator {
+  position: absolute;
+  bottom: 6px;
+  right: 6px;
+  width: 18px;
+  height: 18px;
+  background: #10B981;
+  border-radius: 50%;
+  border: 3px solid white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.lecturer-details {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+}
+
+.lecturer-name {
+  font-size: 32px;
+  font-weight: 800;
+  margin: 0;
+  line-height: 1.1;
+  letter-spacing: -0.5px;
+    color: white;
+}
+
+.lecturer-username {
+  font-size: 17px;
+  opacity: 0.85;
+  margin: 0;
+  font-weight: 500;
+    color: white;
+}
+
+.lecturer-info {
+  font-size: 15px;
+  opacity: 0.9;
+  margin: 2px 0 12px 0;
+  font-weight: 400;
+    color: white;
+}
+
+.rating-section {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.stars {
+  display: flex;
+  gap: 3px;
+}
+
+.rating-text {
+  font-size: 18px;
+  font-weight: 700;
+  margin-left: 6px;
+    color: white;
+}
+
+.review-count {
+  font-size: 15px;
+  opacity: 0.8;
+  font-weight: 400;
+    color: white;
+}
+
+.action-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  align-items: flex-end;
+  flex-shrink: 0;
+}
+
+.save-button,
+.rate-button,
+.tutor-button {
+  border: none;
+  border-radius: 12px;
+  padding: 14px 24px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 140px;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.save-button {
+  background: rgba(255, 255, 255, 0.25);
+  color: white;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(10px);
+   width: 218px;
+}
+
+.save-button:hover {
+  background: rgba(255, 255, 255, 0.35);
+  border-color: rgba(255, 255, 255, 0.6);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+.rate-button {
+  background: rgba(255, 255, 255, 0.25);
+  color: white;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(10px);
+    width: 218px;
+}
+
+.rate-button:hover {
+    background: rgba(255, 255, 255, 0.35);
+  border-color: rgba(255, 255, 255, 0.6);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+.tutor-button {
+  background: linear-gradient(135deg, #F9CA14 0%, #EBB409 100%);
+  color: #1a1a1a;
+  position: relative;
+  font-weight: 700;
+  border: 2px solid transparent;
+}
+
+.tutor-button:hover {
+  background: linear-gradient(135deg, #DEB419 0%, #AAB861 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(255, 193, 7, 0.4);
+}
+
+.pro-badge {
+  background: linear-gradient(135deg, #FF5722 0%, #EB4A44 100%);
+  color: white;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 4px 8px;
+  border-radius: 15px;
+  margin-left: 6px;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 8px rgba(255, 87, 34, 0.3);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .lecturer-main-info {
+    gap: 24px;
+  }
+
+  .lecturer-name {
+    font-size: 28px;
+  }
+
+  .action-buttons {
+    gap: 12px;
+  }
+}
+
+@media (max-width: 768px) {
+  .lecturer-information {
+    margin: 16px;
+    padding: 28px;
+  }
+
+  .lecturer-main-info {
+    flex-direction: column;
+    gap: 24px;
+    align-items: center;
+    text-align: center;
+  }
+
+  .lecturer-avatar-section {
+    gap: 20px;
+    justify-content: center;
+  }
+
+  .lecturer-avatar {
+    width: 80px;
+    height: 80px;
+  }
+
+  .lecturer-name {
+    font-size: 28px;
+  }
+
+  .lecturer-username {
+    font-size: 16px;
+  }
+
+  .lecturer-info {
+    font-size: 14px;
+  }
+
+  .action-buttons {
+    flex-direction: row;
+    justify-content: center;
+    gap: 12px;
+    width: 100%;
+  }
+
+  .save-button,
+  .rate-button,
+  .tutor-button {
+    min-width: 120px;
+    padding: 12px 20px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .lecturer-information {
+    margin: 12px;
+    padding: 24px;
+  }
+
+  .lecturer-avatar-section {
+    flex-direction: column;
+    text-align: center;
+    gap: 16px;
+  }
+
+  .lecturer-avatar {
+    width: 72px;
+    height: 72px;
+    margin: 0 auto;
+  }
+
+  .lecturer-name {
+    font-size: 24px;
+  }
+
+  .lecturer-username {
+    font-size: 15px;
+  }
+
+  .lecturer-info {
+    font-size: 13px;
+  }
+
+  .rating-section {
+    justify-content: center;
+  }
+
+  .action-buttons {
+    flex-direction: column;
+    width: 100%;
+    gap: 12px;
+  }
+
+  .save-button,
+  .rate-button,
+  .tutor-button {
+    width: 100%;
+    justify-content: center;
+    min-width: auto;
+  }
+}

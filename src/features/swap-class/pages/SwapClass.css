@@ -1,7 +1,10 @@
 .swap-class {
     width: 100vw;
+    height: 100vh;
+    background-color: #FBFAF9;
+    top: 0;
+    left: 0;
     min-height: 100vh;
-    background-color: #fbfbfb;
     position: relative;
     margin: 0;
     box-sizing: border-box;
