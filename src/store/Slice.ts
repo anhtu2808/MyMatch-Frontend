@@ -1,4 +1,3 @@
-// src/slices/userSlice.js
 import { createSlice } from "@reduxjs/toolkit";
 
 interface UserState {
@@ -13,14 +12,14 @@ interface UserState {
 }
 
 const initialState: UserState = {
-  id: 0 || null,
-  name: "",
-  email: "",
-  studentCode: "",
-  role: "", // customer | staff | vet
+  id: null,
+  name: null,
+  email: null,
+  studentCode: null,
+  role: null,
   token: null,
-  campus: "",
-  studentId: 0 || null,
+  campus: null,
+  studentId: null,
 };
 
 const userSlice = createSlice({
@@ -38,15 +37,15 @@ const userSlice = createSlice({
       state.campus = campus;
       state.studentId = studentId;
     },
-    clearUser: (state) => {
-      state.id = 0 || null;
-      state.name = "";
-      state.email = "";
-      state.role = "";
-      state.token = null;
-    },
+    // clearUser: (state) => {
+    //   state.id = 0 || null;
+    //   state.name = "";
+    //   state.email = "";
+    //   state.role = "";
+    //   state.token = null;
+    // },
   },
 });
 
-export const { setUser, clearUser } = userSlice.actions;
+export const { setUser } = userSlice.actions;
 export default userSlice.reducer;

@@ -67,7 +67,7 @@ interface MyRequest {
 function NewsFeed() {
   const [newsFeeds, setNewsFeeds] = useState<MyRequest[]>([])
   const [filteredFeeds, setFilteredFeeds] = useState<MyRequest[]>([])
-  const naviagte = useNavigate();
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchNewsFeed = async () => {
       try {
@@ -204,12 +204,14 @@ function NewsFeed() {
               </div>
             </div>
           </div>
-
           <div className='action-buttons'>
-            <button className='btn-message' onClick={() => naviagte(`/message/${request.student.id}`)}>💬 Nhắn tin</button>
+            <button
+              className="btn-message"
+              onClick={() => navigate(`/message/${request.student.id}/${request.id}`)}
+            >
+              💬 Nhắn tin
+            </button>
           </div>
-          <div>student {request.student.id}</div>
-          <div>user {request.student.user.id}</div>
         </div>
       ))}
     </div>
