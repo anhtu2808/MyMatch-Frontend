@@ -2,24 +2,29 @@
   background: #fff;
   border-radius: 16px;
   padding: 0;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
   width: 400px;
-  min-height: 500px;
+  min-height: 300px;
   transition: all 0.2s ease;
   border: 1px solid #f0f0f0;
   overflow: hidden;
 }
 
+.btn-bookmark.active .bookmark-icon {
+  stroke: #df8f34;
+  fill: #df8f34;
+}
+
 .teacher-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
 }
 
 /* Top Section with gray background */
 .teacher-card-top {
-  background: #F3F6FA;
+  background: #f3f6fa;
   padding: 28px 24px;
   flex: 1;
 }
@@ -42,7 +47,7 @@
   border-radius: 50%;
   object-fit: cover;
   border: 3px solid #fff;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .online-indicator {
@@ -51,13 +56,13 @@
   right: 4px;
   width: 16px;
   height: 16px;
-  background: #10B981;
+  background: #10b981;
   border-radius: 50%;
   border: 3px solid #fff;
 }
 
 .teacher-rating-badge {
-  background: #10B981;
+  background: #10b981;
   color: white;
   padding: 10px 14px;
   border-radius: 20px;
@@ -71,7 +76,7 @@
 .badge-star {
   width: 16px;
   height: 16px;
-  color: #FFC107;
+  color: #ffc107;
 }
 
 /* Teacher Info */
@@ -125,16 +130,16 @@
 .rating-star {
   width: 16px;
   height: 16px;
-  color: #FFC107;
+  color: #ffc107;
 }
 
 .rating-star[fill="currentColor"] {
-  fill: #FFC107;
+  fill: #ffc107;
 }
 
 .rating-text {
   font-weight: bold;
-  color: #1DA078;
+  color: #1da078;
   margin-left: 8px;
 }
 
@@ -177,11 +182,11 @@
 }
 
 .progress-bar.green {
-  background: #4BD8A5;
+  background: #4bd8a5;
 }
 
 .progress-bar.gray {
-  background: #A1AEC1;
+  background: #a1aec1;
 }
 
 .progress-value {
@@ -201,7 +206,7 @@
 .stat {
   flex: 1;
   text-align: center;
-  background: #F3F6FA;
+  background: #f3f6fa;
   padding: 10px;
   border-radius: 8px;
 }
@@ -228,7 +233,7 @@
 
 .btn-rate {
   flex: 2;
-  background: #0C326F;
+  background: #0c326f;
   color: white;
   border: none;
   padding: 12px 16px;
@@ -244,7 +249,7 @@
 }
 
 .btn-rate:hover {
-  background: #50617D;
+  background: #50617d;
 }
 
 .btn-star {
@@ -280,7 +285,7 @@
 }
 
 .btn-view {
-  background: #F3F6FA;
+  background: #f3f6fa;
   color: #666;
 }
 
@@ -289,15 +294,13 @@
 }
 
 .btn-bookmark {
-  background: #F3F6FA;
+  background: #f3f6fa;
   color: #666;
 }
 
 .btn-bookmark:hover {
-  background: #DF8F34;
+  background: #df8f34;
   .btn-bookmark-icon {
     stroke: white;
   }
 }
-
-

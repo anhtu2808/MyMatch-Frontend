@@ -14,7 +14,6 @@ import Authenticate from "./features/login/pages/Authenticated";
 import Login from "./features/login/pages/Login";
 import MyInfor from "./features/profile/pages/MyInfor";
 
-
 function App() {
   return (
     <Router>
@@ -29,7 +28,7 @@ function App() {
 
         {/* Add other routes as needed */}
         <Route path="/teachers" element={<TeachersPage />} />
-        <Route path="/lecturer-detail" element={<LecturerDetail />} />
+        <Route path="/lecturer-detail/:id" element={<LecturerDetail />} />
         <Route path="/add-review" element={<AddReviewPage />} />
         <Route path="/add-review/:teacherId" element={<AddReviewPage />} />
         <Route path="/add-teacher" element={<AddTeacherPage />} />
@@ -37,7 +36,6 @@ function App() {
         <Route path="/profile" element={<MyInfor />} />
 
         <Route path="/message/:id" element={<Message />} />
-
       </Routes>
     </Router>
   );

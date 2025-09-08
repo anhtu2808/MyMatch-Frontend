@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import "./ReviewList.css";
+import { getReviewsAPI } from "../../apis/TeacherPageApis";
+import { useEffect } from "react";
 
 // Star Icon
 const StarIcon = ({ filled = true }: { filled?: boolean }) => (
@@ -84,326 +86,409 @@ const FilterIcon = () => (
   </svg>
 );
 
-interface Review {
-  id: string;
-  studentName: string;
-  studentCode: string;
-  avatar: string;
-  rating: number;
-  date: string;
-  semester: string;
-  isVerified: boolean;
-  hasDiscount: boolean;
-  discountPercent?: number;
+interface ReviewDetail {
+  id: number;
+  criteria: {
+    id: number;
+    name: string;
+    type: string;
+    description: string;
+  };
+  score: number;
   comment: string;
-  teachingQuality: number;
-  teachingMethod: number;
-  difficulty: number;
-  tags: string[];
-  likes: number;
-  dislikes: number;
+  isYes: boolean;
 }
 
-const ReviewList: React.FC = () => {
+interface Review {
+  id: number;
+  overallScore: number;
+  isVerified: boolean;
+  isAnonymous: boolean;
+  evidenceUrl?: string;
+  student: {
+    id: number;
+    studentCode: string;
+    user: {
+      id: number;
+      username: string;
+      email: string;
+      firstName: string;
+      lastName: string;
+      phone: string;
+      avatarUrl?: string;
+    };
+    campus?: {
+      id: number;
+      name: string;
+    };
+  };
+  course: {
+    id: number;
+    code: string;
+    name: string;
+  };
+  semester?: {
+    id: number;
+    name: string;
+  };
+  details: ReviewDetail[];
+  likes?: number;
+  dislikes?: number;
+}
+
+
+
+
+const ReviewList: React.FC<{ lecturerId: number }> = ({ lecturerId }) => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [sortBy, setSortBy] = useState("Mới nhất");
-  const [filterBy, setFilterBy] = useState("Tất cả");
-  const [statusFilter, setStatusFilter] = useState("Tất cả");
+  const [courseId, setCourseId] = useState<number>(0);
+  const [semesterId, setSemesterId] = useState<number>(0);
+  const [isVerified, setIsVerified] = useState<boolean | undefined>(true);
+  const [isAnonymous, setIsAnonymous] = useState<boolean | undefined>(true);
   const [showAllReviews, setShowAllReviews] = useState(false);
-
-  // Dropdown states
-  const [isSortDropdownOpen, setIsSortDropdownOpen] = useState(false);
-  const [isFilterDropdownOpen, setIsFilterDropdownOpen] = useState(false);
+  const [isCourseDropdownOpen, setIsCourseDropdownOpen] = useState(false);
+  const [isSemesterDropdownOpen, setIsSemesterDropdownOpen] = useState(false);
   const [isStatusDropdownOpen, setIsStatusDropdownOpen] = useState(false);
+  const [isAnonymousDropdownOpen, setIsAnonymousDropdownOpen] = useState(false);
+  const [reviews, setReviews] = useState<Review[]>([]);
+  const [selectedReview, setSelectedReview] = useState<Review | null>(null);
 
-  // Dropdown options
-  const sortOptions = [
-    "Mới nhất",
-    "Cũ nhất",
-    "Điểm cao nhất",
-    "Điểm thấp nhất"
-  ];
+  const courseOptions = Array.from(
+    new Map(
+      reviews
+        .filter((r) => r.course.id && r.course.name)
+        .map((r) => [r.course.id, { id: r.course.id!, name: r.course.name! }])
+    ).values()
+  );
+  courseOptions.unshift({ id: 0, name: "Tất cả môn học" });
 
-  const filterOptions = [
-    "Tất cả",
-    "SEC303",
-    "Toán cao cấp"
-  ];
+  const semesterOptions = Array.from(
+    new Map(
+      reviews
+        .filter((r) => r.semester)
+        .map((r) => [r.semester!.id, r.semester!])
+    ).values()
+  );
+  semesterOptions.unshift({ id: 0, name: "Tất cả học kỳ" });
 
-  const statusOptions = [
-    "Tất cả",
-    "Đã xác thực",
-    "Chưa xác thực"
-  ];
+  useEffect(() => {
+    const fetchReviews = async () => {
+      try {
+        const res = await getReviewsAPI({
+          lecturerId,
+          courseId: courseId || undefined,
+          semesterId: semesterId || undefined,
+          isVerified,
+          isAnonymous,
+          page: 1,
+          size: 10,
+          sortBy: "createAt",
+          sortDirection: "DESC",
+        });
+        const enriched = (res.result.data || []).map((r: any) => ({
+        ...r,
+        likes: 0,
+        dislikes: 0,
+      }));
+        setReviews(enriched);
 
-  const reviews: Review[] = [
-    {
-      id: "1",
-      studentName: "Sinh viên K17",
-      studentCode: "SV",
-      avatar: "https://i.pravatar.cc/150?img=2",
-      rating: 2,
-      date: "3/1/2024",
-      semester: "SEC303",
-      isVerified: true,
-      hasDiscount: true,
-      discountPercent: 23,
-      comment: "Kiến thức ổn nhưng thái độ với sinh viên chưa thật sự tốt. Đôi khi hơi khó tính và không kiên nhẫn.",
-      teachingQuality: 3.5,
-      teachingMethod: 2.5,
-      difficulty: 6.5,
-      tags: ["Cần cải thiện", "Khó tính", "Thiếu kiên nhẫn"],
-      likes: 15,
-      dislikes: 12
-    },
-    {
-      id: "2", 
-      studentName: "Sinh viên K17",
-      studentCode: "SV",
-      avatar: "https://i.pravatar.cc/150?img=3",
-      rating: 5,
-      date: "20/1/2024",
-      semester: "SEC303",
-      isVerified: true,
-      hasDiscount: true,
-      discountPercent: 91,
-      comment: "Phương pháp giảng dạy sáng tạo, luôn cập nhật kiến thức mới. Rất đáng để học tử thầy.",
-      teachingQuality: 4.7,
-      teachingMethod: 4.6,
-      difficulty: 8.8,
-      tags: ["Sáng tạo", "Cập nhật", "Đáng học hỏi"],
-      likes: 28,
-      dislikes: 3
-    }
-  ];
+        
+      } catch (err) {
+        console.error("Error fetching reviews:", err);
+      }
+    };
+    fetchReviews();
+  }, [lecturerId, courseId, semesterId, isVerified, isAnonymous]);
 
   const displayedReviews = showAllReviews ? reviews : reviews.slice(0, 1);
 
-  const renderStars = (rating: number) => {
-    return Array.from({ length: 5 }, (_, index) => (
+  const renderStars = (rating: number) =>
+    Array.from({ length: 5 }, (_, index) => (
       <StarIcon key={index} filled={index < rating} />
     ));
-  };
+
+    const handleLike = (id: number) => {
+      setReviews((prev) =>
+        prev.map((r) =>
+          r.id === id ? { ...r, likes: (r.likes ?? 0) + 1 } : r
+        )
+      );
+    };
+
+    const handleDislike = (id: number) => {
+      setReviews((prev) =>
+        prev.map((r) =>
+          r.id === id ? { ...r, dislikes: (r.dislikes?? 0) + 1 } : r
+        )
+      );
+    };
+
 
   return (
     <div className="review-list">
-      {/* Header */}
       <div className="review-header">
         <div className="review-title">
-          <h2>Đánh giá từ sinh viên</h2>
-          <p>308 đánh giá • Cập nhật gần nhất: hôm nay</p>
+          <h2>Review từ sinh viên</h2>
+          <p>{reviews.length} đánh giá</p>
         </div>
-        <div className="search-container">
+        {/* <div className="search-container">
           <SearchIcon />
           <input
             type="text"
-            placeholder="Tìm kiếm đánh giá..."
+            placeholder="Tìm kiếm review..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-        </div>
+        </div> */}
       </div>
 
       {/* Filters */}
-      <div className="review-filters">
-        <div className="filter-group">
-          <label>
-            <FilterIcon />
-            Môn học
-          </label>
-          <div className="custom-dropdown">
-            <div
-              className="dropdown-trigger"
-              onClick={() => setIsFilterDropdownOpen(!isFilterDropdownOpen)}
-            >
-              {filterBy}
-              <svg
-                className={`dropdown-arrow ${isFilterDropdownOpen ? 'open' : ''}`}
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-              >
-                <polyline points="6,9 12,15 18,9"></polyline>
-              </svg>
-            </div>
-            {isFilterDropdownOpen && (
-              <div className="dropdown-menu">
-                {filterOptions.map((option) => (
-                  <div
-                    key={option}
-                    className={`dropdown-option ${filterBy === option ? 'selected' : ''}`}
-                    onClick={() => {
-                      setFilterBy(option);
-                      setIsFilterDropdownOpen(false);
-                    }}
-                  >
-                    {option}
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-        </div>
-
-        <div className="filter-group">
-          <label>Sắp xếp theo</label>
-          <div className="custom-dropdown">
-            <div
-              className="dropdown-trigger"
-              onClick={() => setIsSortDropdownOpen(!isSortDropdownOpen)}
-            >
-              {sortBy}
-              <svg
-                className={`dropdown-arrow ${isSortDropdownOpen ? 'open' : ''}`}
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-              >
-                <polyline points="6,9 12,15 18,9"></polyline>
-              </svg>
-            </div>
-            {isSortDropdownOpen && (
-              <div className="dropdown-menu">
-                {sortOptions.map((option) => (
-                  <div
-                    key={option}
-                    className={`dropdown-option ${sortBy === option ? 'selected' : ''}`}
-                    onClick={() => {
-                      setSortBy(option);
-                      setIsSortDropdownOpen(false);
-                    }}
-                  >
-                    {option}
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-        </div>
-
-        <div className="filter-group">
-          <label>Trạng thái</label>
-          <div className="custom-dropdown">
-            <div
-              className="dropdown-trigger"
-              onClick={() => setIsStatusDropdownOpen(!isStatusDropdownOpen)}
-            >
-              {statusFilter}
-              <svg
-                className={`dropdown-arrow ${isStatusDropdownOpen ? 'open' : ''}`}
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-              >
-                <polyline points="6,9 12,15 18,9"></polyline>
-              </svg>
-            </div>
-            {isStatusDropdownOpen && (
-              <div className="dropdown-menu">
-                {statusOptions.map((option) => (
-                  <div
-                    key={option}
-                    className={`dropdown-option ${statusFilter === option ? 'selected' : ''}`}
-                    onClick={() => {
-                      setStatusFilter(option);
-                      setIsStatusDropdownOpen(false);
-                    }}
-                  >
-                    {option}
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-        </div>
-
-        <div className="results-count">8 kết quả</div>
+<div className="review-filters">
+  {/* Môn học */}
+  <div className="filter-group">
+    <label>
+      <FilterIcon /> Môn học
+    </label>
+    <div className="custom-dropdown">
+      <div
+        className="dropdown-trigger"
+        onClick={() => setIsCourseDropdownOpen(!isCourseDropdownOpen)}
+      >
+        {courseId === 0 ? "Tất cả môn học" : courseOptions.find(c => c.id === courseId)?.name}
+        <svg
+          className={`dropdown-arrow ${isCourseDropdownOpen ? "open" : ""}`}
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+        >
+          <polyline points="6,9 12,15 18,9"></polyline>
+        </svg>
       </div>
+      {isCourseDropdownOpen && (
+        <div className="dropdown-menu">
+          {courseOptions.map((option) => (
+            <div
+              key={option.id}
+              className={`dropdown-option ${courseId === option.id ? "selected" : ""}`}
+              onClick={() => {
+                setCourseId(option.id);
+                setIsCourseDropdownOpen(false);
+              }}
+            >
+              {option.name}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  </div>
 
-      {/* Reviews */}
+  {/* Học kỳ */}
+  <div className="filter-group">
+    <label>Học kỳ</label>
+    <div className="custom-dropdown">
+      <div
+        className="dropdown-trigger"
+        onClick={() => setIsSemesterDropdownOpen(!isSemesterDropdownOpen)}
+      >
+        {semesterId === 0 ? "Tất cả học kỳ" : semesterOptions.find(s => s.id === semesterId)?.name}
+        <svg
+          className={`dropdown-arrow ${isSemesterDropdownOpen ? "open" : ""}`}
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+        >
+          <polyline points="6,9 12,15 18,9"></polyline>
+        </svg>
+      </div>
+      {isSemesterDropdownOpen && (
+        <div className="dropdown-menu">
+          {semesterOptions.map((option) => (
+            <div
+              key={option.id}
+              className={`dropdown-option ${semesterId === option.id ? "selected" : ""}`}
+              onClick={() => {
+                setSemesterId(option.id);
+                setIsSemesterDropdownOpen(false);
+              }}
+            >
+              {option.name}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  </div>
+
+  {/* Trạng thái xác thực */}
+  <div className="filter-group">
+    <label>Trạng thái</label>
+    <div className="custom-dropdown">
+      <div
+        className="dropdown-trigger"
+        onClick={() => setIsStatusDropdownOpen(!isStatusDropdownOpen)}
+      >
+        {isVerified === undefined ? "Tất cả" : isVerified ? "Đã xác thực" : "Chưa xác thực"}
+        <svg
+          className={`dropdown-arrow ${isStatusDropdownOpen ? "open" : ""}`}
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+        >
+          <polyline points="6,9 12,15 18,9"></polyline>
+        </svg>
+      </div>
+      {isStatusDropdownOpen && (
+        <div className="dropdown-menu">
+          <div
+            className={`dropdown-option ${isVerified === undefined ? "selected" : ""}`}
+            onClick={() => { setIsVerified(undefined); setIsStatusDropdownOpen(false); }}
+          >
+            Tất cả
+          </div>
+          <div
+            className={`dropdown-option ${isVerified === true ? "selected" : ""}`}
+            onClick={() => { setIsVerified(true); setIsStatusDropdownOpen(false); }}
+          >
+            Đã xác thực
+          </div>
+          <div
+            className={`dropdown-option ${isVerified === false ? "selected" : ""}`}
+            onClick={() => { setIsVerified(false); setIsStatusDropdownOpen(false); }}
+          >
+            Chưa xác thực
+          </div>
+        </div>
+      )}
+    </div>
+  </div>
+
+  {/* Ẩn danh */}
+  <div className="filter-group">
+    <label>Ẩn danh</label>
+    <div className="custom-dropdown">
+      <div
+        className="dropdown-trigger"
+        onClick={() => setIsAnonymousDropdownOpen(!isAnonymousDropdownOpen)}
+      >
+        {isAnonymous === undefined ? "Tất cả" : isAnonymous ? "Ẩn danh" : "Hiển thị tên"}
+        <svg
+          className={`dropdown-arrow ${isAnonymousDropdownOpen ? "open" : ""}`}
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+        >
+          <polyline points="6,9 12,15 18,9"></polyline>
+        </svg>
+      </div>
+      {isAnonymousDropdownOpen && (
+        <div className="dropdown-menu">
+          <div
+            className={`dropdown-option ${isAnonymous === undefined ? "selected" : ""}`}
+            onClick={() => { setIsAnonymous(undefined); setIsAnonymousDropdownOpen(false); }}
+          >
+            Tất cả
+          </div>
+          <div
+            className={`dropdown-option ${isAnonymous === true ? "selected" : ""}`}
+            onClick={() => { setIsAnonymous(true); setIsAnonymousDropdownOpen(false); }}
+          >
+            Ẩn danh
+          </div>
+          <div
+            className={`dropdown-option ${isAnonymous === false ? "selected" : ""}`}
+            onClick={() => { setIsAnonymous(false); setIsAnonymousDropdownOpen(false); }}
+          >
+            Hiển thị tên
+          </div>
+        </div>
+      )}
+    </div>
+  </div>
+
+  <div className="results-count">{reviews.length} kết quả</div>
+</div>
+
+      
+
       <div className="reviews-container">
         {displayedReviews.map((review) => (
-          <div key={review.id} className="review-card">
+          <div key={review.id} className="review-card" onClick={() => setSelectedReview(review)}>
             <div className="review-main">
               <div className="reviewer-info">
                 <div className="reviewer-avatar">
-                  <span>{review.studentCode}</span>
+                  <span>{review.student?.user.avatarUrl || "SV"}</span>
                 </div>
                 <div className="reviewer-details">
                   <div className="reviewer-header">
-                    <h4>{review.studentName}</h4>
+                    <h4>{review.student?.user.username || "Ẩn danh"}</h4>
                     <div className="review-meta">
-                      <span className="semester">{review.semester}</span>
-                      {review.hasDiscount && (
-                        <span className="discount-badge">
-                          AI cho biết có {review.discountPercent}% sinh viên có cùng đánh giá
-                        </span>
-                      )}
+                      <span className="semester">{review.semester?.name}</span>
                     </div>
                   </div>
-                  <div className="review-date">{review.date}</div>
-                  {review.isVerified && <span className="verified-badge">Đã xác thực</span>}
+                  {/* <div className="review-date">
+                    {new Date(review.).toLocaleDateString("vi-VN")}
+                  </div> */}
+                  {review.isVerified && (
+                    <span className="verified-badge">Đã xác thực</span>
+                  )}
                 </div>
               </div>
 
               <div className="review-rating">
-                <div className="stars">{renderStars(review.rating)}</div>
+                <div className="stars">{renderStars(review.overallScore)}</div>
               </div>
             </div>
 
             <div className="review-content">
-              <p>{review.comment}</p>
-            </div>
-
-            <div className="review-metrics">
-              <div className="metric">
-                <span className="metric-label">Tiêu chí giảng dạy</span>
-                <span className="metric-value">{review.teachingQuality}/5.0</span>
-              </div>
-              <div className="metric">
-                <span className="metric-label">Chất lượng giảng dạy</span>
-                <span className="metric-value">{review.teachingMethod}/5.0</span>
-              </div>
-              <div className="metric">
-                <span className="metric-label">Điểm tổng</span>
-                <span className="metric-value">{review.difficulty}/10</span>
-              </div>
-            </div>
-
-            <div className="review-tags">
-              {review.tags.map((tag, index) => (
-                <span key={index} className="tag">{tag}</span>
+              {review.details.map((d) => (
+                <p key={d.id}>{d.comment}</p>
               ))}
             </div>
 
+            {/* <div className="review-tags">
+              {review.tags?.map((tag) => (
+                <span key={tag.id} className="tag">
+                  {tag.name}
+                </span>
+              ))}
+            </div> */}
+
             <div className="review-actions">
-              <button className="action-btn like-btn">
+              <button
+                className="action-btn like-btn"
+                onClick={() => handleLike(review.id)}
+              >
                 <ThumbsUpIcon />
                 {review.likes}
               </button>
-              <button className="action-btn dislike-btn">
+              <button
+                className="action-btn dislike-btn"
+                onClick={() => handleDislike(review.id)}
+              >
                 <ThumbsDownIcon />
                 {review.dislikes}
               </button>
-              <button className="more-btn">...</button>
             </div>
           </div>
         ))}
       </div>
 
-      {/* Load More Button */}
       {!showAllReviews && reviews.length > 1 && (
         <div className="load-more-container">
-          <button 
+          <button
             className="load-more-btn"
             onClick={() => setShowAllReviews(true)}
           >
@@ -411,6 +496,29 @@ const ReviewList: React.FC = () => {
           </button>
         </div>
       )}
+
+      {selectedReview && (
+      <div className="modal-overlay">
+        <div className="modal-content">
+          <h3>Chi tiết đánh giá</h3>
+
+          {selectedReview.details.map((d) => (
+            <div key={d.id} className="detail-item">
+              <p><strong>Tiêu chí:</strong> {d.criteria.name}</p>
+              <p><strong>Mô tả:</strong> {d.criteria.description}</p>
+              <p><strong>Điểm:</strong> {d.score}</p>
+              <p><strong>Nhận xét:</strong> {d.comment}</p>
+              <p><strong>Yes/No:</strong> {d.isYes ? "Có" : "Không"}</p>
+            </div>
+          ))}
+
+          <button className="close-btn" onClick={() => setSelectedReview(null)}>
+            Đóng
+          </button>
+        </div>
+      </div>
+    )}
+
     </div>
   );
 };

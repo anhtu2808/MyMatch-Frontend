@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { getAllCampusesAPI } from "../../apis/TeacherPageApis";
 import "./filter.css";
 
 // Search Icon Component
@@ -15,12 +16,11 @@ const SearchIcon = ({ className = "" }: { className?: string }) => (
     strokeLinejoin="round"
     className={`search-icon ${className}`}
   >
-    <path d="m21 21-4.34-4.34"/>
-    <circle cx="11" cy="11" r="8"/>
+    <path d="m21 21-4.34-4.34" />
+    <circle cx="11" cy="11" r="8" />
   </svg>
 );
 
-// Clear/Eraser Icon Component
 const ClearIcon = ({ className = "" }: { className?: string }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -34,23 +34,72 @@ const ClearIcon = ({ className = "" }: { className?: string }) => (
     strokeLinejoin="round"
     className={`clear-icon ${className}`}
   >
-    <path d="m7 21-4.3-4.3c-1-1-1-2.5 0-3.4l9.6-9.6c1-1 2.5-1 3.4 0l5.6 5.6c1 1 1 2.5 0 3.4L13 21"/>
-    <path d="M22 21H7"/>
-    <path d="m5 11 9 9"/>
+    <path d="m7 21-4.3-4.3c-1-1-1-2.5 0-3.4l9.6-9.6c1-1 2.5-1 3.4 0l5.6 5.6c1 1 1 2.5 0 3.4L13 21" />
+    <path d="M22 21H7" />
+    <path d="m5 11 9 9" />
   </svg>
 );
 
-const TeacherFilter: React.FC = () => {
-  const [activeTab, setActiveTab] = useState("all");
-  const [selectedSort, setSelectedSort] = useState("Đánh giá cao nhất");
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+interface Campus {
+  id: number;
+  name: string;
+}
 
-  const sortOptions = [
-    "Đánh giá cao nhất",
-    "Đánh giá thấp nhất",
-    "Đánh giá nhiều nhất",
-    "Tên A-Z"
-  ];
+interface TeacherFilterProps {
+  onSearch: (filters: {
+    name?: string;
+    code?: string;
+    campusId?: number;
+    sort?: string;
+  }) => void;
+  activeTab: string;
+  setActiveTab: (tab: string) => void;
+}
+
+const TeacherFilter: React.FC<TeacherFilterProps> = ({
+  onSearch,
+  activeTab,
+  setActiveTab,
+}: TeacherFilterProps) => {
+  // const [activeTab, setActiveTab] = useState("all");
+  const [name, setName] = useState("");
+  const [code, setCode] = useState("");
+  const [campusId, setCampusId] = useState<number | "">("");
+  const [campuses, setCampuses] = useState<Campus[]>([]);
+  const [isCampusDropdownOpen, setIsCampusDropdownOpen] = useState(false);
+
+  useEffect(() => {
+    const fetchCampuses = async () => {
+      try {
+        const res = await getAllCampusesAPI({ page: 1, size: 50, sort: "id" });
+        if (res?.result?.data) {
+          setCampuses(res.result.data);
+        }
+      } catch (err) {
+        console.error("Error fetching campuses:", err);
+      }
+    };
+    fetchCampuses();
+  }, []);
+
+  const handleSearch = () => {
+    onSearch({
+      name,
+      code,
+      campusId: campusId === "" ? undefined : Number(campusId),
+    });
+  };
+
+  const handleClear = () => {
+    setName("");
+    setCode("");
+    setCampusId("");
+    onSearch({});
+  };
+
+  const handleTabClick = (tab: string) => {
+    setActiveTab(tab);
+  };
 
   return (
     <div className="teacher-filter">
@@ -60,19 +109,19 @@ const TeacherFilter: React.FC = () => {
           className={`tab ${activeTab === "all" ? "active" : ""}`}
           onClick={() => setActiveTab("all")}
         >
-          Tất cả (5)
+          Tất cả
         </div>
         <div
           className={`tab ${activeTab === "rated" ? "active" : ""}`}
           onClick={() => setActiveTab("rated")}
         >
-          Đã đánh giá (2)
+          Đã đánh giá
         </div>
         <div
           className={`tab ${activeTab === "marked" ? "active" : ""}`}
           onClick={() => setActiveTab("marked")}
         >
-          Đã đánh dấu (2)
+          Đã đánh dấu
         </div>
       </div>
 
@@ -82,34 +131,36 @@ const TeacherFilter: React.FC = () => {
       <div className="filter-grid">
         <div className="form-group">
           <label>Tên giảng viên</label>
-          <input type="text" placeholder="Type a name..." />
+          <input
+            type="text"
+            value={name}
+            placeholder="e.g. Nguyen Van A"
+            onChange={(e) => setName(e.target.value)}
+          />
         </div>
         <div className="form-group">
           <label>Mã giảng viên</label>
-          <input type="text" placeholder="e.g. TCH123" />
+          <input
+            type="text"
+            value={code}
+            placeholder="e.g. ANV123"
+            onChange={(e) => setCode(e.target.value)}
+          />
         </div>
-        <div className="form-group">
-          <label>Tên môn</label>
-          <input type="text" placeholder="e.g. Algorithms" />
-        </div>
-        <div className="form-group">
-          <label>Mã môn</label>
-          <input type="text" placeholder="e.g. CS101" />
-        </div>
-      </div>
-
-      {/* Sort + Actions */}
-      <div className="actions">
         <div className="sort-section">
-          <label className="sort-label">Sắp xếp theo</label>
+          <label className="sort-label">Campus</label>
           <div className="custom-dropdown">
             <div
               className="dropdown-trigger"
-              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+              onClick={() => setIsCampusDropdownOpen(!isCampusDropdownOpen)}
             >
-              {selectedSort}
+              {campusId
+                ? campuses.find((c) => c.id === campusId)?.name
+                : "-- Tất cả --"}
               <svg
-                className={`dropdown-arrow ${isDropdownOpen ? 'open' : ''}`}
+                className={`dropdown-arrow ${
+                  isCampusDropdownOpen ? "open" : ""
+                }`}
                 width="16"
                 height="16"
                 viewBox="0 0 24 24"
@@ -120,33 +171,48 @@ const TeacherFilter: React.FC = () => {
                 <polyline points="6,9 12,15 18,9"></polyline>
               </svg>
             </div>
-            {isDropdownOpen && (
+
+            {isCampusDropdownOpen && (
               <div className="dropdown-menu">
-                {sortOptions.map((option) => (
+                <div
+                  className={`dropdown-option ${
+                    campusId === "" ? "selected" : ""
+                  }`}
+                  onClick={() => {
+                    setCampusId("");
+                    setIsCampusDropdownOpen(false);
+                  }}
+                >
+                  -- Tất cả --
+                </div>
+                {campuses.map((c) => (
                   <div
-                    key={option}
-                    className={`dropdown-option ${selectedSort === option ? 'selected' : ''}`}
+                    key={c.id}
+                    className={`dropdown-option ${
+                      campusId === c.id ? "selected" : ""
+                    }`}
                     onClick={() => {
-                      setSelectedSort(option);
-                      setIsDropdownOpen(false);
+                      setCampusId(c.id);
+                      setIsCampusDropdownOpen(false);
                     }}
                   >
-                    {option}
+                    {c.name}
                   </div>
                 ))}
               </div>
             )}
           </div>
         </div>
+      </div>
 
+      {/* Sort + Actions */}
+      <div className="actions">
         <div className="buttons">
-          <button className="btn-clear">
-            <ClearIcon className="btn-icon" />
-            Xóa bộ lọc
+          <button className="btn-clear" onClick={handleClear}>
+            <ClearIcon className="btn-icon" /> Xóa bộ lọc
           </button>
-          <button className="btn-search">
-            <SearchIcon className="btn-icon" />
-            Tìm kiếm
+          <button className="btn-search" onClick={handleSearch}>
+            <SearchIcon className="btn-icon" /> Tìm kiếm
           </button>
         </div>
       </div>

@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
-import TeacherSelector from '../TeacherSelector/TeacherSelector';
-import './ReviewSteps.css';
+import React, { useState } from "react";
+import TeacherSelector from "../TeacherSelector/TeacherSelector";
+import "./ReviewSteps.css";
+import { getAllLecturerAPI } from "../../apis/TeacherPageApis";
 
 // Check Icon
 const CheckIcon = () => (
@@ -14,7 +15,7 @@ const CheckIcon = () => (
     strokeLinecap="round"
     strokeLinejoin="round"
   >
-    <polyline points="20,6 9,17 4,12"/>
+    <polyline points="20,6 9,17 4,12" />
   </svg>
 );
 
@@ -39,7 +40,7 @@ const ReviewSteps: React.FC<ReviewStepsProps> = ({
   onStepChange,
   onTeacherSelect,
   onNextStep,
-  onBackToTeachers
+  onBackToTeachers,
 }) => {
   // State for custom dropdowns
   const [selectedSemester, setSelectedSemester] = useState("");
@@ -50,33 +51,33 @@ const ReviewSteps: React.FC<ReviewStepsProps> = ({
   const semesterOptions = [
     { value: "fall2024", label: "Fall 2024" },
     { value: "spring2024", label: "Spring 2024" },
-    { value: "summer2024", label: "Summer 2024" }
+    { value: "summer2024", label: "Summer 2024" },
   ];
 
   const courseOptions = [
     { value: "SEC303", label: "SEC303 - Bảo mật ứng dụng web" },
     { value: "PRN231", label: "PRN231 - Building Cross-Platform Apps" },
-    { value: "SWE201", label: "SWE201 - Introduction to Software Engineering" }
+    { value: "SWE201", label: "SWE201 - Introduction to Software Engineering" },
   ];
   const steps = [
     {
       number: 1,
       title: "Chọn giảng viên",
       subtitle: "Tìm kiếm GV",
-      completed: currentStep > 1 || !!selectedTeacher?.id
+      completed: currentStep > 1 || !!selectedTeacher?.id,
     },
     {
       number: 2,
       title: "Thông tin môn học",
       subtitle: "Học kỳ & môn học",
-      completed: currentStep > 2
+      completed: currentStep > 2,
     },
     {
       number: 3,
       title: "Đánh giá chi tiết",
       subtitle: "Viết review",
-      completed: currentStep > 3
-    }
+      completed: currentStep > 3,
+    },
   ];
 
   return (
@@ -86,10 +87,13 @@ const ReviewSteps: React.FC<ReviewStepsProps> = ({
         <div className="steps-progress">
           {steps.map((step, index) => (
             <React.Fragment key={step.number}>
-              <div 
+              <div
                 className={`step-item ${
-                  step.completed ? 'completed' : 
-                  currentStep === step.number ? 'active' : 'pending'
+                  step.completed
+                    ? "completed"
+                    : currentStep === step.number
+                    ? "active"
+                    : "pending"
                 }`}
                 onClick={() => step.completed && onStepChange(step.number)}
               >
@@ -105,11 +109,15 @@ const ReviewSteps: React.FC<ReviewStepsProps> = ({
                   <p className="step-subtitle">{step.subtitle}</p>
                 </div>
               </div>
-              
+
               {index < steps.length - 1 && (
-                <div className={`step-connector ${
-                  steps[index + 1].completed || currentStep > step.number ? 'completed' : ''
-                }`}></div>
+                <div
+                  className={`step-connector ${
+                    steps[index + 1].completed || currentStep > step.number
+                      ? "completed"
+                      : ""
+                  }`}
+                ></div>
               )}
             </React.Fragment>
           ))}
@@ -136,7 +144,7 @@ const ReviewSteps: React.FC<ReviewStepsProps> = ({
           <div className="step-2-content">
             <h2>Thông tin môn học</h2>
             <p>Chọn học kỳ và môn học mà bạn đã học với giảng viên này</p>
-            
+
             {selectedTeacher?.id && (
               <div className="selected-teacher-info">
                 <h3>Giảng viên đã chọn: {selectedTeacher.name}</h3>
@@ -149,11 +157,19 @@ const ReviewSteps: React.FC<ReviewStepsProps> = ({
                 <div className="custom-dropdown">
                   <div
                     className="dropdown-trigger"
-                    onClick={() => setIsSemesterDropdownOpen(!isSemesterDropdownOpen)}
+                    onClick={() =>
+                      setIsSemesterDropdownOpen(!isSemesterDropdownOpen)
+                    }
                   >
-                    {selectedSemester ? semesterOptions.find(opt => opt.value === selectedSemester)?.label : "Chọn học kỳ"}
+                    {selectedSemester
+                      ? semesterOptions.find(
+                          (opt) => opt.value === selectedSemester
+                        )?.label
+                      : "Chọn học kỳ"}
                     <svg
-                      className={`dropdown-arrow ${isSemesterDropdownOpen ? 'open' : ''}`}
+                      className={`dropdown-arrow ${
+                        isSemesterDropdownOpen ? "open" : ""
+                      }`}
                       width="16"
                       height="16"
                       viewBox="0 0 24 24"
@@ -169,7 +185,9 @@ const ReviewSteps: React.FC<ReviewStepsProps> = ({
                       {semesterOptions.map((option) => (
                         <div
                           key={option.value}
-                          className={`dropdown-option ${selectedSemester === option.value ? 'selected' : ''}`}
+                          className={`dropdown-option ${
+                            selectedSemester === option.value ? "selected" : ""
+                          }`}
                           onClick={() => {
                             setSelectedSemester(option.value);
                             setIsSemesterDropdownOpen(false);
@@ -188,11 +206,19 @@ const ReviewSteps: React.FC<ReviewStepsProps> = ({
                 <div className="custom-dropdown">
                   <div
                     className="dropdown-trigger"
-                    onClick={() => setIsCourseDropdownOpen(!isCourseDropdownOpen)}
+                    onClick={() =>
+                      setIsCourseDropdownOpen(!isCourseDropdownOpen)
+                    }
                   >
-                    {selectedCourse ? courseOptions.find(opt => opt.value === selectedCourse)?.label : "Chọn môn học"}
+                    {selectedCourse
+                      ? courseOptions.find(
+                          (opt) => opt.value === selectedCourse
+                        )?.label
+                      : "Chọn môn học"}
                     <svg
-                      className={`dropdown-arrow ${isCourseDropdownOpen ? 'open' : ''}`}
+                      className={`dropdown-arrow ${
+                        isCourseDropdownOpen ? "open" : ""
+                      }`}
                       width="16"
                       height="16"
                       viewBox="0 0 24 24"
@@ -208,7 +234,9 @@ const ReviewSteps: React.FC<ReviewStepsProps> = ({
                       {courseOptions.map((option) => (
                         <div
                           key={option.value}
-                          className={`dropdown-option ${selectedCourse === option.value ? 'selected' : ''}`}
+                          className={`dropdown-option ${
+                            selectedCourse === option.value ? "selected" : ""
+                          }`}
                           onClick={() => {
                             setSelectedCourse(option.value);
                             setIsCourseDropdownOpen(false);
@@ -224,8 +252,8 @@ const ReviewSteps: React.FC<ReviewStepsProps> = ({
 
               <div className="form-group">
                 <label>Mã lớp</label>
-                <input 
-                  type="text" 
+                <input
+                  type="text"
                   placeholder="Ví dụ: SE1801"
                   className="form-input"
                 />
@@ -233,16 +261,10 @@ const ReviewSteps: React.FC<ReviewStepsProps> = ({
             </div>
 
             <div className="step-actions">
-              <button 
-                className="btn-back"
-                onClick={() => onStepChange(1)}
-              >
+              <button className="btn-back" onClick={() => onStepChange(1)}>
                 Quay lại
               </button>
-              <button 
-                className="btn-next"
-                onClick={() => onStepChange(3)}
-              >
+              <button className="btn-next" onClick={() => onStepChange(3)}>
                 Tiếp theo
               </button>
             </div>
@@ -253,23 +275,18 @@ const ReviewSteps: React.FC<ReviewStepsProps> = ({
           <div className="step-3-content">
             <h2>Review chi tiết</h2>
             <p>Chia sẻ trải nghiệm của bạn về giảng viên này</p>
-            
-            <div className="review-form">
-              
-            </div>
+
+            <div className="review-form"></div>
 
             <div className="step-actions">
-              <button
-                className="btn-back"
-                onClick={() => onStepChange(2)}
-              >
+              <button className="btn-back" onClick={() => onStepChange(2)}>
                 Quay lại
               </button>
               <button
                 className="btn-submit"
                 onClick={() => {
                   // Handle review submission
-                  alert('Review đã được gửi thành công!');
+                  alert("Review đã được gửi thành công!");
                 }}
               >
                 Gửi review
