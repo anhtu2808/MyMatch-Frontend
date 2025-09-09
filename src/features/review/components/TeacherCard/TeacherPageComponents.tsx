@@ -90,12 +90,12 @@ type LecturerDTO = {
 export interface TeacherCardData {
   id: number;
   name: string;
-  username: string; // map từ code
-  avatar: string; // dùng avatarUrl hoặc placeholder
-  courses: string[]; // map từ campus.university.courses
-  rating: number; // nếu API chưa có -> 0
-  reviews: number; // map từ reviewCount
-  subjects: number; // subjectCount hoặc courses.length
+  username: string;
+  avatar: string;
+  courses: string[];
+  rating: number;
+  reviews: number;
+  subjects: number;
 }
 
 export const mapLecturerToCard = (dto: LecturerDTO): TeacherCardData => ({
@@ -104,7 +104,7 @@ export const mapLecturerToCard = (dto: LecturerDTO): TeacherCardData => ({
   username: dto.code, // API không có username -> dùng code
   avatar:
     dto.avatarUrl ??
-    "https://ptehelper.com.au/wp-content/uploads/2022/12/logo-dai-hoc-fpt.png", // API chưa có avatar -> placeholder
+    "https://ptehelper.com.au/wp-content/uploads/2022/12/logo-dai-hoc-fpt.png",
   courses: dto.campus?.university?.courses?.map((c) => c.name) ?? [],
   rating: dto.rating ?? 0, // API chưa trả rating -> 0
   reviews: dto.reviewCount ?? 0,
@@ -127,9 +127,9 @@ function TeacherCard({
   };
 
   const handleReviewClick = () => {
-    navigate(`/add-review/${teacher.username}`, {
+    navigate(`/add-review/${teacher.id}`, {
       state: {
-        teacherId: teacher.username,
+        teacherId: teacher.id,
         teacherName: teacher.name,
         teacherCode: teacher.username,
       },
@@ -149,10 +149,10 @@ function TeacherCard({
             />
             {/* <div className="online-indicator"></div> */}
           </div>
-          <div className="teacher-rating-badge">
+          {/* <div className="teacher-rating-badge">
             <StarIcon filled={true} className="badge-star" />
             {teacher.rating.toFixed(1)}
-          </div>
+          </div> */}
         </div>
 
         <div className="teacher-info">
@@ -185,7 +185,7 @@ function TeacherCard({
             <p className="stat-label">Lượt Review</p>
           </div>
           <div className="stat">
-            <span className="stat-number">{teacher.subjects}</span>
+            <span className="stat-number">{teacher.courses.length}</span>
             <p className="stat-label">Môn học</p>
           </div>
         </div>

@@ -9,6 +9,7 @@ import TeachersPage from "./features/review/pages/TeachersPage";
 import LecturerDetail from "./features/review/pages/LeacturerDetail";
 import AddReviewPage from "./features/review/pages/AddReviewPage";
 import AddTeacherPage from "./features/review/pages/AddTeacherPage";
+import ReviewDetail from "./features/review/pages/ReviewDetail";
 
 import Authenticate from "./features/login/pages/Authenticated";
 import Login from "./features/login/pages/Login";
@@ -34,6 +35,7 @@ function App() {
         <Route path="/add-teacher" element={<AddTeacherPage />} />
         <Route path="/profile" element={<MyInfor />} />
         <Route path="/message/:studentId/:requestId" element={<Message />} />
+        <Route path="/review/:id" element={<ReviewDetail />} />
       </Routes>
     </Router>
   );

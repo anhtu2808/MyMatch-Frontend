@@ -1,7 +1,17 @@
 import React, { useState } from "react";
+import { useEffect } from "react";
 import TeacherSelector from "../TeacherSelector/TeacherSelector";
+import { useLocation, Location, useNavigate } from "react-router-dom";
 import "./ReviewSteps.css";
-import { getAllLecturerAPI } from "../../apis/TeacherPageApis";
+import {
+  getSemestersByUniversityAPI,
+  getCoursesAPI,
+  createReviewAPI,
+} from "../../apis/TeacherPageApis";
+import { Select, Input } from "antd";
+import ReviewForm from "../ReviewCreteria/ReviewCreteria";
+
+const { Option } = Select;
 
 // Check Icon
 const CheckIcon = () => (
@@ -34,6 +44,12 @@ interface ReviewStepsProps {
   onBackToTeachers?: () => void;
 }
 
+interface ReviewLocationState {
+  teacherId: number;
+  teacherName: string;
+  teacherCode: string;
+}
+
 const ReviewSteps: React.FC<ReviewStepsProps> = ({
   currentStep,
   selectedTeacher,
@@ -42,23 +58,21 @@ const ReviewSteps: React.FC<ReviewStepsProps> = ({
   onNextStep,
   onBackToTeachers,
 }) => {
-  // State for custom dropdowns
+  const location = useLocation() as Location & { state: ReviewLocationState };
   const [selectedSemester, setSelectedSemester] = useState("");
   const [selectedCourse, setSelectedCourse] = useState("");
-  const [isSemesterDropdownOpen, setIsSemesterDropdownOpen] = useState(false);
-  const [isCourseDropdownOpen, setIsCourseDropdownOpen] = useState(false);
+  const [semesterOptions, setSemesterOptions] = useState<
+    { value: string; label: string }[]
+  >([]);
+  const [courseOptions, setCourseOptions] = useState<
+    { value: string; label: string }[]
+  >([]);
+  const [classCode, setClassCode] = useState("");
+  const [reviewData, setReviewData] = useState<any>(null);
+  const isFormValid =
+    selectedSemester !== "" && selectedCourse !== "" && classCode.trim() !== "";
+  const navigate = useNavigate();
 
-  const semesterOptions = [
-    { value: "fall2024", label: "Fall 2024" },
-    { value: "spring2024", label: "Spring 2024" },
-    { value: "summer2024", label: "Summer 2024" },
-  ];
-
-  const courseOptions = [
-    { value: "SEC303", label: "SEC303 - Bảo mật ứng dụng web" },
-    { value: "PRN231", label: "PRN231 - Building Cross-Platform Apps" },
-    { value: "SWE201", label: "SWE201 - Introduction to Software Engineering" },
-  ];
   const steps = [
     {
       number: 1,
@@ -79,6 +93,53 @@ const ReviewSteps: React.FC<ReviewStepsProps> = ({
       completed: currentStep > 3,
     },
   ];
+
+  const isReviewValid = (reviewData: any) => {
+    if (!reviewData) return false;
+
+    if (!reviewData.answers || Object.keys(reviewData.answers).length === 0) {
+      return false;
+    }
+
+    for (const value of Object.values(reviewData.answers)) {
+      if (
+        value === null ||
+        value === undefined ||
+        (typeof value === "string" && value.trim() === "")
+      ) {
+        return false;
+      }
+    }
+    if (!reviewData.evidenceUrl || reviewData.evidenceUrl.trim() === "") {
+      return false;
+    }
+
+    return true;
+  };
+
+  useEffect(() => {
+    const universityId = 1;
+
+    // Load semesters
+    getSemestersByUniversityAPI(universityId).then((res) => {
+      const options = res.result.map((s: any) => ({
+        value: String(s.id),
+        label: s.name,
+      }));
+      setSemesterOptions(options);
+    });
+
+    // Load courses
+    getCoursesAPI({ universityId, page: 1, size: 50, sort: "code" }).then(
+      (res) => {
+        const options = res.result.data.map((c: any) => ({
+          value: String(c.id),
+          label: `${c.code} - ${c.name}`,
+        }));
+        setCourseOptions(options);
+      }
+    );
+  }, []);
 
   return (
     <div className="review-steps-container">
@@ -154,108 +215,42 @@ const ReviewSteps: React.FC<ReviewStepsProps> = ({
             <div className="course-form">
               <div className="form-group">
                 <label>Học kỳ</label>
-                <div className="custom-dropdown">
-                  <div
-                    className="dropdown-trigger"
-                    onClick={() =>
-                      setIsSemesterDropdownOpen(!isSemesterDropdownOpen)
-                    }
-                  >
-                    {selectedSemester
-                      ? semesterOptions.find(
-                          (opt) => opt.value === selectedSemester
-                        )?.label
-                      : "Chọn học kỳ"}
-                    <svg
-                      className={`dropdown-arrow ${
-                        isSemesterDropdownOpen ? "open" : ""
-                      }`}
-                      width="16"
-                      height="16"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                    >
-                      <polyline points="6,9 12,15 18,9"></polyline>
-                    </svg>
-                  </div>
-                  {isSemesterDropdownOpen && (
-                    <div className="dropdown-menu">
-                      {semesterOptions.map((option) => (
-                        <div
-                          key={option.value}
-                          className={`dropdown-option ${
-                            selectedSemester === option.value ? "selected" : ""
-                          }`}
-                          onClick={() => {
-                            setSelectedSemester(option.value);
-                            setIsSemesterDropdownOpen(false);
-                          }}
-                        >
-                          {option.label}
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
+                <Select
+                  showSearch
+                  placeholder="Chọn học kỳ..."
+                  value={selectedSemester || undefined}
+                  onChange={(value) => setSelectedSemester(value)}
+                  filterOption={(input, option) =>
+                    (option?.label as string)
+                      .toLowerCase()
+                      .includes(input.toLowerCase())
+                  }
+                  options={semesterOptions}
+                />
               </div>
 
               <div className="form-group">
                 <label>Môn học</label>
-                <div className="custom-dropdown">
-                  <div
-                    className="dropdown-trigger"
-                    onClick={() =>
-                      setIsCourseDropdownOpen(!isCourseDropdownOpen)
-                    }
-                  >
-                    {selectedCourse
-                      ? courseOptions.find(
-                          (opt) => opt.value === selectedCourse
-                        )?.label
-                      : "Chọn môn học"}
-                    <svg
-                      className={`dropdown-arrow ${
-                        isCourseDropdownOpen ? "open" : ""
-                      }`}
-                      width="16"
-                      height="16"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                    >
-                      <polyline points="6,9 12,15 18,9"></polyline>
-                    </svg>
-                  </div>
-                  {isCourseDropdownOpen && (
-                    <div className="dropdown-menu">
-                      {courseOptions.map((option) => (
-                        <div
-                          key={option.value}
-                          className={`dropdown-option ${
-                            selectedCourse === option.value ? "selected" : ""
-                          }`}
-                          onClick={() => {
-                            setSelectedCourse(option.value);
-                            setIsCourseDropdownOpen(false);
-                          }}
-                        >
-                          {option.label}
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
+                <Select
+                  showSearch
+                  placeholder="Mã hoặc tên môn học..."
+                  value={selectedCourse || undefined}
+                  onChange={(value) => setSelectedCourse(value)}
+                  filterOption={(input, option) =>
+                    (option?.label as string)
+                      .toLowerCase()
+                      .includes(input.toLowerCase())
+                  }
+                  options={courseOptions}
+                />
               </div>
 
               <div className="form-group">
                 <label>Mã lớp</label>
-                <input
-                  type="text"
+                <Input
                   placeholder="Ví dụ: SE1801"
-                  className="form-input"
+                  value={classCode}
+                  onChange={(e) => setClassCode(e.target.value)}
                 />
               </div>
             </div>
@@ -264,7 +259,11 @@ const ReviewSteps: React.FC<ReviewStepsProps> = ({
               <button className="btn-back" onClick={() => onStepChange(1)}>
                 Quay lại
               </button>
-              <button className="btn-next" onClick={() => onStepChange(3)}>
+              <button
+                className="btn-next"
+                onClick={() => onStepChange(3)}
+                disabled={!isFormValid}
+              >
                 Tiếp theo
               </button>
             </div>
@@ -275,18 +274,84 @@ const ReviewSteps: React.FC<ReviewStepsProps> = ({
           <div className="step-3-content">
             <h2>Review chi tiết</h2>
             <p>Chia sẻ trải nghiệm của bạn về giảng viên này</p>
+            <div className="review-form">
+              <ReviewForm onChange={setReviewData} />
+            </div>
 
-            <div className="review-form"></div>
-
+            {/* Step actions */}
             <div className="step-actions">
               <button className="btn-back" onClick={() => onStepChange(2)}>
                 Quay lại
               </button>
               <button
                 className="btn-submit"
-                onClick={() => {
-                  // Handle review submission
-                  alert("Review đã được gửi thành công!");
+                disabled={!isReviewValid(reviewData)} // ✅ dùng hàm validate
+                onClick={async () => {
+                  if (!selectedTeacher) {
+                    alert("Bạn chưa chọn giảng viên");
+                    return;
+                  }
+
+                  try {
+                    const payload = {
+                      lecturerId: Number(selectedTeacher?.id) || 0,
+                      courseId: Number(selectedCourse) || 0,
+                      semesterId: Number(selectedSemester) || 0,
+                      isAnonymous: reviewData?.isAnonymous ?? false,
+                      evidenceUrl: reviewData?.evidenceUrl || "string",
+                      details: Object.entries(reviewData?.answers || {}).map(
+                        ([criteriaId, value]) => {
+                          const id = Number(criteriaId);
+
+                          if (typeof value === "number") {
+                            return {
+                              criteriaId: id,
+                              score: value,
+                              comment: "string",
+                              isYes: false,
+                            };
+                          }
+
+                          if (value === "yes" || value === "no") {
+                            return {
+                              criteriaId: id,
+                              score: 0,
+                              comment: "string",
+                              isYes: value === "yes",
+                            };
+                          }
+
+                          if (typeof value === "string") {
+                            return {
+                              criteriaId: id,
+                              score: 0,
+                              comment: value || "string",
+                              isYes: false,
+                            };
+                          }
+
+                          return {
+                            criteriaId: id,
+                            score: 0,
+                            comment: "string",
+                            isYes: false,
+                          };
+                        }
+                      ),
+                    };
+
+                    console.log(
+                      "Payload gửi API:",
+                      JSON.stringify(payload, null, 2)
+                    );
+                    await createReviewAPI(payload);
+
+                    alert("Review đã được gửi thành công!");
+                    navigate(`/lecturer-detail/${selectedTeacher.id}`);
+                  } catch (err) {
+                    console.error("Error creating review:", err);
+                    alert("Có lỗi khi gửi review, vui lòng thử lại!");
+                  }
                 }}
               >
                 Gửi review

@@ -95,7 +95,9 @@ interface LecturerInformationProps {
   lecturerId: number;
 }
 
-const LecturerInformation: React.FC<LecturerInformationProps> = ({ lecturerId }) => {
+const LecturerInformation: React.FC<LecturerInformationProps> = ({
+  lecturerId,
+}) => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [lecturer, setLecturer] = useState<Lecturer | null>(null);
@@ -142,7 +144,7 @@ const LecturerInformation: React.FC<LecturerInformationProps> = ({ lecturerId })
   };
 
   const handleReviewClick = () => {
-    navigate(`/add-review/${lecturer.code}`, {
+    navigate(`/add-review/${lecturer.id}`, {
       state: {
         teacherId: lecturer.id,
         teacherName: lecturer.name,
@@ -163,7 +165,13 @@ const LecturerInformation: React.FC<LecturerInformationProps> = ({ lecturerId })
 
         <div className="lecturer-main-info">
           <div className="lecturer-avatar-section">
-            <div className="teacher-avatar-container"> <img src="https://ptehelper.com.au/wp-content/uploads/2022/12/logo-dai-hoc-fpt.png" alt={lecturer.name} className="lecturer-avatar" />
+            <div className="teacher-avatar-container">
+              {" "}
+              <img
+                src="https://ptehelper.com.au/wp-content/uploads/2022/12/logo-dai-hoc-fpt.png"
+                alt={lecturer.name}
+                className="lecturer-avatar"
+              />
               {/* <div className="online-indicator"></div> */}
             </div>
 
@@ -173,9 +181,7 @@ const LecturerInformation: React.FC<LecturerInformationProps> = ({ lecturerId })
               <p className="lecturer-info">
                 {lecturer.campus?.university?.name} • {lecturer.campus?.name}
               </p>
-              <p className="lecturer-info">
-                {lecturer.bio || "Chưa có mô tả"} 
-              </p>
+              <p className="lecturer-info">{lecturer.bio || "Chưa có mô tả"}</p>
               <p className="lecturer-info">
                 {lecturer.campus?.university?.courses?.length
                   ? lecturer.campus.university.courses
@@ -197,7 +203,7 @@ const LecturerInformation: React.FC<LecturerInformationProps> = ({ lecturerId })
                     {averageScore.toFixed(1)}/5.0{" "}
                   </span>
                   <span className="review-count">
-                    ({reviews.length} lượt review)
+                    ({lecturer.reviewCount} lượt review)
                   </span>
                 </div>
               </div>
@@ -205,10 +211,10 @@ const LecturerInformation: React.FC<LecturerInformationProps> = ({ lecturerId })
           </div>
 
           <div className="action-buttons">
-            <button className="save-button">
+            {/* <button className="save-button">
               <HeartIcon />
               Lưu lại
-            </button>
+            </button> */}
             <button className="rate-button" onClick={handleReviewClick}>
               Review
             </button>

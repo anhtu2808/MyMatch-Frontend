@@ -1,5 +1,5 @@
 .review-steps-container {
-  width: 100%;          /* full luôn */
+  width: 100%; /* full luôn */
   max-width: 1200px;
   margin: 0 auto;
   padding: 40px 20px;
@@ -61,7 +61,7 @@
 }
 
 .step-item.active .step-circle {
-  background: #0C326F;
+  background: #0c326f;
   color: white;
   box-shadow: 0 4px 15px rgba(12, 50, 111, 0.3);
 }
@@ -92,7 +92,7 @@
 }
 
 .step-item.active .step-title {
-  color: #0C326F;
+  color: #0c326f;
 }
 
 .step-item.pending .step-title {
@@ -138,6 +138,14 @@
   line-height: 1.6;
 }
 
+.step-content .note-text {
+  color: #0ea5e9;
+}
+
+.step-content .envidence {
+  margin: 0;
+}
+
 /* Teacher Selection */
 .teacher-search {
   margin-top: 24px;
@@ -145,19 +153,19 @@
 }
 
 .search-input {
-  width: 100%;    
-  max-width: 100%;     
+  width: 100%;
+  max-width: 100%;
   padding: 16px 20px;
   border: 2px solid #e5e7eb;
   border-radius: 12px;
   font-size: 16px;
   transition: border-color 0.3s ease;
-  box-sizing: border-box; 
+  box-sizing: border-box;
 }
 
 .search-input:focus {
   outline: none;
-  border-color: #0C326F;
+  border-color: #0c326f;
 }
 
 /* Selected Teacher Info */
@@ -195,6 +203,11 @@
   color: #374151;
 }
 
+.form-group .ant-select-selector {
+  color: #666;
+  height: 48px !important;
+}
+
 /* Custom Dropdown - Match TeachersPage style */
 .custom-dropdown {
   position: relative;
@@ -206,7 +219,7 @@
   border: 1px solid #ddd;
   border-radius: 8px;
   font-size: 14px;
-  color: #2B3F60;
+  color: #2b3f60;
   background: white;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -266,13 +279,13 @@
 }
 
 .dropdown-option.selected {
-  background: #0C326F;
+  background: #0c326f;
   color: white;
   font-weight: 500;
 }
 
 .dropdown-option.selected:hover {
-  background: #2B3F60;
+  background: #2b3f60;
 }
 
 .form-input {
@@ -286,7 +299,7 @@
 
 .form-input:focus {
   outline: none;
-  border-color: #0C326F;
+  border-color: #0c326f;
 }
 
 .form-textarea {
@@ -302,7 +315,7 @@
 
 .form-textarea:focus {
   outline: none;
-  border-color: #0C326F;
+  border-color: #0c326f;
 }
 
 /* Review Form */
@@ -360,7 +373,7 @@
 
 .btn-next,
 .btn-submit {
-  background: linear-gradient(135deg, #0C326F 0%, #1853AA 100%);
+  background: linear-gradient(135deg, #0c326f 0%, #1853aa 100%);
   color: white;
   box-shadow: 0 4px 15px rgba(12, 50, 111, 0.3);
 }
