@@ -2,8 +2,8 @@ import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { setToken } from "../services/localStorageService";
 import { Box, CircularProgress, Typography } from "@mui/material";
-import { getProfileAPI } from "../../profile/api.ts";
-import { useAppDispatch } from "../../../store/hooks";
+import { getProfileAPI } from "../../profile/apis";
+import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { setUser } from "../../../store/Slice";
 
 

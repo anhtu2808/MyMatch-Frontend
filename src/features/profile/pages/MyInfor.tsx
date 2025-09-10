@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react'
 import "./MyInfor.css"
 import Header from '../../../components/header/Header'
 import Sidebar from '../../../components/sidebar/Sidebar'
-import { getProfileAPI } from '../api.ts'
+import { getProfileAPI } from '../apis'
 import AddInformationModal from '../../add-personal-information/components/AddInformationModal'
 import { getToken } from '../../login/services/localStorageService'
 import { useAppSelector } from '../../../store/hooks'

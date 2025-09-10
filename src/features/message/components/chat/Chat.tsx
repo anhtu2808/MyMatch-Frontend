@@ -7,7 +7,7 @@ import {
   createMessageAPI,
   getConversationAPI,
   getMessageAPI,
-} from "../../api.ts"
+} from "../../apis"
 import { getToken } from "../../../login/services/localStorageService"
 import { io } from "socket.io-client"
 

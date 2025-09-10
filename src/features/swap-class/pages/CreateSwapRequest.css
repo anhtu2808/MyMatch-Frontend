@@ -7,6 +7,7 @@
 .create-swap-main-content {
   margin: 0 50px 0 130px;
   padding: 20px;
+
 }
 
 /* Form Styles */
@@ -15,6 +16,7 @@
   border-radius: 12px;
   padding: 32px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  margin-top: 100px;
 }
 
 /* Subject Section - Full Width */
@@ -263,7 +265,7 @@
 }
 
 .cancel-btn {
-  background: #f3f4f6;
+  background: #f6f4f3;
   color: #6b7280;
   border: 2px solid #d1d5db;
 }

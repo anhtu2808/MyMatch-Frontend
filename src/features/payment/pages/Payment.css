@@ -1,4 +1,4 @@
-.message-container {
+.payment-container {
     width: 100vw;
     height: 100vh;
     background-color: #FBFAF9; 
@@ -11,14 +11,13 @@
     flex-direction: column;
 }
 
-.main-content-message {
+.main-content-payment {
     flex: 1;
-    margin-left:150px; 
-    padding: 0; 
     overflow-y: auto;
     display: flex;
     flex-direction: column;
     align-items: flex-start; 
-    width: calc(100vw - 150px);
     box-sizing: border-box;
+    margin-top: 90px;
+    padding: 30px;
 }

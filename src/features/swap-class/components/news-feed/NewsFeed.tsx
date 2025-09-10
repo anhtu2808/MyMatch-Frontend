@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import './NewsFeed.css'
-import { getSwapRequestAPI } from '../../api.ts'
+import { getSwapRequestAPI } from '../../apis'
 import Filter from '../filter/Filter'
 import { useNavigate } from 'react-router-dom'
 
@@ -204,7 +204,7 @@ function NewsFeed() {
               </div>
             </div>
           </div>
-          <div className='action-buttons'>
+          <div className='action-buttons-request'>
             <button
               className="btn-message"
               onClick={() => navigate(`/message/${request.student.id}/${request.id}`)}

@@ -37,7 +37,7 @@ const Filter: React.FC<FilterProps> = ({ onFilter, onReset }) => {
         <span className='reset-filter' onClick={onReset}>Đặt lại bộ lọc</span>
       </div>
       <div className='filter-form'>
-        <div className='form-row'>
+        <div className='filter-form-row'>
           <div className='form-group'>
             <label>Mã môn học</label>
             <input
@@ -92,10 +92,10 @@ const Filter: React.FC<FilterProps> = ({ onFilter, onReset }) => {
           </div>
         </div>
         <div className='form-actions'>
-          <span>Sắp xếp theo:</span>
+          {/* <span>Sắp xếp theo:</span>
           <select>
             <option>Mới nhất</option>
-          </select>
+          </select> */}
           <button className='search-btn' onClick={handleSubmit}>🔍 Tìm kiếm</button>
         </div>
       </div>

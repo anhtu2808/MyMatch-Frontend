@@ -28,7 +28,7 @@ export default function Login() {
     const accessToken = getToken();
 
     if (accessToken) {
-      navigate("/", { replace: true });
+      navigate("/profile", { replace: true });
     } 
     setCheckingToken(false);
   }, [navigate]);

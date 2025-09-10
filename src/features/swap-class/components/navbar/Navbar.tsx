@@ -18,7 +18,7 @@ const Navbar = ({ activeTab, setActiveTab }: NavbarProps) => {
           className={`nav-btn ${activeTab === 0 ? 'active' : ''}`}
           onClick={() => handleTabClick(0)}
         >
-          📋 Yêu Cầu Chuyển Của tôi
+          📋 Yêu cầu chuyển của tôi
         </button>
         <button
           className={`nav-btn ${activeTab === 1 ? 'active' : ''}`}

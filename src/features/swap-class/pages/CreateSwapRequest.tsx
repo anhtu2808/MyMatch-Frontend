@@ -4,7 +4,7 @@ import Sidebar from '../../../components/sidebar/Sidebar'
 import Header from '../../../components/header/Header'
 import './CreateSwapRequest.css'
 import Select from "react-select";
-import { createSwapRequestAPI, getSwapRequestAPI, getSwapRequestByIdAPI, updateSwapRequestAPI } from '../api.ts'
+import { createSwapRequestAPI, getSwapRequestAPI, getSwapRequestByIdAPI, updateSwapRequestAPI } from '../apis'
 import { useAppSelector } from '../../../store/hooks'
 import { useLocation } from 'react-router-dom';
 

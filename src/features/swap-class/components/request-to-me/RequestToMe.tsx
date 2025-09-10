@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import './RequestToMe.css'
-import { getSwapMatchingAPI } from '../../api.ts'
+import { getSwapMatchingAPI } from '../../apis'
 import Filter from '../filter/Filter'
 
 interface User {
