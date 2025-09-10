@@ -1,10 +1,17 @@
-
 import { useNavigate } from "react-router-dom";
 import EmptyState from "../EmptyState/EmptyState";
 import "./TeacherPageComponents.css";
+import React, { useState } from "react";
+import TeacherFilter from "../TeacherFilter/filter";
 
 // Star Icon Component
-const StarIcon = ({ filled = false, className = "" }: { filled?: boolean; className?: string }) => (
+const StarIcon = ({
+  filled = false,
+  className = "",
+}: {
+  filled?: boolean;
+  className?: string;
+}) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="16"
@@ -17,7 +24,7 @@ const StarIcon = ({ filled = false, className = "" }: { filled?: boolean; classN
     strokeLinejoin="round"
     className={`star-icon ${className}`}
   >
-    <path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"/>
+    <path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z" />
   </svg>
 );
 
@@ -35,8 +42,8 @@ const EyeIcon = ({ className = "" }: { className?: string }) => (
     strokeLinejoin="round"
     className={`eye-icon ${className}`}
   >
-    <path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"/>
-    <circle cx="12" cy="12" r="3"/>
+    <path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0" />
+    <circle cx="12" cy="12" r="3" />
   </svg>
 );
 
@@ -54,11 +61,34 @@ const BookmarkIcon = ({ className = "" }: { className?: string }) => (
     strokeLinejoin="round"
     className={`bookmark-icon ${className}`}
   >
-    <path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/>
+    <path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z" />
   </svg>
 );
 
-interface Teacher {
+type LecturerDTO = {
+  id: number;
+  name: string;
+  code: string;
+  bio?: string;
+  campus?: {
+    id: number;
+    name: string;
+    university?: {
+      id: number;
+      name: string;
+      imgUrl?: string;
+      courses?: { id: number; code: string; name: string }[];
+    };
+  };
+  tags?: { id: number; name: string }[];
+  reviewCount?: number;
+  avatarUrl?: string;
+  rating?: number;
+  subjectCount?: number;
+};
+
+export interface TeacherCardData {
+  id: number;
   name: string;
   username: string;
   avatar: string;
@@ -68,41 +98,41 @@ interface Teacher {
   subjects: number;
 }
 
-const teachers: Teacher[] = [
-  {
-    name: "Lê Văn Cường",
-    username: "CuongLV22",
-    avatar: "https://i.pravatar.cc/150?img=1",
-    courses: ["SEC302", "SEC303", "SEC304"],
-    rating: 4.9,
-    reviews: 89,
-    subjects: 3,
-  },
-  {
-    name: "Nguyễn Văn An",
-    username: "AnNV23",
-    avatar: "https://i.pravatar.cc/150?img=2",
-    courses: ["SWE201", "PRN201", "PRU321"],
-    rating: 4.7,
-    reviews: 3,
-    subjects: 3,
-  },
-];
+export const mapLecturerToCard = (dto: LecturerDTO): TeacherCardData => ({
+  id: dto.id,
+  name: dto.name,
+  username: dto.code, // API không có username -> dùng code
+  avatar:
+    dto.avatarUrl ??
+    "https://ptehelper.com.au/wp-content/uploads/2022/12/logo-dai-hoc-fpt.png",
+  courses: dto.campus?.university?.courses?.map((c) => c.name) ?? [],
+  rating: dto.rating ?? 0, // API chưa trả rating -> 0
+  reviews: dto.reviewCount ?? 0,
+  subjects: dto.subjectCount ?? dto.campus?.university?.courses?.length ?? 0,
+});
 
-function TeacherCard({ teacher }: { teacher: Teacher }) {
+function TeacherCard({
+  teacher,
+  isBookmarked,
+  onToggleBookmark,
+}: {
+  teacher: TeacherCardData;
+  isBookmarked: boolean;
+  onToggleBookmark: (id: number) => void;
+}) {
   const navigate = useNavigate();
 
   const handleViewClick = () => {
-    navigate('/lecturer-detail');
+    navigate(`/lecturer-detail/${teacher.id}`);
   };
 
   const handleReviewClick = () => {
-    navigate(`/add-review/${teacher.username}`, {
+    navigate(`/add-review/${teacher.id}`, {
       state: {
-        teacherId: teacher.username,
+        teacherId: teacher.id,
         teacherName: teacher.name,
-        teacherCode: teacher.username
-      }
+        teacherCode: teacher.username,
+      },
     });
   };
 
@@ -110,19 +140,21 @@ function TeacherCard({ teacher }: { teacher: Teacher }) {
     <div className="teacher-card">
       {/* Top section with gray background */}
       <div className="teacher-card-top">
-        {/* Header with avatar and rating badge */}
         <div className="teacher-card-header">
           <div className="teacher-avatar-container">
-            <img src={teacher.avatar} alt={teacher.name} className="teacher-avatar" />
-            <div className="online-indicator"></div>
+            <img
+              src="https://ptehelper.com.au/wp-content/uploads/2022/12/logo-dai-hoc-fpt.png"
+              alt={teacher.name}
+              className="teacher-avatar"
+            />
+            {/* <div className="online-indicator"></div> */}
           </div>
-          <div className="teacher-rating-badge">
+          {/* <div className="teacher-rating-badge">
             <StarIcon filled={true} className="badge-star" />
             {teacher.rating.toFixed(1)}
-          </div>
+          </div> */}
         </div>
 
-        {/* Teacher info */}
         <div className="teacher-info">
           <h3 className="teacher-name">{teacher.name}</h3>
           <p className="teacher-username">{teacher.username}</p>
@@ -130,10 +162,8 @@ function TeacherCard({ teacher }: { teacher: Teacher }) {
         </div>
       </div>
 
-      {/* Bottom section with white background */}
       <div className="teacher-card-bottom">
-        {/* Rating section */}
-        <div className="teacher-rating-section">
+        {/* <div className="teacher-rating-section">
           <div className="rating-stars">
             <div className="stars-container">
               {[1, 2, 3, 4, 5].map((star) => (
@@ -147,40 +177,19 @@ function TeacherCard({ teacher }: { teacher: Teacher }) {
             <span className="rating-text">{teacher.rating.toFixed(1)}/5.0</span>
             <span className="review-count">{teacher.reviews} review</span>
           </div>
-        </div>
+        </div> */}
 
-        {/* Progress bars */}
-        <div className="progress-section">
-          <div className="progress-row">
-            <span className="progress-label">Chất lượng</span>
-            <div className="progress-bar-container">
-              <div className="progress-bar green" style={{ width: `${(teacher.rating / 5) * 100}%` }}></div>
-            </div>
-            <span className="progress-value">{teacher.rating.toFixed(1)}</span>
-          </div>
-
-          <div className="progress-row">
-            <span className="progress-label">Phổ biến</span>
-            <div className="progress-bar-container">
-              <div className="progress-bar gray" style={{ width: `${Math.min((teacher.reviews / 100) * 100, 100)}%` }}></div>
-            </div>
-            <span className="progress-value">{teacher.reviews}</span>
-          </div>
-        </div>
-
-        {/* Stats */}
         <div className="teacher-stats">
           <div className="stat">
             <span className="stat-number">{teacher.reviews}</span>
             <p className="stat-label">Lượt Review</p>
           </div>
           <div className="stat">
-            <span className="stat-number">{teacher.subjects}</span>
+            <span className="stat-number">{teacher.courses.length}</span>
             <p className="stat-label">Môn học</p>
           </div>
         </div>
 
-        {/* Footer buttons */}
         <div className="teacher-card-footer">
           <button className="btn-rate" onClick={handleReviewClick}>
             <StarIcon filled={false} className="btn-star" />
@@ -189,7 +198,10 @@ function TeacherCard({ teacher }: { teacher: Teacher }) {
           <button className="btn-view" onClick={handleViewClick}>
             <EyeIcon className="btn-eye" />
           </button>
-          <button className="btn-bookmark">
+          <button
+            className={`btn-bookmark ${isBookmarked ? "active" : ""}`}
+            onClick={() => onToggleBookmark(teacher.id)}
+          >
             <BookmarkIcon className="btn-bookmark-icon" />
           </button>
         </div>
@@ -199,48 +211,73 @@ function TeacherCard({ teacher }: { teacher: Teacher }) {
 }
 
 interface TeacherPageComponentsProps {
+  teachers: TeacherCardData[];
   searchQuery?: string;
   filters?: any;
   showEmptyState?: boolean;
+  activeTab: string;
+  bookmarkedTeachers: number[];
+  onToggleBookmark: (id: number) => void;
 }
 
 export default function TeacherPageComponents({
+  teachers,
   searchQuery = "",
   filters = {},
-  showEmptyState = false
-}: TeacherPageComponentsProps = {}) {
-  // Filter teachers based on search query and filters
-  const filteredTeachers = teachers.filter(teacher => {
+  showEmptyState = false,
+  activeTab,
+  bookmarkedTeachers,
+  onToggleBookmark,
+}: TeacherPageComponentsProps) {
+  // lọc theo searchQuery + filters
+  const navigate = useNavigate();
+  let filteredTeachers = teachers.filter((teacher) => {
     if (searchQuery) {
-      return teacher.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-             teacher.username.toLowerCase().includes(searchQuery.toLowerCase()) ||
-             teacher.courses.some(course => course.toLowerCase().includes(searchQuery.toLowerCase()));
+      return (
+        teacher.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        teacher.username.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        teacher.courses.some((course) =>
+          course.toLowerCase().includes(searchQuery.toLowerCase())
+        )
+      );
     }
     return true;
   });
 
-  // Show empty state if no teachers found or explicitly requested
-  if (showEmptyState || (searchQuery && filteredTeachers.length === 0)) {
+  if (activeTab === "marked") {
+    filteredTeachers = filteredTeachers.filter((t) =>
+      bookmarkedTeachers.includes(t.id)
+    );
+  }
+
+  if (showEmptyState) {
     return (
       <EmptyState
         title="Không tìm thấy giảng viên"
-        subtitle="Thử điều chỉnh bộ lọc tìm kiếm."
-        description="Không tìm thấy review về giảng viên bạn muốn?"
+        subtitle="Thử điều chỉnh bộ lọc tìm kiếm hoặc thêm giảng viên."
+        description="Không tìm thấy giảng viên bạn muốn?"
         showAddButton={true}
         addButtonText="Thêm giảng viên tại đây"
         onAddClick={() => {
-          // Handle add teacher action
           console.log("Navigate to add teacher page");
+          navigate("/add-teacher");
         }}
       />
     );
   }
 
   return (
-    <div style={{ display: "flex", flexWrap: "wrap", gap: "20px" }}>
-      {filteredTeachers.map((teacher, index) => (
-        <TeacherCard key={index} teacher={teacher} />
-      ))}
+    <div>
+      <div style={{ display: "flex", flexWrap: "wrap", gap: "20px" }}>
+        {filteredTeachers.map((teacher) => (
+          <TeacherCard
+            key={teacher.id}
+            teacher={teacher}
+            isBookmarked={bookmarkedTeachers.includes(teacher.id)}
+            onToggleBookmark={onToggleBookmark}
+          />
+        ))}
+      </div>
     </div>
   );
 }

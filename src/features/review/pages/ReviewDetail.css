@@ -1,0 +1,85 @@
+.review-detail-page {
+  margin-left: 150px;
+  margin-top: 97px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  padding: 0;
+  padding-top: 40px;
+}
+.teachers-page-container {
+  width: 100vw;
+  height: 100vh;
+  background-color: #fbfaf9;
+  margin: 0;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+.criteria-item {
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 24px;
+  background: white;
+  margin-bottom: 24px;
+  transition: all 0.2s ease;
+  max-width: 100%;
+}
+
+.criteria-item-box {
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 24px;
+  background: white;
+  margin-bottom: 24px;
+  transition: all 0.2s ease;
+  width: 90%;
+}
+
+.evidence-img {
+  max-width: 100%;
+  max-height: 400px;
+  border-radius: 12px;
+  margin-top: 12px;
+  object-fit: contain;
+}
+
+.back-btn {
+  padding: 16px 32px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  width: 150px;
+  margin-bottom: 40px;
+}
+
+.back-btn {
+  background: linear-gradient(135deg, #0c326f 0%, #1853aa 100%);
+  color: white;
+}
+
+.back-btn:hover {
+  transform: translateY(-2px);
+}
+
+.verified-status,
+.not-verified-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+  font-size: 15px;
+}
+
+.verified-status svg {
+  color: green;
+}
+
+.not-verified-status svg {
+  color: red;
+}

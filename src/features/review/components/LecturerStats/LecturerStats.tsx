@@ -56,6 +56,10 @@ interface StatCardProps {
   progressValue?: number;
 }
 
+interface LecturerStatsProps {
+  lecturerId: number;
+}
+
 const StatCard: React.FC<StatCardProps> = ({ 
   icon, 
   value, 
@@ -86,7 +90,7 @@ const StatCard: React.FC<StatCardProps> = ({
   );
 };
 
-const LecturerStats: React.FC = () => {
+const LecturerStats: React.FC<LecturerStatsProps> = ({ lecturerId }) => {
   const statsData = [
     {
       icon: <StarIcon />,
