@@ -28,8 +28,7 @@ const api: AxiosInstance = axios.create({
 // Request interceptor: tự động attach accessToken
 api.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
-    const accessToken =
-      "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJteW1hdGNoIiwic2NvcGUiOiJST0xFX01BTkFHRVIgcmV2aWV3Y3JpdGVyaWE6ZGVsZXRlIHVuaXZlcnNpdHk6ZGVsZXRlIHN3YXByZXF1ZXN0OnJlYWQgY291cnNlOnVwZGF0ZSBzdHVkZW50OnJlYWQgY291cnNlOmNyZWF0ZSByZXZpZXc6Y3JlYXRlIGxlY3R1cmVyOnVwZGF0ZSB1bml2ZXJzaXR5OnVwZGF0ZSByb2xlOmRlbGV0ZSBjYW1wdXM6dXBkYXRlIGxlY3R1cmVyOmRlbGV0ZSBzdHVkZW50OmRlbGV0ZSByZXZpZXdjcml0ZXJpYTpjcmVhdGUgY2FtcHVzOmNyZWF0ZSByZXZpZXc6cmVhZCB1bml2ZXJzaXR5OmNyZWF0ZSBjb3Vyc2U6ZGVsZXRlIGxlY3R1cmVyOmNyZWF0ZSByZXZpZXdjcml0ZXJpYTp1cGRhdGUgY2FtcHVzOmRlbGV0ZSByb2xlOnJlYWQgc3dhcHJlcXVlc3Q6Y2FuY2VsIHJvbGU6dXBkYXRlIiwiaXNzIjoibXltYXRjaC5jb20iLCJleHAiOjE3NTc0MzM0MzgsImlhdCI6MTc1NzQyOTgzOCwidXNlcklkIjoxLCJqdGkiOiIxM2MwZmE1Yy05NzE0LTQ1NzYtYWIyZS04ZGQwN2MyN2ZkNzAifQ.gBE_hT8UIvwYvoKpe3LTUQY1h4tCY-E6MH48Yd-NB8c";
+    const accessToken = localStorage.getItem("accessToken");
     if (accessToken) {
       config.headers.set("Authorization", `Bearer ${accessToken}`);
     }
