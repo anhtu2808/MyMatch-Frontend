@@ -1,6 +1,6 @@
 /* Home Page Styles */
 .home-page {
-  background-color: #f8f9fa;
+  background-color: #FBFAF9;
   min-height: 100vh;
 }
 
@@ -41,12 +41,13 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  width: calc(100vw - 150px);
+  /* width: calc(100vw - 150px); */
 }
 
 .home-container {
+  margin-top: 120px;
   width: 100%;
-  max-width: 1200px;
+  max-width: 1240px;
 }
 
 /* Welcome Section */

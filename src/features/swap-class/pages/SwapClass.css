@@ -1,6 +1,6 @@
 .swap-class {
     width: 100vw;
-    height: 100vh;
+    height: 100%;
     background-color: #FBFAF9;
     top: 0;
     left: 0;
@@ -14,7 +14,7 @@
 
 .main-content-swap-class {
     flex: 1;
-    margin-left: 150px;
+    margin: 80px 0 0 150px;
     padding: 20px;
     display: flex;
     flex-direction: column;
@@ -25,20 +25,24 @@
 }
 
 .create-btn {
-    background-color: #1e3a8a;
+    background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
     color: white;
     border: none;
-    padding: 20px 24px;
-    border-radius: 6px;
+    padding: 16px 32px;
+    border-radius: 12px;
     cursor: pointer;
-    font-size: 14px;
+    font-size: 18px;
+    font-weight: 600;
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 8px;
-    font-weight: 500;
-    transition: background-color 0.2s;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+    width: 1240px;       /* bạn có thể để auto nếu muốn nút co theo text */
+    text-align: center;
 }
 
 .create-btn:hover {
-    background-color: #1e40af;
+    transform: translateY(-2px);
+    opacity: 0.9;
 }

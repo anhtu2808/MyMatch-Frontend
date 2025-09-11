@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import './MyRequest.css'
 import { useAppSelector } from '../../../../store/hooks'
-import { deleteSwapRequestAPI, getSwapRequestAPI } from '../../api.ts'
+import { deleteSwapRequestAPI, getSwapRequestAPI } from '../../apis'
 import Filter from '../filter/Filter'
 import { useNavigate } from 'react-router-dom'
 
@@ -226,7 +226,7 @@ function MyRequest() {
             </div>
           </div>
 
-          <div className='action-buttons'>
+          <div className='action-buttons-request'>
             <button className='btn-message' onClick={() => navigate(`/swap_class/edit/${request.id}`)}>✏️ Chỉnh sửa</button>
             <button className='delete-request' onClick={() => handleDeleteRequest(request.id)}>Xóa</button>
           </div>

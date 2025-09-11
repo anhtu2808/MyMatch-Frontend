@@ -1,6 +1,6 @@
 .my-request-container {
-    width: 1300px;
-    margin: 20px 20px 20px 0;
+    width: 1240px;
+    margin: 20px 50px 20px 0;
 }
 
 .section-header {
@@ -214,12 +214,12 @@
     font-weight: bold;
 }
 
-.action-buttons {
+.action-buttons-request {
     display: flex;
     gap: 12px;
 }
 
-.action-buttons button {
+.action-buttons-request button {
     flex: 1;
     padding: 12px 24px;
     border: none;
@@ -282,7 +282,7 @@
         transform: rotate(90deg);
     }
 
-    .action-buttons {
+    .action-buttons-request {
         flex-direction: column;
     }
 }

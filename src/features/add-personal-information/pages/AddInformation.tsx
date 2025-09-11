@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import './AddInformation.css'
-import { getCampusesAPI, updateStudentAPI } from '../api.ts'
+import { getCampusesAPI, updateStudentAPI } from '../apis'
 import { useAppSelector } from '../../../store/hooks'
 
 interface UserInformation {
