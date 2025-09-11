@@ -1,4 +1,9 @@
-import axios, { AxiosError, AxiosInstance, AxiosResponse, InternalAxiosRequestConfig } from "axios";
+import axios, {
+  AxiosError,
+  AxiosInstance,
+  AxiosResponse,
+  InternalAxiosRequestConfig,
+} from "axios";
 import { API_ROOT } from "./constants";
 
 let isRefreshing = false;
@@ -61,7 +66,9 @@ api.interceptors.response.use(
         }
 
         // Gọi API refresh token
-        const res = await axios.post(`${API_ROOT}/auth/refresh`, { refreshToken });
+        const res = await axios.post(`${API_ROOT}/auth/refresh`, {
+          refreshToken,
+        });
 
         const newAccessToken = res.data.accessToken;
 

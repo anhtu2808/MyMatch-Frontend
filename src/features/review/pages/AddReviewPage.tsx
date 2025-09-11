@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import { useParams, useLocation, useNavigate } from 'react-router-dom';
-import Sidebar from '../../../components/sidebar/Sidebar';
-import Header from '../../../components/header/Header';
-import ReviewSteps from '../components/ReviewSteps/ReviewSteps';
-import './AddReviewPage.css';
+import React, { useState } from "react";
+import { useParams, useLocation, useNavigate } from "react-router-dom";
+import Sidebar from "../../../components/sidebar/Sidebar";
+import Header from "../../../components/header/Header";
+import ReviewSteps from "../components/ReviewSteps/ReviewSteps";
+import "./AddReviewPage.css";
 
 interface Teacher {
   id: string;
@@ -34,9 +34,9 @@ function AddReviewPage() {
   const [selectedTeacher, setSelectedTeacher] = useState<Teacher | null>(() => {
     if (teacherId || state?.teacherId) {
       return {
-        id: teacherId || state?.teacherId || '',
-        name: state?.teacherName || 'Giảng viên được chọn',
-        code: state?.teacherCode || ''
+        id: teacherId || state?.teacherId || "",
+        name: state?.teacherName || "Giảng viên được chọn",
+        code: state?.teacherCode || "",
       };
     }
     return null;
@@ -59,16 +59,16 @@ function AddReviewPage() {
         state: {
           teacherId: selectedTeacher.id,
           teacherName: selectedTeacher.name,
-          teacherCode: selectedTeacher.code
+          teacherCode: selectedTeacher.code,
         },
-        replace: true
+        replace: true,
       });
     }
   };
 
   const handleBackToTeachers = () => {
     // Navigate back to teachers page
-    navigate('/teachers');
+    navigate("/teachers");
   };
 
   return (
