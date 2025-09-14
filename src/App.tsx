@@ -17,6 +17,7 @@ import MyInfor from "./features/profile/pages/MyInfor";
 import { getToken } from "./features/login/services/localStorageService";
 import PrivateRoute from "./PrivateRoute";
 import Payment from "./features/payment/pages/Payment";
+import Product from "./features/product/pages/Product";
 
 function App() {
   getToken()
@@ -39,6 +40,7 @@ function App() {
         <Route path="/message/:studentId" element={<PrivateRoute><Message /></PrivateRoute>} />
         <Route path="/payment" element={<PrivateRoute><Payment/></PrivateRoute>}/>
         <Route path="/review/:id" element={<PrivateRoute><ReviewDetail /></PrivateRoute>} />
+        <Route path="/product" element={<PrivateRoute><Product /></PrivateRoute>} />
       </Routes>
     </Router>
   );
