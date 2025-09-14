@@ -32,17 +32,21 @@ function TeachersPage() {
     name: lecturer.fullName || lecturer.name,
     username: lecturer.code || lecturer.username,
     avatar: lecturer.avatarUrl || "/default-avatar.png",
-    courses: lecturer.courses?.map((c: any) => c.name) || [],
+    courses:
+      lecturer.campus?.university?.courses?.map((c: any) => c.name) || [],
     rating: lecturer.rating || 0,
     reviews: lecturer.reviewCount || 0,
-    subjects: lecturer.subjectCount || 0,
+    subjects:
+      lecturer.subjectCount ||
+      lecturer.campus?.university?.courses?.length ||
+      0,
   });
 
   const fetchLecturers = async () => {
     try {
       const res = await getAllLecturerAPI({
         page,
-        size: 10,
+        size: 9,
         ...filters,
       });
       const mapped = res.result.data.map(mapLecturerToTeacher);
@@ -52,6 +56,17 @@ function TeachersPage() {
       console.error(error);
     }
   };
+
+  useEffect(() => {
+    if (activeTab === "rated") {
+      setFilters({ isReviewed: true });
+    } else if (activeTab === "marked") {
+      setFilters({ isMarked: true });
+    } else {
+      setFilters({});
+    }
+    setPage(1);
+  }, [activeTab]);
 
   useEffect(() => {
     fetchLecturers();
@@ -68,7 +83,18 @@ function TeachersPage() {
         <TeacherFilter
           activeTab={activeTab}
           setActiveTab={setActiveTab}
-          onSearch={(newFilters) => setFilters(newFilters)}
+          onSearch={(newFilters) => {
+            const filtersWithTab: any = { ...newFilters };
+
+            if (activeTab === "rated") {
+              filtersWithTab.isReviewed = true;
+            } else if (activeTab === "marked") {
+              filtersWithTab.isMarked = true;
+            }
+
+            setFilters(filtersWithTab);
+            setPage(1);
+          }}
         />
 
         <h1 className="h1">Danh sách giảng viên</h1>

@@ -83,11 +83,26 @@ const TeacherFilter: React.FC<TeacherFilterProps> = ({
   }, []);
 
   const handleSearch = () => {
-    onSearch({
+    const filters: {
+      name?: string;
+      code?: string;
+      campusId?: number;
+      sort?: string;
+      isReviewed?: boolean;
+      isMarked?: boolean;
+    } = {
       name,
       code,
       campusId: campusId === "" ? undefined : Number(campusId),
-    });
+    };
+
+    if (activeTab === "rated") {
+      filters.isReviewed = true;
+    } else if (activeTab === "marked") {
+      filters.isMarked = true;
+    }
+
+    onSearch(filters);
   };
 
   const handleClear = () => {
@@ -115,7 +130,7 @@ const TeacherFilter: React.FC<TeacherFilterProps> = ({
           className={`tab ${activeTab === "rated" ? "active" : ""}`}
           onClick={() => setActiveTab("rated")}
         >
-          Đã đánh giá
+          Đã review
         </div>
         <div
           className={`tab ${activeTab === "marked" ? "active" : ""}`}

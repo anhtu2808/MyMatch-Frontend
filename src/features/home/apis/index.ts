@@ -100,3 +100,41 @@ export const getLatestSwapActivityAPI =
       return null;
     }
   };
+interface LecturerActivity {
+  id: number;
+  name: string;
+  code: string;
+  avatarUrl: string;
+  rating: number;
+  reviewCount: number;
+}
+
+export const getLatestLecturerActivityAPI =
+  async (): Promise<LecturerActivity | null> => {
+    try {
+      const res = await api.get("/lecturers", {
+        params: {
+          isReviewed: true,
+          page: 1,
+          size: 1,
+          sort: "name",
+        },
+        headers: { Authorization: `Bearer ${getToken()}` },
+      });
+
+      const data = res.data?.result?.data?.[0];
+      if (!data) return null;
+
+      return {
+        id: data.id,
+        name: data.fullName || data.name,
+        code: data.code,
+        avatarUrl: data.avatarUrl || "/default-avatar.png",
+        rating: data.rating ?? 0,
+        reviewCount: data.reviewCount ?? 0,
+      };
+    } catch (err) {
+      console.error("Error fetching lecturer activity", err);
+      return null;
+    }
+  };

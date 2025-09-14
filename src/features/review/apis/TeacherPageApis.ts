@@ -1,28 +1,37 @@
 import api from "../../../utils";
 import axios from "axios";
 
-export const getAllLecturerAPI = async (params: {
-  page?: number;
-  size?: number;
-  sort?: string;
-  campusId?: number;
-  name?: string;
-  code?: string;
-} = {}) => {
+export const getAllLecturerAPI = async (
+  params: {
+    page?: number;
+    size?: number;
+    sort?: string;
+    campusId?: number;
+    name?: string;
+    code?: string;
+    isReviewed?: boolean;
+  } = {}
+) => {
   const queryParams = Object.fromEntries(
-    Object.entries(params).filter(([_, v]) => v !== undefined && v !== null && v !== "")
+    Object.entries(params).filter(
+      ([_, v]) => v !== undefined && v !== null && v !== ""
+    )
   );
   const response = await api.get(`/lecturers`, { params: queryParams });
   return response.data;
-}
+};
 
-export const getAllCampusesAPI = async (params: {
-  page?: number;
-  size?: number;
-  sort?: string;
-} = {}) => {
+export const getAllCampusesAPI = async (
+  params: {
+    page?: number;
+    size?: number;
+    sort?: string;
+  } = {}
+) => {
   const queryParams = Object.fromEntries(
-    Object.entries(params).filter(([_, v]) => v !== undefined && v !== null && v !== "")
+    Object.entries(params).filter(
+      ([_, v]) => v !== undefined && v !== null && v !== ""
+    )
   );
   const response = await api.get(`/campuses`, { params: queryParams });
   return response.data;
@@ -32,7 +41,6 @@ export const getLecturerByIdAPI = async (id: number) => {
   const response = await api.get(`/lecturers/${id}`);
   return response.data;
 };
-
 
 interface ReviewParams {
   lecturerId?: number;
@@ -48,14 +56,15 @@ interface ReviewParams {
 
 const cleanParams = (params: Record<string, any>) =>
   Object.fromEntries(
-    Object.entries(params).filter(([_, v]) => v !== undefined && v !== null && v !== "")
+    Object.entries(params).filter(
+      ([_, v]) => v !== undefined && v !== null && v !== ""
+    )
   );
 
 export const getReviewsAPI = async (params: ReviewParams = {}) => {
   const response = await api.get(`/reviews`, { params: cleanParams(params) });
   return response.data;
 };
-
 
 export const createLecturerAPI = async (data: {
   name: string;
@@ -66,7 +75,6 @@ export const createLecturerAPI = async (data: {
   const response = await api.post(`/lecturers`, data);
   return response.data;
 };
-
 
 export const getSemestersByUniversityAPI = async (universityId: number) => {
   const response = await api.get(`/universities/${universityId}/semesters`);
@@ -93,7 +101,7 @@ export const getCoursesAPI = async (params: GetCoursesParams = {}) => {
 };
 
 export const getReviewCriteriaAPI = async () => {
-  const response = await api.get('/review-criteria');
+  const response = await api.get("/review-criteria");
   return response.data;
 };
 
