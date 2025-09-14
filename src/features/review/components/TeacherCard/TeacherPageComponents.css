@@ -24,7 +24,7 @@
 
 /* Top Section with gray background */
 .teacher-card-top {
-  background: #f3f6fa;
+  background: linear-gradient(135deg, #544661 0%, #343d67 50%, #14346e 100%);
   padding: 28px 24px;
   flex: 1;
 }
@@ -91,16 +91,16 @@
   flex: 1.2;
 }
 
-.teacher-name {
+.teacher-namee {
   margin: 0 0 8px 0;
   font-size: 24px;
   font-weight: 700;
-  color: #333;
+  color: white;
 }
 
-.teacher-username {
+.teacher-usernamee {
   font-size: 15px;
-  color: #666;
+  color: white;
   margin: 0 0 12px 0;
 }
 

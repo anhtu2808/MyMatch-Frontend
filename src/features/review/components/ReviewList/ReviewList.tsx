@@ -559,7 +559,7 @@ const ReviewList: React.FC<{ lecturerId: number }> = ({ lecturerId }) => {
               ))}
             </div> */}
 
-            <div className="review-actions">
+            {/* <div className="review-actions">
               <button
                 className="action-btn like-btn"
                 onClick={() => handleLike(review.id)}
@@ -574,7 +574,7 @@ const ReviewList: React.FC<{ lecturerId: number }> = ({ lecturerId }) => {
                 <ThumbsDownIcon />
                 {review.dislikes}
               </button>
-            </div>
+            </div> */}
           </div>
         ))}
       </div>

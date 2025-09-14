@@ -1,0 +1,116 @@
+.home-recent-activity {
+  background: #fff;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  width: 100%;
+  margin: 0 auto;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.home-recent-activity-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.home-activity-item {
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.home-activity-item:last-child {
+  border-bottom: none;
+}
+
+.home-activity-icon {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: #4a90e2;
+}
+
+.home-activity-info {
+  flex: 1;
+  margin-left: 12px;
+  display: flex;
+  flex-direction: column;
+}
+
+.home-activity-title {
+  font-weight: 600;
+  font-size: 16px;
+  color: #111827;
+}
+
+.home-activity-time {
+  font-size: 12px;
+  color: #6b7280;
+  margin-top: 2px;
+}
+
+.home-activity-status {
+  margin-left: 12px;
+  display: flex;
+  align-items: center;
+}
+
+.status-link:hover {
+  text-decoration: underline;
+}
+
+.homestatus {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.homestatus.pending {
+  color: #a3ad00;
+}
+
+.homestatus.success {
+  color: #16a34a;
+}
+
+.homestatus.cancel {
+  color: #dc2626;
+}
+
+.home-activity-item .lucide-star-icon {
+  color: #facc15;
+}
+
+.home-activity-item .lucide-arrow-right-left-icon {
+  color: #6b7280;
+}
+
+.home-activity-item .lucide-download-cloud-icon {
+  color: #0ea5e9;
+}
+
+.home-activity-item.clickable {
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.home-activity-item.clickable:hover {
+  background: white;
+}
+
+.home-activity-status .stars {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.home-activity-status .stars .score {
+  font-size: 15px;
+  font-weight: 500;
+  color: #111827;
+  margin-left: 6px;
+}
