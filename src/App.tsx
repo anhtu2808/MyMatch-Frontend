@@ -36,7 +36,7 @@ function App() {
         <Route path="/add-review/:teacherId" element={<PrivateRoute><AddReviewPage /></PrivateRoute>} />
         <Route path="/add-teacher" element={<PrivateRoute><AddTeacherPage /></PrivateRoute>} />
         <Route path="/profile" element={<PrivateRoute><MyInfor /></PrivateRoute>} />
-        <Route path="/message/:studentId/:requestId" element={<PrivateRoute><Message /></PrivateRoute>} />
+        <Route path="/message/:studentId" element={<PrivateRoute><Message /></PrivateRoute>} />
         <Route path="/payment" element={<PrivateRoute><Payment/></PrivateRoute>}/>
         <Route path="/review/:id" element={<PrivateRoute><ReviewDetail /></PrivateRoute>} />
       </Routes>

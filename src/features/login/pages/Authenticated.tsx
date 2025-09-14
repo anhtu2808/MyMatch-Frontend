@@ -5,6 +5,8 @@ import { Box, CircularProgress, Typography } from "@mui/material";
 import { getProfileAPI } from "../../profile/apis";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { setUser } from "../../../store/Slice";
+import { LoginGoogleAPI } from "../apis";
+import { OAuthConfig } from "../configurations/configuration";
 
 
 export default function Authenticate() {
@@ -40,18 +42,10 @@ export default function Authenticate() {
     if (isMatch) {
       const authCode = isMatch[1];
 
-      fetch(
-        `https://mymatch.social/api/auth/outbound/authentication?code=${authCode}`,
-        {
-          method: "POST",
-        }
-      )
-        .then(async (response) => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        return response.json();
-  })
+       if (authCode) {
+        const redirectUri = OAuthConfig.redirectUri
+
+        LoginGoogleAPI(authCode, redirectUri)
           .then((data) => {
           console.log("Auth response:", data);
           if (data.result?.token) {
@@ -64,6 +58,8 @@ export default function Authenticate() {
             navigate("/login"); // fallback về login nếu không có token
           }
         })
+        .catch((err) => console.error("Auth failed:", err));
+      }
     }
   }, []);
 

@@ -8,7 +8,6 @@ function Home() {
     <div className="home-page">
       <Sidebar />
       <Header title="Bảng điều khiển" script="Quản lý hoạt động của bạn" />
-
       <div className="home-main-content">
         <div className="home-container">
           <div className="welcome-section">

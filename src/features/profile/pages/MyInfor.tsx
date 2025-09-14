@@ -85,6 +85,10 @@ const MyInfor: React.FC = () => {
     <div className="my-infor-page">
         <Header title='Thông tin cá nhân' script='Quản lý thông tin cá nhân của bạn' />
         <Sidebar />
+        {/* Nếu campus rỗng -> bắt nhập thông tin */}
+              {(!user?.campus || user?.campus === '') && (
+                <AddInformationModal forceOpen />
+              )}
         <div className='my-infor-content-wrapper'>
           <div className='my-infor-main-content'>
             <div className="my-infor-container">
@@ -92,12 +96,6 @@ const MyInfor: React.FC = () => {
                 <div className="header-background">
                   <div className="header-overlay"></div>
                 </div>
-
-                {/* Nếu campus rỗng -> bắt nhập thông tin */}
-              {(!user?.campus || user?.campus === '') && (
-                <AddInformationModal forceOpen />
-              )}
-
                 <div className="profile-content">
                   {/* Avatar Section */}
                   <div className="avatar-section">

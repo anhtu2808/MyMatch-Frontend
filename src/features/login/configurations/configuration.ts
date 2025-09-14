@@ -1,7 +1,8 @@
-export const OAuthConfig = {
-  clientId: "756118322889-cft6t3208mqqi8iv7e6hh23edps08042.apps.googleusercontent.com",
-  //redirectUri: "https://mymatch.social/authenticate",
-  redirectUri: "http://localhost:3000/authenticate",
-  authUri: "https://accounts.google.com/o/oauth2/auth",
-};
+import { AUTH_URI, CLIENT_ID, REDIRECT_URI } from "../../../utils/constants";
+
+  export const OAuthConfig = {
+    clientId: CLIENT_ID,
+    redirectUri: REDIRECT_URI,
+    authUri: AUTH_URI,
+  };
 

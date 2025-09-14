@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import './RequestToMe.css'
-import { getSwapMatchingAPI } from '../../apis'
+import { getSwapMatchingAPI, updateConfirmSwapRequestAPI } from '../../apis'
 import Filter from '../filter/Filter'
+import { useNavigate } from 'react-router-dom'
 
 interface User {
   id: number
@@ -70,6 +71,7 @@ export interface RequestToMe {
 function RequestToMe() {
   const [requests, setRequests] = useState<RequestToMe[]>([])
   const [filteredFeeds, setFilteredFeeds] = useState<RequestToMe[]>([])
+  const navigation = useNavigate()
   useEffect(() => {
     const fetchRequestsMatching = async () => {
       try {
@@ -146,6 +148,38 @@ function RequestToMe() {
 
   const handleReset = () => {
     setFilteredFeeds(requests)
+  }
+
+  const handleAcceptSwap = (id: number) => {
+    const data = {
+      decision: "ACCEPT",
+      reason: "accept"
+    }
+    try{
+      if(!id){
+        console.log("no id to confirm swap request");
+      }
+      updateConfirmSwapRequestAPI(data, id)
+    }
+    catch(err){
+      console.log(err);
+    }
+  }
+
+  const handleRejectSwap = (id: number) => {
+    const data = {
+      decision: "REJECT",
+      reason: "reject"
+    }
+    try{
+      if(!id){
+        console.log("no id to confirm swap request");
+      }
+      updateConfirmSwapRequestAPI(data, id)
+    }
+    catch(err){
+      console.log(err);
+    }
   }
 
 
@@ -225,8 +259,10 @@ function RequestToMe() {
             </div>
           </div>
           <div className='action-buttons'>
-            <button className='btn-message'>💬 Nhắn tin</button>
+            <button className='btn-message' onClick={() => navigation(`messages/${request.requestFrom?.student?.id}`)}>💬 Nhắn tin</button>
           </div>
+          <button onClick={() => handleAcceptSwap(request.id)}>Accept</button>
+          <button onClick={() => handleRejectSwap(request.id)}>Reject</button>
         </div>
       ))}
     </div>
