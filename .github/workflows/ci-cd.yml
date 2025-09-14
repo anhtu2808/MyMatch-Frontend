@@ -27,8 +27,12 @@ jobs:
     - name: Build React
       env:
         REACT_APP_API_URL: ${{ vars.MYMATCH_DOMAIN }}/api/
+        REACT_APP_REDIRECT_URI: ${{ vars.REACT_APP_REDIRECT_URI }}
+        REACT_APP_CLIENT_ID: ${{ secrets.REACT_APP_CLIENT_ID }}
+        REACT_APP_AUTH_URI: ${{ vars.REACT_APP_AUTH_URI }}
       run: |
         echo "Building with API Root: $REACT_APP_API_ROOT"
+        echo "Redirect URI: $REACT_APP_REDIRECT_URI"
         CI=false npm run build
 
     - name: Upload Build Artifact
