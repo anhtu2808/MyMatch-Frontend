@@ -149,13 +149,16 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ onChange }) => {
         <h4>Chính sách đánh giá</h4>
         <ul>
           <li>
-            Xếp hạng của bạn sẽ bị xoá nếu bạn sử dụng ngôn từ tục tĩu hoặc mang
+            Review của bạn sẽ bị xoá nếu bạn sử dụng ngôn từ tục tĩu hoặc mang
             tính xúc phạm, công kích cá nhân.
           </li>
           <li>
             Phản ánh đúng trải nghiệm thực tế của bạn trong quá trình học.
           </li>
-          <li>Đọc lại trước khi nhấn Submit.</li>
+          <li>
+            Review gửi đã gửi đi sẽ không thể chỉnh sửa, vui lòng đọc lại kĩ
+            trước khi nhấn Submit.
+          </li>
         </ul>
       </div>
 

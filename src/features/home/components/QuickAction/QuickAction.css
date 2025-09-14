@@ -1,0 +1,90 @@
+.quick-actions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+  padding: 24px;
+}
+
+.quick-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+  text-align: center;
+}
+
+.quick-card:hover {
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+  transform: translateY(-3px);
+}
+
+.quick-icon {
+  width: 48px;
+  height: 48px;
+  margin: 0 auto 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.quick-icon svg {
+  width: 32px;
+  height: 32px;
+}
+
+.quick-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #111827;
+  margin: 0 0 6px 0;
+}
+
+.quick-desc {
+  font-size: 13px;
+  color: #6b7280;
+  margin: 0;
+}
+
+/* màu cho icon */
+.icon.blue svg {
+  stroke: #ebd725;
+}
+
+.icon.green svg {
+  stroke: #16a34a;
+}
+
+.icon.purple svg {
+  stroke: #9333ea;
+}
+
+.icon.red svg {
+  stroke: #dc2626;
+}
+
+.icon.yellow svg {
+  stroke: #f59e0b;
+}
+
+.icon.indigo svg {
+  stroke: #4f46e5;
+}
+
+.icon.gray svg {
+  stroke: gray;
+}
+
+.icon.king svg {
+  stroke: goldenrod;
+}
+
+.quick-card.disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.quick-card.disabled .quick-icon {
+  filter: grayscale(100%);
+}
