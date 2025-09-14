@@ -207,7 +207,7 @@ function NewsFeed() {
           <div className='action-buttons-request'>
             <button
               className="btn-message"
-              onClick={() => navigate(`/message/${request.student.id}/${request.id}`)}
+              onClick={() => navigate(`/message/${request.student.id}`)}
             >
               💬 Nhắn tin
             </button>

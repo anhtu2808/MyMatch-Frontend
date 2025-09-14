@@ -26,7 +26,7 @@ export const getSwapMatchingAPI = async (params: {
   studentToId?: number;
   anyStudentId?: number;
   mode?: "MANUAL" | "AUTOMATION";
-  status?: "PENDING" | "APPROVED" | "REJECTED";
+  status?: "PENDING" | "APPROVE" | "REJECT";
 } = {}) => {
   // Lọc ra các param có giá trị (loại bỏ undefined, null, '')
   const queryParams = Object.fromEntries(
@@ -68,5 +68,10 @@ export const getLecturersAPI = async (id: number) => {
 
 export const getSwapRequestByIdAPI = async (id: number) => {
   const response = await api.get(`/swap-requests/${id}`);
+  return response.data
+}
+
+export const updateConfirmSwapRequestAPI = async (data: any, id: number) => {
+  const response = await api.patch(`/swaps/${id}/decision`, data);
   return response.data
 }
