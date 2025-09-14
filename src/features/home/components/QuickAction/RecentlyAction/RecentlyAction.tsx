@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import {
   getLatestReviewActivityAPI,
   getLatestSwapActivityAPI,
+  getLatestLecturerActivityAPI,
 } from "../../../apis";
 
 const StarIcon = ({ filled = true }: { filled?: boolean }) => (
@@ -40,21 +41,33 @@ interface ReviewActivity {
   overallScore: number;
 }
 
+interface LecturerActivity {
+  id: number;
+  name: string;
+  code: string;
+  avatarUrl: string;
+  rating: number;
+  reviewCount: number;
+}
+
 const RecentActivity: React.FC = () => {
   const navigate = useNavigate();
   const [review, setReview] = useState<ReviewActivity | null>(null);
   const [loading, setLoading] = useState(true);
   const [swap, setSwap] = useState<SwapActivity | null>(null);
+  const [lecturer, setLecturer] = useState<LecturerActivity | null>(null);
   useEffect(() => {
     (async () => {
       try {
-        const [latestReview, latestSwap] = await Promise.all([
+        const [latestReview, latestSwap, latestLecturer] = await Promise.all([
           getLatestReviewActivityAPI(),
           getLatestSwapActivityAPI(),
+          getLatestLecturerActivityAPI(),
         ]);
 
         setReview(latestReview);
         setSwap(latestSwap);
+        setLecturer(latestLecturer);
       } catch (error) {
         console.error("Lỗi load hoạt động:", error);
       } finally {
@@ -97,7 +110,9 @@ const RecentActivity: React.FC = () => {
               </svg>{" "}
             </div>
             <div className="home-activity-info">
-              <div className="home-activity-title">Review giảng viên</div>
+              <div className="home-activity-title">
+                Review đã đăng tải gần đây
+              </div>
               <div className="home-activity-time">
                 {new Date(review.createdAt).toLocaleString("vi-VN")}
               </div>
@@ -107,6 +122,37 @@ const RecentActivity: React.FC = () => {
                 {renderStars(Math.round(review.overallScore))}
                 <span className="score"> {review.overallScore.toFixed(1)}</span>
               </span>
+            </div>
+          </div>
+        )}
+        {/* Lecturer activity */}
+        {!loading && lecturer && (
+          <div
+            className="home-activity-item clickable"
+            onClick={() => navigate(`/lecturer-detail/${lecturer.id}`)}
+          >
+            <div className="home-activity-icon">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="lucide lucide-user-round-icon lucide-user-round"
+              >
+                <circle cx="12" cy="8" r="5" />
+                <path d="M20 21a8 8 0 0 0-16 0" />
+              </svg>
+            </div>
+            <div className="home-activity-info">
+              <div className="home-activity-title">
+                Giảng viên đã review: {lecturer.name}
+              </div>
+              <div className="home-activity-time">{lecturer.code}</div>
             </div>
           </div>
         )}

@@ -156,8 +156,8 @@ function TeacherCard({
         </div>
 
         <div className="teacher-info">
-          <h3 className="teacher-name">{teacher.name}</h3>
-          <p className="teacher-username">{teacher.username}</p>
+          <h3 className="teacher-namee">{teacher.name}</h3>
+          <p className="teacher-usernamee">{teacher.username}</p>
           <p className="teacher-courses">{teacher.courses.join(", ")}</p>
         </div>
       </div>
