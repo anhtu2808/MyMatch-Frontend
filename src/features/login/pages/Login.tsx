@@ -8,7 +8,6 @@ import "./Login.css";
 export default function Login() {
   const navigate = useNavigate();
   const [checkingToken, setCheckingToken] = useState(true);
-  console.log("OAuthConfig", OAuthConfig);
   const handleClick = () => {
     const callbackUrl = OAuthConfig.redirectUri;
     const authUrl = OAuthConfig.authUri;

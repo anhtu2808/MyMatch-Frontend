@@ -6,6 +6,9 @@ import {
   getLatestSwapActivityAPI,
   getLatestLecturerActivityAPI,
 } from "../../../apis";
+import { useAppSelector } from "../../../../../store/hooks";
+import AddInformationModal from "../../../../add-personal-information/components/AddInformationModal";
+import { getToken } from "../../../../login/services/localStorageService";
 
 const StarIcon = ({ filled = true }: { filled?: boolean }) => (
   <svg
@@ -56,6 +59,7 @@ const RecentActivity: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [swap, setSwap] = useState<SwapActivity | null>(null);
   const [lecturer, setLecturer] = useState<LecturerActivity | null>(null);
+  const user = useAppSelector((state) => state.user)
   useEffect(() => {
     (async () => {
       try {
@@ -77,6 +81,10 @@ const RecentActivity: React.FC = () => {
   }, []);
 
   return (
+    <>
+      {(!user?.campus || user?.campus === '' || !user.studentCode) && (
+                    <AddInformationModal forceOpen />
+                  )}
     <div className="home-recent-activity">
       <div className="home-recent-activity-list">
         {loading && <p>Đang tải...</p>}
@@ -207,6 +215,7 @@ const RecentActivity: React.FC = () => {
         )}
       </div>
     </div>
+    </>
   );
 };
 

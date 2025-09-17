@@ -3,9 +3,6 @@ import "./MyInfor.css"
 import Header from '../../../components/header/Header'
 import Sidebar from '../../../components/sidebar/Sidebar'
 import { getProfileAPI } from '../apis'
-import AddInformationModal from '../../add-personal-information/components/AddInformationModal'
-import { getToken } from '../../login/services/localStorageService'
-import { useAppSelector } from '../../../store/hooks'
 
 interface UserInfo {
   id: number
@@ -36,9 +33,6 @@ const MyInfor: React.FC = () => {
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [isEditing, setIsEditing] = useState(false)
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
-  const user = useAppSelector((state) => state.user)
-
-  console.log("TOken", getToken());
   useEffect(() => {
     const handleFetchProfile = async () => {  
       const response = await getProfileAPI()
@@ -85,10 +79,6 @@ const MyInfor: React.FC = () => {
     <div className="my-infor-page">
         <Header title='Thông tin cá nhân' script='Quản lý thông tin cá nhân của bạn' />
         <Sidebar />
-        {/* Nếu campus rỗng -> bắt nhập thông tin */}
-              {(!user?.campus || user?.campus === '') && (
-                <AddInformationModal forceOpen />
-              )}
         <div className='my-infor-content-wrapper'>
           <div className='my-infor-main-content'>
             <div className="my-infor-container">
@@ -167,7 +157,7 @@ const MyInfor: React.FC = () => {
                             className="info-input"
                           />
                         ) : (
-                          <span className="info-value">SCHOOL</span>
+                          <span className="info-value"></span>
                         )}
                       </div>
 
@@ -207,7 +197,7 @@ const MyInfor: React.FC = () => {
                             <option value="Quản trị kinh doanh">Quản trị kinh doanh</option>
                           </select>
                         ) : (
-                          <span className="info-value">MAJOR</span>
+                          <span className="info-value"></span>
                         )}
                       </div>
                     </div>
@@ -254,7 +244,7 @@ const MyInfor: React.FC = () => {
                             className="info-input"
                           />
                         ) : (
-                          <span className="info-value">PHONE</span>
+                          <span className="info-value"></span>
                         )}
                       </div>
 

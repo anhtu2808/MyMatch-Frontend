@@ -22,11 +22,9 @@ function AddInformation({ isOpen, onClose, onSuccess, forceOpen = false }: AddIn
   })
 
   const [campuses, setCampuses] = useState<any[]>([])
-  console.log("campussssssss", campuses);
   const [isSubmitting, setIsSubmitting] = useState(false)
   const user = useAppSelector((state) => state.user)
-    console.log("userId", user?.id);
-  const userId = user?.id
+  const userId = user?.studentId
   useEffect(() => {
     const fetchCampuses = async () => {
       try {

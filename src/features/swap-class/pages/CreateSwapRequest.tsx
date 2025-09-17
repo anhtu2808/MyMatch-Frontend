@@ -28,7 +28,6 @@ const CreateSwapRequest: React.FC = () => {
   const navigate = useNavigate()
   const { id } = useParams<{ id: string }>()
   const isEdit = Boolean(id)
-  console.log("request ID", id );
   
   useEffect(() => {
   if (isEdit) {
@@ -36,7 +35,6 @@ const CreateSwapRequest: React.FC = () => {
       try {
         const response = await getSwapRequestByIdAPI(Number(id))
         const data = response?.result
-        console.log("data", data);
         setFormData({
           codeCourse: data.course.code,
           fromClass: data.fromClass,
