@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import "./Banking.css"
 import { fetchQrCodeAPI } from "../apis"
+import { useNavigate } from "react-router-dom"
 
 export interface Payment {
   accountNumber: string
@@ -16,6 +17,7 @@ const Banking: React.FC = () => {
   const [bank, setBank] = useState("MB BANK")
   const [transferContent, setTransferContent] = useState("NAP5536FUO")
   const [qrCode, setQrCode] = useState<Payment | null>(null)
+  const navigation = useNavigate();
 
   useEffect(() => {
     const fetchQrCode = async () => {
@@ -55,7 +57,7 @@ const Banking: React.FC = () => {
                     <div>📝 Bước 1: Nạp Coint (tại trang này)</div>
                     <div>📝 Bước 2: Thanh toán các gói Premium bằng Coin</div>
                   </div>
-                  <button className="banking-membership-btn">🛒 Mua</button>
+                  <button className="banking-membership-btn" onClick={() => navigation("/product")}>🛒 Mua</button>
                 </div>
               </div>
 

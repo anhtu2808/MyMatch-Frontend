@@ -69,8 +69,6 @@ interface MyRequest {
 function MyRequest() {
   const [myRequests, setMyRequests] = useState<MyRequest[]>([])
   const user = useAppSelector((state) => state.user)
-  console.log("My requestttttttttttttttttttttttttttt", myRequests);
-  console.log("User ID:", user?.id);
   const [filteredFeeds, setFilteredFeeds] = useState<MyRequest[]>([])
   const navigate = useNavigate();
 
@@ -80,8 +78,6 @@ function MyRequest() {
         if (!user?.studentId) return
         // truyền đúng studentId từ redux user
         const response = await getSwapRequestAPI({ studentId: user.studentId ?? undefined})
-        console.log('MyRequest API response:', response)
-        console.log('MyRequest data:', response?.result?.data)
         setMyRequests(response?.result?.data || [])
         setFilteredFeeds(response?.result?.data || [])
       } catch (error) {

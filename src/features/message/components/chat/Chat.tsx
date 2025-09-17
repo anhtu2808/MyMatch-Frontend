@@ -61,13 +61,10 @@ const Chat: React.FC<ChatProps> = ({ id, requestId }) => {
   const [messages, setMessages] = useState<Message[]>([])
   const [newMessage, setNewMessage] = useState("")
   const [showRequestPopup, setShowRequestPopup] = useState(false)
-
   const token = getToken()
   const socketRef = useRef<any>(null)
   const selectedConvRef = useRef<Conversation | null>(null)
   const messagesEndRef = useRef<HTMLDivElement | null>(null)
-  console.log("studentId", id);
-  console.log("requestId", requestId);
 //lướt xuống tin nhắn dưới cùng  
   useEffect(() => {
   messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
@@ -162,13 +159,8 @@ const Chat: React.FC<ChatProps> = ({ id, requestId }) => {
       return
     }
 
-    console.log("📨 Received message:", data)
-    console.log("👉 data.id:", data.id)
-
     const currentId = selectedConvRef.current?.id ?? 0
     const incomingConvId = data.conversation?.id ?? 0
-
-    console.log("data.conversation?.id", data.conversation?.id)
 
     if (incomingConvId !== currentId) {
       console.log("❌ Message not for current conversation", {
