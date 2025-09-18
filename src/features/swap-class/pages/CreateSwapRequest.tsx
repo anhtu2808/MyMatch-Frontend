@@ -286,10 +286,12 @@ const mapSlotToApi = (slot: string) => {
 
           {/* Actions */}
           <div className="form-actions">
-            <button type="button" className="cancel-btn" onClick={handleCancel} disabled={isSubmitting}>Hủy</button>
-            <button type="submit" className="submit-btn" disabled={isSubmitting}>
+            <div className='button-form-actions'>
+            <button type="button" className="cancel-btn-create-swap" onClick={handleCancel} disabled={isSubmitting}>Hủy</button>
+            <button type="submit" className="submit-btn-create-swap" disabled={isSubmitting}>
               {isSubmitting ? 'Đang xử lý...' : isEdit ? 'Cập nhật yêu cầu' : 'Gửi yêu cầu'}
-            </button>          
+            </button>
+            </div>          
           </div>
         </form>
       </div>

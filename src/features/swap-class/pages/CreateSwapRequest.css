@@ -246,15 +246,14 @@
 }
 
 /* Form Actions */
-.form-actions {
+.button-form-actions {
   display: flex;
   gap: 16px;
   justify-content: flex-end;
   padding-top: 24px;
-  border-top: 1px solid #e5e7eb;
 }
 
-.cancel-btn, .submit-btn {
+.cancel-btn-create-swap, .submit-btn-create-swap {
   padding: 14px 28px;
   border: none;
   border-radius: 8px;
@@ -264,29 +263,27 @@
   transition: all 0.3s ease;
 }
 
-.cancel-btn {
-  background: #f6f4f3;
-  color: #6b7280;
-  border: 2px solid #d1d5db;
-}
-
-.cancel-btn:hover:not(:disabled) {
-  background: #e5e7eb;
-  color: #374151;
-}
-
-.submit-btn {
-  background: #1e3a8a;
+.cancel-btn-create-swap {
+  background: #ff2424;
   color: white;
 }
 
-.submit-btn:hover:not(:disabled) {
-  background: #1e40af;
-  transform: translateY(-1px);
+.cancel-btn-create-swap:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 131, 131, 0.3);
+}
+
+.submit-btn-create-swap {
+  background: #0c326f;
+  color: white;
+}
+
+.submit-btn-create-swap:hover:not(:disabled) {
+  transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(30, 58, 138, 0.3);
 }
 
-.submit-btn:disabled, .cancel-btn:disabled {
+.submit-btn-create-swap:disabled, .cancel-btn-create-swap:disabled {
   opacity: 0.6;
   cursor: not-allowed;
   transform: none;
@@ -333,7 +330,7 @@
     gap: 12px;
   }
 
-  .cancel-btn, .submit-btn {
+  .cancel-btn-create-swap, .submit-btn-create-swap {
     width: 100%;
   }
 
