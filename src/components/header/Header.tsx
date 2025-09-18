@@ -1,6 +1,7 @@
 // src/components/Header.tsx
 import React from "react";
 import './Header.css';
+import Coin from "../../features/coin/pages/Coin";
 
 type HeaderProps = {
   title: string;
@@ -9,11 +10,16 @@ type HeaderProps = {
 
 const Header: React.FC<HeaderProps> = ({ title, script }) => {
   return (
-    <div
+    <div className="header-container">
+      <div
       className="header"
-    >
-      <div className="title">{title}</div>
-      <div className="script">{script}</div>
+      >
+        <div className="title">{title}</div>
+        <div className="script">{script}</div>
+      </div>
+      <div className="coin-container">
+        <Coin />
+      </div>  
     </div>
   );
 };
