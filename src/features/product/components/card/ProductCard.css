@@ -10,7 +10,7 @@
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    overflow: hidden; /* Ngăn overflow toàn bộ container */
+    overflow: hidden; 
 }
 
 .main-content-product {
@@ -21,22 +21,27 @@
     flex-direction: column;
     align-items: flex-start; 
     box-sizing: border-box;
-    padding: 0; /* Bỏ padding để ProductCard tự quản lý */
+    padding: 0;
     height: 100%;
-    margin-left: 0; /* Bỏ margin để ProductCard tự điều chỉnh */
+    margin-left: 0;
 }
 
 /* ProductCard.css - Fixed */
 .product-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  display: flex;
+  justify-content: center;
+  align-items: center;
   gap: 20px;
-  padding: 120px 20px 40px 170px; /* Top, Right, Bottom, Left */
-  width: calc(100vw - 20px); /* Full width trừ padding right */
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  padding: 10px;
   max-width: 100%;
   box-sizing: border-box;
   overflow-x: hidden;
-  min-height: calc(100vh - 120px); /* Full height trừ header */
+  height: 100vh;
+  background-color: white;
+  border-radius: 8px;
+  margin: 120px 100px 20px 170px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1 );
 }
 
 .product-card {
@@ -48,7 +53,7 @@
   position: relative;
   border: 1px solid rgba(255, 255, 255, 0.2);
   max-width: 90%;
-  height: 80%;
+  height: 70%;
 }
 
 .product-card:hover {
