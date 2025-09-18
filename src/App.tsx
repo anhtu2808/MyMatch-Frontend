@@ -18,29 +18,136 @@ import { getToken } from "./features/login/services/localStorageService";
 import PrivateRoute from "./PrivateRoute";
 import Payment from "./features/payment/pages/Payment";
 import Product from "./features/product/pages/Product";
+import MaterialPage from "./features/material/pages/MaterialPage";
 
 function App() {
-  getToken()
+  getToken();
   return (
     <Router>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/authenticate" element={<Authenticate />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/swap_class" element={<PrivateRoute><SwapClass /></PrivateRoute>} />
-        <Route path="/swap_class/create" element={<PrivateRoute><CreateSwapRequest /></PrivateRoute>} />
-        <Route path="/swap_class/edit/:id" element={<PrivateRoute><CreateSwapRequest /></PrivateRoute>} />
-        <Route path="/messages" element={<PrivateRoute><Message /></PrivateRoute> } />
-        <Route path="/teachers" element={<PrivateRoute><TeachersPage /></PrivateRoute>} />
-        <Route path="/lecturer-detail/:id" element={<PrivateRoute><LecturerDetail /></PrivateRoute>} />
-        <Route path="/add-review" element={<PrivateRoute><AddReviewPage /></PrivateRoute>} />
-        <Route path="/add-review/:teacherId" element={<PrivateRoute><AddReviewPage /></PrivateRoute>} />
-        <Route path="/add-teacher" element={<PrivateRoute><AddTeacherPage /></PrivateRoute>} />
-        <Route path="/profile" element={<PrivateRoute><MyInfor /></PrivateRoute>} />
-        <Route path="/message/:studentId" element={<PrivateRoute><Message /></PrivateRoute>} />
-        <Route path="/payment" element={<PrivateRoute><Payment/></PrivateRoute>}/>
-        <Route path="/review/:id" element={<PrivateRoute><ReviewDetail /></PrivateRoute>} />
-        <Route path="/product" element={<PrivateRoute><Product /></PrivateRoute>} />
+        <Route
+          path="/swap_class"
+          element={
+            <PrivateRoute>
+              <SwapClass />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/swap_class/create"
+          element={
+            <PrivateRoute>
+              <CreateSwapRequest />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/swap_class/edit/:id"
+          element={
+            <PrivateRoute>
+              <CreateSwapRequest />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/messages"
+          element={
+            <PrivateRoute>
+              <Message />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/teachers"
+          element={
+            <PrivateRoute>
+              <TeachersPage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/lecturer-detail/:id"
+          element={
+            <PrivateRoute>
+              <LecturerDetail />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/add-review"
+          element={
+            <PrivateRoute>
+              <AddReviewPage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/add-review/:teacherId"
+          element={
+            <PrivateRoute>
+              <AddReviewPage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/add-teacher"
+          element={
+            <PrivateRoute>
+              <AddTeacherPage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <PrivateRoute>
+              <MyInfor />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/message/:studentId"
+          element={
+            <PrivateRoute>
+              <Message />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/payment"
+          element={
+            <PrivateRoute>
+              <Payment />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/review/:id"
+          element={
+            <PrivateRoute>
+              <ReviewDetail />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/product"
+          element={
+            <PrivateRoute>
+              <Product />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/material"
+          element={
+            <PrivateRoute>
+              <MaterialPage />
+            </PrivateRoute>
+          }
+        />
       </Routes>
     </Router>
   );

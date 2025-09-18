@@ -1,0 +1,32 @@
+.material-page {
+  flex: 1;
+  margin-left: 150px;
+  margin-top: 97px;
+  padding: 20px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: calc(100vw - 150px);
+  box-sizing: border-box;
+}
+
+.material-page-container {
+  width: 100vw;
+  height: 100vh;
+  background-color: #fbfaf9;
+  margin: 0;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+.material-pageination {
+  width: 90%;
+  margin: 20px 20px 40px 0;
+}
+
+.material-list-container {
+  width: 93%;
+  margin: 20px 20px 0 0;
+}
