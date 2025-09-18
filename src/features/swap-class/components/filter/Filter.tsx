@@ -29,12 +29,23 @@ const Filter: React.FC<FilterProps> = ({ onFilter, onReset }) => {
     onFilter(filters)
   }
 
+  const handleReset = () => {
+  setFilters({
+    courseCode: '',
+    className: '',
+    lecturer: '',
+    slot: '',
+    day: ''
+  })
+  onReset()
+}
+
+
   return (
     <div className='filter-section'>
       <div className='filter-header'>
         <span className='filter-icon'>⚙️</span>
         <span className='filter-title'>Bộ lọc nâng cao</span>
-        <span className='reset-filter' onClick={onReset}>Đặt lại bộ lọc</span>
       </div>
       <div className='filter-form'>
         <div className='filter-form-row'>
@@ -59,7 +70,7 @@ const Filter: React.FC<FilterProps> = ({ onFilter, onReset }) => {
             />
           </div>
           <div className='form-group'>
-            <label>Giảng viên</label>
+            <label>Mã giảng viên</label>
             <input
               name="lecturer"
               type='text'
@@ -69,7 +80,7 @@ const Filter: React.FC<FilterProps> = ({ onFilter, onReset }) => {
             />
           </div>
           <div className='form-group'>
-            <label>Slot *</label>
+            <label>Slot </label>
             <select name="slot" value={filters.slot} onChange={handleChange}>
               <option value="">Chọn slot</option>
               <option value="SLOT_1">Slot 1 (7:00 - 9:15)</option>
@@ -79,7 +90,7 @@ const Filter: React.FC<FilterProps> = ({ onFilter, onReset }) => {
             </select>
           </div>
           <div className='form-group'>
-            <label>Thứ trong tuần</label>
+            <label>Ngày</label>
             <select name="day" value={filters.day} onChange={handleChange}>
               <option value="">Chọn ngày</option>
               <option value="2">Thứ 2</option>
@@ -92,11 +103,20 @@ const Filter: React.FC<FilterProps> = ({ onFilter, onReset }) => {
           </div>
         </div>
         <div className='form-actions'>
-          {/* <span>Sắp xếp theo:</span>
-          <select>
-            <option>Mới nhất</option>
-          </select> */}
-          <button className='search-btn' onClick={handleSubmit}>🔍 Tìm kiếm</button>
+          <div className='button-form-actions'>
+          <button className='delete-btn' onClick={handleReset}>
+            <svg xmlns="http://www.w3.org/2000/svg"width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"  strokeLinejoin="round">
+              <path d="m7 21-4.3-4.3c-1-1-1-2.5 0-3.4l9.6-9.6c1-1 2.5-1 3.4 0l5.6 5.6c1 1 1 2.5 0 3.4L13 21" /><path d="M22 21H7" /><path d="m5 11 9 9" />
+            </svg>
+            Xóa bộ lọc
+          </button>
+          <button className='search-btn' onClick={handleSubmit}>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="m21 21-4.34-4.34" /> <circle cx="11" cy="11" r="8" />
+            </svg>
+            Tìm kiếm
+          </button>
+          </div>
         </div>
       </div>
     </div>

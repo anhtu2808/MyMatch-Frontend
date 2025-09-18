@@ -193,7 +193,7 @@
 }
 
 .buy-button {
-  background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+  background: #0c326f;
   color: white;
   border: none;
   border-radius: 12px;
@@ -210,7 +210,6 @@
 }
 
 .buy-button:hover {
-  background: linear-gradient(135deg, #357abd 0%, #2c5aa0 100%);
   transform: translateY(-2px);
   box-shadow: 0 4px 16px rgba(74, 144, 226, 0.4);
 }
