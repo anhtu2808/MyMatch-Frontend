@@ -18,14 +18,26 @@
   flex-direction: column;
 }
 
-.criteria-item {
+.criteria-itemm {
   border: 1px solid #e2e8f0;
   border-radius: 16px;
   padding: 24px;
   background: white;
   margin-bottom: 24px;
   transition: all 0.2s ease;
-  max-width: 100%;
+  max-width: 95%;
+}
+
+.criteria-itemm h2 {
+  margin-top: 0;
+  margin-bottom: 14px;
+  font-size: 24px;
+}
+
+.criteria-itemm p {
+  margin: 4px 0;
+  font-size: 16px;
+  color: #374151;
 }
 
 .criteria-item-box {
@@ -35,7 +47,7 @@
   background: white;
   margin-bottom: 24px;
   transition: all 0.2s ease;
-  width: 90%;
+  width: 95%;
 }
 
 .evidence-img {

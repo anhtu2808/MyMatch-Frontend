@@ -131,8 +131,8 @@ const QuickAction = () => {
       ),
     },
     {
-      title: "Thêm giáo viên",
-      description: "Thêm giáo viên mới vào hệ thống và bắt đầu review",
+      title: "Thêm giảng viên",
+      description: "Thêm giảng viên mới vào hệ thống và bắt đầu review",
       disabled: false,
       path: "/add-teacher",
       iconClass: "icon indigo",

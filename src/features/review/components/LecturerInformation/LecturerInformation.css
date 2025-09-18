@@ -1,12 +1,12 @@
 .lecturer-information {
-  background: linear-gradient(135deg, #544661 0%, #343D67 50%, #14346E 100%);
+  background: linear-gradient(135deg, #544661 0%, #343d67 50%, #14346e 100%);
   display: flex;
- flex-direction: column;
+  flex-direction: column;
   border-radius: 12px;
   padding: 20px;
-  font-family: 'Inter', sans-serif;
-  width: 88%;  
-    padding-bottom: 30px;
+  font-family: "Inter", sans-serif;
+  width: 91%;
+  padding-bottom: 30px;
 }
 
 /* .lecturer-information::before {
@@ -96,7 +96,7 @@
   right: 6px;
   width: 18px;
   height: 18px;
-  background: #10B981;
+  background: #10b981;
   border-radius: 50%;
   border: 3px solid white;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
@@ -115,7 +115,7 @@
   margin: 0;
   line-height: 1.1;
   letter-spacing: -0.5px;
-    color: white;
+  color: white;
 }
 
 .lecturer-username {
@@ -123,7 +123,7 @@
   opacity: 0.85;
   margin: 0;
   font-weight: 500;
-    color: white;
+  color: white;
 }
 
 .lecturer-info {
@@ -131,7 +131,7 @@
   opacity: 0.9;
   margin: 2px 0 2px 0;
   font-weight: 400;
-    color: white;
+  color: white;
 }
 
 .rating-section {
@@ -149,14 +149,14 @@
   font-size: 18px;
   font-weight: 700;
   margin-left: 6px;
-    color: white;
+  color: white;
 }
 
 .review-count {
   font-size: 15px;
   opacity: 0.8;
   font-weight: 400;
-    color: white;
+  color: white;
 }
 
 .action-buttons {
@@ -190,7 +190,7 @@
   color: white;
   border: 2px solid rgba(255, 255, 255, 0.4);
   backdrop-filter: blur(10px);
-   width: 218px;
+  width: 218px;
 }
 
 .save-button:hover {
@@ -205,18 +205,18 @@
   color: white;
   border: 2px solid rgba(255, 255, 255, 0.4);
   backdrop-filter: blur(10px);
-    width: 218px;
+  width: 218px;
 }
 
 .rate-button:hover {
-    background: rgba(255, 255, 255, 0.35);
+  background: rgba(255, 255, 255, 0.35);
   border-color: rgba(255, 255, 255, 0.6);
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
 }
 
 .tutor-button {
-  background: linear-gradient(135deg, #F9CA14 0%, #EBB409 100%);
+  background: linear-gradient(135deg, #f9ca14 0%, #ebb409 100%);
   color: #1a1a1a;
   position: relative;
   font-weight: 700;
@@ -224,13 +224,13 @@
 }
 
 .tutor-button:hover {
-  background: linear-gradient(135deg, #DEB419 0%, #AAB861 100%);
+  background: linear-gradient(135deg, #deb419 0%, #aab861 100%);
   transform: translateY(-2px);
   box-shadow: 0 8px 25px rgba(255, 193, 7, 0.4);
 }
 
 .pro-badge {
-  background: linear-gradient(135deg, #FF5722 0%, #EB4A44 100%);
+  background: linear-gradient(135deg, #ff5722 0%, #eb4a44 100%);
   color: white;
   font-size: 11px;
   font-weight: 800;
@@ -354,4 +354,51 @@
     justify-content: center;
     min-width: auto;
   }
+}
+
+.tutor-button:disabled {
+  background: rgba(255, 255, 255, 0.15);
+  color: rgba(255, 255, 255, 0.6);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+
+.tutor-button:disabled:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: none;
+  box-shadow: none;
+}
+
+.tutor-button:disabled .pro-badge {
+  background: rgba(255, 255, 255, 0.3);
+  color: rgba(255, 255, 255, 0.8);
+  box-shadow: none;
+}
+
+.tutor-button .tooltip-text {
+  visibility: hidden;
+  width: max-content;
+  max-width: 200px;
+  background-color: rgba(0, 0, 0, 0.75);
+  color: #fff;
+  text-align: center;
+  padding: 6px 8px;
+  border-radius: 4px;
+  position: absolute;
+  bottom: 110%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 13px;
+  line-height: 1.2;
+  z-index: 10;
+  opacity: 0;
+  transition: opacity 0.2s;
+  pointer-events: none;
+}
+
+.tutor-button:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
 }

@@ -108,7 +108,7 @@ export const mapLecturerToCard = (dto: LecturerDTO): TeacherCardData => ({
   courses: dto.campus?.university?.courses?.map((c) => c.name) ?? [],
   rating: dto.rating ?? 0, // API chưa trả rating -> 0
   reviews: dto.reviewCount ?? 0,
-  subjects: dto.subjectCount ?? dto.campus?.university?.courses?.length ?? 0,
+  subjects: dto.subjectCount ?? 0,
 });
 
 function TeacherCard({
@@ -185,7 +185,7 @@ function TeacherCard({
             <p className="stat-label">Lượt Review</p>
           </div>
           <div className="stat">
-            <span className="stat-number">{teacher.courses.length}</span>
+            <span className="stat-number">{teacher.subjects}</span>
             <p className="stat-label">Môn học</p>
           </div>
         </div>

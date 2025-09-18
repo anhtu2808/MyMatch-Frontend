@@ -90,6 +90,7 @@ const TeacherFilter: React.FC<TeacherFilterProps> = ({
       sort?: string;
       isReviewed?: boolean;
       isMarked?: boolean;
+      myReviews?: boolean;
     } = {
       name,
       code,
@@ -100,6 +101,8 @@ const TeacherFilter: React.FC<TeacherFilterProps> = ({
       filters.isReviewed = true;
     } else if (activeTab === "marked") {
       filters.isMarked = true;
+    } else if (activeTab === "myreviews") {
+      filters.myReviews = true;
     }
 
     onSearch(filters);
@@ -117,7 +120,13 @@ const TeacherFilter: React.FC<TeacherFilterProps> = ({
   };
 
   return (
-    <div className="teacher-filter">
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        handleSearch();
+      }}
+      className="teacher-filter"
+    >
       {/* Tabs */}
       <div className="tabs">
         <div
@@ -138,12 +147,18 @@ const TeacherFilter: React.FC<TeacherFilterProps> = ({
         >
           Đã đánh dấu
         </div>
+        <div
+          className={`tab ${activeTab === "myreviews" ? "active" : ""}`}
+          onClick={() => setActiveTab("myreviews")}
+        >
+          Review của tôi
+        </div>
       </div>
 
       <hr className="divider" />
 
       {/* Filters */}
-      <div className="filter-grid">
+      <div className="filterr-grid">
         <div className="form-group">
           <label>Tên giảng viên</label>
           <input
@@ -223,15 +238,15 @@ const TeacherFilter: React.FC<TeacherFilterProps> = ({
       {/* Sort + Actions */}
       <div className="actions">
         <div className="buttons">
-          <button className="btn-clear" onClick={handleClear}>
+          <button type="button" className="btn-clear" onClick={handleClear}>
             <ClearIcon className="btn-icon" /> Xóa bộ lọc
           </button>
-          <button className="btn-search" onClick={handleSearch}>
+          <button type="submit" className="btn-search">
             <SearchIcon className="btn-icon" /> Tìm kiếm
           </button>
         </div>
       </div>
-    </div>
+    </form>
   );
 };
 

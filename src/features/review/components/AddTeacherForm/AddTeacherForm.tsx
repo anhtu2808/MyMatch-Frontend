@@ -193,7 +193,7 @@ function AddTeacherForm({ onSubmit, onBack }: AddTeacherFormProps) {
           <label className="form-label">Mô tả (không bắt buộc)</label>
           <textarea
             className="form-input"
-            placeholder="Nhập mô tả về giảng viên"
+            placeholder="Thêm mô tả hoặc email của giảng viên"
             value={formData.bio}
             onChange={(e) => handleInputChange("bio", e.target.value)}
           />
