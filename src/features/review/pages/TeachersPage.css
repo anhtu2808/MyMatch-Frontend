@@ -44,3 +44,10 @@
   margin: 5px 20px 5px 5px;
   color: #333;
 }
+
+.my-reviews-container {
+  display: grid;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}

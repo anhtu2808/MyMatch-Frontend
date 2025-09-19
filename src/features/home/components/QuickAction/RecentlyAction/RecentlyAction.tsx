@@ -51,6 +51,7 @@ interface LecturerActivity {
   avatarUrl: string;
   rating: number;
   reviewCount: number;
+  createAt: string;
 }
 
 const RecentActivity: React.FC = () => {
@@ -89,7 +90,7 @@ const RecentActivity: React.FC = () => {
       <div className="home-recent-activity-list">
         {loading && <p>Đang tải...</p>}
 
-        {!loading && !review && !swap && (
+        {!loading && !review && !swap && !lecturer && (
           <p>Bạn chưa có hoạt động nào mới gần đây</p>
         )}
 
@@ -121,9 +122,9 @@ const RecentActivity: React.FC = () => {
               <div className="home-activity-title">
                 Review đã đăng tải gần đây
               </div>
-              <div className="home-activity-time">
+              {/* <div className="home-activity-time">
                 {new Date(review.createdAt).toLocaleString("vi-VN")}
-              </div>
+              </div> */}
             </div>
             <div className="home-activity-status">
               <span className="stars">

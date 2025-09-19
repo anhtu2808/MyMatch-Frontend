@@ -31,7 +31,7 @@ const ReviewDetail: React.FC = () => {
 
       <div className="review-detail-page">
         {/* --- Step 2 info (course/semester/class) --- */}
-        <div className="criteria-item">
+        <div className="criteria-itemm">
           <h2>Thông tin môn học</h2>
           <p>
             <strong>Học kỳ:</strong> {review.semester?.name || "Không rõ"}

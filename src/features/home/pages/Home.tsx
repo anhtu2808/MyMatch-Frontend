@@ -4,7 +4,7 @@ import Header from "../../../components/header/Header";
 import QuickAction from "../components/QuickAction/QuickAction";
 import RecentActivity from "../components/QuickAction/RecentlyAction/RecentlyAction";
 import "./Home.css";
-import { useAppDispatch} from "../../../store/hooks";
+import { useAppDispatch } from "../../../store/hooks";
 import { getProfileAPI } from "../../profile/apis";
 import { setUser } from "../../../store/Slice";
 
@@ -12,29 +12,29 @@ function Home() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-  const fetchProfileAndSetUser = async () => {
-    try{
-    const response = await getProfileAPI()
-    dispatch(
-      setUser({
-        id: response?.result.id,
-        studentId: response?.result?.student?.id,
-        email: response?.result?.email,
-        campus: response?.result?.student?.campus?.name,
-        studentCode: response?.result?.student?.studentCode,
-        role: response?.result?.role,
-        token: response?.result?.token,
-      })
-    )
-  } catch (error) {
-    console.log("Failed to fetch profile:", error);
-  }
-  }
-  fetchProfileAndSetUser()
-   }, [])
+    const fetchProfileAndSetUser = async () => {
+      try {
+        const response = await getProfileAPI();
+        dispatch(
+          setUser({
+            id: response?.result.id,
+            studentId: response?.result?.student?.id,
+            email: response?.result?.email,
+            campus: response?.result?.student?.campus?.name,
+            studentCode: response?.result?.student?.studentCode,
+            role: response?.result?.role,
+            token: response?.result?.token,
+          })
+        );
+      } catch (error) {
+        console.log("Failed to fetch profile:", error);
+      }
+    };
+    fetchProfileAndSetUser();
+  }, []);
 
   return (
-    <div className="home-page"> 
+    <div className="home-page">
       <Sidebar />
       <Header title="Bảng điều khiển" script="Quản lý hoạt động của bạn" />
       <div className="home-main-content">

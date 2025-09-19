@@ -126,3 +126,8 @@ export const uploadEvidenceAPI = async (file: File) => {
   });
   return res.data;
 };
+
+export const getCoursesByLecturerAPI = async (lecturerId: number) => {
+  const response = await api.get(`/lecturer-courses/lecturers/${lecturerId}`);
+  return response.data;
+};

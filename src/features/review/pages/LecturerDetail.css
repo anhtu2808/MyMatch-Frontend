@@ -1,7 +1,7 @@
 .lecturer-detail-page-container {
   width: 100vw;
   height: 100vh;
-  background-color: #FBFAF9;
+  background-color: #fbfaf9;
   margin: 0;
   box-sizing: border-box;
   display: flex;
@@ -9,8 +9,8 @@
 }
 
 .lecturer-detail-content {
-    margin-left: 86px;
-    margin-top: 97px;
+  margin-left: 86px;
+  margin-top: 97px;
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -40,6 +40,4 @@
   .lecturer-detail-content .lecturer-stats {
     margin: 0 10px 10px 10px;
   }
-
-  
 }

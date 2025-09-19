@@ -38,10 +38,10 @@ interface PaginationProps {
   onPageChange?: (page: number) => void;
 }
 
-const Pagination: React.FC<PaginationProps> = ({ 
-  currentPage = 1, 
+const Pagination: React.FC<PaginationProps> = ({
+  currentPage = 1,
   totalPages = 10,
-  onPageChange = () => {}
+  onPageChange = () => {},
 }) => {
   const [activePage, setActivePage] = useState(currentPage);
 
@@ -54,59 +54,57 @@ const Pagination: React.FC<PaginationProps> = ({
 
   const renderPageNumbers = () => {
     const pages = [];
-    
-    // Always show page 1
+
+    // Always show first page
     pages.push(
       <button
         key={1}
-        className={`page-btn ${activePage === 1 ? 'active' : ''}`}
+        className={`page-btn ${activePage === 1 ? "active" : ""}`}
         onClick={() => handlePageChange(1)}
       >
         1
       </button>
     );
 
-    // Show page 2 if not the same as page 1
-    if (totalPages > 1) {
+    // Show dots before current range
+    if (activePage > 3) {
       pages.push(
-        <button
-          key={2}
-          className={`page-btn ${activePage === 2 ? 'active' : ''}`}
-          onClick={() => handlePageChange(2)}
-        >
-          2
-        </button>
-      );
-    }
-
-    // Show page 3 if exists
-    if (totalPages > 2) {
-      pages.push(
-        <button
-          key={3}
-          className={`page-btn ${activePage === 3 ? 'active' : ''}`}
-          onClick={() => handlePageChange(3)}
-        >
-          3
-        </button>
-      );
-    }
-
-    // Show dots if there are more pages
-    if (totalPages > 4) {
-      pages.push(
-        <span key="dots" className="dots">
+        <span key="dots-left" className="dots">
           ...
         </span>
       );
     }
 
-    // Show last page if it's different from the ones already shown
-    if (totalPages > 3) {
+    // Show middle range: activePage-1, activePage, activePage+1
+    for (let page = activePage - 1; page <= activePage + 1; page++) {
+      if (page > 1 && page < totalPages) {
+        pages.push(
+          <button
+            key={page}
+            className={`page-btn ${activePage === page ? "active" : ""}`}
+            onClick={() => handlePageChange(page)}
+          >
+            {page}
+          </button>
+        );
+      }
+    }
+
+    // Show dots after current range
+    if (activePage < totalPages - 2) {
+      pages.push(
+        <span key="dots-right" className="dots">
+          ...
+        </span>
+      );
+    }
+
+    // Always show last page
+    if (totalPages > 1) {
       pages.push(
         <button
           key={totalPages}
-          className={`page-btn ${activePage === totalPages ? 'active' : ''}`}
+          className={`page-btn ${activePage === totalPages ? "active" : ""}`}
           onClick={() => handlePageChange(totalPages)}
         >
           {totalPages}
@@ -129,9 +127,7 @@ const Pagination: React.FC<PaginationProps> = ({
       </button>
 
       {/* Page numbers */}
-      <div className="page-numbers">
-        {renderPageNumbers()}
-      </div>
+      <div className="page-numbers">{renderPageNumbers()}</div>
 
       {/* Next button */}
       <button

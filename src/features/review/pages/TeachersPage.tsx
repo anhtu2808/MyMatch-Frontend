@@ -6,8 +6,13 @@ import TeacherPageComponents, {
 } from "../components/TeacherCard/TeacherPageComponents";
 import TeacherFilter from "../components/TeacherFilter/filter";
 import Pagination from "../components/Pagination/Pagination";
-import { getAllLecturerAPI } from "../apis/TeacherPageApis";
+import {
+  getAllLecturerAPI,
+  getCoursesByLecturerAPI,
+} from "../apis/TeacherPageApis";
 import "./TeachersPage.css";
+import MyReviewsList from "../components/ReviewDetail/MyReviewsList";
+import { getMyReviewsAPI } from "../../home/apis";
 
 function TeachersPage() {
   const [lecturers, setLecturers] = useState<TeacherCardData[]>([]);
@@ -18,6 +23,7 @@ function TeachersPage() {
   const [showEmptyState, setShowEmptyState] = useState(false);
   const [activeTab, setActiveTab] = useState("all");
   const [bookmarkedTeachers, setBookmarkedTeachers] = useState<number[]>([]);
+  const [loading, setLoading] = useState(false);
 
   const handleToggleBookmark = (teacherId: number) => {
     setBookmarkedTeachers((prev) =>
@@ -27,7 +33,10 @@ function TeachersPage() {
     );
   };
 
-  const mapLecturerToTeacher = (lecturer: any): TeacherCardData => ({
+  const mapLecturerToTeacher = (
+    lecturer: any,
+    subjectCount = 0
+  ): TeacherCardData => ({
     id: lecturer.id, // thêm id từ API
     name: lecturer.fullName || lecturer.name,
     username: lecturer.code || lecturer.username,
@@ -36,24 +45,58 @@ function TeachersPage() {
       lecturer.campus?.university?.courses?.map((c: any) => c.name) || [],
     rating: lecturer.rating || 0,
     reviews: lecturer.reviewCount || 0,
-    subjects:
-      lecturer.subjectCount ||
-      lecturer.campus?.university?.courses?.length ||
-      0,
+    subjects: subjectCount,
   });
 
   const fetchLecturers = async () => {
+    setLoading(true);
     try {
+      if (activeTab === "myreviews") {
+        return;
+      }
+
       const res = await getAllLecturerAPI({
         page,
         size: 9,
         ...filters,
       });
-      const mapped = res.result.data.map(mapLecturerToTeacher);
+
+      console.log("getAllLecturerAPI res:", res);
+
+      const possibleList =
+        res?.result?.data ?? res?.result ?? res?.data ?? res ?? [];
+      const items = Array.isArray(possibleList)
+        ? possibleList
+        : possibleList?.content ?? [];
+
+      const mapped = await Promise.all(
+        items.map(async (lec: any) => {
+          if (!lec?.id) {
+            console.warn("Lecturer has no id, fallback mapping:", lec);
+            return mapLecturerToTeacher(lec);
+          }
+
+          try {
+            const courseRes = await getCoursesByLecturerAPI(lec.id);
+            console.log(`courses for lec ${lec.id}:`, courseRes);
+            const subjectCount =
+              courseRes?.result?.length ??
+              (Array.isArray(courseRes) ? courseRes.length : 0);
+
+            return mapLecturerToTeacher(lec, subjectCount);
+          } catch (err) {
+            console.warn("getCoursesByLecturerAPI failed for id", lec.id, err);
+            return mapLecturerToTeacher(lec, 0);
+          }
+        })
+      );
+
       setLecturers(mapped);
-      setTotalPages(res.result.totalPages);
+      setTotalPages(res?.result?.totalPages ?? res?.totalPages ?? 1);
     } catch (error) {
-      console.error(error);
+      console.error("fetchLecturers error:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -62,6 +105,8 @@ function TeachersPage() {
       setFilters({ isReviewed: true });
     } else if (activeTab === "marked") {
       setFilters({ isMarked: true });
+    } else if (activeTab === "myreviews") {
+      setFilters({});
     } else {
       setFilters({});
     }
@@ -97,18 +142,38 @@ function TeachersPage() {
           }}
         />
 
-        <h1 className="h1">Danh sách giảng viên</h1>
-        <div className="teachers-page-components">
-          <TeacherPageComponents
-            teachers={lecturers}
-            searchQuery={searchQuery}
-            showEmptyState={lecturers.length === 0}
-            filters={filters}
-            activeTab={activeTab}
-            bookmarkedTeachers={bookmarkedTeachers}
-            onToggleBookmark={handleToggleBookmark}
-          />
+        <h1 className="h1">
+          {activeTab === "myreviews"
+            ? "Review của tôi"
+            : "Danh sách giảng viên"}
+        </h1>
+
+        <div
+          className={
+            activeTab === "myreviews"
+              ? "my-reviews-container"
+              : "teachers-page-components"
+          }
+        >
+          {activeTab === "myreviews" ? (
+            <MyReviewsList
+              page={page}
+              size={9}
+              onTotalPages={(total) => setTotalPages(total)}
+            />
+          ) : (
+            <TeacherPageComponents
+              teachers={lecturers}
+              searchQuery={searchQuery}
+              showEmptyState={lecturers.length === 0}
+              filters={filters}
+              activeTab={activeTab}
+              bookmarkedTeachers={bookmarkedTeachers}
+              onToggleBookmark={handleToggleBookmark}
+            />
+          )}
         </div>
+
         <Pagination
           currentPage={page}
           totalPages={totalPages}
