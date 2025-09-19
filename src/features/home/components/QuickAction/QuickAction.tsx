@@ -32,7 +32,7 @@ const QuickAction = () => {
     {
       title: "Đổi chéo lớp",
       description: "Quản lý đổi chéo lớp",
-      disabled: false,
+      disabled: true,
       path: "/swap_class",
       iconClass: "icon green",
       icon: (
@@ -82,7 +82,7 @@ const QuickAction = () => {
     {
       title: "Tin nhắn",
       description: "Xem tin nhắn",
-      disabled: false,
+      disabled: true,
       path: "/messages",
       iconClass: "icon red",
       icon: (
