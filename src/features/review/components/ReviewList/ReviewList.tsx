@@ -481,8 +481,21 @@ const ReviewList: React.FC<{ lecturerId: number }> = ({ lecturerId }) => {
             <div className="review-main">
               <div className="reviewer-info">
                 <div className="reviewer-avatar">
-                  <span>{review.student?.user?.avatarUrl || "SV"}</span>
+                  {review.student?.user?.avatarUrl ? (
+                    <img
+                      src={review.student.user.avatarUrl}
+                      alt="Avatar"
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        borderRadius: "50%",
+                      }}
+                    />
+                  ) : (
+                    "SV"
+                  )}
                 </div>
+
                 <div className="reviewer-details">
                   <div className="reviewer-header">
                     <h4>
