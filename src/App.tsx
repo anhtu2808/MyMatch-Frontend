@@ -14,13 +14,11 @@ import ReviewDetail from "./features/review/pages/ReviewDetail";
 import Authenticate from "./features/login/pages/Authenticated";
 import Login from "./features/login/pages/Login";
 import MyInfor from "./features/profile/pages/MyInfor";
-import { getToken } from "./features/login/services/localStorageService";
 import PrivateRoute from "./PrivateRoute";
 import Payment from "./features/payment/pages/Payment";
 import Product from "./features/product/pages/Product";
 
 function App() {
-  getToken()
   return (
     <Router>
       <Routes>

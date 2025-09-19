@@ -218,23 +218,21 @@
 }
 
 .edit-btn {
-  background: #4299e1;
+  background: #0c326f;
   color: white;
 }
 
 .edit-btn:hover {
-  background: #3182ce;
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(66, 153, 225, 0.4);
 }
 
 .save-btn {
-  background: #48bb78;
+  background: #0c326f;
   color: white;
 }
 
 .save-btn:hover {
-  background: #38a169;
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(72, 187, 120, 0.4);
 }
