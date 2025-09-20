@@ -260,7 +260,7 @@ const Sidebar = () => {
               >
                 Hồ sơ
               </NavLink>
-              {!token &&
+              {!token ? (
               <NavLink
                 to="/login"
                 className={({ isActive }) =>
@@ -269,11 +269,11 @@ const Sidebar = () => {
                 onClick={() => setIsDropdownOpen(false)}
               >
                 Đăng nhập
-              </NavLink>}
-
+              </NavLink> 
+              ):(
               <button className="dropdownItem" onClick={() => handleLogout()}>
                 Đăng xuất
-              </button>
+              </button> )} 
             </div>
           )}
         </div>
