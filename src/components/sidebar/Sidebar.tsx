@@ -59,6 +59,8 @@ const Sidebar = () => {
   const [info, setInfo] = useState<UserInfo | null>(null)
 
   useEffect(() => {
+    const token = localStorage.getItem("accessToken");
+    if (!token) return; // chưa login thì thôi, không gọi API
     const fetchInfo = async () => {
       const response = await getProfileAPI()
       setInfo(response.result)

@@ -9,6 +9,7 @@ type HeaderProps = {
 };
 
 const Header: React.FC<HeaderProps> = ({ title, script }) => {
+  const token = localStorage.getItem("accessToken");
   return (
     <div className="header-container">
       <div
@@ -17,9 +18,10 @@ const Header: React.FC<HeaderProps> = ({ title, script }) => {
         <div className="title">{title}</div>
         <div className="script">{script}</div>
       </div>
+       {token && 
       <div className="coin-container">
-        <Coin />
-      </div>  
+        <Coin /> 
+      </div>  }
     </div>
   );
 };

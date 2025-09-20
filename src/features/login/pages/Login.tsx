@@ -15,7 +15,7 @@ export default function Login() {
 
     const targetUrl = `${authUrl}?redirect_uri=${encodeURIComponent(
       callbackUrl
-    )}&response_type=code&client_id=${googleClientId}&scope=openid%20email%20profile`;
+    )}&response_type=code&client_id=${googleClientId}&scope=openid%20email%20profile&prompt=select_account`;
 
     console.log(targetUrl);
 

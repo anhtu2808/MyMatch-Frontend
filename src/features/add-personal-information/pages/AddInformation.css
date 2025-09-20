@@ -24,7 +24,7 @@
 }
 
 .h2-addInformation{
-  margin-left: 30px;
+  margin: 30px
 }
 
 .add-info-popup {
@@ -158,6 +158,18 @@
   justify-content: flex-end;
   padding-top: 24px;
   border-top: 1px solid #e5e7eb;
+}
+
+.save-button-add-info {
+  background-color: #0c326f;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+}
+
+.save-button-add-info:hover {
+  transform: translateY(-2px);
 }
 
 .cancel-btn, .submit-btn {
