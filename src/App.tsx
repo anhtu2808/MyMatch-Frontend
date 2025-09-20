@@ -29,7 +29,7 @@ function App() {
         <Route path="/swap_class/create" element={<PrivateRoute><CreateSwapRequest /></PrivateRoute>} />
         <Route path="/swap_class/edit/:id" element={<PrivateRoute><CreateSwapRequest /></PrivateRoute>} />
         <Route path="/messages" element={<PrivateRoute><Message /></PrivateRoute> } />
-        <Route path="/teachers" element={<PrivateRoute><TeachersPage /></PrivateRoute>} />
+        <Route path="/teachers" element={<TeachersPage />} />
         <Route path="/lecturer-detail/:id" element={<PrivateRoute><LecturerDetail /></PrivateRoute>} />
         <Route path="/add-review" element={<PrivateRoute><AddReviewPage /></PrivateRoute>} />
         <Route path="/add-review/:teacherId" element={<PrivateRoute><AddReviewPage /></PrivateRoute>} />
