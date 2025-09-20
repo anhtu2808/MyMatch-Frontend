@@ -7,19 +7,28 @@ import { getLecturerReviewByIdAPI } from "../apis/TeacherPageApis";
 import "../components/ReviewCreteria/ReviewCreteria.css";
 // import "./TeachersPage.css";
 import "./ReviewDetail.css";
+import { getStudentIdFromToken } from "../../home/apis";
 
 const ReviewDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const reviewId = id ? Number(id) : undefined;
   const navigate = useNavigate();
   const [review, setReview] = useState<any>(null);
+  const currentUserId = getStudentIdFromToken();
 
   useEffect(() => {
     if (!reviewId) return;
+
     getLecturerReviewByIdAPI(reviewId)
-      .then((res) => setReview(res.result))
+      .then((res) => {
+        setReview(res.result);
+        console.log("Review vừa load:", res.result);
+        console.log("Current userId from token:", currentUserId);
+        console.log("Review studentId:", res.result.student?.user?.id);
+        console.log("Review evidenceUrl:", res.result.evidenceUrl);
+      })
       .catch((err) => console.error("Lỗi load review:", err));
-  }, [reviewId]);
+  }, [reviewId, currentUserId]);
 
   if (!reviewId) return <p>ID review không hợp lệ</p>;
   if (!review) return <p>Đang tải dữ liệu...</p>;
@@ -31,7 +40,7 @@ const ReviewDetail: React.FC = () => {
 
       <div className="review-detail-page">
         {/* --- Step 2 info (course/semester/class) --- */}
-        <div className="criteria-item">
+        <div className="criteria-itemm">
           <h2>Thông tin môn học</h2>
           <p>
             <strong>Học kỳ:</strong> {review.semester?.name || "Không rõ"}
@@ -103,25 +112,19 @@ const ReviewDetail: React.FC = () => {
         </div>
 
         {/* Evidence */}
-        <div className="criteria-item-box">
-          <h2>Minh chứng</h2>
-          {review.evidenceUrl ? (
+        {currentUserId === review.student?.id && review.evidenceUrl && (
+          <div className="criteria-item-box">
+            <h2>Minh chứng</h2>
             <div className="evidence-box">
               <img
                 src={review.evidenceUrl}
                 alt="Minh chứng"
                 className="evidence-img"
               />
-              {/* <p>
-                <a href={review.evidenceUrl} target="_blank" rel="noreferrer">
-                  Xem ảnh gốc
-                </a>
-              </p> */}
             </div>
-          ) : (
-            <p>Không có minh chứng</p>
-          )}
-        </div>
+          </div>
+        )}
+
         {/* Verified status */}
         <div className="criteria-item-box">
           {review.isVerified ? (

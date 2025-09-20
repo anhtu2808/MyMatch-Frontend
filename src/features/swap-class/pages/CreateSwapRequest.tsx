@@ -28,7 +28,6 @@ const CreateSwapRequest: React.FC = () => {
   const navigate = useNavigate()
   const { id } = useParams<{ id: string }>()
   const isEdit = Boolean(id)
-  console.log("request ID", id );
   
   useEffect(() => {
   if (isEdit) {
@@ -36,7 +35,6 @@ const CreateSwapRequest: React.FC = () => {
       try {
         const response = await getSwapRequestByIdAPI(Number(id))
         const data = response?.result
-        console.log("data", data);
         setFormData({
           codeCourse: data.course.code,
           fromClass: data.fromClass,
@@ -288,10 +286,12 @@ const mapSlotToApi = (slot: string) => {
 
           {/* Actions */}
           <div className="form-actions">
-            <button type="button" className="cancel-btn" onClick={handleCancel} disabled={isSubmitting}>Hủy</button>
-            <button type="submit" className="submit-btn" disabled={isSubmitting}>
+            <div className='button-form-actions'>
+            <button type="button" className="cancel-btn-create-swap" onClick={handleCancel} disabled={isSubmitting}>Hủy</button>
+            <button type="submit" className="submit-btn-create-swap" disabled={isSubmitting}>
               {isSubmitting ? 'Đang xử lý...' : isEdit ? 'Cập nhật yêu cầu' : 'Gửi yêu cầu'}
-            </button>          
+            </button>
+            </div>          
           </div>
         </form>
       </div>

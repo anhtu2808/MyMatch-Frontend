@@ -1,8 +1,8 @@
-.header {
+.header-container {
     background-color: white;
     width: 100%;
     height: 97px;
-    padding-left: 150px; /* Adjust based on sidebar width */
+    padding-left: 150px;
     padding-right: 20px;
     text-align: start;
     border-bottom: 1px solid #E8E8E8;
@@ -13,7 +13,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-}
+}   
 
 .title {
     font-size: 26px;
@@ -26,4 +26,17 @@
     font-size: 16px;
     color: #666;
     margin: 0;
+}
+
+.coin-container {
+    position: absolute;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 100px;
+    background-color: rgb(244, 255, 96);
+    padding: 20px;
+    width: 100px;
+    border-radius: 30px;
 }

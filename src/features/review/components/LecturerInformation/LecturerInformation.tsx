@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { getLecturerByIdAPI, getReviewsAPI } from "../../apis/TeacherPageApis"; // viết riêng hàm call api
+import {
+  getLecturerByIdAPI,
+  getReviewsAPI,
+  getCoursesByLecturerAPI,
+} from "../../apis/TeacherPageApis"; // viết riêng hàm call api
 import "./LecturerInformation.css";
 
 // Back Arrow Icon
@@ -91,6 +95,12 @@ interface Lecturer {
   reviewCount: number;
 }
 
+interface Course {
+  id: number;
+  name: string;
+  code: string;
+}
+
 interface LecturerInformationProps {
   lecturerId: number;
 }
@@ -104,6 +114,7 @@ const LecturerInformation: React.FC<LecturerInformationProps> = ({
   const [loading, setLoading] = useState(true);
   const [reviews, setReviews] = useState<Review[]>([]);
   const [averageScore, setAverageScore] = useState<number>(0);
+  const [courses, setCourses] = useState<Course[]>([]);
 
   useEffect(() => {
     if (!id) return;
@@ -118,6 +129,12 @@ const LecturerInformation: React.FC<LecturerInformationProps> = ({
         const reviewRes = await getReviewsAPI({ lecturerId: Number(id) });
         const reviewList: Review[] = reviewRes.result || [];
         setReviews(reviewList);
+
+        const courseRes = await getCoursesByLecturerAPI(Number(id));
+        const courseList: Course[] = (courseRes.result || []).map(
+          (item: any) => item.course
+        );
+        setCourses(courseList);
 
         // tính trung bình cộng overallScore
         if (reviewList.length > 0) {
@@ -183,10 +200,8 @@ const LecturerInformation: React.FC<LecturerInformationProps> = ({
               </p>
               <p className="lecturer-info">{lecturer.bio || "Chưa có mô tả"}</p>
               <p className="lecturer-info">
-                {lecturer.campus?.university?.courses?.length
-                  ? lecturer.campus.university.courses
-                      .map((c) => c.code)
-                      .join(", ")
+                {courses.length
+                  ? courses.map((c) => c.code).join(", ")
                   : "Chưa cập nhật môn học"}
               </p>
               <div className="rating-section">
@@ -218,10 +233,11 @@ const LecturerInformation: React.FC<LecturerInformationProps> = ({
             <button className="rate-button" onClick={handleReviewClick}>
               Review
             </button>
-            <button className="tutor-button">
+            <button className="tutor-button" disabled>
               <CrownIcon />
               Gợi ý học tập
               <span className="pro-badge">PRO</span>
+              <span className="tooltip-text">Tính năng đang được cập nhật</span>
             </button>
           </div>
         </div>

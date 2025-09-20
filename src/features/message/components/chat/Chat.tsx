@@ -1,7 +1,6 @@
 import type React from "react"
 import { useEffect, useRef, useState } from "react"
 import "./Chat.css"
-import ViewRequestPopup from "../view-request-popup/ViewRequestPopup"
 import {
   createConversationAPI,
   createMessageAPI,
@@ -60,14 +59,10 @@ const Chat: React.FC<ChatProps> = ({ id, requestId }) => {
     useState<Conversation | null>(null)
   const [messages, setMessages] = useState<Message[]>([])
   const [newMessage, setNewMessage] = useState("")
-  const [showRequestPopup, setShowRequestPopup] = useState(false)
-
   const token = getToken()
   const socketRef = useRef<any>(null)
   const selectedConvRef = useRef<Conversation | null>(null)
   const messagesEndRef = useRef<HTMLDivElement | null>(null)
-  console.log("studentId", id);
-  console.log("requestId", requestId);
 //lướt xuống tin nhắn dưới cùng  
   useEffect(() => {
   messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
@@ -162,13 +157,8 @@ const Chat: React.FC<ChatProps> = ({ id, requestId }) => {
       return
     }
 
-    console.log("📨 Received message:", data)
-    console.log("👉 data.id:", data.id)
-
     const currentId = selectedConvRef.current?.id ?? 0
     const incomingConvId = data.conversation?.id ?? 0
-
-    console.log("data.conversation?.id", data.conversation?.id)
 
     if (incomingConvId !== currentId) {
       console.log("❌ Message not for current conversation", {
@@ -235,9 +225,6 @@ const Chat: React.FC<ChatProps> = ({ id, requestId }) => {
           <>
             <div className="chat-conversation-header">
               <h3>{selectedConversation.conversationName || "Cuộc trò chuyện"}</h3>
-              <button onClick={() => setShowRequestPopup(true)}>
-                Xem yêu cầu
-              </button>
             </div>
 
             <div className="messages-container">
@@ -282,27 +269,6 @@ const Chat: React.FC<ChatProps> = ({ id, requestId }) => {
           <h3 className="note">Chọn một cuộc trò chuyện để bắt đầu</h3>
         )}
       </div>
-
-      {/* Popup */}
-      {selectedConversation && (
-        <ViewRequestPopup
-          isOpen={showRequestPopup}
-          onClose={() => setShowRequestPopup(false)}
-          userInfo={{
-            id: selectedConversation.id,
-            name: selectedConversation.conversationName,
-            email: "",
-            studentId: "",
-            wantedClass: "TODO",
-            currentClass: "TODO",
-            subject: "TODO",
-            teacher: "TODO",
-            schedule: "TODO",
-            wantedSchedule: "TODO",
-            time: new Date().toLocaleString("vi-VN"),
-          }}
-        />
-      )}
     </div>
   )
 }

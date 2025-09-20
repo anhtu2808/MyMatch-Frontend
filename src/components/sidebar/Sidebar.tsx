@@ -4,6 +4,33 @@ import { NavLink, useLocation, useNavigate } from "react-router-dom";
 // import { selectCoinsBalance, selectCurrentUser } from '../store/slices/userSlice';
 import "./Sidebar.css";
 import { logOut } from "../../features/login/services/authenticationService";
+import { getToken } from "../../features/login/services/localStorageService";
+import { getProfileAPI } from "../../features/profile/apis";
+
+interface UserInfo {
+  id: number
+  username: string
+  email: string
+  firstName: string
+  lastName: string
+  phone: string
+  avatarUrl: string
+  address: string
+  role: string
+  permissions: string[]
+  student?: {
+    id: number
+    studentCode: string
+    campus?:{
+      id: number
+      name: string
+    }
+    skill: string
+    goals: number
+    description: string
+    major: string | null
+  }
+}
 
 const Sidebar = () => {
   //   const coinsBalance = useSelector(selectCoinsBalance);
@@ -29,6 +56,17 @@ const Sidebar = () => {
 
   const navigation = useNavigate();
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const [info, setInfo] = useState<UserInfo | null>(null)
+
+  useEffect(() => {
+    const token = localStorage.getItem("accessToken");
+    if (!token) return; // chưa login thì thôi, không gọi API
+    const fetchInfo = async () => {
+      const response = await getProfileAPI()
+      setInfo(response.result)
+    }
+    fetchInfo()
+  }, [])
 
   const navItems = [
     {
@@ -214,6 +252,7 @@ const Sidebar = () => {
     navigation("/login");
   };
 
+  const token = getToken()
   return (
     <>
       <div className="sidebar">
@@ -248,8 +287,8 @@ const Sidebar = () => {
 
         <div className="userProfileSection" ref={dropdownRef}>
           <div className="userProfile" onClick={() => handleDropdownToggle()}>
-            <div className="userAvatar">
-              {/* {(currentUser?.name || 'Alex Johnson').charAt(0).toUpperCase()} */}
+            <div>
+              <img className="userAvatar" src={info?.avatarUrl} />
             </div>
             <div className="tooltip">
               {/* <div className="font-medium">{currentUser?.name || 'Alex Johnson'}</div>
@@ -268,6 +307,7 @@ const Sidebar = () => {
               >
                 Hồ sơ
               </NavLink>
+              {!token &&
               <NavLink
                 to="/login"
                 className={({ isActive }) =>
@@ -276,7 +316,7 @@ const Sidebar = () => {
                 onClick={() => setIsDropdownOpen(false)}
               >
                 Đăng nhập
-              </NavLink>
+              </NavLink>}
 
               <button className="dropdownItem" onClick={() => handleLogout()}>
                 Đăng xuất

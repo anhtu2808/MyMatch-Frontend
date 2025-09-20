@@ -14,14 +14,13 @@ import ReviewDetail from "./features/review/pages/ReviewDetail";
 import Authenticate from "./features/login/pages/Authenticated";
 import Login from "./features/login/pages/Login";
 import MyInfor from "./features/profile/pages/MyInfor";
-import { getToken } from "./features/login/services/localStorageService";
 import PrivateRoute from "./PrivateRoute";
 import Payment from "./features/payment/pages/Payment";
 import Product from "./features/product/pages/Product";
 import MaterialPage from "./features/material/pages/MaterialPage";
 
 function App() {
-  getToken();
+  // getToken();
   return (
     <Router>
       <Routes>
@@ -60,14 +59,7 @@ function App() {
             </PrivateRoute>
           }
         />
-        <Route
-          path="/teachers"
-          element={
-            <PrivateRoute>
-              <TeachersPage />
-            </PrivateRoute>
-          }
-        />
+        <Route path="/teachers" element={<TeachersPage />} />
         <Route
           path="/lecturer-detail/:id"
           element={

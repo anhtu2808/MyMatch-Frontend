@@ -6,7 +6,7 @@ type MyToken = JwtPayload & {
   studentId: number;
 };
 
-const getToken = () => localStorage.getItem("token");
+const getToken = () => localStorage.getItem("accessToken");
 
 export const getStudentIdFromToken = (): number | null => {
   const token = getToken();
@@ -107,6 +107,7 @@ interface LecturerActivity {
   avatarUrl: string;
   rating: number;
   reviewCount: number;
+  createAt: string;
 }
 
 export const getLatestLecturerActivityAPI =
@@ -117,7 +118,7 @@ export const getLatestLecturerActivityAPI =
           isReviewed: true,
           page: 1,
           size: 1,
-          sort: "name",
+          sort: "createAt",
         },
         headers: { Authorization: `Bearer ${getToken()}` },
       });
@@ -132,9 +133,64 @@ export const getLatestLecturerActivityAPI =
         avatarUrl: data.avatarUrl || "/default-avatar.png",
         rating: data.rating ?? 0,
         reviewCount: data.reviewCount ?? 0,
+        createAt: data.createAt ?? new Date().toISOString(),
       };
     } catch (err) {
       console.error("Error fetching lecturer activity", err);
       return null;
     }
   };
+
+export const getMyReviewsAPI = async (
+  page = 1,
+  size = 10
+): Promise<{
+  data: {
+    id: number;
+    lecturerName: string;
+    courseName: string;
+    semesterName: string;
+    overallScore: number;
+    isAnonymous: boolean;
+    createdAt: string;
+    isVerified: boolean;
+  }[];
+  totalPages: number;
+}> => {
+  const studentId = getStudentIdFromToken();
+  if (!studentId) return { data: [], totalPages: 0 };
+
+  const res = await api.get("/reviews", {
+    params: {
+      studentId,
+      page,
+      size,
+      sortBy: "createAt",
+      sortDirection: "DESC",
+    },
+    headers: { Authorization: `Bearer ${getToken()}` },
+  });
+
+  const items = res.data?.result?.data ?? [];
+  const totalPages = res.data?.result?.totalPages ?? 1;
+
+  return {
+    data: items.map((r: any) => ({
+      id: r.id,
+      lecturerName: r.lecturer?.name ?? "Unknown",
+      courseName: r.course?.name ?? "Không rõ môn",
+      semesterName: r.semester?.name ?? "Không rõ kỳ",
+      overallScore: r.overallScore ?? 0,
+      isAnonymous: r.isAnonymous ?? false,
+      createdAt: r.createAt ?? new Date().toISOString(),
+      isVerified: r.isVerified ?? false,
+    })),
+    totalPages,
+  };
+};
+
+export const deleteReviewAPI = async (reviewId: number) => {
+  return api.delete(`/reviews/${reviewId}`, {
+    headers: { Authorization: `Bearer ${getToken()}` },
+  });
+};

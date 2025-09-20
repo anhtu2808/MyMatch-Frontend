@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 // import { getProductAPI } from '../../apis' // Comment tạm thời
 import './ProductCard.css'
+import { createProductAPI } from '../../apis'
+import { getCoinAPI } from '../../../coin/apis'
 
 export interface Product {
   id: number
@@ -40,11 +42,9 @@ function ProductCard() {
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    // Simulate API call with fake data
     const fetchProduct = async () => {
       try {
         setLoading(true)
-        // Simulate loading time
         await new Promise(resolve => setTimeout(resolve, 1000))
         setProducts(fakeProducts)
       } catch (err) {
@@ -97,6 +97,19 @@ function ProductCard() {
     }
   }
 
+  const handleBuyProduct = async (id: number, coin: number) => {
+    const response = await getCoinAPI();
+    try{
+      if(response?.result.coin >= coin) {
+         await createProductAPI(id);
+      } else alert("Bạn không đủ Coin để thực hiện thanh toán dịch vụ") 
+    } catch(err) {
+      console.error("Buy wrong", err);
+    }
+    
+
+  }
+
   return (
     <div className="product-grid">
       {products.map((product) => (
@@ -123,7 +136,7 @@ function ProductCard() {
                   <circle cx="12" cy="12" r="10"/>
                   <polyline points="12,6 12,12 16,14"/>
                 </svg>
-                {formatDuration(product.durationDays)}
+                thời gian sử dụng: {formatDuration(product.durationDays)}
               </div>
             </div>
             
@@ -135,7 +148,7 @@ function ProductCard() {
                 <span className="price-value">{formatCoin(product.coin)} coin</span>
               </div>
               
-              <button className="buy-button">
+              <button className="buy-button" onClick={() => handleBuyProduct(product.id, product.coin)}>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <path d="M3 3h2l.4 2M7 13h10l4-8H5.4m1.6 8L6 5H5m2 8v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/>
                 </svg>

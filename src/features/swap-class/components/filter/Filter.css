@@ -4,7 +4,7 @@
     border-radius: 8px;
     padding: 20px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    width: 1200px;
+    width: 1240px;
 }
 
 .filter-header {
@@ -31,17 +31,6 @@
     font-size: 18px;
     font-weight: bold;
     color: #333;
-}
-
-.reset-filter {
-    margin-left: auto;
-    color: #4A90E2;
-    cursor: pointer;
-    font-size: 14px;
-}
-
-.reset-filter:hover {
-    color: #357ABD;
 }
 
 .filter-form {
@@ -83,43 +72,44 @@
     color: #999;
 }
 
-.form-actions {
+.button-form-actions {
     display: flex;
-    align-items: center;
-    gap: 15px;
-    margin-top: 10px;
+    gap: 10px
 }
 
-.form-actions span {
-    font-size: 14px;
-    color: #333;
-    font-weight: 500;
-}
-
-.form-actions select {
-    padding: 8px 12px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 14px;
-    background-color: white;
-}
 
 .search-btn {
-    background-color: #1e3a8a;
+    background-color: #0c326f;
     color: white;
     border: none;
-    padding: 12px 24px;
+    padding: 10px 16px;
     border-radius: 6px;
     cursor: pointer;
     font-size: 14px;
-    margin-left: auto;
     display: flex;
     align-items: center;
-    gap: 8px;
     font-weight: 500;
     transition: background-color 0.2s;
 }
 
-.search-btn:hover {
-    background-color: #1e40af;
+.delete-btn {
+    background-color: #f5f5f5;
+    color: black;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+    transition: background-color 0.2s;
 }
+
+.delete-btn:hover{
+    transform: translateY(-2px);
+}
+
+ .search-btn:hover{
+     transform: translateY(-2px);
+ }

@@ -7,7 +7,6 @@ import { useParams } from "react-router-dom";
 
 const Message = () => {
   const { studentId, requestId } = useParams();
-  console.log("trả ra iddddddddd",studentId, requestId );
   return (
     <div className='message-container'>
       <Sidebar />

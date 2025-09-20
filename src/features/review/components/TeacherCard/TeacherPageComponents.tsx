@@ -108,7 +108,7 @@ export const mapLecturerToCard = (dto: LecturerDTO): TeacherCardData => ({
   courses: dto.campus?.university?.courses?.map((c) => c.name) ?? [],
   rating: dto.rating ?? 0, // API chưa trả rating -> 0
   reviews: dto.reviewCount ?? 0,
-  subjects: dto.subjectCount ?? dto.campus?.university?.courses?.length ?? 0,
+  subjects: dto.subjectCount ?? 0,
 });
 
 function TeacherCard({
@@ -127,6 +127,7 @@ function TeacherCard({
   };
 
   const handleReviewClick = () => {
+    if (!token) {navigate("/login")}
     navigate(`/add-review/${teacher.id}`, {
       state: {
         teacherId: teacher.id,
@@ -136,6 +137,7 @@ function TeacherCard({
     });
   };
 
+  const token = localStorage.getItem("accessToken");
   return (
     <div className="teacher-card">
       {/* Top section with gray background */}
@@ -185,11 +187,11 @@ function TeacherCard({
             <p className="stat-label">Lượt Review</p>
           </div>
           <div className="stat">
-            <span className="stat-number">{teacher.courses.length}</span>
+            <span className="stat-number">{teacher.subjects}</span>
             <p className="stat-label">Môn học</p>
           </div>
         </div>
-
+ 
         <div className="teacher-card-footer">
           <button className="btn-rate" onClick={handleReviewClick}>
             <StarIcon filled={false} className="btn-star" />
@@ -204,7 +206,7 @@ function TeacherCard({
           >
             <BookmarkIcon className="btn-bookmark-icon" />
           </button>
-        </div>
+        </div> 
       </div>
     </div>
   );
