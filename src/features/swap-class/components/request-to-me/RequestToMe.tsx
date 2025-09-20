@@ -151,7 +151,7 @@ function RequestToMe() {
 
   const handleAcceptSwap = (id: number) => {
     const data = {
-      decision: "ACCEPT",
+      decision: "ACCEPTED",
       reason: "accept"
     }
     try{
@@ -167,7 +167,7 @@ function RequestToMe() {
 
   const handleRejectSwap = (id: number) => {
     const data = {
-      decision: "REJECT",
+      decision: "REJECTED",
       reason: "reject"
     }
     try{
@@ -222,7 +222,7 @@ function RequestToMe() {
 
           <div className='swap-details'>
             <div className='swap-section'>
-              <h4>Lớp của họ</h4>
+              <h4>Lớp của bạn</h4>
               <div className='class-card want-swap'>
                 <div className='class-code'>{request.requestFrom.fromClass}</div>
                 <div className='subject-small'>{request.requestFrom.course.code}</div>
@@ -242,7 +242,7 @@ function RequestToMe() {
             </div>
 
             <div className='swap-section'>
-              <h4>Lớp của bạn</h4>
+              <h4>Lớp của họ</h4>
               <div className='class-card your-class'>
                 <div className='class-code'>{request.requestTo.fromClass}</div>
                 <div className='subject-small'>{request.requestTo.course.name}</div>
@@ -257,11 +257,11 @@ function RequestToMe() {
               </div>
             </div>
           </div>
-          <div className='action-buttons'>
-            <button className='btn-message' onClick={() => navigation(`messages/${request.requestFrom?.student?.id}`)}>💬 Nhắn tin</button>
+          <div className='action-buttons-matching'>
+            <button className='btn-message-matching' onClick={() => navigation(`/message/${request.requestTo?.student?.id}`)}>💬 Nhắn tin</button>
+            <button className='btn-message-matching-reject' onClick={() => handleRejectSwap(request.id)}>Từ chối</button>
+            <button className='btn-message-matching-accept' onClick={() => handleAcceptSwap(request.id)}>Chấp nhận</button>
           </div>
-          <button onClick={() => handleAcceptSwap(request.id)}>Accept</button>
-          <button onClick={() => handleRejectSwap(request.id)}>Reject</button>
         </div>
       ))}
     </div>
