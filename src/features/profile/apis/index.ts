@@ -14,7 +14,7 @@ export const createImageAPI = async (file: File) => {
   const formData = new FormData();
   formData.append("file", file);
 
-  const response = await api.post(`/reviews/upload-evidence`, formData, {
+  const response = await api.post(`/images`, formData, {
     headers: {
       "Content-Type": "multipart/form-data",
     },
