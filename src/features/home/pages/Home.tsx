@@ -10,8 +10,10 @@ import { setUser } from "../../../store/Slice";
 
 function Home() {
   const dispatch = useAppDispatch();
-
+  
   useEffect(() => {
+    const token = localStorage.getItem("accessToken");
+    if (!token) return; // chưa login thì thôi, không gọi API
     const fetchProfileAndSetUser = async () => {
       try {
         const response = await getProfileAPI();

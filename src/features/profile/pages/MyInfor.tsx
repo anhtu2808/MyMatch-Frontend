@@ -2,7 +2,8 @@ import React, { useState, useRef, useEffect } from 'react'
 import "./MyInfor.css"
 import Header from '../../../components/header/Header'
 import Sidebar from '../../../components/sidebar/Sidebar'
-import { getProfileAPI } from '../apis'
+import { createImageAPI, getProfileAPI, updateUserAPI } from '../apis'
+import { useAppSelector } from '../../../store/hooks'
 
 interface UserInfo {
   id: number
@@ -29,10 +30,27 @@ interface UserInfo {
   }
 }
 
+interface UserUpdate {
+  id?: number
+  username?: string
+  phone?: string
+  avatarUrl?: string
+  campusId?: number
+  major?: string
+}
+
+interface Image {
+  file: string
+}
+
 const MyInfor: React.FC = () => {
+  const user = useAppSelector((state) => state.user)
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [isEditing, setIsEditing] = useState(false)
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
+  const [userUpdate, setUserUpdate] = useState<UserUpdate | null>(null)
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+
   useEffect(() => {
     const handleFetchProfile = async () => {  
       const response = await getProfileAPI()
@@ -41,39 +59,60 @@ const MyInfor: React.FC = () => {
     handleFetchProfile()
   }, [])
 
-  const handleAvatarClick = () => {
+  const handleClickImage = () => {
     fileInputRef.current?.click()
   }
 
-  // const handleAvatarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   const file = event.target.files?.[0]
-  //   if (file) {
-  //     const reader = new FileReader()
-  //     reader.onload = (e) => {
-  //       setUserInfo(prev => ({
-  //         ...prev,
-  //         avatar: e.target?.result as string
-  //       }))
-  //     }
-  //     reader.readAsDataURL(file)
-  //   }
-  // }
-
-  // const handleInputChange = (field: keyof UserInfo, value: string) => {
-  //   setUserInfo(prev => ({
-  //     ...prev,
-  //     [field]: value
-  //   }))
-  // }
-
-  const handleSave = () => {
-    console.log('Saving user info:', userInfo)
-    setIsEditing(false)
+  const handleSave = async () => {
+  if (!userUpdate) return;
+  try {
+    const payload = {
+      username: userUpdate.username,
+      phone: userUpdate.phone,
+      campusId: userUpdate.campusId,
+      major: userUpdate.major,
+    };
+    await updateUserAPI(Number(user.id), payload);
+    const response = await getProfileAPI();
+    setUserInfo(response?.result);
+    setIsEditing(false);
+  } catch (err) {
+    console.error("Update user failed:", err);
   }
+};
 
   const handleCancel = () => {
     setIsEditing(false)
   }
+
+  const handleEdit = () => {
+  if (userInfo) {
+    setUserUpdate({
+      username: userInfo.username,
+      phone: userInfo.phone,
+      campusId: userInfo.student?.campus?.id || 0,
+      major: userInfo.student?.major || "",
+    });
+  }
+  setIsEditing(true);
+};
+
+
+const handleInputChange = (field: string, value: any) => {
+  setUserUpdate((prev) => {
+    if (!prev) return null;
+    // if (["campusId", "major"].includes(field)) {  chỉ check các field có logic đặc biệt
+    //   return {
+    //     ...prev,
+    //     [field]: value,
+    //   };
+    // }
+    return {
+      ...prev,
+      [field]: value,
+    };
+  });
+}; 
 
   return (
     <div className="my-infor-page">
@@ -89,20 +128,45 @@ const MyInfor: React.FC = () => {
                 <div className="profile-content">
                   {/* Avatar Section */}
                   <div className="avatar-section">
-                    <div className="avatar-wrapper" onClick={handleAvatarClick}>
-                      <img src={userInfo?.avatarUrl} alt="Avatar" className="avatar-image" />
+                      <div className="avatar-wrapper" onClick={handleClickImage}>
+                        <img src={previewUrl || userInfo?.avatarUrl} alt="Avatar" className="avatar-image" />
                       <div className="avatar-overlay">
                         <span className="camera-icon">📷</span>
                         <span className="change-text">Thay đổi</span>
                       </div>
                     </div>
+                    {/* Input file ẩn */}
                     <input
-                      ref={fileInputRef}
-                      type="file"
-                      accept="image/*"
-                      // onChange={handleAvatarChange}
-                      style={{ display: 'none' }}
-                    />
+                        type="file"
+                        ref={fileInputRef}
+                        style={{ display: "none" }}
+                        accept="image/*"
+                        onChange={async (e) => {
+                        if (e.target.files && e.target.files[0]) {
+                          const file = e.target.files[0];
+                          setPreviewUrl(URL.createObjectURL(file)); // hiển thị tạm thời
+
+                          try {
+                            // Gọi API upload ảnh
+                            const res = await createImageAPI(file);
+
+                            // Giả sử backend trả về link thật trong res.result
+                            const newAvatarUrl = res.result;
+                            if (newAvatarUrl) {
+                              await updateUserAPI(Number(user.id), { avatarUrl: newAvatarUrl });
+                              
+                              // Cập nhật user info
+                              const profileRes = await getProfileAPI();
+                              setUserInfo(profileRes?.result);
+
+                              setPreviewUrl(null); // dùng link thật, bỏ preview
+                            }
+                          } catch (error) {
+                            console.error("Upload avatar failed", error);
+                          }
+                        }
+                      }}
+                      />
                   </div>
 
                   {/* User Basic Info */}
@@ -115,7 +179,7 @@ const MyInfor: React.FC = () => {
                   {/* Action Buttons */}
                   <div className="action-buttons">
                     {!isEditing ? (
-                      <button className="edit-btn" onClick={() => setIsEditing(true)}>
+                      <button className="edit-btn" onClick={handleEdit}>
                         <span className="edit-icon">✏️</span>
                         Chỉnh sửa thông tin
                       </button>
@@ -148,56 +212,26 @@ const MyInfor: React.FC = () => {
                   <div className="card-content">
                     <div className="info-grid">
                       <div className="info-item">
-                        <label className="info-label">Trường</label>
-                        {isEditing ? (
-                          <input
-                            type="text"
-                            // value={userInfo.school}
-                            // onChange={(e) => handleInputChange('school', e.target.value)}
-                            className="info-input"
-                          />
-                        ) : (
-                          <span className="info-value"></span>
-                        )}
+                        <label className="info-label">Trường</label>                 
+                          <span className="info-value">FPT University</span>
                       </div>
 
                       <div className="info-item">
                         <label className="info-label">Cơ sở</label>
                         {isEditing ? (
                           <select
-                            // value={userInfo.campus}
-                            // onChange={(e) => handleInputChange('campus', e.target.value)}
+                            value={userUpdate?.campusId}
+                            onChange={(e) => handleInputChange('campusId', Number(e.target.value))}
                             className="info-select"
                           >
-                            <option value="Hà Nội">Hà Nội</option>
-                            <option value="TP.HCM">TP.HCM</option>
-                            <option value="Đà Nẵng">Đà Nẵng</option>
-                            <option value="Cần Thơ">Cần Thơ</option>
-                            <option value="Quy Nhon">Quy Nhon</option>
+                            <option value="1">Hòa Lạc</option>
+                            <option value="2">TP. Hồ Chí Minh</option>
+                            <option value="3">Đà Nẵng</option>
+                            <option value="4">Cần Thơ</option>
+                            <option value="5">Quy Nhơn</option>
                           </select>
                         ) : (
                           <span className="info-value">{userInfo?.student?.campus?.name}</span>
-                        )}
-                      </div>
-
-                      <div className="info-item full-width">
-                        <label className="info-label">Chuyên ngành</label>
-                        {isEditing ? (
-                          <select
-                            // value={userInfo.major}
-                            // onChange={(e) => handleInputChange('major', e.target.value)}
-                            className="info-select"
-                          >
-                            <option value="Kỹ thuật phần mềm">Kỹ thuật phần mềm</option>
-                            <option value="Hệ thống thông tin">Hệ thống thông tin</option>
-                            <option value="An toàn thông tin">An toàn thông tin</option>
-                            <option value="Trí tuệ nhân tạo">Trí tuệ nhân tạo</option>
-                            <option value="Thiết kế đồ họa">Thiết kế đồ họa</option>
-                            <option value="Marketing">Marketing</option>
-                            <option value="Quản trị kinh doanh">Quản trị kinh doanh</option>
-                          </select>
-                        ) : (
-                          <span className="info-value"></span>
                         )}
                       </div>
                     </div>
@@ -219,8 +253,8 @@ const MyInfor: React.FC = () => {
                         {isEditing ? (
                           <input
                             type="text"
-                            // value={userInfo.username}
-                            // onChange={(e) => handleInputChange('username', e.target.value)}
+                            value={userUpdate?.username}
+                            onChange={(e) => handleInputChange('username', e.target.value)}
                             className="info-input"
                           />
                         ) : (
@@ -239,12 +273,12 @@ const MyInfor: React.FC = () => {
                         {isEditing ? (
                           <input
                             type="tel"
-                            // value={userInfo.phone}
-                            // onChange={(e) => handleInputChange('phone', e.target.value)}
+                            value={userUpdate?.phone}
+                            onChange={(e) => handleInputChange('phone', e.target.value)}
                             className="info-input"
                           />
                         ) : (
-                          <span className="info-value"></span>
+                          <span className="info-value">{userInfo?.phone}</span>
                         )}
                       </div>
 

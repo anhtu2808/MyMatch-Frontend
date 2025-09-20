@@ -151,14 +151,12 @@
 .class-card.want-swap {
     border-color: #c02020;
     background-color: #fddddd;
-    height: 100px;
     justify-content: center;
     display: flex;
     flex-direction: column;
 }
 
 .class-card.your-class {
-    height: 100px;
     border-color: #4CAF50;
     background-color: #f8fff8;
     justify-content: center;

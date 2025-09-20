@@ -127,6 +127,7 @@ function TeacherCard({
   };
 
   const handleReviewClick = () => {
+    if (!token) {navigate("/login")}
     navigate(`/add-review/${teacher.id}`, {
       state: {
         teacherId: teacher.id,
@@ -136,6 +137,7 @@ function TeacherCard({
     });
   };
 
+  const token = localStorage.getItem("accessToken");
   return (
     <div className="teacher-card">
       {/* Top section with gray background */}
@@ -189,7 +191,7 @@ function TeacherCard({
             <p className="stat-label">Môn học</p>
           </div>
         </div>
-
+ 
         <div className="teacher-card-footer">
           <button className="btn-rate" onClick={handleReviewClick}>
             <StarIcon filled={false} className="btn-star" />
@@ -204,7 +206,7 @@ function TeacherCard({
           >
             <BookmarkIcon className="btn-bookmark-icon" />
           </button>
-        </div>
+        </div> 
       </div>
     </div>
   );

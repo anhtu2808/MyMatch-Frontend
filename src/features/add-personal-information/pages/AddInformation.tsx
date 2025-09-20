@@ -108,15 +108,6 @@ function AddInformation({ isOpen, onClose, onSuccess, forceOpen = false }: AddIn
               placeholder="VD: SE172181"
             />
           </div>
-{/* 
-          <div className="form-group">
-            <label>Phone</label>
-            <input
-              type="text"
-              value={formData.phone}
-              onChange={(e) => handleChange('studentCode', e.target.value)}
-            />
-          </div> */}
 
           <div className="form-actions">
             {!forceOpen && (
@@ -124,7 +115,7 @@ function AddInformation({ isOpen, onClose, onSuccess, forceOpen = false }: AddIn
                 Hủy
               </button>
             )}
-            <button type="submit" disabled={isSubmitting}>
+            <button type="submit" disabled={isSubmitting} className='save-button-add-info'>
               {isSubmitting ? "Đang lưu..." : "Lưu"}
             </button>
           </div>
