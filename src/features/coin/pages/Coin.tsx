@@ -10,6 +10,8 @@ const Coin: React.FC = () => {
     const [coins, setCoin] = useState<Coin | null>(null) 
 
     useEffect(() => {
+      const token = localStorage.getItem("accessToken");
+      if (!token) return; // chưa login thì thôi, không gọi API
         const fetchCoin = async () => {
             const response = await getCoinAPI();
             setCoin(response.result)

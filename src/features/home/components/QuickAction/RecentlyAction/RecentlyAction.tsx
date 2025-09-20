@@ -62,6 +62,8 @@ const RecentActivity: React.FC = () => {
   const [lecturer, setLecturer] = useState<LecturerActivity | null>(null);
   const user = useAppSelector((state) => state.user)
   useEffect(() => {
+    const token = localStorage.getItem("accessToken");
+    if (!token) return;
     (async () => {
       try {
         const [latestReview, latestSwap, latestLecturer] = await Promise.all([

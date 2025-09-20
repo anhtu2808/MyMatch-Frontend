@@ -72,10 +72,8 @@ const MyInfor: React.FC = () => {
       campusId: userUpdate.campusId,
       major: userUpdate.major,
     };
-    console.log("trước khi truyền vào api", payload);
     await updateUserAPI(Number(user.id), payload);
     const response = await getProfileAPI();
-    console.log("Lấy dữ liệu lên sau update", response.result);
     setUserInfo(response?.result);
     setIsEditing(false);
   } catch (err) {
@@ -154,7 +152,6 @@ const handleInputChange = (field: string, value: any) => {
 
                             // Giả sử backend trả về link thật trong res.result
                             const newAvatarUrl = res.result;
-                            console.log("ảnh", newAvatarUrl);
                             if (newAvatarUrl) {
                               await updateUserAPI(Number(user.id), { avatarUrl: newAvatarUrl });
                               
