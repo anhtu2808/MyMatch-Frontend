@@ -62,8 +62,12 @@ const Sidebar = () => {
     const token = localStorage.getItem("accessToken");
     if (!token) return; // chưa login thì thôi, không gọi API
     const fetchInfo = async () => {
-      const response = await getProfileAPI()
-      setInfo(response.result)
+      try{
+        const response = await getProfileAPI()
+        setInfo(response.result)
+      } catch (err) {
+        console.error("Error fetch info", err)
+      }
     }
     fetchInfo()
   }, [])

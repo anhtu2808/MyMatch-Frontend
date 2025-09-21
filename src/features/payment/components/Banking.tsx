@@ -21,8 +21,12 @@ const Banking: React.FC = () => {
 
   useEffect(() => {
     const fetchQrCode = async () => {
-      const response = await fetchQrCodeAPI();
-      setQrCode(response.result)
+      try {
+        const response = await fetchQrCodeAPI();
+        setQrCode(response.result)
+      } catch (err) {
+        console.error("Error fetch Qr code", err)
+      }
     }
     fetchQrCode()
   }, [])
