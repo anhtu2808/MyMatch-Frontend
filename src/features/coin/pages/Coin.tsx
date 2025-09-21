@@ -14,8 +14,12 @@ const Coin: React.FC = () => {
       const token = localStorage.getItem("accessToken");
       if (!token) return; // chưa login thì thôi, không gọi API
         const fetchCoin = async () => {
+          try {
             const response = await getCoinAPI();
             setCoin(response.result)
+          } catch (err) {
+            console.error("Error fetch coin", err)
+          }
         }
         fetchCoin()
     }, [])

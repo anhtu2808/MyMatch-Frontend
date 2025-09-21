@@ -21,3 +21,13 @@ export const createImageAPI = async (file: File) => {
   });
   return response.data;
 };
+
+export const getStudentIdAPI = async (id: number) => {
+  const response = await api.get(`/students/${id}`)
+  return response.data;
+}
+
+export const updateStudentAPI = async (id: number, data: any) => {
+  const response = await api.put(`/students/${id}`, data)
+  return response.data;
+}
