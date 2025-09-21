@@ -150,7 +150,7 @@ function MyRequest() {
 
       <div className='section-header'>
         <h2>Yêu cầu chuyển của tôi</h2>
-        <span className='view-all'>Hiển thị {myRequests.length} yêu cầu</span>
+        <span className='view-all'>Hiển thị {filteredFeeds.length} yêu cầu</span>
       </div>
 
       {filteredFeeds.map((request) => (

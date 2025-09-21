@@ -30,13 +30,7 @@
 
 .coin-container {
     position: absolute;
-    right: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-right: 100px;
-    background-color: rgb(244, 255, 96);
-    padding: 20px;
-    width: 100px;
-    border-radius: 30px;
+    right: 100px;
+    top: 50%;
+    transform: translateY(-50%);
 }
