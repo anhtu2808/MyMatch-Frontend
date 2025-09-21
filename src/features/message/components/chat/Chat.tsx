@@ -63,6 +63,13 @@ const Chat: React.FC<ChatProps> = ({ id, requestId }) => {
   const socketRef = useRef<any>(null)
   const selectedConvRef = useRef<Conversation | null>(null)
   const messagesEndRef = useRef<HTMLDivElement | null>(null)
+  const [searchTerm, setSearchTerm] = useState("")
+
+  // thanh search tên user
+  const filteredConversations = conversations.filter((conv) =>
+  conv.conversationName?.toLowerCase().includes(searchTerm.toLowerCase())
+)
+
 //lướt xuống tin nhắn dưới cùng  
   useEffect(() => {
   messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
@@ -192,8 +199,19 @@ const Chat: React.FC<ChatProps> = ({ id, requestId }) => {
       {/* Sidebar */}
       <div className="chat-sidebar">
         <h2 className="title-message">Tin nhắn</h2>
+
+        {/* Search box */}
+        <div className="search-box-message">
+          <input
+            type="text"
+            placeholder="Tìm kiếm tên..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </div>
+
         <div className="chat-list">
-          {conversations.map((conv) => (
+          {filteredConversations.map((conv) => (
             <div
               key={conv.id}
               className={`chat-item ${
@@ -266,7 +284,9 @@ const Chat: React.FC<ChatProps> = ({ id, requestId }) => {
             </div>
           </>
         ) : (
-          <h3 className="note">Chọn một cuộc trò chuyện để bắt đầu</h3>
+          <div className="note">
+            <h3 >Chọn một cuộc trò chuyện để bắt đầu</h3>
+          </div>
         )}
       </div>
     </div>

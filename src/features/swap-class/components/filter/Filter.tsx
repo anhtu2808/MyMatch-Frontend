@@ -75,14 +75,14 @@ const Filter: React.FC<FilterProps> = ({ onFilter, onReset }) => {
             />
           </div>
           <div className='form-group-filter'>
-            <label>Mã giảng viên</label>
+            <label>Tên giảng viên</label>
             <input
               className='input-filter'
               name='lecturer'
               type='text'
               value={filters.lecturer}
               onChange={handleInputChange}
-              placeholder='e.g. Thanhln2'
+              placeholder='e.g. Nguyễn Thế Hoàng'
             />
           </div>
 

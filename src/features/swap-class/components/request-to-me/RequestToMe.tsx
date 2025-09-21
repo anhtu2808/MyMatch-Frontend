@@ -187,7 +187,7 @@ function RequestToMe() {
       <Filter onFilter={handleFilter} onReset={handleReset} />
       <div className='section-header'>
         <h2>Yêu cầu gửi tới tôi</h2>
-        <span className='view-all'>Hiển thị {requests.length} yêu cầu</span>
+        <span className='view-all'>Hiển thị {filteredFeeds.length} yêu cầu</span>
       </div>
 
             {filteredFeeds.map((request) => (
