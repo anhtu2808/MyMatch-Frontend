@@ -158,7 +158,7 @@ function MyRequest() {
           <div className='card-header'>
             <div className='user-info'>
               <div className='avatar'>
-                {/* <img src="/api/placeholder/40/40" alt="User" /> */}
+                <img src={request?.student?.user?.avatarUrl} alt={request?.student?.user?.username} />
               </div>
               <div className='user-details'>
                 <h3>{request.student.user.username}</h3>
@@ -223,7 +223,7 @@ function MyRequest() {
           </div>
 
           <div className='action-buttons-request'>
-            <button className='btn-message' onClick={() => navigate(`/swap_class/edit/${request.id}`)}>✏️ Chỉnh sửa</button>
+            <button className='btn-message' onClick={() => navigate(`/swap_class/edit/${request.id}`)}>Chỉnh sửa</button>
             <button className='delete-request' onClick={() => handleDeleteRequest(request.id)}>Xóa</button>
           </div>
         </div>

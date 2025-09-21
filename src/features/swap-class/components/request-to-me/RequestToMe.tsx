@@ -258,7 +258,7 @@ function RequestToMe() {
             </div>
           </div>
           <div className='action-buttons-matching'>
-            <button className='btn-message-matching' onClick={() => navigation(`/message/${request.requestTo?.student?.id}`)}>💬 Nhắn tin</button>
+            <button className='btn-message-matching' onClick={() => navigation(`/message/${request.requestTo?.student?.id}`)}>Nhắn tin</button>
             <button className='btn-message-matching-reject' onClick={() => handleRejectSwap(request.id)}>Từ chối</button>
             <button className='btn-message-matching-accept' onClick={() => handleAcceptSwap(request.id)}>Chấp nhận</button>
           </div>

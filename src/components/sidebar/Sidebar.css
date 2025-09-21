@@ -63,7 +63,7 @@
 }
 
 .navLinkActive {
-  background-color: #2b2c8c; /* primary */
+  background-color: #0c326f; /* primary */
   color: white;
   box-shadow: 0 4px 6px rgba(99, 102, 241, 0.4);
 }

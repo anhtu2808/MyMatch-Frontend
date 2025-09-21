@@ -36,6 +36,7 @@ interface User {
   id: number
   username: string
   email: string
+  avatarUrl?: string
 }
 
 interface Student {
@@ -139,7 +140,7 @@ function NewsFeed() {
           <div className='card-header'>
             <div className='user-info'>
               <div className='avatar'>
-                <img src="/api/placeholder/40/40" alt="User" />
+                <img src={request?.student?.user?.avatarUrl} alt={request?.student?.user?.username} />
               </div>
               <div className='user-details'>
                 <h3>{request.student.user.username}</h3>
@@ -209,7 +210,7 @@ function NewsFeed() {
               className="btn-message"
               onClick={() => navigate(`/message/${request.student.id}`)}
             >
-              💬 Nhắn tin
+              Nhắn tin
             </button>
           </div>
         </div>
