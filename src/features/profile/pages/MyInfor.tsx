@@ -265,7 +265,7 @@ const handleInputChange = (field: string, value: any) => {
                         )}
                       </div>
                       <div className="info-item">
-                        <label className="info-label">Nghành</label>                 
+                        <label className="info-label">Ngành</label>                 
                           <span className="info-value">
                             {isEditing ? (
                           <input
