@@ -209,7 +209,7 @@ function NewsFeed() {
               className="btn-message"
               onClick={() => navigate(`/message/${request.student.id}`)}
             >
-              💬 Nhắn tin
+              Nhắn tin
             </button>
           </div>
         </div>

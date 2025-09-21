@@ -230,12 +230,13 @@
 }
 
 .btn-message {
-    background-color: #1e3a8a;
+    background-color: #0c326f;
     color: white;
+    font-weight: bold;
 }
 
 .btn-message:hover {
-    background-color: #1e40af;
+    transform: translateY(-2px);
 }
 
 .success-message {
@@ -254,13 +255,13 @@
 }
 
 .delete-request {
-    background:rgb(198, 109, 109);
+    background:#ff2424;
     color: white;
+    font-weight: bold;
 }
 
 .delete-request:hover {
-    background-color: rgb(255, 152, 152);
-    color: red
+    transform: translateY(-2px);
 }
 
 /* Responsive adjustments */
