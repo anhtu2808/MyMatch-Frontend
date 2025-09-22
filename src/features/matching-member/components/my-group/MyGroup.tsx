@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import "./MyGroup.css";
+import GroupDetailModal from "../modal/GroupDetailModal";
+import GroupDetailModalChange from "../modal/GroupDetailModalChange";
 
 interface GroupType {
   id: number;
@@ -48,6 +50,15 @@ const groups: GroupType[] = [
 ];
 
 function MyGroup() {
+  const [open, setOpen] = useState(false);
+  const [openChange, setOpenChange] = useState(false)
+        const handleOpenModalDetail = () => {
+        setOpen(true);
+        }
+
+      const  handleOpenModalChangeDetail = () => {
+        setOpenChange(true)
+      }
   return (
     <div className="my-group-list">
       {groups.map((g) => (
@@ -116,18 +127,20 @@ function MyGroup() {
           </div>
 
           <div className="group-actions">
-            <button className="btn-edit-my-group">
+            <button className="btn-edit-my-group" onClick={handleOpenModalChangeDetail}>
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-square-pen-icon lucide-square-pen"><path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"/></svg>
                Chỉnh sửa</button>
             <button className="btn-delete-my-group">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-trash-icon lucide-trash"><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
                Xóa nhóm</button>
-            <button className="btn-detail-my-group">
+            <button className="btn-detail-my-group" onClick={handleOpenModalDetail}>
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-eye-icon lucide-eye"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"/><circle cx="12" cy="12" r="3"/></svg>
               Xem chi tiết</button>
           </div>
         </div>
       ))}
+      <GroupDetailModal open={open} onClose={() => setOpen(false)} />
+      <GroupDetailModalChange open={openChange} onClose={() => setOpenChange(false)} />
     </div>
   );
 }

@@ -112,13 +112,6 @@ const GroupDetailModal: React.FC<GroupDetailModalProps> = ({ open, onClose }) =>
           ))}
         </div>
 
-        {/* Meeting */}
-        <div className="section">
-          <h4>Lịch họp nhóm</h4>
-          <p>Họp định kỳ: Thứ 3, Thứ 6 hằng tuần • 19:00-21:00</p>
-          <p>Họp sắp tới: <strong>Thứ 3, 18/07/2025 - 19:00</strong></p>
-        </div>
-
         {/* Footer */}
         <div className="modal-footer">
           <Button onClick={onClose}>Đóng</Button>

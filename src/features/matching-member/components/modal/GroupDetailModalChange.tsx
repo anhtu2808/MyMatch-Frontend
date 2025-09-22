@@ -4,7 +4,7 @@ import {
   PlusOutlined,
   MinusCircleOutlined,
 } from "@ant-design/icons";
-import "./GroupDetailModal.css";
+import "./GroupDetailModalChange.css";
 
 interface Member {
   id: number;
@@ -25,7 +25,7 @@ interface GroupDetailModalProps {
   onClose: () => void;
 }
 
-const GroupDetailModal: React.FC<GroupDetailModalProps> = ({
+const GroupDetailModalChange: React.FC<GroupDetailModalProps> = ({
   open,
   onClose,
 }) => {
@@ -229,7 +229,7 @@ const GroupDetailModal: React.FC<GroupDetailModalProps> = ({
   );
 };
 
-export default GroupDetailModal;
+export default GroupDetailModalChange;
 
 
 // <GroupDetailModal open={open} onClose={() => setOpen(false)} />
