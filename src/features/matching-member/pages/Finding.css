@@ -1,7 +1,6 @@
-.swap-class {
+.finding-container {
     height: 100vh;
     background-color: #FBFAF9; 
-    /* position: fixed; */
     top: 0; 
     left: 0;
     margin: 0;
@@ -10,7 +9,7 @@
     flex-direction: column;
 }
 
-.main-content-swap-class {
+.main-content-finding {
     flex: 1;
     margin: 80px 0 0 150px;
     padding: 20px;
@@ -20,7 +19,7 @@
     box-sizing: border-box;
 }
 
-.create-btn-request {
+.create-btn-finding {
     background: #0c326f;
     color: white;
     border: none;
@@ -36,11 +35,11 @@
     font-size: 16px;
 }
 
-.create-btn-request:hover {
+.create-btn-finding:hover {
     transform: translateY(-2px);
 }
 
-.add-info-request {
+.add-info-finding {
     display: flex;
     justify-content: space-between;
     background-color: white;
@@ -48,4 +47,9 @@
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.08)
+}
+
+.button-action-finding-nav {
+    display: flex;
+    gap: 20px
 }

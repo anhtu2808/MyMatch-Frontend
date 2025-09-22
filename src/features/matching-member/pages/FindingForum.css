@@ -1,0 +1,35 @@
+.finding-option-title {
+    display: flex;
+    gap: 10px;
+    margin-top: 30px 
+}
+
+.finding-option {
+  background: none;
+  border: none;
+  padding: 8px 12px;
+  font-size: 16px;
+  cursor: pointer;
+  position: relative;
+  color: #333;
+}
+
+.finding-option::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 2px;
+  width: 0;
+  background-color: #0c326f; /* màu underline */
+  transition: width 0.3s ease-in-out;
+}
+
+.finding-option.active {
+  color: #0c326f;
+  font-weight: 500;
+}
+
+.finding-option.active::after {
+  width: 100%; /* khi active thì underline chạy hết */
+}
