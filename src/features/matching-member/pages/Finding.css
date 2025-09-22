@@ -1,0 +1,23 @@
+.finding-container {
+    width: 100vw;
+    height: 100vh;
+    background-color: red; 
+    top: 0; 
+    left: 0;
+    margin: 0;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
+.main-content-finding {
+    flex: 1;
+    margin-left: 150px;
+    padding: 20px;
+    padding-top: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: calc(100vw - 150px);
+    box-sizing: border-box;
+}

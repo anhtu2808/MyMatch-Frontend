@@ -222,8 +222,10 @@ function MyRequest() {
             </div>
           </div>
 
-          <div className='action-buttons-request'>
-            <button className='btn-message' onClick={() => navigate(`/swap_class/edit/${request.id}`)}>Chỉnh sửa</button>
+          <div className='action-buttons-my-request'>
+            <button className='btn-message-my-request' onClick={() => navigate(`/swap_class/edit/${request.id}`)}>
+                Chỉnh sửa
+              </button>
             <button className='delete-request' onClick={() => handleDeleteRequest(request.id)}>Xóa</button>
           </div>
         </div>

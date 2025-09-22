@@ -48,10 +48,14 @@
 
 .avatar {
     width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    overflow: hidden;
-    background-color: #f0f0f0;
+  height: 48px;
+  border-radius: 50%;
+  color: #fff;
+  font-weight: 600;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .avatar img {
@@ -213,12 +217,12 @@
     font-weight: bold;
 }
 
-.action-buttons-request {
+.action-buttons-my-request {
     display: flex;
     gap: 12px;
 }
 
-.action-buttons-request button {
+.action-buttons-my-request button {
     flex: 1;
     padding: 12px 24px;
     border: none;
@@ -229,13 +233,12 @@
     transition: background-color 0.2s;
 }
 
-.btn-message {
+.btn-message-my-request {
     background-color: #0c326f;
     color: white;
-    font-weight: bold;
 }
 
-.btn-message:hover {
+.btn-message-my-request:hover {
     transform: translateY(-2px);
 }
 
@@ -282,7 +285,7 @@
         transform: rotate(90deg);
     }
 
-    .action-buttons-request {
+    .action-buttons-my-request {
         flex-direction: column;
     }
 }

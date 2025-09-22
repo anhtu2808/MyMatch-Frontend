@@ -1,12 +1,12 @@
-.navbar {
+.finding-navbar {
   display: flex;
   justify-content: flex-start;
-  margin: 30px 0;
   width: 1240px;
-  height: 50px;
+  margin-top: 120px;
+  margin-left: 170px;
 }
 
-.nav-links {
+.finding-nav-links {
   background-color: #fff;
   display: flex;
   flex-direction: row;
@@ -15,7 +15,7 @@
   overflow: hidden; /* giữ border-radius gọn */
 }
 
-.nav-btn {
+.finding-nav-btn {
   flex: 1;
   background-color: #fff;
   color: #000;
@@ -32,17 +32,19 @@
 }
 
 /* Hover chỉ áp dụng khi KHÔNG active */
-.nav-btn:not(.active):hover,
-.nav-btn:not(.active):focus {
+.finding-nav-btn:not(.active):hover,
+.finding-nav-btn:not(.active):focus {
   background-color: #f1f1f1; /* xám nhạt */
   color: #333;
+  border-radius: 8px;
 }
 
 /* Active giữ nguyên xanh kể cả khi hover hoặc focus */
-.nav-btn.active,
-.nav-btn.active:hover,
-.nav-btn.active:focus {
+.finding-nav-btn.active,
+.finding-nav-btn.active:hover,
+.finding-nav-btn.active:focus {
   background-color: #0c326f !important; 
   color: #fff !important;
   outline: none !important;
+  border-radius: 8px;
 }

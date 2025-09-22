@@ -17,6 +17,8 @@ import MyInfor from "./features/profile/pages/MyInfor";
 import PrivateRoute from "./PrivateRoute";
 import Payment from "./features/payment/pages/Payment";
 import Product from "./features/product/pages/Product";
+import Finding from "./features/matching-member/pages/Finding";
+import FindingForum from "./features/matching-member/pages/FindingForum";
 
 function App() {
   return (
@@ -39,6 +41,8 @@ function App() {
         <Route path="/payment" element={<PrivateRoute><Payment/></PrivateRoute>}/>
         <Route path="/review/:id" element={<PrivateRoute><ReviewDetail /></PrivateRoute>} />
         <Route path="/product" element={<PrivateRoute><Product /></PrivateRoute>} />
+        <Route path="/finding" element={<PrivateRoute><Finding /></PrivateRoute>} />
+        <Route path="/finding_forum" element={<PrivateRoute><FindingForum /></PrivateRoute>} />
       </Routes>
     </Router>
   );
