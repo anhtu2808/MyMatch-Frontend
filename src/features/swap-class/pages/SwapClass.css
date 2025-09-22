@@ -20,23 +20,32 @@
     box-sizing: border-box;
 }
 
-.create-btn {
+.create-btn-request {
     background: #0c326f;
     color: white;
     border: none;
-    padding: 16px 32px;
+    padding: 2px 8px;
     border-radius: 12px;
     cursor: pointer;
-    font-size: 16px;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
     transition: transform 0.2s ease, opacity 0.2s ease;
-    width: 1240px;       /* bạn có thể để auto nếu muốn nút co theo text */
     text-align: center;
+    font-size: 16px;
 }
 
-.create-btn:hover {
+.create-btn-request:hover {
     transform: translateY(-2px);
+}
+
+.add-info-request {
+    display: flex;
+    justify-content: space-between;
+    background-color: white;
+    width: 1240px;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08)
 }
