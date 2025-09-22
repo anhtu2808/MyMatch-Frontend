@@ -71,6 +71,8 @@ export interface RequestToMe {
 function RequestToMe() {
   const [requests, setRequests] = useState<RequestToMe[]>([])
   const [filteredFeeds, setFilteredFeeds] = useState<RequestToMe[]>([])
+  console.log(filteredFeeds);
+  console.log(requests);
   const navigation = useNavigate()
   useEffect(() => {
     const fetchRequestsMatching = async () => {
@@ -78,7 +80,7 @@ function RequestToMe() {
         const response = await getSwapMatchingAPI({
         page: 0,
         size: 10,
-        status: "PENDING",
+        // status: "PENDING",
       })
         setRequests(response?.result?.data || [])
         setFilteredFeeds(response?.result?.data || [])
