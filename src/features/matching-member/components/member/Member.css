@@ -85,21 +85,32 @@
   gap: 8px;
 }
 
-.btn-contact {
+.btn-contact-member {
   background: #0c326f;
   color: #fff;
   padding: 8px 14px;
   border: none;
   border-radius: 6px;
   cursor: pointer;
-  font-weight: 500;
+  display: flex;
+  gap: 5px
 }
 
-.btn-profile {
+.btn-contact-member:hover {
+  transform: translateY(-2px);
+}
+
+.btn-profile-member {
   background: #f1f5f9;
   color: #333;
   padding: 8px 14px;
   border: none;
   border-radius: 6px;
   cursor: pointer;
+  display: flex;
+  gap: 5px
+}
+
+.btn-profile-member:hover {
+  transform: translateY(-2px);
 }

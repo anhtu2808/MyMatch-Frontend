@@ -1,5 +1,4 @@
 .swap-class {
-    width: 100vw;
     height: 100vh;
     background-color: #FBFAF9; 
     /* position: fixed; */
@@ -18,7 +17,6 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    width: calc(100vw - 150px);
     box-sizing: border-box;
 }
 
