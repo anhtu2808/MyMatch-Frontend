@@ -18,6 +18,9 @@ import PrivateRoute from "./PrivateRoute";
 import Payment from "./features/payment/pages/Payment";
 import Product from "./features/product/pages/Product";
 import MaterialPage from "./features/material/pages/MaterialPage";
+import MaterialDetailPage from "./features/material/pages/MaterialDetailPage";
+import CreateMaterial from "./features/material/pages/CreateMaterial";
+import UpdateMaterial from "./features/material/pages/UpdateMaterial";
 
 function App() {
   // getToken();
@@ -137,6 +140,30 @@ function App() {
           element={
             <PrivateRoute>
               <MaterialPage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/material/:id"
+          element={
+            <PrivateRoute>
+              <MaterialDetailPage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/material/create"
+          element={
+            <PrivateRoute>
+              <CreateMaterial />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/material/update/:id"
+          element={
+            <PrivateRoute>
+              <UpdateMaterial />
             </PrivateRoute>
           }
         />

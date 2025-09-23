@@ -2,10 +2,15 @@ import { useEffect, useState } from "react";
 import Sidebar from "../../../components/sidebar/Sidebar";
 import Header from "../../../components/header/Header";
 import "./MaterialPage.css";
-import MaterialFilter from "../components/MaterialFilter";
+import MaterialFilter from "../components/MaterialFilter/MaterialFilter";
 import Pagination from "../../review/components/Pagination/Pagination";
-import MaterialList from "../components/MaterialList";
-import { getMaterialsAPI } from "../apis/MaterialPageAPIs";
+import MaterialList from "../components/MaterialList/MaterialList";
+import { useAppSelector } from "../../../store/hooks";
+import {
+  getMaterialsAPI,
+  getCoursesAPI,
+  getAllLecturerAPI,
+} from "../apis/MaterialPageAPIs";
 
 interface Material {
   id: number;
@@ -22,6 +27,11 @@ interface Material {
     name: string;
     code: string;
   };
+  course: {
+    id: number;
+    code: string;
+    name: string;
+  };
   totalDownloads: number;
   totalPurchases: number;
   createAt: string;
@@ -36,68 +46,69 @@ const MaterialPage: React.FC = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [activeTab, setActiveTab] = useState("all");
 
-  // const fetchMaterials = async () => {
-  //   try {
-  //     const res = await getMaterialsAPI({
-  //       page,
-  //       size: 5,
-  //       ...filters,
-  //     });
-
-  //     // Giả sử API trả về dạng { result: { data: [], totalPages: n } }
-  //     setMaterials(res.result?.data || []);
-  //     setTotalPages(res.result?.totalPages || 1);
-  //   } catch (error) {
-  //     console.error("Lỗi fetch materials:", error);
-  //   }
-  // };
+  const user = useAppSelector((state) => state.user);
+  const userId = user?.id;
 
   const fetchMaterials = async () => {
-    // fake dữ liệu
-    const fakeRes = {
-      result: {
-        totalPages: 2,
-        data: [
-          {
-            id: 1,
-            name: "Giải tích 1",
-            description: "Tài liệu giải tích cơ bản",
-            price: 50000,
-            owner: {
-              id: 101,
-              username: "nguyenvana",
-              avatarUrl: "/default-avatar.png",
-            },
-            lecturer: { id: 201, name: "Thầy Nguyễn Văn B", code: "GV001" },
-            totalDownloads: 120,
-            totalPurchases: 45,
-            createAt: "2025-09-10T08:30:00.000Z",
-            updateAt: "2025-09-15T14:20:00.000Z",
-            isPurchased: true,
-          },
-          {
-            id: 2,
-            name: "Cấu trúc dữ liệu",
-            description: "Slide + bài tập ôn tập",
-            price: 75000,
-            owner: {
-              id: 102,
-              username: "tranthib",
-              avatarUrl: "/default-avatar.png",
-            },
-            lecturer: { id: 202, name: "Cô Trần Thị C", code: "GV002" },
-            totalDownloads: 90,
-            totalPurchases: 30,
-            createAt: "2025-09-05T10:00:00.000Z",
-            updateAt: "2025-09-12T09:15:00.000Z",
-            isPurchased: false,
-          },
-        ],
-      },
-    };
+    try {
+      let courseId: number | undefined;
+      let lecturerId: number | undefined;
 
-    setMaterials(fakeRes.result.data);
-    setTotalPages(fakeRes.result.totalPages);
+      // tìm courseId nếu có filter course
+      if (filters.course) {
+        const courseRes = await getCoursesAPI({ code: filters.course });
+        courseId = courseRes?.result?.data?.[0]?.id;
+      }
+
+      // tìm lecturerId nếu có filter lecturer
+      if (filters.lecturer) {
+        const lecturerRes = await getAllLecturerAPI({ name: filters.lecturer });
+        lecturerId = lecturerRes?.result?.data?.[0]?.id;
+      }
+
+      console.log("Current userId from localStorage:", userId);
+
+      const res = await getMaterialsAPI({
+        page,
+        size: 5,
+        name: filters.name,
+        courseId,
+        lecturerId,
+        ownerId: filters.ownerOnly ? userId ?? undefined : undefined,
+      });
+
+      const mapped = (res.data || []).map((item: any) => ({
+        id: item.id,
+        name: item.name,
+        description: item.description,
+        price: item.price,
+        owner: {
+          id: item.owner?.id,
+          username: item.owner?.username,
+          avatarUrl: item.owner?.avatarUrl,
+        },
+        lecturer: {
+          id: item.lecturer?.id,
+          name: item.lecturer?.name,
+          code: item.lecturer?.code,
+        },
+        course: {
+          id: item.course?.id,
+          code: item.course?.code,
+          name: item.course?.name,
+        },
+        totalDownloads: item.totalDownloads,
+        totalPurchases: item.totalPurchases,
+        createAt: item.createAt,
+        updateAt: item.updateAt,
+        isPurchased: item.isPurchased,
+      }));
+
+      setMaterials(mapped);
+      setTotalPages(res.totalPages || 1);
+    } catch (err) {
+      console.error("Lỗi fetch materials:", err);
+    }
   };
 
   useEffect(() => {
@@ -121,7 +132,10 @@ const MaterialPage: React.FC = () => {
           }}
         />
         <div className="material-list-container">
-          <MaterialList materials={materials} />
+          <MaterialList
+            materials={materials}
+            isMyUploads={activeTab === "mine"}
+          />
         </div>
         <div className="material-pageination">
           <Pagination

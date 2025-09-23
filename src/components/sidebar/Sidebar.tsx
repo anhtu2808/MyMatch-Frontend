@@ -8,28 +8,28 @@ import { getToken } from "../../features/login/services/localStorageService";
 import { getProfileAPI } from "../../features/profile/apis";
 
 interface UserInfo {
-  id: number
-  username: string
-  email: string
-  firstName: string
-  lastName: string
-  phone: string
-  avatarUrl: string
-  address: string
-  role: string
-  permissions: string[]
+  id: number;
+  username: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  phone: string;
+  avatarUrl: string;
+  address: string;
+  role: string;
+  permissions: string[];
   student?: {
-    id: number
-    studentCode: string
-    campus?:{
-      id: number
-      name: string
-    }
-    skill: string
-    goals: number
-    description: string
-    major: string | null
-  }
+    id: number;
+    studentCode: string;
+    campus?: {
+      id: number;
+      name: string;
+    };
+    skill: string;
+    goals: number;
+    description: string;
+    major: string | null;
+  };
 }
 
 const Sidebar = () => {
@@ -50,23 +50,28 @@ const Sidebar = () => {
         location.pathname === "/add-teacher" ||
         location.pathname.startsWith("/review")
       );
+    } else if (path === "/material") {
+      return (
+        location.pathname === "/material" ||
+        location.pathname.startsWith("/material/")
+      );
     }
     return location.pathname === path;
   };
 
   const navigation = useNavigate();
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const [info, setInfo] = useState<UserInfo | null>(null)
+  const [info, setInfo] = useState<UserInfo | null>(null);
 
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
     if (!token) return; // chưa login thì thôi, không gọi API
     const fetchInfo = async () => {
-      const response = await getProfileAPI()
-      setInfo(response.result)
-    }
-    fetchInfo()
-  }, [])
+      const response = await getProfileAPI();
+      setInfo(response.result);
+    };
+    fetchInfo();
+  }, []);
 
   const navItems = [
     {
@@ -252,7 +257,7 @@ const Sidebar = () => {
     navigation("/login");
   };
 
-  const token = getToken()
+  const token = getToken();
   return (
     <>
       <div className="sidebar">
@@ -307,16 +312,17 @@ const Sidebar = () => {
               >
                 Hồ sơ
               </NavLink>
-              {!token &&
-              <NavLink
-                to="/login"
-                className={({ isActive }) =>
-                  `dropdownItem ${isActive ? "active" : ""}`
-                }
-                onClick={() => setIsDropdownOpen(false)}
-              >
-                Đăng nhập
-              </NavLink>}
+              {!token && (
+                <NavLink
+                  to="/login"
+                  className={({ isActive }) =>
+                    `dropdownItem ${isActive ? "active" : ""}`
+                  }
+                  onClick={() => setIsDropdownOpen(false)}
+                >
+                  Đăng nhập
+                </NavLink>
+              )}
 
               <button className="dropdownItem" onClick={() => handleLogout()}>
                 Đăng xuất

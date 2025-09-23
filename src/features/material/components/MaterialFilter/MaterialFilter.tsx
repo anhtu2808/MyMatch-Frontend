@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./MaterialFilter.css";
+import { getProfileAPI } from "../../../profile/apis";
+import { useNavigate } from "react-router-dom";
 
 const SearchIcon = ({ className = "" }: { className?: string }) => (
   <svg
@@ -16,6 +18,26 @@ const SearchIcon = ({ className = "" }: { className?: string }) => (
   >
     <path d="m21 21-4.34-4.34" />
     <circle cx="11" cy="11" r="8" />
+  </svg>
+);
+
+const CreateIcon = ({ className = "" }: { className?: string }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className="lucide lucide-file-plus2-icon lucide-file-plus-2"
+  >
+    <path d="M4 22h14a2 2 0 0 0 2-2V7l-5-5H6a2 2 0 0 0-2 2v4" />
+    <path d="M14 2v4a2 2 0 0 0 2 2h4" />
+    <path d="M3 15h6" />
+    <path d="M6 12v6" />
   </svg>
 );
 
@@ -57,6 +79,20 @@ const MaterialFilter: React.FC<MaterialFilterProps> = ({
   const [name, setName] = useState("");
   const [course, setCourse] = useState("");
   const [lecturer, setLecturer] = useState("");
+  const [userId, setUserId] = useState<number | null>(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const res = await getProfileAPI();
+        setUserId(res.userId);
+      } catch (error) {
+        console.error("Lỗi khi lấy user info:", error);
+      }
+    };
+    fetchUser();
+  }, []);
 
   const handleSearch = () => {
     onSearch({ name, course, lecturer, ownerOnly: activeTab === "mine" });
@@ -76,13 +112,19 @@ const MaterialFilter: React.FC<MaterialFilterProps> = ({
       <div className="material-tabs">
         <div
           className={`tab ${activeTab === "all" ? "active" : ""}`}
-          onClick={() => setActiveTab("all")}
+          onClick={() => {
+            setActiveTab("all");
+            onSearch({ name, course, lecturer, ownerOnly: false });
+          }}
         >
           Tất cả tài liệu
         </div>
         <div
           className={`tab ${activeTab === "mine" ? "active" : ""}`}
-          onClick={() => setActiveTab("mine")}
+          onClick={() => {
+            setActiveTab("mine");
+            onSearch({ name, course, lecturer, ownerOnly: true });
+          }}
         >
           Tài liệu đã đăng tải
         </div>
@@ -99,6 +141,7 @@ const MaterialFilter: React.FC<MaterialFilterProps> = ({
             value={name}
             placeholder="e.g. Assignment 1"
             onChange={(e) => setName(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && handleSearch()}
           />
         </div>
         <div className="material-form-group">
@@ -108,6 +151,7 @@ const MaterialFilter: React.FC<MaterialFilterProps> = ({
             value={course}
             placeholder="e.g. EXE201"
             onChange={(e) => setCourse(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && handleSearch()}
           />
         </div>
         <div className="material-form-group">
@@ -117,6 +161,7 @@ const MaterialFilter: React.FC<MaterialFilterProps> = ({
             value={lecturer}
             placeholder="e.g. Nguyen Van A"
             onChange={(e) => setLecturer(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && handleSearch()}
           />
         </div>
       </div>
@@ -129,6 +174,14 @@ const MaterialFilter: React.FC<MaterialFilterProps> = ({
           </button>
           <button className="btn-search" onClick={handleSearch}>
             <SearchIcon className="btn-icon" /> Tìm kiếm
+          </button>
+        </div>
+        <div className="material-actions-create">
+          <button
+            className="btn-create"
+            onClick={() => navigate("/material/create")}
+          >
+            <CreateIcon className="btn-icon" /> Tải lên tài liệu
           </button>
         </div>
       </div>

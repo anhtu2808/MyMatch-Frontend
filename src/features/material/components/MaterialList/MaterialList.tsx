@@ -1,0 +1,172 @@
+import React from "react";
+import "./MaterialList.css";
+import { useState, useEffect } from "react";
+import { deleteMaterialAPI } from "../../apis/MaterialPageAPIs";
+import { useNavigate } from "react-router-dom";
+
+export interface Material {
+  id: number;
+  name: string;
+  description: string;
+  price: number;
+  owner: {
+    id: number;
+    username: string;
+    avatarUrl: string;
+  };
+  lecturer: {
+    id: number;
+    name: string;
+    code: string;
+  };
+  course?: {
+    id: number;
+    name: string;
+    code: string;
+  };
+  totalDownloads: number;
+  totalPurchases: number;
+  createAt: string;
+  updateAt: string;
+  isPurchased: boolean;
+}
+interface Props {
+  materials: Material[];
+  isMyUploads?: boolean;
+}
+
+const MaterialList: React.FC<Props> = ({ materials, isMyUploads }) => {
+  const [list, setList] = useState<Material[]>(materials);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    setList(materials);
+  }, [materials]);
+
+  const handleDelete = async (id: number) => {
+    const confirmDelete = window.confirm(
+      "Bạn có chắc chắn muốn xóa tài liệu này?"
+    );
+    if (!confirmDelete) return;
+    try {
+      await deleteMaterialAPI(id);
+      setList(list.filter((m) => m.id !== id));
+    } catch (error) {
+      console.error("Delete failed:", error);
+      alert("Xóa thất bại!");
+    }
+  };
+
+  if (list.length === 0) {
+    return <div className="material-empty">Không có tài liệu nào</div>;
+  }
+
+  const handleClick = (id: number) => {
+    navigate(`/material/${id}`);
+  };
+
+  return (
+    <div className="material-list">
+      <h2>{isMyUploads ? "Tài liệu đã đăng tải" : "Tất cả tài liệu"}</h2>
+      {list.map((m) => (
+        <div
+          key={m.id}
+          className="material-card"
+          onClick={() => handleClick(m.id)}
+          style={{ cursor: "pointer" }}
+        >
+          <div className="material-info">
+            <div className="material-header">
+              <span className="material-title">
+                {m.course?.code} - {m.name}
+              </span>
+              <span className="material-stats">
+                ({m.totalDownloads} lượt tải)
+              </span>
+            </div>
+
+            <div className="material-meta">
+              Tải lên bởi: {m.owner.username} • Giảng viên: {m.lecturer?.name}
+            </div>
+            <div className="material-dates">
+              Tạo: {new Date(m.createAt).toLocaleDateString()} • Cập nhật:{" "}
+              {new Date(m.updateAt).toLocaleDateString()}
+            </div>
+          </div>
+
+          {!isMyUploads && (
+            <div className="material-status">
+              {m.isPurchased ? (
+                <span className="material-purchased">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="lucide lucide-badge-russian-ruble-icon lucide-badge-russian-ruble"
+                  >
+                    <path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z" />
+                    <path d="M9 16h5" />
+                    <path d="M9 12h5a2 2 0 1 0 0-4h-3v9" />
+                  </svg>
+                </span>
+              ) : (
+                <span className="material-not-purchased">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="lucide lucide-badge-russian-ruble-icon lucide-badge-russian-ruble"
+                  >
+                    <path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z" />
+                    <path d="M9 16h5" />
+                    <path d="M9 12h5a2 2 0 1 0 0-4h-3v9" />
+                  </svg>
+                </span>
+              )}
+            </div>
+          )}
+
+          {isMyUploads && (
+            <button
+              className="material-delete"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleDelete(m.id);
+              }}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="lucide lucide-x-icon lucide-x"
+              >
+                <path d="M18 6 6 18" />
+                <path d="m6 6 12 12" />
+              </svg>
+            </button>
+          )}
+        </div>
+      ))}
+    </div>
+  );
+};
+
+export default MaterialList;

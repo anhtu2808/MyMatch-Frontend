@@ -21,6 +21,7 @@
 }
 
 .material-card {
+  position: relative;
   display: flex;
   justify-content: space-between;
   background: #fff;
@@ -28,6 +29,12 @@
   border-radius: 10px;
   padding: 16px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.material-card:hover {
+  /* transform: translateY(-2px); */
+  box-shadow: 0 3px 7px rgba(0, 0, 0, 0.12);
+  border-color: #d1d5db;
 }
 
 .material-info {
@@ -70,4 +77,40 @@
 .material-not-purchased {
   color: red;
   font-weight: 600;
+}
+.material-title {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.material-stats {
+  font-size: 12px;
+  color: #777;
+  margin-left: 4px;
+}
+
+.material-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.material-delete {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  background: transparent;
+  border: none;
+  padding: 4px;
+  cursor: pointer;
+  color: #e74c3c;
+}
+
+.material-delete svg {
+  width: 16px;
+  height: 16px;
+}
+
+.material-delete:hover {
+  color: #c0392b;
 }
