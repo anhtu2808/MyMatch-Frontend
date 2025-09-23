@@ -1,6 +1,6 @@
 import React from "react";
 import { Modal, Button, Tag } from "antd";
-import "./GroupDetailModal.css";
+import "./GroupModalView.css";
 
 interface Member {
   id: number;
@@ -51,23 +51,23 @@ const GroupDetailModal: React.FC<GroupDetailModalProps> = ({ open, onClose }) =>
       title={null}
       centered
     >
-      <div className="group-detail-modal">
+      <div className="group-view-detail-modal">
         {/* Header */}
-        <div className="group-header">
+        <div className="group-view-header">
           <div>
-            <h2>SE1326 Dự án nhóm</h2>
-            <p className="group-course">EXE101 • Mở</p>
-            <p className="group-desc">
+            <h2>Dự án nhóm</h2>
+            <p className="group-view-course">EXE101</p>
+            <p className="group-view-desc">
               Tìm thành viên có kinh nghiệm backend development
             </p>
           </div>
-          <div className="group-member-count">2/5 thành viên</div>
+          <div className="group-view-member-count">2/5 thành viên</div>
         </div>
 
         {/* Basic info */}
-        <div className="section">
+        <div className="group-view-section">
           <h4>Thông tin cơ bản</h4>
-          <div className="basic-info">
+          <div className="group-view-basic-info">
             <p>Ngày tạo: 1/5/2024</p>
             <p>Hạn chót: 1/7/2024</p>
             <p>Người tạo: Nguyễn Văn A</p>
@@ -76,9 +76,9 @@ const GroupDetailModal: React.FC<GroupDetailModalProps> = ({ open, onClose }) =>
         </div>
 
         {/* Skills */}
-        <div className="section">
+        <div className="group-view-section">
           <h4>Kỹ năng nhóm</h4>
-          <div className="tag-list">
+          <div className="group-view-tag-list">
             <Tag color="blue">Node.js</Tag>
             <Tag color="blue">Express</Tag>
             <Tag color="blue">MongoDB</Tag>
@@ -86,36 +86,33 @@ const GroupDetailModal: React.FC<GroupDetailModalProps> = ({ open, onClose }) =>
         </div>
 
         {/* Members */}
-        <div className="section">
+        <div className="group-view-section">
           <h4>Thành viên hiện tại</h4>
           {members.map((m) => (
-            <div key={m.id} className="member-item">
-              <div className="avatar">{m.name.charAt(0)}</div>
+            <div key={m.id} className="group-view-member-item">
+              <div className="group-view-avatar">{m.name.charAt(0)}</div>
               <div>
                 <strong>{m.name}</strong>
                 <p>{m.role}</p>
               </div>
-              {m.online && <span className="online-dot"></span>}
             </div>
           ))}
         </div>
 
         {/* Positions */}
-        <div className="section">
+        <div className="group-view-section">
           <h4>Đang tìm kiếm ({positions.length} vị trí)</h4>
           {positions.map((pos) => (
-            <div key={pos.id} className="position-item">
+            <div key={pos.id} className="group-view-position-item">
               <strong>{pos.title}</strong>
-              {pos.urgent && <Tag color="red">Cần gấp</Tag>}
               <p>{pos.description}</p>
             </div>
           ))}
         </div>
 
         {/* Footer */}
-        <div className="modal-footer">
-          <Button onClick={onClose}>Đóng</Button>
-          <Button type="primary">Liên hệ tham gia</Button>
+        <div className="group-view-modal-footer">
+          <button className="group-view-button-cancel" onClick={onClose}>Đóng</button>
         </div>
       </div>
     </Modal>

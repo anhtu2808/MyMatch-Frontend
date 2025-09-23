@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { Modal, Button, Tag, Input } from "antd";
+import { Modal, Button, Tag, Input, Select } from "antd";
 import {
   PlusOutlined,
   MinusCircleOutlined,
 } from "@ant-design/icons";
-import "./GroupDetailModalChange.css";
+import "./GroupModalForm.css";
+const { Option } = Select
 
 interface Member {
   id: number;
@@ -103,47 +104,81 @@ const GroupDetailModalChange: React.FC<GroupDetailModalProps> = ({
       title={null}
       centered
     >
-      <div className="group-detail-modal">
+      <div className="group-form-detail-modal">
         {/* Header */}
-        <div className="group-header">
-          <div>
-            <h2>SE1326 Dự án nhóm</h2>
-            <p className="group-course">EXE101 • Mở</p>
-            <p className="group-desc">
-              Tìm thành viên có kinh nghiệm backend development
-            </p>
-          </div>
-          <div className="group-member-count">
-            {members.length}/5 thành viên
-          </div>
+        <div className="group-form-modal-header">
+          <h2>Thông tin nhóm</h2>
+          <p>Đăng nhóm của bạn để tìm thành viên phù hợp</p>
         </div>
 
-        {/* Basic info */}
-        <div className="section">
-          <h4>Thông tin cơ bản</h4>
-          <div className="basic-info">
-            <p>Ngày tạo: 1/5/2024</p>
-            <p>Hạn chót: 1/7/2024</p>
-            <p>Người tạo: Nguyễn Văn A</p>
-            <p>Loại dự án: Thực tập tốt nghiệp</p>
+          <div className="group-form-section">
+            <h4>Dự án nhóm</h4>
+            <div className="group-form-project"> 
+             <Input
+                placeholder="Tên nhóm"
+                //value={m.name}
+                // onChange={(e) =>
+                //   updateMember(m.id, "name", e.target.value)
+                // }
+              />
+              <Input
+              placeholder="Số lượng thành viên"
+              />
+              <Input.TextArea
+              autoSize
+              placeholder="Mô tả thêm"
+              />
+              </div>
           </div>
-        </div>
 
-        {/* Skills */}
-        <div className="section">
-          <h4>Kỹ năng nhóm</h4>
-          <div className="tag-list">
-            <Tag color="blue">Node.js</Tag>
-            <Tag color="blue">Express</Tag>
-            <Tag color="blue">MongoDB</Tag>
+        {/* Information */}
+        <div className="group-form-section"> 
+          <h4>Thông tin học tập</h4>
+          <div className="group-form-info">
+            <Select
+              // value={filters.slot || undefined}
+              // onChange={(value) => handleSelectChange('slot', value)}
+              placeholder='Môn học'
+              style={{ width: '100%' }}
+            >
+                {/* {campuses.map((campus) => (
+                <option key={campus.id} value={campus.id}>
+                  {campus?.name}
+                </option>
+              ))} */}
+            </Select>
+            <Select
+            placeholder="Cơ sở"
+            style={{ width: '100%' }}
+              // value={formData.campusId || ''}
+              // onChange={(e) => handleChange('campusId', e.target.value)}
+            >
+              {/* {campuses.map((campus) => (
+                <option key={campus.id} value={campus.id}>
+                  {campus?.name}
+                </option>
+              ))} */}
+            </Select>
+            <Select
+            placeholder="Kỳ học"
+            style={{ width: '100%' }}
+              // value={formData.campusId || ''}
+              // onChange={(e) => handleChange('campusId', e.target.value)}
+            >
+              {/* {campuses.map((campus) => (
+                <option key={campus.id} value={campus.id}>
+                  {campus?.name}
+                </option>
+              ))} */}
+            </Select>
           </div>
         </div>
 
         {/* Members */}
-        <div className="section">
+        <div className="group-form-section">
           <h4>Thành viên hiện tại</h4>
           {members.map((m) => (
-            <div key={m.id} className="member-item editable">
+            <div key={m.id} className="group-form-member-item editable">
               <Input
                 placeholder="Tên thành viên"
                 value={m.name}
@@ -158,8 +193,18 @@ const GroupDetailModalChange: React.FC<GroupDetailModalProps> = ({
                   updateMember(m.id, "role", e.target.value)
                 }
               />
+              <Select 
+                  // isMulti options={dayOptions}
+                  // value={dayOptions.filter(opt => formData.toDays.includes(opt.value))}
+                  // onChange={(selected) => {
+                  //   const values = selected.map((s) => s.value);
+                  //   if (values.length <= 2) handleInputChange("toDays", values);
+                  // }}
+                  // closeMenuOnSelect={false}
+                   placeholder="Kỹ năng (có thể chọn nhiều)" 
+                />
               <MinusCircleOutlined
-                className="remove-icon"
+                className="group-form-remove-icon"
                 onClick={() => removeMember(m.id)}
               />
             </div>
@@ -175,10 +220,10 @@ const GroupDetailModalChange: React.FC<GroupDetailModalProps> = ({
         </div>
 
         {/* Positions */}
-        <div className="section">
+        <div className="group-form-section">
           <h4>Đang tìm kiếm ({positions.length} vị trí)</h4>
           {positions.map((pos) => (
-            <div key={pos.id} className="position-item editable">
+            <div key={pos.id} className="group-form-position-item editable">
               <Input
                 placeholder="Tên vị trí"
                 value={pos.title}
@@ -186,16 +231,25 @@ const GroupDetailModalChange: React.FC<GroupDetailModalProps> = ({
                   updatePosition(pos.id, "title", e.target.value)
                 }
               />
-              <Input.TextArea
+              <Input
                 placeholder="Mô tả"
-                autoSize
                 value={pos.description}
                 onChange={(e) =>
                   updatePosition(pos.id, "description", e.target.value)
                 }
               />
+              <Select 
+                  // isMulti options={dayOptions}
+                  // value={dayOptions.filter(opt => formData.toDays.includes(opt.value))}
+                  // onChange={(selected) => {
+                  //   const values = selected.map((s) => s.value);
+                  //   if (values.length <= 2) handleInputChange("toDays", values);
+                  // }}
+                  // closeMenuOnSelect={false}
+                   placeholder="Kỹ năng (có thể chọn nhiều)" 
+                />
               <MinusCircleOutlined
-                className="remove-icon"
+                className="group-form-remove-icon"
                 onClick={() => removePosition(pos.id)}
               />
             </div>
@@ -210,19 +264,10 @@ const GroupDetailModalChange: React.FC<GroupDetailModalProps> = ({
           </Button>
         </div>
 
-        {/* Meeting */}
-        <div className="section">
-          <h4>Lịch họp nhóm</h4>
-          <p>Họp định kỳ: Thứ 3, Thứ 6 hằng tuần • 19:00-21:00</p>
-          <p>
-            Họp sắp tới: <strong>Thứ 3, 18/07/2025 - 19:00</strong>
-          </p>
-        </div>
-
         {/* Footer */}
-        <div className="modal-footer">
-          <Button onClick={onClose}>Đóng</Button>
-          <Button type="primary">Liên hệ tham gia</Button>
+        <div className="group-form-modal-footer">
+          <button className="group-form-button-cancel" onClick={onClose}>Đóng</button>
+          <button className="group-form-button-create" onClick={onClose}>Lưu</button>
         </div>
       </div>
     </Modal>

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./Member.css";
-import UserProfileModal from "../modal/ProfileModal";
+import ProfileModalView from "../modal/ProfileModalView";
 
 interface MemberType {
   id: number;
@@ -40,8 +40,7 @@ const members: MemberType[] = [
 
 function Member() {
   const [open, setOpen] = useState(false);
-  
-    const handleOpenModalDetail = () => {
+    const handleOpenProfileModalForm = () => {
     setOpen(true);
     }
   return (
@@ -71,13 +70,13 @@ function Member() {
             <button className="btn-contact-member">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-mails-icon lucide-mails"><path d="M17 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 1-1.732"/><path d="m22 5.5-6.419 4.179a2 2 0 0 1-2.162 0L7 5.5"/><rect x="7" y="3" width="15" height="12" rx="2"/></svg>
               Liên hệ</button>
-            <button className="btn-profile-member" onClick={handleOpenModalDetail}>
+            <button className="btn-profile-member" onClick={handleOpenProfileModalForm}>
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-eye-icon lucide-eye"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"/><circle cx="12" cy="12" r="3"/></svg>
               Xem chi tiết</button>
           </div>
         </div>
       ))}
-      <UserProfileModal open={open} onClose={() => setOpen(false)} />
+      <ProfileModalView open={open} onClose={() => setOpen(false)} />
     </div>
   );
 }
