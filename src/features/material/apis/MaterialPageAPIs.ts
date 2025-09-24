@@ -148,33 +148,20 @@ export const downloadMaterialAPI = async (materialId: number) => {
     responseType: "blob",
   });
 
-  const contentDisposition = response.headers["content-disposition"];
+  // Lấy filename từ content-disposition (nếu BE có gửi)
   let filename = `material-${materialId}`;
-
-  if (contentDisposition) {
-    const match = contentDisposition.match(/filename="?(.+)"?/);
-    if (match?.[1]) {
-      filename = match[1];
-    }
-  } else {
-    // fallback: dựa trên content-type
-    const contentType = response.headers["content-type"];
-    if (contentType) {
-      if (contentType.includes("pdf")) filename += ".pdf";
-      else if (contentType.includes("word")) filename += ".docx";
-      else if (contentType.includes("spreadsheetml")) filename += ".xlsx"; // excel
-      else if (contentType.includes("csv")) filename += ".csv";
-      else if (contentType.includes("png")) filename += ".png";
-      else if (contentType.includes("jpeg")) filename += ".jpg";
-      else if (contentType.includes("zip")) filename += ".zip";
-      else filename += ".bin"; // generic
-    }
+  const disposition = response.headers["content-disposition"];
+  if (disposition && disposition.includes("filename=")) {
+    filename = disposition
+      .split("filename=")[1]
+      .replace(/"/g, "")  
+      .trim();
   }
 
   const url = window.URL.createObjectURL(new Blob([response.data]));
   const link = document.createElement("a");
   link.href = url;
-  link.setAttribute("download", filename);
+  link.setAttribute("download", filename); 
   document.body.appendChild(link);
   link.click();
   link.remove();
