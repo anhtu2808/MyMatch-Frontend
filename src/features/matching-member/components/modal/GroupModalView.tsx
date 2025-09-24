@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Modal, Button, Tag } from "antd";
 import "./GroupModalView.css";
 import { getGroupId } from "../../apis";
+import { time } from "console";
 
 // Course
 export interface Course {
@@ -113,6 +114,13 @@ const GroupDetailModal: React.FC<GroupDetailModalProps> = ({ open, onClose, id }
     fetchGroupDetail()
   },[id])
 
+  const formatDate = (isoString: string) => {
+    const date = new Date(isoString);
+    return date.toLocaleDateString("vi-VN", {
+        timeZone: "Asia/Ho_Chi_Minh",
+      });
+  }
+
   return (
     <Modal
       open={open}
@@ -139,7 +147,7 @@ const GroupDetailModal: React.FC<GroupDetailModalProps> = ({ open, onClose, id }
           <h4>Thông tin cơ bản</h4>
           <div className="group-view-basic-info">
             <p>Môn học: {groupDetail?.course?.code}</p>
-            <p>Ngày tạo: {groupDetail?.createAt}</p>
+            <p>Ngày tạo: {formatDate(String(groupDetail?.createAt))}</p>
             <p>Người tạo: {groupDetail?.createdBy?.studentCode}</p>
             <p>Hạn chót: Đơn sẽ hết hạn sau 2 tuần kể từ ngày đăng</p>
           </div>

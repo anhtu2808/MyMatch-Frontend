@@ -76,7 +76,6 @@ function MyGroup() {
   const [groups, setGroup] = useState<Team[]>([])    
   const user = useAppSelector((state) => state.user)
   const studentId = user?.studentId
-  const username = user?.name
   useEffect(() => {
     const fetchGroupByStudentId = async () => {
     try {
@@ -89,6 +88,13 @@ function MyGroup() {
   fetchGroupByStudentId()
   }, [])
   
+  const formatDate = (isoString: string) => {
+    const date = new Date(isoString)
+    return date.toLocaleDateString("vi-VN", {
+      timeZone: "Asia/Ho_Chi_Minh"
+    })
+  }
+
   return (
     <div className="my-group-list">
       {groups.map((g) => (
@@ -111,7 +117,7 @@ function MyGroup() {
             </div>
             <div className="stat-box">
               <p>Ngày tạo</p>
-              <strong>{g.createAt}</strong>
+              <strong>{formatDate(g.createAt)}</strong>
             </div>
             <div className="stat-box">
               <p>Đang tìm</p>
