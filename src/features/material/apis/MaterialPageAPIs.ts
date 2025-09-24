@@ -165,21 +165,12 @@ export const updateMaterialAPI = async (
     description?: string;
     courseId: number;
     lecturerId: number;
-    file?: File | null;
   }
 ) => {
-  const formData = new FormData();
-  formData.append("name", data.name);
-  if (data.description) formData.append("description", data.description);
-  formData.append("courseId", data.courseId.toString());
-  formData.append("lecturerId", data.lecturerId.toString());
-  if (data.file) formData.append("file", data.file);
-
-  const response = await api.put(`/materials/${id}`, formData, {
+  const response = await api.put(`/materials/${id}`, data, {
     headers: {
-      "Content-Type": "multipart/form-data",
+      "Content-Type": "application/json",
     },
   });
-
   return response.data;
 };

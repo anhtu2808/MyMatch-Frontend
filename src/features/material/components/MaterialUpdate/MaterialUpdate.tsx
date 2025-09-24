@@ -87,7 +87,7 @@ export default function MaterialUpdatePage() {
         description,
         courseId: Number(selectedCourseId),
         lecturerId: Number(selectedLecturerId),
-        file: file || null,
+        // file: file || null,
       });
       alert("Cập nhật tài liệu thành công!");
       navigate(`/material/${id}`);
@@ -172,7 +172,7 @@ export default function MaterialUpdatePage() {
           />
         </div>
 
-        <label className="material-update-label block mb-1 font-medium">
+        {/* <label className="material-update-label block mb-1 font-medium">
           File
         </label>
         <div className="material-update-file-container">
@@ -193,8 +193,8 @@ export default function MaterialUpdatePage() {
               <path d="m17 8-5-5-5 5" />
               <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
             </svg>
-          </div>
-          <div className="upload-text">
+          </div> */}
+        {/* <div className="upload-text">
             {file ? (
               <p>
                 <strong>File đã chọn:</strong> {file.name}
@@ -213,14 +213,14 @@ export default function MaterialUpdatePage() {
                 </p>
               </>
             )}
-          </div>
-          <input
+          </div> */}
+        {/* <input
             type="file"
             id="fileInput"
             onChange={(e) => setFile(e.target.files?.[0] || null)}
             className="material-update-file-input"
-          />
-        </div>
+          /> */}
+        {/* </div> */}
 
         <button
           type="submit"
