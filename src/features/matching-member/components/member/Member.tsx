@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./Member.css";
 import ProfileModalView from "../modal/ProfileModalView";
 import { getProfile } from "../../apis";
+import Pagination from "../../../review/components/Pagination/Pagination";
 
 // Skill của member
 export interface Skill {
@@ -84,6 +85,9 @@ export interface RequestData {
 function Member() {
   const [open, setOpen] = useState(false);
   const [selectedId, setSelectedId] = useState<number | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalElements, setTotalElements] = useState(0);
+  const pageSize = 10;
     const handleOpenProfileModalForm = (id: number) => {
     setOpen(true);
     setSelectedId(id);
@@ -93,14 +97,15 @@ function Member() {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await getProfile()
+        const response = await getProfile(currentPage, pageSize)
         setMembers(response.result.data)
+        setTotalElements(response.result.totalElements);
       } catch (err) {
         console.error("Error fetch profile", err);
       }
     }
     fetchProfile()
-  }, [])
+  }, [currentPage])
 
   return (
     <div className="member-list">
@@ -135,6 +140,12 @@ function Member() {
           </div>
         </div>
       ))}
+      {/* ✅ Pagination */}
+      <Pagination
+          currentPage={currentPage}
+          totalPages={totalElements}
+          onPageChange={(p) => setCurrentPage(p)}
+        />
       <ProfileModalView open={open} onClose={() => setOpen(false)} id={selectedId ?? undefined}/>
     </div>
   );

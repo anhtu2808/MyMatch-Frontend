@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./Group.css";
 import GroupModalView from "../modal/GroupModalView";
 import { getGroup } from "../../apis";
+import Pagination from "../../../review/components/Pagination/Pagination";
 
 export interface Course {
   id: number;
@@ -62,6 +63,9 @@ export interface Team {
 function Group() {
   const [open, setOpen] = useState(false);
   const [selectedId, setSelectedId] = useState<number | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalElements, setTotalElements] = useState(0);
+  const pageSize = 10;
   const handleOpenGroupModalView = (id: number) => {
   setOpen(true);
   setSelectedId(id)
@@ -71,8 +75,9 @@ function Group() {
   useEffect(() => {
     const fetchGroup = async () => {
       try {
-        const response = await getGroup()
+        const response = await getGroup(currentPage, pageSize)
         setGroups(response.result.data)
+        setTotalElements(response.result.totalElements);
       } catch (err) {
         console.error("Error fetch Groups", err);
       }
@@ -107,6 +112,11 @@ function Group() {
           </div>
         </div>
       ))}
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalElements}
+          onPageChange={(p) => setCurrentPage(p)}
+        />
       <GroupModalView open={open} onClose={() => setOpen(false)} id={Number(selectedId)}/>
     </div>
   );

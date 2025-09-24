@@ -165,7 +165,7 @@ function MyProfile() {
           </div>
         </div>
       ))}
-      <ProfileModalForm open={openForm} onClose={() => setOpenForm(false)} />
+      <ProfileModalForm open={openForm} onClose={() => setOpenForm(false)} id= {Number(selectedId)}/>
       <ProfileModalView open={openView} onClose={() => setOpenView(false)} id= {Number(selectedId)}/>
     </div>
   );

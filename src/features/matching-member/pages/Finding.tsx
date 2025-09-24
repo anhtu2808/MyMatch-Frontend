@@ -26,6 +26,7 @@ function Finding() {
 
   const [openGroup, setOpenGroup] = useState(false);
   const [openProfile, setOpenProfile] = useState(false)
+  const [selectedId, setSelectedId] = useState<number | null>(null);
           const handleOpenModalGroup = () => {
           setOpenGroup(true);
           }
@@ -55,7 +56,7 @@ function Finding() {
              </div>
           </div>
             {renderTabContent()}
-            <ProfileModalForm open={openProfile} onClose={() => setOpenProfile(false)} />
+            <ProfileModalForm open={openProfile} onClose={() => setOpenProfile(false)} id={Number(selectedId)}/>
             <GroupModalForm open={openGroup} onClose={() => setOpenGroup(false)} />
         </div>
     </div>

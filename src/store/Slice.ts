@@ -7,7 +7,7 @@ interface UserState {
   studentCode: string | null,
   role: string | null,
   token: null,
-  campus: string | null,
+  campusId: number | null,
   studentId: number | null ,
 }
 
@@ -18,7 +18,7 @@ const initialState: UserState = {
   studentCode: null,
   role: null,
   token: null,
-  campus: null,
+  campusId: null,
   studentId: null,
 };
 
@@ -34,7 +34,7 @@ const userSlice = createSlice({
       state.studentCode = studentCode;
       state.role = role;
       state.token = token;
-      state.campus = campus;
+      state.campusId = campus;
       state.studentId = studentId;
     },
     // clearUser: (state) => {

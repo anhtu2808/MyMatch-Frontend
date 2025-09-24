@@ -1,15 +1,86 @@
-import React from "react";
-import { Modal, Button, Input, Tag, Select } from "antd";
+import React, { useEffect, useState } from "react";
+import { Modal, Input, Select } from "antd";
 import "./ProfileModalForm.css";
-
+import { createProfile, getCourseAPI, getSkillAPI } from "../../apis";
+import { useAppSelector } from "../../../../store/hooks";
 const { TextArea } = Input;
+const { Option } = Select
+interface ProfileForm {
+  requestDetail: string;
+  goal: number;
+  classCode: string;
+  description: string;
+  courseId?: number;
+  semesterId?: number;
+  campusId?: number;
+  skillIds: number[];
+}
 
 interface UserProfileModalProps {
   open: boolean;
   onClose: () => void;
+  id: number
 }
 
-const UserProfileModal: React.FC<UserProfileModalProps> = ({ open, onClose }) => {
+const UserProfileModal: React.FC<UserProfileModalProps> = ({ open, onClose, id }) => {
+  const user = useAppSelector((state) => state.user)
+  const [profileForm, setProfileForm] = useState<ProfileForm>({
+    requestDetail: "",
+    goal: 0,
+    classCode: "",
+    description: "",
+    courseId: undefined,
+    semesterId: undefined,
+    campusId: Number(user?.campusId),
+    skillIds: [] as number[],
+    })
+  const [profileFormUpdate, setProfileFormUpdate] = useState()
+  const [skills, getSkills] = useState<any[]>([])
+  const [courses, setCourses] = useState<any[]>([])
+  
+
+    useEffect(() => {
+      const fetchSkills = async () => {
+        try {
+          const response = await getSkillAPI()
+          getSkills(response?.result|| [])
+        } catch (error) {
+          console.error('Error fetching campuses:', error)
+        }
+      }
+      fetchSkills()
+    }, [])
+
+    useEffect(() => {
+      const fetchCourses = async () => {
+        try {
+          const response = await getCourseAPI()
+          setCourses(response?.result?.data || [])
+        } catch (error) {
+          console.error('Error fetching campuses:', error)
+        }
+      }
+      fetchCourses()
+    }, [])
+
+  const handleSave = async () => {
+  try {
+    const response = await createProfile(profileForm);
+    console.log("Tạo profile thành công:", response);
+    onClose(); // đóng modal sau khi lưu
+  } catch (error) {
+    console.error("Lỗi khi tạo profile:", error);
+  }
+};
+
+
+  const handleInputChange = (field: string, value: any) => {
+  setProfileForm((prev) => ({
+    ...prev,
+    [field]: value,
+  }));
+};
+
   return (
     <Modal
       open={open}
@@ -22,7 +93,7 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({ open, onClose }) =>
       <div className="profile-form-modal">
         {/* Header */}
         <div className="profile-form-modal-header">
-          <h2>Chỉnh sửa thông tin profile</h2>
+          <h2>Thông tin profile</h2>
           <p>Đăng profile của bạn để tìm nhóm phù hợp</p>
         </div>
 
@@ -30,11 +101,20 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({ open, onClose }) =>
         <div className="profile-form-section">
           <h4>Thông tin cơ bản</h4>
           <div className="profile-form-two-cols">
-            <Input placeholder="Lớp" />
+            <Input placeholder="Lớp" 
+            value={profileForm.classCode}
+            onChange={(e) => handleInputChange("classCode", e.target.value)}
+            />
           </div>
           <div className="profile-form-input">
-            <TextArea autoSize placeholder="Giới thiệu bản thân" />
-            <Input  placeholder="Yêu cầu mong muốn"/>
+            <TextArea autoSize placeholder="Giới thiệu bản thân" 
+            value={profileForm.description}
+            onChange={(e) => handleInputChange("description", e.target.value)}
+            />
+            <Input  placeholder="Yêu cầu mong muốn"
+            value={profileForm.requestDetail}
+            onChange={(e) => handleInputChange("requestDetail", e.target.value)}
+            />
           </div>
         </div>
 
@@ -43,28 +123,20 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({ open, onClose }) =>
           <h4>Thông tin học tập</h4>
           <div className="profile-form-info">
             <Select
-            placeholder="Cơ sở"
-            style={{ width: '100%' }}
-              // value={formData.campusId || ''}
-              // onChange={(e) => handleChange('campusId', e.target.value)}
-            >
-              {/* {campuses.map((campus) => (
-                <option key={campus.id} value={campus.id}>
-                  {campus?.name}
-                </option>
-              ))} */}
-            </Select>
-            <Select
             placeholder="Kỳ học"
             style={{ width: '100%' }}
-              // value={formData.campusId || ''}
-              // onChange={(e) => handleChange('campusId', e.target.value)}
+              value={profileForm.semesterId}
+              onChange={(value) => handleInputChange('semesterId', value)}
             >
-              {/* {campuses.map((campus) => (
-                <option key={campus.id} value={campus.id}>
-                  {campus?.name}
-                </option>
-              ))} */}
+                <Option value="1">1</Option>
+                <Option value="2">2</Option>
+                <Option value="3">3</Option>
+                <Option value="4">4</Option>
+                <Option value="5">5</Option>
+                <Option value="6">6</Option>
+                <Option value="7">7</Option>
+                <Option value="8">8</Option>
+                <Option value="9">9</Option>
             </Select>
           </div>
         </div>
@@ -72,43 +144,53 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({ open, onClose }) =>
         {/* Skills */}
         <div className="profile-form-section">
           <h4>Kỹ năng</h4>
-            <Select 
-              style={{ width: '100%' }}
-              // isMulti options={dayOptions}
-              // value={dayOptions.filter(opt => formData.toDays.includes(opt.value))}
-              // onChange={(selected) => {
-              //   const values = selected.map((s) => s.value);
-              //   if (values.length <= 2) handleInputChange("toDays", values);
-              // }}
-              // closeMenuOnSelect={false}
-                 placeholder="Kỹ năng (có thể chọn nhiều)" 
-            />         
+          <Select
+            mode="multiple"                  
+            style={{ width: "100%" }}
+            placeholder="Có thể chọn nhiều kỹ năng"
+            value={profileForm.skillIds}
+            onChange={(values) => {
+              if (values.length) {        
+                handleInputChange("skillIds", values);
+              }
+            }}
+          >
+            {skills.map((skill) => (
+              <Select.Option key={skill.id} value={skill.id}>
+                {skill.name}
+              </Select.Option>
+            ))}
+          </Select>
         </div>
 
         {/* Courses */}
         <div className="profile-form-section">
-          <h4>Môn học</h4>
+          <h4>Môn học và mục tiêu điểm</h4>
           <div className="profile-form-two-cols">
             <Select
-              // value={filters.slot || undefined}
-              // onChange={(value) => handleSelectChange('slot', value)}
+              value={profileForm.courseId || undefined}
+              onChange={(value) => handleInputChange('courseId', value)}
               placeholder='Môn học'
               style={{ width: '100%' }}
             >
-                {/* {campuses.map((campus) => (
-                <option key={campus.id} value={campus.id}>
-                  {campus?.name}
+                {courses.map((course) => (
+                <option key={course.id} value={course.id}>
+                  {course?.code}
                 </option>
-              ))} */}
+              ))}
             </Select>
-            <Input placeholder="Mục tiêu mấy điểm" />
+            <Input placeholder="Mục tiêu mấy điểm" 
+            value={profileForm.goal}
+            type="number"
+            onChange={(e) => handleInputChange("goal", Number(e.target.value))}
+            />
           </div>
         </div>
 
         {/* Footer */}
         <div className="profile-form-modal-footer">
           <button className="profile-form-button-cancel" onClick={onClose}>Hủy</button>
-          <button className="profile-form-button-create">Lưu</button>
+          <button className="profile-form-button-create" onClick={handleSave}>Lưu</button>
         </div>
       </div>
     </Modal>

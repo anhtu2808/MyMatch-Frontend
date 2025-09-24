@@ -23,7 +23,7 @@ function Home() {
             studentId: response?.result?.student?.id,
             email: response?.result?.email,
             name: response?.result?.username,
-            campus: response?.result?.student?.campus?.name,
+            campus: response?.result?.student?.campus?.id,
             studentCode: response?.result?.student?.studentCode,
             role: response?.result?.role,
             token: response?.result?.token,

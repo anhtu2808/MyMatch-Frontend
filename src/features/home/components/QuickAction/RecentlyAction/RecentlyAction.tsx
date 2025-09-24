@@ -86,7 +86,7 @@ const RecentActivity: React.FC = () => {
 
   return (
     <>
-      {token && (!user?.campus || user?.campus === '' || !user.studentCode) && (
+      {token && (!user?.campusId || !user.studentCode) && (
                     <AddInformationModal forceOpen />)}
     <div className="home-recent-activity">
       <div className="home-recent-activity-list">
