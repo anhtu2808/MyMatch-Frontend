@@ -5,18 +5,19 @@ import {
   MinusCircleOutlined,
 } from "@ant-design/icons";
 import "./GroupModalForm.css";
-import { createGroup, getCourseAPI, getSkillAPI } from "../../apis";
+import { createGroup, getCourseAPI, getGroupId, getSkillAPI, updateGroup } from "../../apis";
 import { useAppSelector } from "../../../../store/hooks";
 const { Option } = Select
 
 interface MemberForm {
+  id?: number;  
   name: string;
-  memberId: number;
   note: string;
   skillIds: number[];
 }
 
 interface teamRequestForm {
+   id?: number;  
   title: string;
   description: string;
   urgency: string;
@@ -36,9 +37,11 @@ interface GroupForm {
 interface GroupDetailModalProps {
   open: boolean;
   onClose: () => void;
+  id?: number;
+  isEdit?: boolean;
 }
 
-const GroupDetailModalChange: React.FC<GroupDetailModalProps> = ({open, onClose}) => {
+const GroupDetailModalChange: React.FC<GroupDetailModalProps> = ({open, onClose, id, isEdit}) => {
   const user = useAppSelector((state) => state.user)
   const [groupInfo, setGroupInfo] = useState<GroupForm>({
   name: "",
@@ -57,13 +60,41 @@ const GroupDetailModalChange: React.FC<GroupDetailModalProps> = ({open, onClose}
   ],
   members: [
     {
-      memberId: 0,
       name: "",
       note: "",
       skillIds: [] as number[],
     }
   ]
 });
+
+useEffect(() => {
+  if (open && !isEdit) {  // nếu ko edit thì khi mở modal sẽ được reset các field
+    setGroupInfo({
+      name: "",
+      memberMax: 0,
+      description: "",
+      semesterId: 0,
+      campusId: Number(user?.campusId),
+      courseId: 0,
+      teamRequest: [
+        {
+          title: "",
+          description: "",
+          skillIds: [] as number[],
+          urgency: "NORMAL"
+        }
+      ],
+      members: [
+        {
+          name: "",
+          note: "",
+          skillIds: [] as number[],
+        }
+      ]
+    });
+  }
+}, [open, isEdit, user]);
+
   const [courses, setCourses] = useState<any[]>([])
   const [skills, getSkills] = useState<any[]>([])
    useEffect(() => {
@@ -95,11 +126,16 @@ const GroupDetailModalChange: React.FC<GroupDetailModalProps> = ({open, onClose}
   const addMember = () => {
   setGroupInfo(prev => ({
     ...prev,
-    members: [...prev.members, { name: "", note: "", skillIds: [], memberId: 0 }]
+    members: [...prev.members, { name: "", note: "", skillIds: []}]
   }));
 };
 
   const removeMember = (index: number) => {
+  const member = groupInfo.members[index];
+  if (member.id) {
+    // gọi API xóa hoặc push vào 1 mảng deletedIds
+    console.log("Xóa trên server:", member.id);
+  }
   setGroupInfo(prev => ({
     ...prev,
     members: prev.members.filter((_, i) => i !== index)
@@ -136,12 +172,21 @@ const GroupDetailModalChange: React.FC<GroupDetailModalProps> = ({open, onClose}
   const handleSave = async () => {
   try {
     console.log("Payload gửi API:", groupInfo);
-    await createGroup(groupInfo); // gọi API backend
+
+    if (isEdit && id) {
+      await updateGroup(id, groupInfo);
+      console.log("Group updated!");
+    } else {
+      await createGroup(groupInfo);
+      console.log("Group created!");
+    }
+
     onClose();
   } catch (err) {
-    console.error("Lỗi tạo group:", err);
+    console.error("Lỗi lưu group:", err);
   }
 };
+
 
 
   const handleInputChange = (field: string, value: any) => {
@@ -150,6 +195,44 @@ const GroupDetailModalChange: React.FC<GroupDetailModalProps> = ({open, onClose}
     [field]: value,
   }));
 };
+
+useEffect(() => {
+  if (isEdit && id) {
+    const fetchGroup = async () => {
+      try {
+        const response = await getGroupId(id);
+        const group = response.result;
+
+        // Map dữ liệu API sang state GroupForm
+        setGroupInfo({
+          name: group.name,
+          memberMax: group.memberMax,
+          description: group.description,
+          semesterId: group.semester.id,
+          campusId: group.campus.id,
+          courseId: group.course.id,
+          members: group.teamMember.map((tm: any) => ({
+            id: tm.member.id,  
+            name: tm.member.name,
+            note: tm.member.note,
+            skillIds: tm.member.skills?.map((s: any) => s.id) || [],
+          })),
+          teamRequest: group.teamRequest.map((tr: any) => ({
+            id: tr.id,
+            title: tr.title,
+            description: tr.description,
+            skillIds: tr.skills.map((s: any) => s.skill.id),
+            urgency: "NORMAL"
+          })),
+        });
+      } catch (err) {
+        console.error("Error fetching group:", err);
+      }
+    };
+    fetchGroup();
+  }
+}, [isEdit, id]);
+
 
   return (
     <Modal

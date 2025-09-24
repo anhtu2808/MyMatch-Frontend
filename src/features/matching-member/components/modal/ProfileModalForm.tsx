@@ -86,6 +86,20 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({ open, onClose, id ,
   fetchProfileDetail();
 }, [isEdit, id]);
 
+useEffect(() => {
+  if (open && !isEdit) {  // nếu ko edit thì khi mở modal sẽ được reset các field
+    setProfileForm({
+      requestDetail: "",
+      goal: 0,
+      classCode: "",
+      description: "",
+      courseId: undefined,
+      semesterId: undefined,
+      campusId: Number(user?.campusId),
+      skillIds: []
+    });
+  }
+}, [open, isEdit, user]);
 
   const handleSave = async () => {
   try {
@@ -151,7 +165,7 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({ open, onClose, id ,
 
         {/* Information */}
         <div className="profile-form-section"> 
-          <h4>Thông tin học tập</h4>
+          <h4>Học kỳ</h4>
           <div className="profile-form-info">
             <Select
             placeholder="Kỳ học"

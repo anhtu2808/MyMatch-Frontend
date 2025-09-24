@@ -186,7 +186,7 @@ function MyGroup() {
           onPageChange={(p) => setCurrentPage(p)}
         />
       <GroupModalView open={openView} onClose={() => setOpenView(false)} id={Number(selectedId)}/>
-      <GroupModalForm open={openForm} onClose={() => setOpenForm(false)} />
+      <GroupModalForm open={openForm} onClose={() => setOpenForm(false)} id={Number(selectedId)} isEdit={!!selectedId}/>
     </div>
   );
 }
