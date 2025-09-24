@@ -16,8 +16,8 @@ export const deleteProfile = async (id: number) => {
     return response.data
 }
 
-export const getProfile = async () => {
-    const response = await api.get("/student-requests")
+export const getProfile = async (id: number) => {
+    const response = await api.get(`/student-requests?studentId=${id}&page=0&size=0`)
     return response.data
 }
 
@@ -43,7 +43,7 @@ export const deleteGroup = async (id: number) => {
 }
 
 export const getGroup = async () => {
-    const response = await api.get("/teams")
+    const response = await api.get("/teams?page=0&size=0")
     return response.data
 }
 

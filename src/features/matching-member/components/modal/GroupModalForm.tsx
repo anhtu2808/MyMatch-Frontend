@@ -275,6 +275,3 @@ const GroupDetailModalChange: React.FC<GroupDetailModalProps> = ({
 };
 
 export default GroupDetailModalChange;
-
-
-// <GroupDetailModal open={open} onClose={() => setOpen(false)} />

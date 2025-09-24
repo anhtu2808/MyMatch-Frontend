@@ -1,13 +1,107 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Modal, Button, Tag } from "antd";
 import "./ProfileModalView.css";
+import { getProfileId } from "../../apis";
 
 interface UserProfileDetailModalProps {
   open: boolean;
   onClose: () => void;
+  id?: number
 }
 
-const ProfileModalView: React.FC<UserProfileDetailModalProps> = ({ open, onClose }) => {
+// Skill trong Request
+export interface SkillItem {
+  id: number;
+  requestId: number | null;
+  skill: {
+    id: number;
+    name: string;
+  };
+}
+
+// Course trong University
+export interface Course {
+  id: number;
+  code: string;
+  name: string;
+}
+
+// University
+export interface University {
+  id: number;
+  imgUrl: string;
+  name: string;
+  courses: Course[];
+  createAt: string;
+  updateAt: string;
+}
+
+// Campus
+export interface Campus {
+  id: number;
+  name: string;
+  address: string;
+  imgUrl: string;
+  createAt: string;
+  updateAt: string;
+  university: University;
+}
+
+// Student
+export interface Student {
+  id: number;
+  studentCode: string;
+  user: any | null; // nếu sau này có thêm thì define tiếp
+  campus: Campus;
+  skill: string | null;
+  goals: string | null;
+  description: string | null;
+  major: string;
+}
+
+// RequestCourse
+export interface RequestCourse {
+  id: number;
+  code: string;
+  name: string;
+}
+
+// Semester
+export interface Semester {
+  id: number;
+  name: string;
+}
+
+// RequestData (bài đăng tìm team)
+export interface RequestData {
+  id: number;
+  student: Student;
+  requestDetail: string;
+  goal: number;
+  classCode: string;
+  course: RequestCourse;
+  semester: Semester;
+  campus: Campus;
+  description: string;
+  status: string;
+  createAt: string;
+  skills: SkillItem[];
+}
+
+const ProfileModalView: React.FC<UserProfileDetailModalProps> = ({ open, onClose, id }) => {
+  const [detailProfile, setDetailProfile] = useState<RequestData | null>(null);
+
+  useEffect(() => {
+    const fetchProfileDetail = async () => {
+      try {
+        const response = await getProfileId(Number(id))
+        setDetailProfile(response.result)
+      } catch (err)  {
+        console.error("Error fetch Profile Detail", err);
+      }
+    }
+    fetchProfileDetail()
+  }, [id])
   return (
     <Modal
       open={open}
@@ -21,18 +115,20 @@ const ProfileModalView: React.FC<UserProfileDetailModalProps> = ({ open, onClose
         {/* Header */}
         <div className="profile-view-header">
           <div>
-            <h2>Anhtu2808</h2>
-            <p className="profile-view-major">Software Engineering • SE1633</p>
-            <p className="profile-view-desc">Flexible • Team Player • Detail-oriented</p>
+            <h2>Tên người đăng</h2>
+            <p className="profile-view-desc">requestDetail là cái j: {detailProfile?.requestDetail}</p>
+            <p className="profile-view-major">Ngày tạo yêu cầu: {detailProfile?.createAt}</p>
+            <p className="profile-view-major">Hạn chót: Đơn sẽ hết hạn sau 2 tuần kể từ ngày đăng</p>
           </div>
         </div>
 
         {/* About */}
         <div className="profile-view-section">
           <h4>Giới thiệu bản thân</h4>
+          <p className="profile-view-desc">Lớp: {detailProfile?.classCode}</p>
+          <p className="profile-view-desc">Ngành: {detailProfile?.student?.major}</p>
           <p>
-            Passionate about web development and AI. Looking for a collaborative 
-            team to work on innovative projects.
+            {detailProfile?.description}
           </p>
         </div>
 
@@ -40,10 +136,9 @@ const ProfileModalView: React.FC<UserProfileDetailModalProps> = ({ open, onClose
         <div className="profile-view-section">
           <h4>Kỹ năng</h4>
           <div className="profile-view-tag-list">
-            <Tag color="blue">React</Tag>
-            <Tag color="blue">Node.js</Tag>
-            <Tag color="blue">Python</Tag>
-            <Tag color="blue">UI/UX Design</Tag>
+            {detailProfile?.skills.map((m) => (
+              <Tag color="blue">{m.skill.name}</Tag>
+            ))}
           </div>
         </div>
 
@@ -52,8 +147,8 @@ const ProfileModalView: React.FC<UserProfileDetailModalProps> = ({ open, onClose
           <h4>Môn học & Mục tiêu</h4>
           <div className="profile-view-course-list">
             <div className="profile-view-course-item">
-              <strong>EXE101 - Thực tập tốt nghiệp</strong>
-              <span>9.0 - Xuất sắc</span>
+              <strong>{detailProfile?.course?.code} - {detailProfile?.course?.name}</strong>
+              <span>{detailProfile?.goal} điểm</span>
             </div>
           </div>
         </div>
@@ -61,7 +156,7 @@ const ProfileModalView: React.FC<UserProfileDetailModalProps> = ({ open, onClose
         {/* Contact */}
         <div className="profile-view-section">
           <h4>Thông tin liên hệ</h4>
-          <p>Email: <strong>anhtu2808@fpt.edu.vn</strong></p>
+          <p>Email: <strong>đang thiếu email người đăng</strong></p>
         </div>
 
         {/* Footer */}
