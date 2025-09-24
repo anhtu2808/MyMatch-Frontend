@@ -150,7 +150,7 @@ function MyRequest() {
 
       <div className='section-header'>
         <h2>Yêu cầu chuyển của tôi</h2>
-        <span className='view-all'>Hiển thị {myRequests.length} yêu cầu</span>
+        <span className='view-all'>Hiển thị {filteredFeeds.length} yêu cầu</span>
       </div>
 
       {filteredFeeds.map((request) => (
@@ -158,7 +158,7 @@ function MyRequest() {
           <div className='card-header'>
             <div className='user-info'>
               <div className='avatar'>
-                {/* <img src="/api/placeholder/40/40" alt="User" /> */}
+                <img src={request?.student?.user?.avatarUrl} alt={request?.student?.user?.username} />
               </div>
               <div className='user-details'>
                 <h3>{request.student.user.username}</h3>
@@ -222,8 +222,10 @@ function MyRequest() {
             </div>
           </div>
 
-          <div className='action-buttons-request'>
-            <button className='btn-message' onClick={() => navigate(`/swap_class/edit/${request.id}`)}>✏️ Chỉnh sửa</button>
+          <div className='action-buttons-my-request'>
+            <button className='btn-message-my-request' onClick={() => navigate(`/swap_class/edit/${request.id}`)}>
+                Chỉnh sửa
+              </button>
             <button className='delete-request' onClick={() => handleDeleteRequest(request.id)}>Xóa</button>
           </div>
         </div>

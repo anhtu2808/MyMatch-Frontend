@@ -64,17 +64,17 @@ api.interceptors.response.use(
       isRefreshing = true;
 
       try {
-        const refreshToken = localStorage.getItem("refreshToken");
-        if (!refreshToken) {
+        const oldAccessToken  = localStorage.getItem("accessToken");
+        if (!oldAccessToken ) {
           throw new Error("No refresh token");
         }
 
         // Gọi API refresh token
         const res = await axios.post(`${API_ROOT}/auth/refresh`, {
-          refreshToken,
+          token: oldAccessToken ,
         });
 
-        const newAccessToken = res.data.accessToken;
+        const newAccessToken = res.data.result.token;
 
         // Lưu token mới
         localStorage.setItem("accessToken", newAccessToken);
@@ -93,7 +93,7 @@ api.interceptors.response.use(
 
         // Refresh fail → logout
         localStorage.removeItem("accessToken");
-        localStorage.removeItem("refreshToken");
+        // localStorage.removeItem("refreshToken");
         // window.location.href = "/login";
         return Promise.reject(err);
       }

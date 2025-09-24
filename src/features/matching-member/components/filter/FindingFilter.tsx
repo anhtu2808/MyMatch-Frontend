@@ -15,7 +15,7 @@ interface FilterProps {
 
 const { Option } = Select
 
-const Filter: React.FC<FilterProps> = ({ onFilter, onReset }) => {
+const FindingFilter: React.FC<FilterProps> = ({ onFilter, onReset }) => {
   const [filters, setFilters] = useState({
     courseCode: '',
     className: '',
@@ -162,4 +162,4 @@ const Filter: React.FC<FilterProps> = ({ onFilter, onReset }) => {
   )
 }
 
-export default Filter
+export default FindingFilter

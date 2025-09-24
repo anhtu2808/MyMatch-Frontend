@@ -21,6 +21,8 @@ import MaterialPage from "./features/material/pages/MaterialPage";
 import MaterialDetailPage from "./features/material/pages/MaterialDetailPage";
 import CreateMaterial from "./features/material/pages/CreateMaterial";
 import UpdateMaterial from "./features/material/pages/UpdateMaterial";
+import Finding from "./features/matching-member/pages/Finding";
+import FindingForum from "./features/matching-member/pages/FindingForum";
 
 function App() {
   // getToken();
@@ -63,6 +65,38 @@ function App() {
           }
         />
         <Route path="/teachers" element={<TeachersPage />} />
+        <Route
+          path="/material"
+          element={
+            <PrivateRoute>
+              <MaterialPage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/material/:id"
+          element={
+            <PrivateRoute>
+              <MaterialDetailPage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/material/create"
+          element={
+            <PrivateRoute>
+              <CreateMaterial />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/material/update/:id"
+          element={
+            <PrivateRoute>
+              <UpdateMaterial />
+            </PrivateRoute>
+          }
+        />
         <Route
           path="/lecturer-detail/:id"
           element={
@@ -136,34 +170,18 @@ function App() {
           }
         />
         <Route
-          path="/material"
+          path="/finding"
           element={
             <PrivateRoute>
-              <MaterialPage />
+              <Finding />
             </PrivateRoute>
           }
         />
         <Route
-          path="/material/:id"
+          path="/finding_forum"
           element={
             <PrivateRoute>
-              <MaterialDetailPage />
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path="/material/create"
-          element={
-            <PrivateRoute>
-              <CreateMaterial />
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path="/material/update/:id"
-          element={
-            <PrivateRoute>
-              <UpdateMaterial />
+              <FindingForum />
             </PrivateRoute>
           }
         />

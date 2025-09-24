@@ -67,8 +67,12 @@ const Sidebar = () => {
     const token = localStorage.getItem("accessToken");
     if (!token) return; // chưa login thì thôi, không gọi API
     const fetchInfo = async () => {
-      const response = await getProfileAPI();
-      setInfo(response.result);
+      try {
+        const response = await getProfileAPI();
+        setInfo(response.result);
+      } catch (err) {
+        console.error("Error fetch info", err);
+      }
     };
     fetchInfo();
   }, []);
@@ -83,6 +87,8 @@ const Sidebar = () => {
           className="w-6 h-6"
           fill="none"
           stroke="currentColor"
+          width="24"
+          height="24"
           viewBox="0 0 24 24"
         >
           <path
@@ -103,6 +109,8 @@ const Sidebar = () => {
           className="w-6 h-6"
           fill="none"
           stroke="currentColor"
+          width="24"
+          height="24"
           viewBox="0 0 24 24"
         >
           <path
@@ -123,6 +131,8 @@ const Sidebar = () => {
           className="w-6 h-6"
           fill="none"
           stroke="currentColor"
+          width="24"
+          height="24"
           viewBox="0 0 24 24"
         >
           <path
@@ -135,14 +145,36 @@ const Sidebar = () => {
       ),
     },
     {
+      id: "finding",
+      name: "Tìm nhóm",
+      path: "/finding",
+      icon: (
+        <svg
+          className="w-6 h-6"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          width="24"
+          height="24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="1.5"
+            d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6 0 3.375 3.375 0 0 1 6 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z"
+          ></path>
+        </svg>
+      ),
+    },
+    {
       id: "messages",
       name: "Tin nhắn",
       path: "/messages",
       icon: (
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          width="32"
-          height="32"
+          width="24"
+          height="24"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
@@ -166,6 +198,8 @@ const Sidebar = () => {
         <svg
           className="w-6 h-6"
           fill="none"
+          width="24"
+          height="24"
           stroke="currentColor"
           viewBox="0 0 24 24"
         >
@@ -179,14 +213,37 @@ const Sidebar = () => {
       ),
     },
     {
+      id: "product",
+      name: "Sản phẩm",
+      path: "/product",
+      icon: (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          className="lucide lucide-shopping-cart-icon lucide-shopping-cart"
+        >
+          <circle cx="8" cy="21" r="1" />
+          <circle cx="19" cy="21" r="1" />
+          <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12" />
+        </svg>
+      ),
+    },
+    {
       id: "payment",
       name: "Thanh toán",
       path: "/payment",
       icon: (
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          width="32"
-          height="32"
+          width="24"
+          height="24"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
@@ -198,29 +255,6 @@ const Sidebar = () => {
           <circle cx="12" cy="12" r="10" />
           <path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8" />
           <path d="M12 18V6" />
-        </svg>
-      ),
-    },
-    {
-      id: "product",
-      name: "Sản phẩm",
-      path: "/product",
-      icon: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="32"
-          height="32"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          className="lucide lucide-shopping-cart-icon lucide-shopping-cart"
-        >
-          <circle cx="8" cy="21" r="1" />
-          <circle cx="19" cy="21" r="1" />
-          <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12" />
         </svg>
       ),
     },
@@ -312,7 +346,7 @@ const Sidebar = () => {
               >
                 Hồ sơ
               </NavLink>
-              {!token && (
+              {!token ? (
                 <NavLink
                   to="/login"
                   className={({ isActive }) =>
@@ -322,11 +356,11 @@ const Sidebar = () => {
                 >
                   Đăng nhập
                 </NavLink>
+              ) : (
+                <button className="dropdownItem" onClick={() => handleLogout()}>
+                  Đăng xuất
+                </button>
               )}
-
-              <button className="dropdownItem" onClick={() => handleLogout()}>
-                Đăng xuất
-              </button>
             </div>
           )}
         </div>

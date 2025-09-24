@@ -71,6 +71,8 @@ export interface RequestToMe {
 function RequestToMe() {
   const [requests, setRequests] = useState<RequestToMe[]>([])
   const [filteredFeeds, setFilteredFeeds] = useState<RequestToMe[]>([])
+  console.log(filteredFeeds);
+  console.log(requests);
   const navigation = useNavigate()
   useEffect(() => {
     const fetchRequestsMatching = async () => {
@@ -78,7 +80,7 @@ function RequestToMe() {
         const response = await getSwapMatchingAPI({
         page: 0,
         size: 10,
-        status: "PENDING",
+        // status: "PENDING",
       })
         setRequests(response?.result?.data || [])
         setFilteredFeeds(response?.result?.data || [])
@@ -187,7 +189,7 @@ function RequestToMe() {
       <Filter onFilter={handleFilter} onReset={handleReset} />
       <div className='section-header'>
         <h2>Yêu cầu gửi tới tôi</h2>
-        <span className='view-all'>Hiển thị {requests.length} yêu cầu</span>
+        <span className='view-all'>Hiển thị {filteredFeeds.length} yêu cầu</span>
       </div>
 
             {filteredFeeds.map((request) => (
@@ -258,9 +260,18 @@ function RequestToMe() {
             </div>
           </div>
           <div className='action-buttons-matching'>
-            <button className='btn-message-matching' onClick={() => navigation(`/message/${request.requestTo?.student?.id}`)}>💬 Nhắn tin</button>
-            <button className='btn-message-matching-reject' onClick={() => handleRejectSwap(request.id)}>Từ chối</button>
-            <button className='btn-message-matching-accept' onClick={() => handleAcceptSwap(request.id)}>Chấp nhận</button>
+            <button className='btn-message-matching' onClick={() => navigation(`/message/${request.requestTo?.student?.id}`)}>
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-mails-icon lucide-mails"><path d="M17 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 1-1.732"/><path d="m22 5.5-6.419 4.179a2 2 0 0 1-2.162 0L7 5.5"/><rect x="7" y="3" width="15" height="12" rx="2"/></svg>
+              Nhắn tin
+              </button>
+            <button className='btn-message-matching-reject' onClick={() => handleRejectSwap(request.id)}>
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-copy-x-icon lucide-copy-x"><line x1="12" x2="18" y1="12" y2="18"/><line x1="12" x2="18" y1="18" y2="12"/><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+              Từ chối
+              </button>
+            <button className='btn-message-matching-accept' onClick={() => handleAcceptSwap(request.id)}>
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-copy-check-icon lucide-copy-check"><path d="m12 15 2 2 4-4"/><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+              Chấp nhận
+              </button>
           </div>
         </div>
       ))}

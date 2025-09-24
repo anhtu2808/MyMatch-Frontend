@@ -1,0 +1,27 @@
+/* Nút coin */
+.coin-button {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 16px 24px;
+    border: 2px solid #fcd34d;
+    border-radius: 9999px;
+    font-weight: bold;
+    font-size: 14px;
+    color: white;
+    background: linear-gradient(to right, #facc15, #f97316);
+    box-shadow: 0 0 25px rgba(250, 204, 21, 0.7);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.coin-button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 35px rgba(250, 204, 21, 0.9);
+}
+
+.coin-text {
+    line-height: 1.2;
+    text-align: left;
+}
