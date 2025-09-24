@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import "./Member.css";
 import ProfileModalView from "../modal/ProfileModalView";
 import { getProfile } from "../../apis";
-import { useAppSelector } from "../../../../store/hooks";
 
 // Skill của member
 export interface Skill {
@@ -91,20 +90,17 @@ function Member() {
     }
   
   const [members, setMembers] = useState<RequestData[]>([]) 
-  const user = useAppSelector((state) => state.user)
-  const studentId = user?.studentId
-
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await getProfile(Number(studentId))
+        const response = await getProfile()
         setMembers(response.result.data)
       } catch (err) {
         console.error("Error fetch profile", err);
       }
     }
     fetchProfile()
-  }, [studentId])
+  }, [])
 
   return (
     <div className="member-list">

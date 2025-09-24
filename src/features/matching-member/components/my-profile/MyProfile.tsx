@@ -1,34 +1,87 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./MyProfile.css";
 import ProfileModalForm from "../modal/ProfileModalForm";
 import ProfileModalView from "../modal/ProfileModalView";
+import { useAppSelector } from "../../../../store/hooks";
+import { getProfileStudentId } from "../../apis";
 
-interface ProfileType {
+// Skill của member
+export interface Skill {
   id: number;
-  name: string;
-  major: string;
-  classCode: string;
-  traits: string[];
-  intro: string;
-  skills: string[];
-  courses: { name: string; goal: string };
+  requestId: number | null;
+  skill: {
+    id: number;
+    name: string;
+  };
 }
 
-const profiles: ProfileType[] = [
-  {
-    id: 1,
-    name: "Vạn Hào",
-    major: "Software Engineering • SE1633",
-    classCode: "Flexible • Team Player • Detail-oriented",
-    traits: [],
-    intro:
-      "Passionate about web development and AI. Looking for a collaborative team to work on innovative projects.",
-    skills: ["React", "Node.js", "Python", "UI/UX Design"],
-    courses: { 
-      name: "EXE101 - Thực tập tốt nghiệp", 
-      goal: "9.0" }
-    },
-];
+// Course trong University
+export interface Course {
+  id: number;
+  code: string;
+  name: string;
+}
+
+// University
+export interface University {
+  id: number;
+  imgUrl: string;
+  name: string;
+  courses: Course[];
+  createAt: string;
+  updateAt: string;
+}
+
+// Campus
+export interface Campus {
+  id: number;
+  name: string;
+  address: string;
+  imgUrl: string;
+  createAt: string;
+  updateAt: string;
+  university: University;
+}
+
+// Student
+export interface Student {
+  id: number;
+  studentCode: string;
+  user: any | null; // nếu API có trả thêm thì define sau
+  campus: Campus;
+  skill: string | null;
+  goals: string | null;
+  description: string | null;
+  major: string;
+}
+
+// Course & Semester dùng trong Request
+export interface RequestCourse {
+  id: number;
+  code: string;
+  name: string;
+}
+
+export interface Semester {
+  id: number;
+  name: string;
+}
+
+// Request data (bài đăng tìm team)
+export interface RequestData {
+  id: number;
+  student: Student;
+  requestDetail: string;
+  goal: number;
+  classCode: string;
+  course: RequestCourse;
+  semester: Semester;
+  campus: Campus;
+  description: string;
+  status: string;
+  createAt: string;
+  skills: Skill[];
+}
 
 function MyProfile() {
   const [openForm, setOpenForm] = useState(false);
@@ -39,6 +92,24 @@ function MyProfile() {
       const handleOpenProfileModalView = () => {
       setOpenView(true);
       }
+
+  const [profiles, setProfile] = useState<RequestData[]>([])
+  const user = useAppSelector((state) => state.user)
+  const studentId = user?.studentId
+  const username = user?.name
+
+      useEffect(() => {
+        const fetchProfileByStudentId = async () => {
+          try {
+            const response = await getProfileStudentId(Number(studentId))
+            setProfile(response.result.data)
+          } catch (err) {
+            console.error("Error fetch Profile by student id", err);
+          } 
+        }
+        fetchProfileByStudentId()
+      }, [studentId])
+
   return (
     <div className="my-profile-list">
       {profiles.map((p) => (
@@ -46,11 +117,11 @@ function MyProfile() {
           {/* Header */}
           <div className="my-profile-header">
             <div className="profile-info">
-              <div className="avatar">{p.name.charAt(0)}</div>
+              {/* <div className="avatar">{p.name.charAt(0)}</div> */}
               <div>
-                <h3 className="profile-name">{p.name}</h3>
-                <p className="profile-major">{p.major}</p>
-                <span className="profile-class">{p.classCode}</span>
+                <h3 className="profile-name">{username}</h3>
+                <p className="profile-major">Ngành: {p?.student?.major}</p>
+                <span className="profile-class">Lớp: {p?.classCode}</span>
               </div>
             </div>
 
@@ -68,14 +139,14 @@ function MyProfile() {
           </div>
 
           {/* Intro */}
-          <p className="profile-intro">{p.intro}</p>
+          <p className="profile-intro">{p.description}</p>
 
           {/* Skills */}
           <div className="profile-section">
             <p>Kỹ năng</p>
             <div className="tag-list">
               {p.skills.map((s, i) => (
-                <span key={i} className="tag">{s}</span>
+                <span key={i} className="tag">{s?.skill?.name}</span>
               ))}
             </div>
           </div>
@@ -85,8 +156,8 @@ function MyProfile() {
             <p>Môn học & Mục tiêu điểm</p>
             <div className="course-list">
                 <div className="course-item">
-                  <span>{p.courses.name}</span>
-                  <strong>Mục tiêu: {p.courses.goal} điểm</strong>
+                  <span>{p?.course?.name}</span>
+                  <strong>Mục tiêu: {p.goal} điểm</strong>
                 </div>
             </div>
           </div>
