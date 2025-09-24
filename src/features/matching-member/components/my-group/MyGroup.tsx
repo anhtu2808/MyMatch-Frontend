@@ -1,53 +1,64 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./MyGroup.css";
 import GroupModalView from "../modal/GroupModalView";
 import GroupModalForm from "../modal/GroupModalForm";
+import { getGroupStudentId } from "../../apis";
+import { useAppSelector } from "../../../../store/hooks";
 
-interface GroupType {
+export interface Course {
   id: number;
-  name: string;
-  status: "active" | "inactive";
   code: string;
-  description: string;
-  members: string[];
-  skills: string[];
-  searching: string[];
-  memberCount: string;
-  deadline: string;
-  createdAt: string;
-  openPositions: number;
+  name: string;
 }
 
-const groups: GroupType[] = [
-  {
-    id: 1,
-    name: "Team Alpha",
-    status: "active",
-    code: "EXE101",
-    description: "Nhóm phát triển ứng dụng web quản lý sinh viên",
-    members: ["anhtu2808", "Trần Thị B", "Lê Văn C"],
-    skills: ["React", "Node.js", "MongoDB"],
-    searching: ["Backend Developer", "UI/UX Designer"],
-    memberCount: "3/5",
-    deadline: "15/6/2024",
-    createdAt: "15/1/2024",
-    openPositions: 2,
-  },
-  {
-    id: 2,
-    name: "Design Masters",
-    status: "active",
-    code: "DES202",
-    description: "Nhóm thiết kế giao diện website sáng tạo",
-    members: ["Nguyễn Văn D", "Phạm Thị E"],
-    skills: ["Figma", "Adobe XD", "Prototyping"],
-    searching: ["Frontend Developer"],
-    memberCount: "2/4",
-    deadline: "30/7/2024",
-    createdAt: "20/2/2024",
-    openPositions: 1,
-  },
-];
+export interface Semester {
+  id: number;
+  name: string;
+}
+
+export interface University {
+  id: number;
+  imgUrl: string;
+  name: string;
+  courses: Course[];
+  createAt: string;
+  updateAt: string;
+}
+
+export interface Campus {
+  id: number;
+  name: string;
+  address: string;
+  imgUrl: string;
+  createAt: string;
+  updateAt: string;
+  university: University;
+}
+
+export interface Student {
+  id: number;
+  studentCode: string;
+  user: any | null; 
+  campus: Campus;
+  skill: string | null;
+  goals: string | null;
+  description: string | null;
+  major: string;
+}
+
+export interface Team {
+  id: number;
+  name: string;
+  memberMax: number;
+  description: string;
+  course: Course;
+  semester: Semester;
+  campus: Campus;
+  student: Student;
+  createAt: string;
+  teamRequest: any | null;
+  teamMember: any | null;
+}
 
 function MyGroup() {
   const [openView, setOpenView] = useState(false);
@@ -61,6 +72,23 @@ function MyGroup() {
       const  handleOpenGroupModalForm = () => {
         setOpenForm(true)
       }
+
+  const [groups, setGroup] = useState<Team[]>([])    
+  const user = useAppSelector((state) => state.user)
+  const studentId = user?.studentId
+  const username = user?.name
+  useEffect(() => {
+    const fetchGroupByStudentId = async () => {
+    try {
+      const response = await getGroupStudentId(Number(studentId));
+      setGroup(response.result.data)
+    } catch (err) {
+      console.error("Error fetch Group by student id");
+    }
+  }
+  fetchGroupByStudentId()
+  }, [])
+  
   return (
     <div className="my-group-list">
       {groups.map((g) => (
@@ -68,62 +96,61 @@ function MyGroup() {
           <div className="group-info">
           <div className="group-header">
             <h3 className="group-name">{g.name}</h3>
-            <span className={`status ${g.status}`}>
-              {g.status === "active" ? "Đang hoạt động" : "Ngừng hoạt động"}
-            </span>
-            <span className="group-code">{g.code}</span>
+            <span className="group-code">{g?.course?.code}</span>
           </div>
           <p className="group-desc">{g.description}</p>
 
           <div className="group-stats">
             <div className="stat-box">
               <p>Thành viên</p>
-              <strong>{g.memberCount}</strong>
+              <strong>{g.memberMax}</strong>
             </div>
             <div className="stat-box">
               <p>Hạn chót</p>
-              <strong>{g.deadline}</strong>
+              <strong>2 tuần sau từ ngày đăng</strong>
             </div>
             <div className="stat-box">
               <p>Ngày tạo</p>
-              <strong>{g.createdAt}</strong>
+              <strong>{g.createAt}</strong>
             </div>
             <div className="stat-box">
               <p>Đang tìm</p>
-              <strong>{g.openPositions} vị trí</strong>
+              <strong>{g?.teamRequest} vị trí</strong>
             </div>
           </div>
 
           <div className="group-section">
             <p>Kỹ năng nhóm:</p>
             <div className="tag-list">
-              {g.skills.map((s, i) => (
+              {/* {g.skills.map((s, i) => (
                 <span key={i} className="tag">
                   {s}
                 </span>
-              ))}
+              ))} */}
             </div>
           </div>
 
           <div className="group-section">
             <p>Thành viên:</p>
             <div className="tag-list">
-              {g.members.map((m, i) => (
+              {/* {g.members.map((m, i) => (
                 <span key={i} className="tag member">
                   {m}
                 </span>
-              ))}
+              ))} */}
+              {g.teamMember}
             </div>
           </div>
 
           <div className="group-section">
             <p>Đang tìm kiếm:</p>
             <div className="tag-list">
-              {g.searching.map((s, i) => (
+              {/* {g.searching.map((s, i) => (
                 <span key={i} className="tag searching">
                   {s}
                 </span>
-              ))}
+              ))} */}
+              {g?.teamRequest}
             </div>
           </div>
           </div>
