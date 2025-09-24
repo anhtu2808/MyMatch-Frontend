@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Modal, Input, Select } from "antd";
 import "./ProfileModalForm.css";
-import { createProfile, getCourseAPI, getSkillAPI } from "../../apis";
+import { createProfile, getCourseAPI, getProfileId, getSkillAPI, updateProfile } from "../../apis";
 import { useAppSelector } from "../../../../store/hooks";
 const { TextArea } = Input;
 const { Option } = Select
@@ -19,10 +19,11 @@ interface ProfileForm {
 interface UserProfileModalProps {
   open: boolean;
   onClose: () => void;
-  id: number
+  id?: number;
+  isEdit?: boolean;
 }
 
-const UserProfileModal: React.FC<UserProfileModalProps> = ({ open, onClose, id }) => {
+const UserProfileModal: React.FC<UserProfileModalProps> = ({ open, onClose, id ,isEdit}) => {
   const user = useAppSelector((state) => state.user)
   const [profileForm, setProfileForm] = useState<ProfileForm>({
     requestDetail: "",
@@ -34,7 +35,6 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({ open, onClose, id }
     campusId: Number(user?.campusId),
     skillIds: [] as number[],
     })
-  const [profileFormUpdate, setProfileFormUpdate] = useState()
   const [skills, getSkills] = useState<any[]>([])
   const [courses, setCourses] = useState<any[]>([])
   
@@ -63,16 +63,47 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({ open, onClose, id }
       fetchCourses()
     }, [])
 
+    useEffect(() => {
+    const fetchProfileDetail = async () => {
+    if (isEdit && id) {
+      try {
+        const res = await getProfileId(id); // API lấy chi tiết profile
+        setProfileForm({
+          requestDetail: res?.result?.requestDetail,
+          goal: res?.result?.goal,
+          classCode: res?.result?.classCode,
+          description: res?.result?.description,
+          courseId: res?.result?.course?.id,
+          semesterId: res?.result?.semester?.id,
+          campusId: res?.result?.campus?.id,
+          skillIds: res?.result?.skills?.map((s: any) => s.skill.id) || [],
+        });
+      } catch (err) {
+        console.error("Lỗi fetch profile detail:", err);
+      }
+    }
+  };
+  fetchProfileDetail();
+}, [isEdit, id]);
+
+
   const handleSave = async () => {
   try {
-    const response = await createProfile(profileForm);
-    console.log("Tạo profile thành công:", response);
-    onClose(); // đóng modal sau khi lưu
+    if (isEdit && id) {
+      const res = await updateProfile(id, {
+        ...profileForm,
+        status: "OPEN", // theo body yêu cầu
+      });
+      console.log("Update profile thành công:", res);
+    } else {
+      const res = await createProfile(profileForm);
+      console.log("Tạo profile thành công:", res);
+    }
+    onClose();
   } catch (error) {
-    console.error("Lỗi khi tạo profile:", error);
+    console.error("Lỗi khi lưu profile:", error);
   }
 };
-
 
   const handleInputChange = (field: string, value: any) => {
   setProfileForm((prev) => ({
@@ -174,9 +205,9 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({ open, onClose, id }
               style={{ width: '100%' }}
             >
                 {courses.map((course) => (
-                <option key={course.id} value={course.id}>
+                <Option key={course.id} value={course.id}>
                   {course?.code}
-                </option>
+                </Option>
               ))}
             </Select>
             <Input placeholder="Mục tiêu mấy điểm" 

@@ -46,7 +46,7 @@ export interface Campus {
 export interface Student {
   id: number;
   studentCode: string;
-  user: any | null; // nếu API có trả thêm thì define sau
+  user: any | null;
   campus: Campus;
   skill: string | null;
   goals: string | null;

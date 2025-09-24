@@ -16,8 +16,8 @@ export const deleteProfile = async (id: number) => {
     return response.data
 }
 
-export const getProfileStudentId = async (id: number) => {
-    const response = await api.get(`/student-requests?studentId=${id}&page=0&size=0`)
+export const getProfileStudentId = async (id: number, page: number, size: number) => {
+    const response = await api.get(`/student-requests?studentId=${id}&page=${page}&size=${size}`)
     return response.data
 }
 

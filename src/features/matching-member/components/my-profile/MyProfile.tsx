@@ -3,7 +3,9 @@ import "./MyProfile.css";
 import ProfileModalForm from "../modal/ProfileModalForm";
 import ProfileModalView from "../modal/ProfileModalView";
 import { useAppSelector } from "../../../../store/hooks";
-import { getProfileStudentId } from "../../apis";
+import { deleteProfile, getProfileStudentId } from "../../apis";
+import Pagination from "../../../review/components/Pagination/Pagination";
+import { Modal } from "antd";
 
 // Skill của member
 export interface Skill {
@@ -87,8 +89,13 @@ function MyProfile() {
   const [openForm, setOpenForm] = useState(false);
   const [openView, setOpenView] = useState(false);
   const [selectedId, setSelectedId] = useState<number | null>(null);
-      const handleOpenProfileModalForm = () => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalElements, setTotalElements] = useState(0);
+  const { confirm } = Modal;
+  const pageSize = 10;
+      const handleOpenProfileModalForm = (id: number) => {
       setOpenForm(true);
+      setSelectedId(id)
       }
       const handleOpenProfileModalView = (id: number) => {
       setOpenView(true);
@@ -103,14 +110,17 @@ function MyProfile() {
       useEffect(() => {
         const fetchProfileByStudentId = async () => {
           try {
-            const response = await getProfileStudentId(Number(studentId))
+            const response = await getProfileStudentId(Number(studentId), currentPage, pageSize)
             setProfile(response.result.data)
+            setTotalElements(response.result.totalElements)
           } catch (err) {
             console.error("Error fetch Profile by student id", err);
           } 
         }
         fetchProfileByStudentId()
-      }, [studentId])
+      }, [studentId, currentPage])
+
+  // 
 
   return (
     <div className="my-profile-list">
@@ -128,10 +138,10 @@ function MyProfile() {
             </div>
 
             <div className="my-profile-actions">
-              <button className="my-profile-btn-edit" onClick={handleOpenProfileModalForm}>
+              <button className="my-profile-btn-edit" onClick={() => handleOpenProfileModalForm(p.id)}>
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-square-pen-icon lucide-square-pen"><path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"/></svg>
                 Chỉnh sửa</button>
-              <button className="my-profile-btn-delete">
+              <button className="my-profile-btn-delete" >
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-trash-icon lucide-trash"><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
                 Xóa profile</button>
                 <button className="my-profile-btn-detail" onClick={() => handleOpenProfileModalView(p.id)}>
@@ -165,7 +175,12 @@ function MyProfile() {
           </div>
         </div>
       ))}
-      <ProfileModalForm open={openForm} onClose={() => setOpenForm(false)} id= {Number(selectedId)}/>
+      <Pagination
+          currentPage={currentPage}
+          totalPages={totalElements}
+          onPageChange={(p) => setCurrentPage(p)}
+        />
+      <ProfileModalForm open={openForm} onClose={() => setOpenForm(false)} id= {Number(selectedId)} isEdit={!!selectedId}/>
       <ProfileModalView open={openView} onClose={() => setOpenView(false)} id= {Number(selectedId)}/>
     </div>
   );
