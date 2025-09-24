@@ -17,10 +17,15 @@ import MyInfor from "./features/profile/pages/MyInfor";
 import PrivateRoute from "./PrivateRoute";
 import Payment from "./features/payment/pages/Payment";
 import Product from "./features/product/pages/Product";
+import MaterialPage from "./features/material/pages/MaterialPage";
+import MaterialDetailPage from "./features/material/pages/MaterialDetailPage";
+import CreateMaterial from "./features/material/pages/CreateMaterial";
+import UpdateMaterial from "./features/material/pages/UpdateMaterial";
 import Finding from "./features/matching-member/pages/Finding";
 import FindingForum from "./features/matching-member/pages/FindingForum";
 
 function App() {
+  // getToken();
   return (
     <Router>
       <Routes>
@@ -43,6 +48,10 @@ function App() {
         <Route path="/product" element={<PrivateRoute><Product /></PrivateRoute>} />
         <Route path="/finding" element={<PrivateRoute><Finding /></PrivateRoute>} />
         <Route path="/finding_forum" element={<PrivateRoute><FindingForum /></PrivateRoute>} />
+         <Route path="/material" element={<PrivateRoute><MaterialPage /></PrivateRoute>} />
+        <Route path="/material/:id" element={<PrivateRoute><MaterialDetailPage /></PrivateRoute>} />
+        <Route path="/material/create" element={<PrivateRoute><CreateMaterial /></PrivateRoute>} />
+        <Route path="/material/update/:id" element={<PrivateRoute><UpdateMaterial /></PrivateRoute>} />
       </Routes>
     </Router>
   );

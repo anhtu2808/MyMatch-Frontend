@@ -8,28 +8,28 @@ import { getToken } from "../../features/login/services/localStorageService";
 import { getProfileAPI } from "../../features/profile/apis";
 
 interface UserInfo {
-  id: number
-  username: string
-  email: string
-  firstName: string
-  lastName: string
-  phone: string
-  avatarUrl: string
-  address: string
-  role: string
-  permissions: string[]
+  id: number;
+  username: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  phone: string;
+  avatarUrl: string;
+  address: string;
+  role: string;
+  permissions: string[];
   student?: {
-    id: number
-    studentCode: string
-    campus?:{
-      id: number
-      name: string
-    }
-    skill: string
-    goals: number
-    description: string
-    major: string | null
-  }
+    id: number;
+    studentCode: string;
+    campus?: {
+      id: number;
+      name: string;
+    };
+    skill: string;
+    goals: number;
+    description: string;
+    major: string | null;
+  };
 }
 
 const Sidebar = () => {
@@ -50,27 +50,32 @@ const Sidebar = () => {
         location.pathname === "/add-teacher" ||
         location.pathname.startsWith("/review")
       );
+    } else if (path === "/material") {
+      return (
+        location.pathname === "/material" ||
+        location.pathname.startsWith("/material/")
+      );
     }
     return location.pathname === path;
   };
 
   const navigation = useNavigate();
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const [info, setInfo] = useState<UserInfo | null>(null)
+  const [info, setInfo] = useState<UserInfo | null>(null);
 
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
     if (!token) return; // chưa login thì thôi, không gọi API
     const fetchInfo = async () => {
-      try{
-        const response = await getProfileAPI()
-        setInfo(response.result)
+      try {
+        const response = await getProfileAPI();
+        setInfo(response.result);
       } catch (err) {
-        console.error("Error fetch info", err)
+        console.error("Error fetch info", err);
       }
-    }
-    fetchInfo()
-  }, [])
+    };
+    fetchInfo();
+  }, []);
 
   const navItems = [
     {
@@ -144,28 +149,91 @@ const Sidebar = () => {
       name: "Tìm nhóm",
       path: "/finding",
       icon: (
-        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" width="24" height="24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6 0 3.375 3.375 0 0 1 6 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z"></path></svg>
-      )
+        <svg
+          className="w-6 h-6"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          width="24"
+          height="24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="1.5"
+            d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6 0 3.375 3.375 0 0 1 6 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z"
+          ></path>
+        </svg>
+      ),
     },
     {
       id: "messages",
       name: "Tin nhắn",
       path: "/messages",
       icon: (
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-message-circle-more-icon lucide-message-circle-more">
-          <path d="M2.992 16.342a2 2 0 0 1 .094 1.167l-1.065 3.29a1 1 0 0 0 1.236 1.168l3.413-.998a2 2 0 0 1 1.099.092 10 10 0 1 0-4.777-4.719"/><path d="M8 12h.01"/><path d="M12 12h.01"/><path d="M16 12h.01"/>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className="lucide lucide-message-circle-more-icon lucide-message-circle-more"
+        >
+          <path d="M2.992 16.342a2 2 0 0 1 .094 1.167l-1.065 3.29a1 1 0 0 0 1.236 1.168l3.413-.998a2 2 0 0 1 1.099.092 10 10 0 1 0-4.777-4.719" />
+          <path d="M8 12h.01" />
+          <path d="M12 12h.01" />
+          <path d="M16 12h.01" />
         </svg>
       ),
     },
     {
-      id: 'product',
-      name: 'Sản phẩm',
-      path: '/product',
+      id: "material",
+      name: "Tài liệu học tập",
+      path: "/material",
       icon: (
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-shopping-cart-icon lucide-shopping-cart"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/>
-        <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>
+        <svg
+          className="w-6 h-6"
+          fill="none"
+          width="24"
+          height="24"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="1.5"
+            d="M2.25 12.75V12A2.25 2.25 0 0 1 4.5 9.75h15A2.25 2.25 0 0 1 21.75 12v.75m-8.69-6.44-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25H13.19l-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25H13.19Z"
+          ></path>
         </svg>
-      )
+      ),
+    },
+    {
+      id: "product",
+      name: "Sản phẩm",
+      path: "/product",
+      icon: (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          className="lucide lucide-shopping-cart-icon lucide-shopping-cart"
+        >
+          <circle cx="8" cy="21" r="1" />
+          <circle cx="19" cy="21" r="1" />
+          <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12" />
+        </svg>
+      ),
     },
     {
       id: "payment",
@@ -188,7 +256,7 @@ const Sidebar = () => {
           <path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8" />
           <path d="M12 18V6" />
         </svg>
-      )
+      ),
     },
     // others ...
   ];
@@ -223,7 +291,7 @@ const Sidebar = () => {
     navigation("/login");
   };
 
-  const token = getToken()
+  const token = getToken();
   return (
     <>
       <div className="sidebar">
@@ -279,19 +347,20 @@ const Sidebar = () => {
                 Hồ sơ
               </NavLink>
               {!token ? (
-              <NavLink
-                to="/login"
-                className={({ isActive }) =>
-                  `dropdownItem ${isActive ? "active" : ""}`
-                }
-                onClick={() => setIsDropdownOpen(false)}
-              >
-                Đăng nhập
-              </NavLink> 
-              ):(
-              <button className="dropdownItem" onClick={() => handleLogout()}>
-                Đăng xuất
-              </button> )} 
+                <NavLink
+                  to="/login"
+                  className={({ isActive }) =>
+                    `dropdownItem ${isActive ? "active" : ""}`
+                  }
+                  onClick={() => setIsDropdownOpen(false)}
+                >
+                  Đăng nhập
+                </NavLink>
+              ) : (
+                <button className="dropdownItem" onClick={() => handleLogout()}>
+                  Đăng xuất
+                </button>
+              )}
             </div>
           )}
         </div>
