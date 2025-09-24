@@ -156,6 +156,19 @@ export const downloadMaterialAPI = async (materialId: number) => {
     if (match?.[1]) {
       filename = match[1];
     }
+  } else {
+    // fallback: dựa trên content-type
+    const contentType = response.headers["content-type"];
+    if (contentType) {
+      if (contentType.includes("pdf")) filename += ".pdf";
+      else if (contentType.includes("word")) filename += ".docx";
+      else if (contentType.includes("spreadsheetml")) filename += ".xlsx"; // excel
+      else if (contentType.includes("csv")) filename += ".csv";
+      else if (contentType.includes("png")) filename += ".png";
+      else if (contentType.includes("jpeg")) filename += ".jpg";
+      else if (contentType.includes("zip")) filename += ".zip";
+      else filename += ".bin"; // generic
+    }
   }
 
   const url = window.URL.createObjectURL(new Blob([response.data]));
@@ -168,6 +181,7 @@ export const downloadMaterialAPI = async (materialId: number) => {
 
   return response.data;
 };
+
 
 
 export const updateMaterialAPI = async (
