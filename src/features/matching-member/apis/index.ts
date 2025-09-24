@@ -52,8 +52,8 @@ export const getGroup = async (page: number, size: number) => {
     return response.data
 }
 
-export const getGroupStudentId = async (id: number) => {
-    const response = await api.get(`/teams?page=0&size=0&studentId=${id}`)
+export const getGroupStudentId = async (id: number, page: number, size: number) => {
+    const response = await api.get(`/teams?page=${page}&size=${size}&studentId=${id}`)
     return response.data
 }
 

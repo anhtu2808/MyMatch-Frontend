@@ -4,6 +4,7 @@ import GroupModalView from "../modal/GroupModalView";
 import GroupModalForm from "../modal/GroupModalForm";
 import { getGroupStudentId } from "../../apis";
 import { useAppSelector } from "../../../../store/hooks";
+import Pagination from "../../../review/components/Pagination/Pagination";
 
 export interface Course {
   id: number;
@@ -64,13 +65,17 @@ function MyGroup() {
   const [openView, setOpenView] = useState(false);
   const [openForm, setOpenForm] = useState(false)
   const [selectedId, setSelectedId] = useState<number | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalElements, setTotalElements] = useState(0);
+  const pageSize = 10;
         const handleOpenGroupModalView = (id: number) => {
         setOpenView(true);
         setSelectedId(id)
         }
 
-      const  handleOpenGroupModalForm = () => {
+      const  handleOpenGroupModalForm = (id: number) => {
         setOpenForm(true)
+        setSelectedId(id)
       }
 
   const [groups, setGroup] = useState<Team[]>([])    
@@ -79,8 +84,9 @@ function MyGroup() {
   useEffect(() => {
     const fetchGroupByStudentId = async () => {
     try {
-      const response = await getGroupStudentId(Number(studentId));
-      setGroup(response.result.data)
+      const response = await getGroupStudentId(Number(studentId), currentPage, pageSize);
+      setGroup(response.result.data);
+      setTotalElements(response.result.totalElements)
     } catch (err) {
       console.error("Error fetch Group by student id");
     }
@@ -162,7 +168,7 @@ function MyGroup() {
           </div>
 
           <div className="group-actions">
-            <button className="btn-edit-my-group" onClick={handleOpenGroupModalForm}>
+            <button className="btn-edit-my-group" onClick={() => handleOpenGroupModalForm(g.id)}>
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-square-pen-icon lucide-square-pen"><path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"/></svg>
                Chỉnh sửa</button>
             <button className="btn-delete-my-group">
@@ -174,6 +180,11 @@ function MyGroup() {
           </div>
         </div>
       ))}
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalElements}
+          onPageChange={(p) => setCurrentPage(p)}
+        />
       <GroupModalView open={openView} onClose={() => setOpenView(false)} id={Number(selectedId)}/>
       <GroupModalForm open={openForm} onClose={() => setOpenForm(false)} />
     </div>
