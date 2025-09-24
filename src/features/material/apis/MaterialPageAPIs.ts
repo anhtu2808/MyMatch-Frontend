@@ -142,21 +142,33 @@ export const purchaseMaterialAPI = async (materialId: number) => {
   return response.data;
 };
 
+
 export const downloadMaterialAPI = async (materialId: number) => {
   const response = await api.get(`/materials/${materialId}/download`, {
     responseType: "blob",
   });
 
+  const contentDisposition = response.headers["content-disposition"];
+  let filename = `material-${materialId}`;
+
+  if (contentDisposition) {
+    const match = contentDisposition.match(/filename="?(.+)"?/);
+    if (match?.[1]) {
+      filename = match[1];
+    }
+  }
+
   const url = window.URL.createObjectURL(new Blob([response.data]));
   const link = document.createElement("a");
   link.href = url;
-  link.setAttribute("download", `material-${materialId}.pdf`);
+  link.setAttribute("download", filename);
   document.body.appendChild(link);
   link.click();
   link.remove();
 
   return response.data;
 };
+
 
 export const updateMaterialAPI = async (
   id: number,
