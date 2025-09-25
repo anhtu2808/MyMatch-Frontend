@@ -199,13 +199,14 @@ function TeacherCard({
           </button>
           <button className="btn-view" onClick={handleViewClick}>
             <EyeIcon className="btn-eye" />
+             Xem review
           </button>
-          <button
+          {/* <button
             className={`btn-bookmark ${isBookmarked ? "active" : ""}`}
             onClick={() => onToggleBookmark(teacher.id)}
           >
             <BookmarkIcon className="btn-bookmark-icon" />
-          </button>
+          </button> */}
         </div> 
       </div>
     </div>

@@ -148,26 +148,32 @@ export const downloadMaterialAPI = async (materialId: number) => {
     responseType: "blob",
   });
 
-  // Lấy filename từ content-disposition (nếu BE có gửi)
   let filename = `material-${materialId}`;
   const disposition = response.headers["content-disposition"];
-  if (disposition && disposition.includes("filename=")) {
-    filename = disposition
-      .split("filename=")[1]
-      .replace(/"/g, "")  
-      .trim();
+
+  if (disposition) {
+    const filenameStarMatch = disposition.match(/filename\*\s*=\s*UTF-8''([^;]+)/i);
+    if (filenameStarMatch && filenameStarMatch[1]) {
+      filename = decodeURIComponent(filenameStarMatch[1]);
+    } else {
+      const filenameMatch = disposition.match(/filename="?([^"]+)"?/i);
+      if (filenameMatch && filenameMatch[1]) {
+        filename = filenameMatch[1];
+      }
+    }
   }
 
   const url = window.URL.createObjectURL(new Blob([response.data]));
   const link = document.createElement("a");
   link.href = url;
-  link.setAttribute("download", filename); 
+  link.setAttribute("download", filename);
   document.body.appendChild(link);
   link.click();
   link.remove();
 
   return response.data;
 };
+
 
 
 
