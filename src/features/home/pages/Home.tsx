@@ -6,14 +6,17 @@ import RecentActivity from "../components/QuickAction/RecentlyAction/RecentlyAct
 import "./Home.css";
 import { useAppDispatch } from "../../../store/hooks";
 import { getProfileAPI } from "../../profile/apis";
-import { setUser } from "../../../store/Slice";
+import { setUser, setLoaded } from "../../../store/Slice";
 
 function Home() {
   const dispatch = useAppDispatch();
   
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
-    if (!token) return; // chưa login thì thôi, không gọi API
+    if (!token) {
+      dispatch(setLoaded()); // ✅ vẫn phải set để tránh kẹt trạng thái
+      return; // chưa login thì thôi, không gọi API 
+    }
     const fetchProfileAndSetUser = async () => {
       try {
         const response = await getProfileAPI();
@@ -31,6 +34,7 @@ function Home() {
         );
       } catch (error) {
         console.log("Failed to fetch profile:", error);
+        dispatch(setLoaded());
       }
     };
     fetchProfileAndSetUser();
