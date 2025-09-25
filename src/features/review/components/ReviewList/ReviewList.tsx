@@ -481,7 +481,17 @@ const ReviewList: React.FC<{ lecturerId: number }> = ({ lecturerId }) => {
             <div className="review-main">
               <div className="reviewer-info">
                 <div className="reviewer-avatar">
-                  {review.student?.user?.avatarUrl ? (
+                  {review.isAnonymous ? (
+                      <img
+                        src="https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg"
+                        alt="Anonymous Avatar"
+                        style={{
+                          width: "100%",
+                          height: "100%",
+                          borderRadius: "50%",
+                        }}
+                      />
+                    ) : review.student?.user?.avatarUrl ? (
                     <img
                       src={review.student.user.avatarUrl}
                       alt="Avatar"
