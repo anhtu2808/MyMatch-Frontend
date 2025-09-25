@@ -145,11 +145,9 @@ function MyProfile() {
           <div className="my-profile-header">
             <div className="profile-info">
               {/* <div className="avatar">{p.name.charAt(0)}</div> */}
-              <div>
                 <h3 className="profile-name">{username}</h3>
                 <p className="profile-major">Ngành: {p?.student?.major}</p>
                 <span className="profile-class">Lớp: {p?.classCode}</span>
-              </div>
             </div>
 
             <div className="my-profile-actions">
@@ -166,7 +164,10 @@ function MyProfile() {
           </div>
 
           {/* Intro */}
-          <p className="profile-intro">{p.description}</p>
+          <div className="profile-section">
+          <p>Tiêu đề</p>
+            <p className="profile-intro">{p.requestDetail}</p>
+          </div>
 
           {/* Skills */}
           <div className="profile-section">

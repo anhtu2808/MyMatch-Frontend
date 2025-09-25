@@ -94,6 +94,7 @@ function Member() {
     }
   
   const [members, setMembers] = useState<RequestData[]>([]) 
+  console.log("member", members);
   useEffect(() => {
     const fetchProfile = async () => {
       try {
@@ -112,7 +113,9 @@ function Member() {
       {members.map((m) => (
         <div key={m.id} className="member-card">
           <div className="member-left">
-            {/* <div className="member-avatar">{m?.student.name.charAt(0)}</div> */}
+            {/* <div className="member-avatar">
+              <img src={} alt="" />
+            </div> */}
             <div className="member-info">
               <div className="member-header">
                 <h3 className="member-name">Tên người đăng</h3>

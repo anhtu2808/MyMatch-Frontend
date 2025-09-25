@@ -57,6 +57,9 @@ export interface Team {
   createAt: string;
   teamRequest: any | null;
   teamMember: any | null;
+  image: string;
+  memberCount: number;
+  requestCount: number
 }
 
 
@@ -90,7 +93,9 @@ function Group() {
       {groups.map((m) => (
         <div key={m.id} className="group-card">
           <div className="group-left">
-            {/* <div className="group-avatar">{m.name.charAt(0)}</div> */}
+            {/* <div className="group-avatar">
+                <img src={m?.image}/>
+            </div> */}
             <div className="group-info">
               <div className="group-header">
                 <h3 className="group-name">{m.name}</h3>
@@ -98,7 +103,7 @@ function Group() {
               <p className="group-subject">{m?.course?.code}</p>
               <p className="group-desc">{m.description}</p>
               <p className="group-member">
-                Đã có /{m.memberMax} thành viên
+                Đã có {m.memberCount}/{m.memberMax} thành viên
               </p>
             </div>
           </div>

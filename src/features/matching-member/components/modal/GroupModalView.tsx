@@ -42,7 +42,11 @@ export interface Campus {
 export interface CreatedBy {
   id: number;
   studentCode: string;
-  user: any | null; // nếu có schema riêng cho user thì define tiếp
+  user: {
+    id: number,
+    username: string,
+    email: string
+  }
   campus: Campus;
   skill: string | null;
   goals: string | null;
@@ -148,8 +152,9 @@ const GroupDetailModal: React.FC<GroupDetailModalProps> = ({ open, onClose, id }
           <div className="group-view-basic-info">
             <p>Môn học: {groupDetail?.course?.code}</p>
             <p>Ngày tạo: {formatDate(String(groupDetail?.createAt))}</p>
-            <p>Người tạo: {groupDetail?.createdBy?.studentCode}</p>
+            <p>Người tạo: {groupDetail?.createdBy?.user?.username}</p>
             <p>Hạn chót: Đơn sẽ hết hạn sau 2 tuần kể từ ngày đăng</p>
+            <p>Email: {groupDetail?.createdBy?.user?.email}</p>
           </div>
         </div>
 
@@ -170,8 +175,8 @@ const GroupDetailModal: React.FC<GroupDetailModalProps> = ({ open, onClose, id }
               {/* <div className="group-view-avatar">{m.name.charAt(0)}</div> */}
               <div>
                 <strong>{m.member.name}</strong>
-                <p>{m.member.note}</p>
               </div>
+              <Tag color="blue">{m.member.note}</Tag>
             </div>
           ))}
         </div>

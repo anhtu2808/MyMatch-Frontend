@@ -152,13 +152,13 @@ useEffect(() => {
             />
           </div>
           <div className="profile-form-input">
-            <TextArea autoSize placeholder="Giới thiệu bản thân" 
-            value={profileForm.description}
-            onChange={(e) => handleInputChange("description", e.target.value)}
-            />
-            <Input  placeholder="Yêu cầu mong muốn"
+            <Input  placeholder="Tiêu đề"
             value={profileForm.requestDetail}
             onChange={(e) => handleInputChange("requestDetail", e.target.value)}
+            />
+            <TextArea autoSize placeholder="Mô tả vị trí bản thân (eg: Frontend Developer,...)" 
+            value={profileForm.description}
+            onChange={(e) => handleInputChange("description", e.target.value)}
             />
           </div>
         </div>

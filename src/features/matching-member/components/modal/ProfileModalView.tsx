@@ -123,7 +123,6 @@ const ProfileModalView: React.FC<UserProfileDetailModalProps> = ({ open, onClose
         <div className="profile-view-header">
           <div>
             <h2>Tên người đăng</h2>
-            <p className="profile-view-desc">requestDetail là cái j: {detailProfile?.requestDetail}</p>
             <p className="profile-view-major">Ngày tạo yêu cầu: {formatDate(String(detailProfile?.createAt))}</p>
             <p className="profile-view-major">Hạn chót: Đơn sẽ hết hạn sau 2 tuần kể từ ngày đăng</p>
           </div>

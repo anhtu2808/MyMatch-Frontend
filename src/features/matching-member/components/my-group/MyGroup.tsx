@@ -48,6 +48,21 @@ export interface Student {
   major: string;
 }
 
+export interface Skill {
+  id: number,
+  requestId: number,
+  skill: {
+    id: number,
+    name: string
+  }
+}
+
+export interface User {
+  id: number,
+  username: string,
+  email: string
+}
+
 export interface Team {
   id: number;
   name: string;
@@ -60,6 +75,11 @@ export interface Team {
   createAt: string;
   teamRequest: any | null;
   teamMember: any | null;
+  createdBy: {
+    id: number,
+    user: User
+  }
+  skills: Skill[]
 }
 
 function MyGroup() {
@@ -80,7 +100,7 @@ function MyGroup() {
         setSelectedId(id)
       }
 
-  const [groups, setGroup] = useState<Team[]>([])    
+  const [groups, setGroup] = useState<Team[]>([])
   const user = useAppSelector((state) => state.user)
   const studentId = user?.studentId
   useEffect(() => {
@@ -129,7 +149,6 @@ function MyGroup() {
             <h3 className="group-name">{g.name}</h3>
             <span className="group-code">{g?.course?.code}</span>
           </div>
-          <p className="group-desc">{g.description}</p>
 
           <div className="group-stats">
             <div className="stat-box">
@@ -150,38 +169,16 @@ function MyGroup() {
             </div>
           </div>
 
+          <p className="">{g.description}</p>
+
           <div className="group-section">
             <p>Kỹ năng nhóm:</p>
             <div className="tag-list">
-              {/* {g.skills.map((s, i) => (
+              {g?.skills?.map((s, i) => (
                 <span key={i} className="tag">
-                  {s}
+                  {s?.skill?.name}
                 </span>
-              ))} */}
-            </div>
-          </div>
-
-          <div className="group-section">
-            <p>Thành viên:</p>
-            <div className="tag-list">
-              {/* {g.members.map((m, i) => (
-                <span key={i} className="tag member">
-                  {m}
-                </span>
-              ))} */}
-              {g.teamMember}
-            </div>
-          </div>
-
-          <div className="group-section">
-            <p>Đang tìm kiếm:</p>
-            <div className="tag-list">
-              {/* {g.searching.map((s, i) => (
-                <span key={i} className="tag searching">
-                  {s}
-                </span>
-              ))} */}
-              {g?.teamRequest}
+              ))}
             </div>
           </div>
           </div>
