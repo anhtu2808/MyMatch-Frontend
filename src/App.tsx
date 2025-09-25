@@ -19,6 +19,7 @@ import Payment from "./features/payment/pages/Payment";
 import Product from "./features/product/pages/Product";
 import Finding from "./features/matching-member/pages/Finding";
 import FindingForum from "./features/matching-member/pages/FindingForum";
+import { LayoutWithCoin } from "./LayoutWithCoin";
 
 function App() {
   return (
@@ -38,9 +39,9 @@ function App() {
         <Route path="/add-teacher" element={<PrivateRoute><AddTeacherPage /></PrivateRoute>} />
         <Route path="/profile" element={<PrivateRoute><MyInfor /></PrivateRoute>} />
         <Route path="/message/:studentId" element={<PrivateRoute><Message /></PrivateRoute>} />
-        <Route path="/payment" element={<PrivateRoute><Payment/></PrivateRoute>}/>
+        <Route path="/payment" element={<PrivateRoute><LayoutWithCoin><Payment/></LayoutWithCoin></PrivateRoute>}/>
         <Route path="/review/:id" element={<PrivateRoute><ReviewDetail /></PrivateRoute>} />
-        <Route path="/product" element={<PrivateRoute><Product /></PrivateRoute>} />
+        <Route path="/product" element={<PrivateRoute><LayoutWithCoin><Product /></LayoutWithCoin></PrivateRoute>} />
         <Route path="/finding" element={<PrivateRoute><Finding /></PrivateRoute>} />
         <Route path="/finding_forum" element={<PrivateRoute><FindingForum /></PrivateRoute>} />
       </Routes>

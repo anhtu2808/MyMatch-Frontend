@@ -43,6 +43,7 @@ interface GroupDetailModalProps {
 
 const GroupDetailModalChange: React.FC<GroupDetailModalProps> = ({open, onClose, id, isEdit}) => {
   const user = useAppSelector((state) => state.user)
+  console.log("studentId", user?.studentId);
   const [groupInfo, setGroupInfo] = useState<GroupForm>({
   name: "",
   memberMax: 0,
@@ -267,7 +268,7 @@ useEffect(() => {
               />
               <Input.TextArea
                 autoSize
-                placeholder="Mô tả thêm"
+                placeholder="Mô tả thêm về nhóm của bạn"
                 value={groupInfo.description}
                 onChange={(e) => handleInputChange("description", e.target.value)}
               />

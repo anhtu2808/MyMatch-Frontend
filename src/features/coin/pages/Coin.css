@@ -1,6 +1,10 @@
 /* Nút coin */
 .coin-button {
-    position: relative;
+    width: fit-content;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
     display: flex;
     align-items: center;
     gap: 8px;
@@ -23,5 +27,6 @@
 
 .coin-text {
     line-height: 1.2;
-    text-align: left;
+    text-align: right;
 }
+
