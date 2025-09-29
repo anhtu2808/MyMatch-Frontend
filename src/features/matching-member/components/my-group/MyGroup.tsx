@@ -50,7 +50,6 @@ export interface Student {
 
 export interface Skill {
   id: number,
-  requestId: number,
   skill: {
     id: number,
     name: string
@@ -60,7 +59,14 @@ export interface Skill {
 export interface User {
   id: number,
   username: string,
-  email: string
+  email: string,
+  avatarUrl: string
+}
+
+export interface TeamRequest{
+  id: number;
+  title: string;
+  skills: Skill[]
 }
 
 export interface Team {
@@ -73,13 +79,14 @@ export interface Team {
   campus: Campus;
   student: Student;
   createAt: string;
-  teamRequest: any | null;
+  teamRequest: TeamRequest[];
   teamMember: any | null;
   createdBy: {
     id: number,
     user: User
-  }
-  skills: Skill[]
+  };
+  requestCount: number;
+  memberCount: number
 }
 
 function MyGroup() {
@@ -103,8 +110,9 @@ function MyGroup() {
   const [groups, setGroup] = useState<Team[]>([])
   const user = useAppSelector((state) => state.user)
   const studentId = user?.studentId
-  useEffect(() => {
-    const fetchGroupByStudentId = async () => {
+
+
+  const fetchGroupByStudentId = async () => {
     try {
       const response = await getGroupStudentId(Number(studentId), currentPage, pageSize);
       setGroup(response.result.data);
@@ -113,8 +121,12 @@ function MyGroup() {
       console.error("Error fetch Group by student id");
     }
   }
+
+  useEffect(() => {  
   fetchGroupByStudentId()
-  }, [])
+  }, [studentId,currentPage])
+
+
   
   const formatDate = (isoString: string) => {
     const date = new Date(isoString)
@@ -133,6 +145,7 @@ function MyGroup() {
         onOk: async () => {
           try {
             await deleteGroup(id);
+            fetchGroupByStudentId();
           } catch (err) {
             console.error("Error delete my profile", err);
           }
@@ -152,12 +165,12 @@ function MyGroup() {
 
           <div className="group-stats">
             <div className="stat-box">
-              <p>Thành viên</p>
+              <p>Số thành viên nhóm</p>
               <strong>{g.memberMax}</strong>
             </div>
             <div className="stat-box">
               <p>Hạn chót</p>
-              <strong>2 tuần sau từ ngày đăng</strong>
+              <strong>2 tuần bắt đầu từ ngày đăng</strong>
             </div>
             <div className="stat-box">
               <p>Ngày tạo</p>
@@ -165,23 +178,25 @@ function MyGroup() {
             </div>
             <div className="stat-box">
               <p>Đang tìm</p>
-              <strong>{g?.teamRequest} vị trí</strong>
+              <strong>{g?.requestCount} thành viên</strong>
             </div>
           </div>
 
+          <strong>Tiêu đề</strong>
           <p className="">{g.description}</p>
 
-          <div className="group-section">
-            <p>Kỹ năng nhóm:</p>
-            <div className="tag-list">
-              {g?.skills?.map((s, i) => (
-                <span key={i} className="tag">
-                  {s?.skill?.name}
-                </span>
-              ))}
-            </div>
-          </div>
-          </div>
+          
+          <strong>Kĩ năng yêu cầu</strong>
+          <div className="tag-list">
+                {g?.teamRequest?.map((tr, index) => (
+                  tr.skills.map((s, i) => (
+                    <span key={`${index}-${i}`} className="tag">
+                      {s?.skill?.name}
+                    </span>
+                  ))
+                ))}
+          </div> 
+        </div>
 
           <div className="group-actions">
             <button className="btn-edit-my-group" onClick={() => handleOpenGroupModalForm(g.id)}>
@@ -201,8 +216,8 @@ function MyGroup() {
           totalPages={totalElements}
           onPageChange={(p) => setCurrentPage(p)}
         />
-      <GroupModalView open={openView} onClose={() => setOpenView(false)} id={Number(selectedId)}/>
-      <GroupModalForm open={openForm} onClose={() => setOpenForm(false)} id={Number(selectedId)} isEdit={!!selectedId}/>
+      <GroupModalView open={openView} onClose={() => setOpenView(false)} id={Number(selectedId)} />
+      <GroupModalForm open={openForm} onClose={() => setOpenForm(false)} id={Number(selectedId)} isEdit={!!selectedId} onReload={fetchGroupByStudentId} />
     </div>
   );
 }

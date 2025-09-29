@@ -42,11 +42,18 @@ export interface Campus {
   university: University;
 }
 
+interface User {
+  id: number;
+  username: string;
+  email: string;
+  avatarUrl: string
+}
+
 // Student
 export interface Student {
   id: number;
   studentCode: string;
-  user: any | null;
+  user: User;
   campus: Campus;
   skill: string | null;
   goals: string | null;
@@ -113,12 +120,12 @@ function Member() {
       {members.map((m) => (
         <div key={m.id} className="member-card">
           <div className="member-left">
-            {/* <div className="member-avatar">
-              <img src={} alt="" />
-            </div> */}
+            <div className="member-avatar">
+              <img src={m.student.user.avatarUrl} alt="" />
+            </div>
             <div className="member-info">
               <div className="member-header">
-                <h3 className="member-name">Tên người đăng</h3>
+                <h3 className="member-name">{m.student.user.username}</h3>
               </div>
               <p className="member-major">
                 {m?.student.major} • {m.course.code}

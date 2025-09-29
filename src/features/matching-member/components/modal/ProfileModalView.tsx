@@ -3,12 +3,6 @@ import { Modal, Button, Tag } from "antd";
 import "./ProfileModalView.css";
 import { getProfileId } from "../../apis";
 
-interface UserProfileDetailModalProps {
-  open: boolean;
-  onClose: () => void;
-  id?: number
-}
-
 // Skill trong Request
 export interface SkillItem {
   id: number;
@@ -47,11 +41,17 @@ export interface Campus {
   university: University;
 }
 
+interface User {
+  id: number;
+  username: string;
+  email: string;
+}
+
 // Student
 export interface Student {
   id: number;
   studentCode: string;
-  user: any | null; // nếu sau này có thêm thì define tiếp
+  user: User; // nếu sau này có thêm thì define tiếp
   campus: Campus;
   skill: string | null;
   goals: string | null;
@@ -88,10 +88,17 @@ export interface RequestData {
   skills: SkillItem[];
 }
 
+interface UserProfileDetailModalProps {
+  open: boolean;
+  onClose: () => void;
+  id?: number
+}
+
 const ProfileModalView: React.FC<UserProfileDetailModalProps> = ({ open, onClose, id }) => {
   const [detailProfile, setDetailProfile] = useState<RequestData | null>(null);
 
   useEffect(() => {
+    if (!open) return
     const fetchProfileDetail = async () => {
       try {
         const response = await getProfileId(Number(id))
@@ -101,7 +108,7 @@ const ProfileModalView: React.FC<UserProfileDetailModalProps> = ({ open, onClose
       }
     }
     fetchProfileDetail()
-  }, [id])
+  }, [id, open])
 
   const formatDate = (isoString: string) => {
     const date = new Date(isoString);
@@ -122,7 +129,7 @@ const ProfileModalView: React.FC<UserProfileDetailModalProps> = ({ open, onClose
         {/* Header */}
         <div className="profile-view-header">
           <div>
-            <h2>Tên người đăng</h2>
+            <h2>{detailProfile?.student?.user?.username}</h2>
             <p className="profile-view-major">Ngày tạo yêu cầu: {formatDate(String(detailProfile?.createAt))}</p>
             <p className="profile-view-major">Hạn chót: Đơn sẽ hết hạn sau 2 tuần kể từ ngày đăng</p>
           </div>
@@ -162,7 +169,7 @@ const ProfileModalView: React.FC<UserProfileDetailModalProps> = ({ open, onClose
         {/* Contact */}
         <div className="profile-view-section">
           <h4>Thông tin liên hệ</h4>
-          <p>Email: <strong>đang thiếu email người đăng</strong></p>
+          <p>Email: <strong>{detailProfile?.student?.user?.email}</strong></p>
         </div>
 
         {/* Footer */}

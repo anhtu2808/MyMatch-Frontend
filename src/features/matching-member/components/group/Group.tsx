@@ -34,10 +34,17 @@ export interface Campus {
   university: University;
 }
 
+interface User {
+  id: number;
+  username: string;
+  email: string;
+  avatarUrl: string
+}
+
 export interface Student {
   id: number;
   studentCode: string;
-  user: any | null; 
+  user: User; 
   campus: Campus;
   skill: string | null;
   goals: string | null;
@@ -94,7 +101,7 @@ function Group() {
         <div key={m.id} className="group-card">
           <div className="group-left">
             {/* <div className="group-avatar">
-                <img src={m?.image}/>
+                <img src={m.image}/>
             </div> */}
             <div className="group-info">
               <div className="group-header">

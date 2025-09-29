@@ -56,9 +56,11 @@ interface GroupDetailModalProps {
   onClose: () => void;
   id?: number;
   isEdit?: boolean;
+  onReload?: () =>  void
 }
 
 const GroupDetailModalChange: React.FC<GroupDetailModalProps> = ({
+  onReload,
   open,
   onClose,
   id,
@@ -249,7 +251,7 @@ const GroupDetailModalChange: React.FC<GroupDetailModalProps> = ({
   requestIdsToDelete: deletedRequestIds,
 
   // Members
-  newMembersToCreateAndAdd: groupInfo.members
+  membersToCreate: groupInfo.members
     .filter((m) => m.isNew)
     .map((m) => ({
       memberId: m.id,   // chỉ gửi memberId khi thêm mới
@@ -260,9 +262,9 @@ const GroupDetailModalChange: React.FC<GroupDetailModalProps> = ({
     })),
 
   membersToUpdate: groupInfo.members
-    .filter((m) => !m.isNew && m.teamMemberId)
+    .filter((m) => !m.isNew && m.id)
     .map((m) => ({
-      teamMemberId: m.teamMemberId!,  // dùng teamMemberId để update
+      id: m.id!,  // dùng id để update
       name: m.name,
       note: m.note,
       skillIds: m.skillIds,
@@ -279,10 +281,13 @@ const GroupDetailModalChange: React.FC<GroupDetailModalProps> = ({
       if (isEdit && id) {
         payload = buildUpdatePayload(groupInfo, deletedMemberIds, deletedRequestIds);
         await updateGroup(id, payload);
-      } else {
+        onReload?.();
+      } else { 
         payload = buildCreatePayload(groupInfo);
         await createGroup(payload);
+        onReload?.();
       }
+      onReload?.();
       onClose();
     } catch (err) {
       console.error("Lỗi lưu group:", err);
@@ -445,11 +450,6 @@ const GroupDetailModalChange: React.FC<GroupDetailModalProps> = ({
                 placeholder="Tên vị trí"
                 value={pos.title}
                 onChange={(e) => updateTeamRequest(index, "title", e.target.value)}
-              />
-              <Input
-                placeholder="Mô tả"
-                value={pos.description}
-                onChange={(e) => updateTeamRequest(index, "description", e.target.value)}
               />
               <Select
                 mode="multiple"

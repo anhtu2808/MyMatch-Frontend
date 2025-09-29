@@ -103,10 +103,11 @@ interface GroupDetailModalProps {
   id: number
 }
 
-const GroupDetailModal: React.FC<GroupDetailModalProps> = ({ open, onClose, id }) => {
+const GroupDetailModal: React.FC<GroupDetailModalProps> = ({ open, onClose, id}) => {
   const [groupDetail, setGroupDetail] = useState<Team | null>(null)
 
   useEffect(() => {
+    if (!open) return
     const fetchGroupDetail = async () => {
       try {
         const response = await getGroupId(id)
@@ -116,7 +117,7 @@ const GroupDetailModal: React.FC<GroupDetailModalProps> = ({ open, onClose, id }
       }
     }
     fetchGroupDetail()
-  },[id])
+  },[id, open])
 
   const formatDate = (isoString: string) => {
     const date = new Date(isoString);

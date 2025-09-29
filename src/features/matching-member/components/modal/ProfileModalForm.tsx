@@ -21,9 +21,10 @@ interface UserProfileModalProps {
   onClose: () => void;
   id?: number;
   isEdit?: boolean;
+  onReload?: () => void
 }
 
-const UserProfileModal: React.FC<UserProfileModalProps> = ({ open, onClose, id ,isEdit}) => {
+const UserProfileModal: React.FC<UserProfileModalProps> = ({ open, onClose, id ,isEdit, onReload}) => {
   const user = useAppSelector((state) => state.user)
   const [profileForm, setProfileForm] = useState<ProfileForm>({
     requestDetail: "",
@@ -104,15 +105,16 @@ useEffect(() => {
   const handleSave = async () => {
   try {
     if (isEdit && id) {
-      const res = await updateProfile(id, {
+      await updateProfile(id, {
         ...profileForm,
         status: "OPEN", // theo body yêu cầu
       });
-      console.log("Update profile thành công:", res);
+      onReload?.()
     } else {
-      const res = await createProfile(profileForm);
-      console.log("Tạo profile thành công:", res);
+      await createProfile(profileForm);
+      onReload?.()
     }
+    onReload?.();
     onClose();
   } catch (error) {
     console.error("Lỗi khi lưu profile:", error);
@@ -156,7 +158,7 @@ useEffect(() => {
             value={profileForm.requestDetail}
             onChange={(e) => handleInputChange("requestDetail", e.target.value)}
             />
-            <TextArea autoSize placeholder="Mô tả vị trí bản thân (eg: Frontend Developer,...)" 
+            <TextArea autoSize placeholder="Mô tả về bản thân (kĩ năng, vị trí, ngôn ngữ,...)" 
             value={profileForm.description}
             onChange={(e) => handleInputChange("description", e.target.value)}
             />
