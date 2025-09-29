@@ -4,6 +4,7 @@ import { getSwapMatchingAPI, updateConfirmSwapRequestAPI } from '../../apis'
 import Filter from '../filter/Filter'
 import { useNavigate } from 'react-router-dom'
 import Notification from '../../../../components/notification/Notification'
+import Pagination from '../../../review/components/Pagination/Pagination'
 
 interface User {
   id: number
@@ -74,21 +75,26 @@ function RequestToMe() {
   const [filteredFeeds, setFilteredFeeds] = useState<RequestToMe[]>([])
   const navigation = useNavigate()
   const [noti, setNoti] = useState<{ message: string; type: any } | null>(null);
-  
-  useEffect(() => {
-    const fetchRequestsMatching = async () => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalElements, setTotalElements] = useState(0);
+  const pageSize = 10;
+
+  const fetchRequestsMatching = async () => {
       try {
         const response = await getSwapMatchingAPI({
-        page: 0,
-        size: 10,
+        page: currentPage,
+        size: pageSize,
         // status: "PENDING",
       })
         setRequests(response?.result?.data || [])
         setFilteredFeeds(response?.result?.data || [])
+        setTotalElements(response.result.totalElements)
       } catch (error) {
         console.error('Error fetching requests:', error)
       }
     }
+
+  useEffect(() => {
     fetchRequestsMatching()
   }, [])
 
@@ -162,6 +168,7 @@ function RequestToMe() {
         console.log("no id to confirm swap request");
       }
       updateConfirmSwapRequestAPI(data, id)
+      fetchRequestsMatching()
       showNotification("Đã chấp nhận", "success")
     }
     catch(err){
@@ -179,6 +186,7 @@ function RequestToMe() {
         console.log("no id to confirm swap request");
       }
       updateConfirmSwapRequestAPI(data, id)
+      fetchRequestsMatching()
       showNotification("Đã từ chối", "success")
     }
     catch(err: any){
@@ -288,6 +296,11 @@ function RequestToMe() {
         </div>
       ))}
     </div>
+    <Pagination
+          currentPage={currentPage}
+          totalPages={totalElements}
+          onPageChange={(p) => setCurrentPage(p)}
+        />
     {noti && (
         <Notification
           message={noti.message}
