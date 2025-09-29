@@ -3,6 +3,7 @@ import './NewsFeed.css'
 import { getSwapRequestAPI } from '../../apis'
 import Filter from '../filter/Filter'
 import { useNavigate } from 'react-router-dom'
+import Pagination from '../../../review/components/Pagination/Pagination'
 
 interface Course {
   id: number
@@ -69,12 +70,17 @@ function NewsFeed() {
   const [newsFeeds, setNewsFeeds] = useState<MyRequest[]>([])
   const [filteredFeeds, setFilteredFeeds] = useState<MyRequest[]>([])
   const navigate = useNavigate();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalElements, setTotalElements] = useState(0);
+  const pageSize = 10;
+
   useEffect(() => {
     const fetchNewsFeed = async () => {
       try {
-        const response = await getSwapRequestAPI()
+        const response = await getSwapRequestAPI({page: currentPage, size: pageSize})
         setNewsFeeds(response?.result?.data || [])
         setFilteredFeeds(response?.result?.data || [])
+        setTotalElements(response.result.totalElements)
       } catch (error) {
         console.error('Error fetching news feed:', error)
       }
@@ -127,6 +133,7 @@ function NewsFeed() {
   }
 
   return (
+    <>
     <div className='my-request-container'>
       <Filter onFilter={handleFilter} onReset={handleReset} />
 
@@ -217,6 +224,12 @@ function NewsFeed() {
         </div>
       ))}
     </div>
+    <Pagination
+          currentPage={currentPage}
+          totalPages={totalElements}
+          onPageChange={(p) => setCurrentPage(p)}
+        />
+        </>
   )
 }
 
