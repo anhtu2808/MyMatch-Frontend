@@ -59,7 +59,7 @@ interface GroupDetailModalProps {
   onReload?: () =>  void
 }
 
-const GroupDetailModalChange: React.FC<GroupDetailModalProps> = ({
+const GroupModalForm: React.FC<GroupDetailModalProps> = ({
   onReload,
   open,
   onClose,
@@ -493,4 +493,4 @@ const GroupDetailModalChange: React.FC<GroupDetailModalProps> = ({
   );
 };
 
-export default GroupDetailModalChange;
+export default GroupModalForm;

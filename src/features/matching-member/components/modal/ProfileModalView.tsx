@@ -51,7 +51,7 @@ interface User {
 export interface Student {
   id: number;
   studentCode: string;
-  user: User; // nếu sau này có thêm thì define tiếp
+  user: User; 
   campus: Campus;
   skill: string | null;
   goals: string | null;

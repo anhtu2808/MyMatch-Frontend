@@ -24,7 +24,7 @@ interface UserProfileModalProps {
   onReload?: () => void
 }
 
-const UserProfileModal: React.FC<UserProfileModalProps> = ({ open, onClose, id ,isEdit, onReload}) => {
+const ProfileModalForm: React.FC<UserProfileModalProps> = ({ open, onClose, id ,isEdit, onReload}) => {
   const user = useAppSelector((state) => state.user)
   const [profileForm, setProfileForm] = useState<ProfileForm>({
     requestDetail: "",
@@ -244,4 +244,4 @@ useEffect(() => {
   );
 };
 
-export default UserProfileModal;
+export default ProfileModalForm;

@@ -103,7 +103,7 @@ interface GroupDetailModalProps {
   id: number
 }
 
-const GroupDetailModal: React.FC<GroupDetailModalProps> = ({ open, onClose, id}) => {
+const GroupModalView: React.FC<GroupDetailModalProps> = ({ open, onClose, id}) => {
   const [groupDetail, setGroupDetail] = useState<Team | null>(null)
 
   useEffect(() => {
@@ -207,4 +207,4 @@ const GroupDetailModal: React.FC<GroupDetailModalProps> = ({ open, onClose, id})
   );
 };
 
-export default GroupDetailModal;
+export default GroupModalView;
