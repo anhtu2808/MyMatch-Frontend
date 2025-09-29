@@ -6,6 +6,7 @@ import { useAppSelector } from "../../../../store/hooks";
 import { deleteProfile, getProfileStudentId } from "../../apis";
 import Pagination from "../../../review/components/Pagination/Pagination";
 import { Modal } from "antd";
+import Notification from "../../../../components/notification/Notification";
 
 // Skill của member
 export interface Skill {
@@ -93,7 +94,13 @@ function MyProfile() {
   const [totalElements, setTotalElements] = useState(0);
   const { confirm } = Modal;
   const pageSize = 10;
-      const handleOpenProfileModalForm = (id: number) => {
+  const [profiles, setProfile] = useState<RequestData[]>([])
+  const user = useAppSelector((state) => state.user)
+  const studentId = user?.studentId
+  const username = user?.name
+  const [noti, setNoti] = useState<{ message: string; type: any } | null>(null);
+
+  const handleOpenProfileModalForm = (id: number) => {
       setOpenForm(true);
       setSelectedId(id)
       }
@@ -101,11 +108,6 @@ function MyProfile() {
       setOpenView(true);
       setSelectedId(id)
       }
-
-  const [profiles, setProfile] = useState<RequestData[]>([])
-  const user = useAppSelector((state) => state.user)
-  const studentId = user?.studentId
-  const username = user?.name
 
   const fetchProfileByStudentId = async () => {
           try {
@@ -132,14 +134,20 @@ function MyProfile() {
         try {
           await deleteProfile(id);
           fetchProfileByStudentId()
-        } catch (err) {
-          console.error("Error delete my profile", err);
+          showNotification("Xóa thành công", "success")
+        } catch (err: any) {
+          showNotification(err?.response?.data?.message || "Xóa thất bại", "error")
         }
       },
     });
   };
 
+  const showNotification = (msg: string, type: any) => {
+    setNoti({ message: msg, type });
+  };
+
   return (
+    <>
     <div className="my-profile-list">
       {profiles.map((p) => (
         <div className="profile-card-container">
@@ -202,6 +210,14 @@ function MyProfile() {
       <ProfileModalForm open={openForm} onClose={() => setOpenForm(false)} id= {Number(selectedId)} isEdit={!!selectedId} onReload={fetchProfileByStudentId}/>
       <ProfileModalView open={openView} onClose={() => setOpenView(false)} id= {Number(selectedId)}/>
     </div>
+    {noti && (
+        <Notification
+          message={noti.message}
+          type={noti.type}
+          onClose={() => setNoti(null)}
+        />
+      )}
+      </>
   );
 }
 

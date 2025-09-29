@@ -4,6 +4,7 @@ import { useAppSelector } from '../../../../store/hooks'
 import { deleteSwapRequestAPI, getSwapRequestAPI } from '../../apis'
 import Filter from '../filter/Filter'
 import { useNavigate } from 'react-router-dom'
+import Notification from '../../../../components/notification/Notification'
 
 interface Course {
   id: number
@@ -71,6 +72,7 @@ function MyRequest() {
   const user = useAppSelector((state) => state.user)
   const [filteredFeeds, setFilteredFeeds] = useState<MyRequest[]>([])
   const navigate = useNavigate();
+  const [noti, setNoti] = useState<{ message: string; type: any } | null>(null);
 
   useEffect(() => {
     const fetchMyRequests = async () => {
@@ -136,15 +138,19 @@ function MyRequest() {
   if (confirmDelete) {
     try {
       await deleteSwapRequestAPI(id);
-      alert("Xóa thành công!");
-    } catch (error) {
-      console.error(error);
-      alert("Có lỗi xảy ra khi xóa!");
+      showNotification("Xóa thành công", "success")
+    } catch (err: any) {
+      showNotification(err?.response?.data?.message || "Thất bại", "error")
     }
   }
 };
 
+const showNotification = (msg: string, type: any) => {
+    setNoti({ message: msg, type });
+  };
+
   return (
+    <>
     <div className='my-request-container'>
       <Filter onFilter={handleFilter} onReset={handleReset} />
 
@@ -231,6 +237,14 @@ function MyRequest() {
         </div>
       ))}
     </div>
+    {noti && (
+        <Notification
+          message={noti.message}
+          type={noti.type}
+          onClose={() => setNoti(null)}
+        />
+      )}
+      </>
   )
 }
 

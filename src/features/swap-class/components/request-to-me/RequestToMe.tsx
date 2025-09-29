@@ -3,6 +3,7 @@ import './RequestToMe.css'
 import { getSwapMatchingAPI, updateConfirmSwapRequestAPI } from '../../apis'
 import Filter from '../filter/Filter'
 import { useNavigate } from 'react-router-dom'
+import Notification from '../../../../components/notification/Notification'
 
 interface User {
   id: number
@@ -71,9 +72,9 @@ export interface RequestToMe {
 function RequestToMe() {
   const [requests, setRequests] = useState<RequestToMe[]>([])
   const [filteredFeeds, setFilteredFeeds] = useState<RequestToMe[]>([])
-  console.log(filteredFeeds);
-  console.log(requests);
   const navigation = useNavigate()
+  const [noti, setNoti] = useState<{ message: string; type: any } | null>(null);
+  
   useEffect(() => {
     const fetchRequestsMatching = async () => {
       try {
@@ -161,6 +162,7 @@ function RequestToMe() {
         console.log("no id to confirm swap request");
       }
       updateConfirmSwapRequestAPI(data, id)
+      showNotification("Đã chấp nhận", "success")
     }
     catch(err){
       console.log(err);
@@ -177,14 +179,20 @@ function RequestToMe() {
         console.log("no id to confirm swap request");
       }
       updateConfirmSwapRequestAPI(data, id)
+      showNotification("Đã từ chối", "success")
     }
-    catch(err){
-      console.log(err);
+    catch(err: any){
+      showNotification(err?.response?.data?.message || "Thất bại", "error")
     }
   }
 
+  const showNotification = (msg: string, type: any) => {
+    setNoti({ message: msg, type });
+  };
+
 
   return (
+    <>
     <div className='my-request-container'>
       <Filter onFilter={handleFilter} onReset={handleReset} />
       <div className='section-header'>
@@ -280,6 +288,14 @@ function RequestToMe() {
         </div>
       ))}
     </div>
+    {noti && (
+        <Notification
+          message={noti.message}
+          type={noti.type}
+          onClose={() => setNoti(null)}
+        />
+      )}
+      </>
   )
 }
 

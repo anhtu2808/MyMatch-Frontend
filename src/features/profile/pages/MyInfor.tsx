@@ -4,6 +4,7 @@ import Header from '../../../components/header/Header'
 import Sidebar from '../../../components/sidebar/Sidebar'
 import { createImageAPI, getProfileAPI, getStudentIdAPI, updateStudentAPI, updateUserAPI } from '../apis'
 import { useAppSelector } from '../../../store/hooks'
+import Notification from '../../../components/notification/Notification'
 
 interface UserInfo {
   id: number
@@ -56,6 +57,7 @@ const MyInfor: React.FC = () => {
   const [userUpdate, setUserUpdate] = useState<UserUpdate | null>(null)
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [studentInfo, setStudentInfo] = useState<StudentInfo | null>(null)
+  const [noti, setNoti] = useState<{ message: string; type: any } | null>(null);
 
   useEffect(() => {
   const handleFetchStudentId = async () => {
@@ -107,8 +109,10 @@ const MyInfor: React.FC = () => {
     const response1 = await getStudentIdAPI(Number(user.studentId))
     setStudentInfo(response1?.result);
     setIsEditing(false);
-  } catch (err) {
-    console.error("Update user failed:", err);
+    showNotification("Cập nhật thành công", "success")
+  } catch (err: any) {
+
+    showNotification(err?.response?.data?.message || "Thất bại", "error")
   }
 };
 
@@ -145,7 +149,12 @@ const handleInputChange = (field: string, value: any) => {
   });
 }; 
 
+const showNotification = (msg: string, type: any) => {
+    setNoti({ message: msg, type });
+  };
+
   return (
+    <>
     <div className="my-infor-page">
         <Header title='Thông tin cá nhân' script='Quản lý thông tin cá nhân của bạn' />
         <Sidebar />
@@ -340,6 +349,14 @@ const handleInputChange = (field: string, value: any) => {
           </div>
         </div>
     </div>
+    {noti && (
+        <Notification
+          message={noti.message}
+          type={noti.type}
+          onClose={() => setNoti(null)}
+        />
+      )}
+      </>
   )
 }
 

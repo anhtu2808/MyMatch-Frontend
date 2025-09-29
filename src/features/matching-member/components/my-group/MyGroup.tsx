@@ -6,6 +6,7 @@ import { deleteGroup, getGroupStudentId } from "../../apis";
 import { useAppSelector } from "../../../../store/hooks";
 import Pagination from "../../../review/components/Pagination/Pagination";
 import { Modal } from "antd";
+import Notification from "../../../../components/notification/Notification";
 
 export interface Course {
   id: number;
@@ -97,6 +98,11 @@ function MyGroup() {
   const [totalElements, setTotalElements] = useState(0);
   const pageSize = 10;
   const { confirm } = Modal;
+  const [groups, setGroup] = useState<Team[]>([])
+  const user = useAppSelector((state) => state.user)
+  const studentId = user?.studentId
+  const [noti, setNoti] = useState<{ message: string; type: any } | null>(null);
+
         const handleOpenGroupModalView = (id: number) => {
         setOpenView(true);
         setSelectedId(id)
@@ -106,11 +112,6 @@ function MyGroup() {
         setOpenForm(true)
         setSelectedId(id)
       }
-
-  const [groups, setGroup] = useState<Team[]>([])
-  const user = useAppSelector((state) => state.user)
-  const studentId = user?.studentId
-
 
   const fetchGroupByStudentId = async () => {
     try {
@@ -146,14 +147,21 @@ function MyGroup() {
           try {
             await deleteGroup(id);
             fetchGroupByStudentId();
-          } catch (err) {
-            console.error("Error delete my profile", err);
+            showNotification("Xóa thành công", "success")
+          } catch (err: any) {
+            showNotification(err?.response?.data?.message || "Thất bại", "error")
           }
         },
       });
     };
 
+    const showNotification = (msg: string, type: any) => {
+    setNoti({ message: msg, type });
+  };
+
+
   return (
+    <>
     <div className="my-group-list">
       {groups.map((g) => (
         <div key={g.id} className="group-card">
@@ -219,6 +227,14 @@ function MyGroup() {
       <GroupModalView open={openView} onClose={() => setOpenView(false)} id={Number(selectedId)} />
       <GroupModalForm open={openForm} onClose={() => setOpenForm(false)} id={Number(selectedId)} isEdit={!!selectedId} onReload={fetchGroupByStudentId} />
     </div>
+    {noti && (
+        <Notification
+          message={noti.message}
+          type={noti.type}
+          onClose={() => setNoti(null)}
+        />
+      )}
+      </>
   );
 }
 

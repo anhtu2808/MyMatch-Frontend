@@ -167,13 +167,13 @@ const Chat: React.FC<ChatProps> = ({ id, requestId }) => {
     const currentId = selectedConvRef.current?.id ?? 0
     const incomingConvId = data.conversation?.id ?? 0
 
-    if (incomingConvId !== currentId) {
-      console.log("❌ Message not for current conversation", {
-        currentId,
-        incomingConvId,
-      })
-      return
-    }
+    // if (incomingConvId !== currentId) {
+    //   console.log("❌ Message not for current conversation", {
+    //     currentId,
+    //     incomingConvId,
+    //   })
+    //   return
+    // }
 
     setMessages((prev) =>
       prev.some((m) => m.id === data.id) ? prev : [...prev, data]
@@ -181,8 +181,8 @@ const Chat: React.FC<ChatProps> = ({ id, requestId }) => {
   }
 
 
-    socket.on("connect", () => console.log("✅ Socket.IO connected"))
-    socket.on("disconnect", () => console.log("❌ Socket.IO disconnected"))
+    // socket.on("connect", () => console.log("✅ Socket.IO connected"))
+    // socket.on("disconnect", () => console.log("❌ Socket.IO disconnected"))
     socket.on("connect_error", (err) =>
       console.error("Socket connection error:", err)
     )

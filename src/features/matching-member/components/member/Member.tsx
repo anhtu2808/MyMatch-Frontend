@@ -103,7 +103,6 @@ function Member() {
     }
   
   const [members, setMembers] = useState<RequestData[]>([]) 
-  console.log("member", members);
   useEffect(() => {
     const fetchProfile = async () => {
       try {

@@ -10,6 +10,7 @@ import {
   updateGroup,
 } from "../../apis";
 import { useAppSelector } from "../../../../store/hooks";
+import Notification from "../../../../components/notification/Notification";
 
 const { Option } = Select;
 
@@ -83,6 +84,8 @@ const GroupModalForm: React.FC<GroupDetailModalProps> = ({
   const [skills, setSkills] = useState<any[]>([]);
   const [deletedMemberIds, setDeletedMemberIds] = useState<number[]>([]);
   const [deletedRequestIds, setDeletedRequestIds] = useState<number[]>([]);
+
+  const [noti, setNoti] = useState<{ message: string; type: any } | null>(null);
 
   // Reset khi mở modal ở create mode
   useEffect(() => {
@@ -282,15 +285,18 @@ const GroupModalForm: React.FC<GroupDetailModalProps> = ({
         payload = buildUpdatePayload(groupInfo, deletedMemberIds, deletedRequestIds);
         await updateGroup(id, payload);
         onReload?.();
+        showNotification("Cập nhật thành công", "success")
       } else { 
         payload = buildCreatePayload(groupInfo);
         await createGroup(payload);
         onReload?.();
+        showNotification("Tạo thành công", "success")
       }
       onReload?.();
       onClose();
-    } catch (err) {
+    } catch (err: any) {
       console.error("Lỗi lưu group:", err);
+      showNotification(err?.response?.data?.message || "Thất bại", "error")
     }
   };
 
@@ -340,7 +346,12 @@ const GroupModalForm: React.FC<GroupDetailModalProps> = ({
   }
 }, [isEdit, id]);
 
+const showNotification = (msg: string, type: any) => {
+    setNoti({ message: msg, type });
+  };
+
   return (
+    <>
     <Modal open={open} onCancel={onClose} footer={null} width={800} centered>
       <div className="group-form-detail-modal">
         {/* Header */}
@@ -490,6 +501,14 @@ const GroupModalForm: React.FC<GroupDetailModalProps> = ({
         </div>
       </div>
     </Modal>
+    {noti && (
+        <Notification
+          message={noti.message}
+          type={noti.type}
+          onClose={() => setNoti(null)}
+        />
+      )}
+      </>
   );
 };
 
