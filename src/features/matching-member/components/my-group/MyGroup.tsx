@@ -8,6 +8,7 @@ import Pagination from "../../../review/components/Pagination/Pagination";
 import { Modal } from "antd";
 import Notification from "../../../../components/notification/Notification";
 import ConfirmDelete from "../../../../components/confirm-delete/ConfirmDelete";
+import FindingFilter from "../filter/FindingFilter";
 
 export interface Course {
   id: number;
@@ -103,6 +104,7 @@ function MyGroup() {
   const studentId = user?.studentId
   const [noti, setNoti] = useState<{ message: string; type: any } | null>(null);
   const [deleteId, setDeleteId] = useState<number | null>(null);
+  const [filteredFeeds, setFilteredFeeds] = useState<Team[]>([])
 
         const handleOpenGroupModalView = (id: number) => {
         setOpenView(true);
@@ -118,6 +120,7 @@ function MyGroup() {
     try {
       const response = await getGroupStudentId(Number(studentId), currentPage, pageSize);
       setGroup(response.result.data);
+      setFilteredFeeds(response?.result?.data || [])
       setTotalElements(response.result.totalElements)
     } catch (err) {
       console.error("Error fetch Group by student id");
@@ -151,19 +154,43 @@ const confirmDelete = async () => {
     }
   };
 
-
-
-
-
     const showNotification = (msg: string, type: any) => {
     setNoti({ message: msg, type });
   };
 
+    const handleFilter = (filters: { courseCode: string; skill: string }) => {
+  let filtered = groups;
+
+  if (filters.courseCode) {
+    filtered = filtered.filter(r =>
+      r.course.code.toLowerCase().includes(filters.courseCode.toLowerCase())
+    );
+  }
+
+  if (filters.skill) {
+    filtered = filtered.filter(r =>
+      r.teamRequest.some((tR) => tR.skills.some(s =>
+        s.skill.name.toLowerCase().includes(filters.skill.toLowerCase())
+      ))
+    );
+  }
+
+  setFilteredFeeds(filtered);
+};
+
+const handleReset = () => {
+    setFilteredFeeds(groups)
+  }
 
   return (
     <>
     <div className="my-group-list">
-      {groups.map((g) => (
+      <FindingFilter onFilter={handleFilter} onReset={handleReset} />
+      <div className='section-header'>
+        <h3>Nhóm của tôi</h3>
+        <span className='view-all'>Hiển thị {filteredFeeds.length} yêu cầu</span>
+      </div>
+      {filteredFeeds.map((g) => (
         <div key={g.id} className="group-card">
           <div className="group-info">
           <div className="group-header">

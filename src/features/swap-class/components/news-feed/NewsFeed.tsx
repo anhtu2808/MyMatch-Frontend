@@ -138,7 +138,7 @@ function NewsFeed() {
       <Filter onFilter={handleFilter} onReset={handleReset} />
 
       <div className='section-header'>
-        <h2>Bản tin chuyển lớp</h2>
+        <h3>Bản tin chuyển lớp</h3>
         <span className='view-all'>Hiển thị {filteredFeeds.length} yêu cầu</span>
       </div>
 

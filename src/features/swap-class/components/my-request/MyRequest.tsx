@@ -165,7 +165,7 @@ const showNotification = (msg: string, type: any) => {
       <Filter onFilter={handleFilter} onReset={handleReset} />
 
       <div className='section-header'>
-        <h2>Yêu cầu chuyển của tôi</h2>
+        <h3>Yêu cầu chuyển của tôi</h3>
         <span className='view-all'>Hiển thị {filteredFeeds.length} yêu cầu</span>
       </div>
 

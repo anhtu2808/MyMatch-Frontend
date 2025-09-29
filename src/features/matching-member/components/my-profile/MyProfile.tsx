@@ -8,6 +8,7 @@ import Pagination from "../../../review/components/Pagination/Pagination";
 import { Modal } from "antd";
 import Notification from "../../../../components/notification/Notification";
 import ConfirmDelete from "../../../../components/confirm-delete/ConfirmDelete";
+import FindingFilter from "../filter/FindingFilter";
 
 // Skill của member
 export interface Skill {
@@ -100,6 +101,7 @@ function MyProfile() {
   const username = user?.name
   const [noti, setNoti] = useState<{ message: string; type: any } | null>(null);
   const [deleteId, setDeleteId] = useState<number | null>(null); // confirm delete
+  const [filteredFeeds, setFilteredFeeds] = useState<RequestData[]>([])
 
   const handleOpenProfileModalForm = (id: number) => {
       setOpenForm(true);
@@ -114,6 +116,7 @@ function MyProfile() {
           try {
             const response = await getProfileStudentId(Number(studentId), currentPage, pageSize)
             setProfile(response.result.data)
+            setFilteredFeeds(response?.result?.data || [])
             setTotalElements(response.result.totalElements)
           } catch (err) {
             console.error("Error fetch Profile by student id", err);
@@ -141,10 +144,39 @@ function MyProfile() {
     setNoti({ message: msg, type });
   };
 
+  const handleFilter = (filters: { courseCode: string; skill: string }) => {
+  let filtered = profiles;
+
+  if (filters.courseCode) {
+    filtered = filtered.filter(r =>
+      r.course.code.toLowerCase().includes(filters.courseCode.toLowerCase())
+    );
+  }
+
+  if (filters.skill) {
+    filtered = filtered.filter(r =>
+      r.skills.some(s =>
+        s.skill.name.toLowerCase().includes(filters.skill.toLowerCase())
+      )
+    );
+  }
+
+  setFilteredFeeds(filtered);
+};
+
+  const handleReset = () => {
+    setFilteredFeeds(profiles)
+  }
+
   return (
     <>
+    <FindingFilter onFilter={handleFilter} onReset={handleReset} />
+      <div className='section-header'>
+        <h3>Tìm thành viên phù hợp</h3>
+        <span className='view-all'>Hiển thị {filteredFeeds.length} yêu cầu</span>
+      </div>
     <div className="my-profile-list">
-      {profiles.map((p) => (
+      {filteredFeeds.map((p) => (
         <div className="profile-card-container">
         <div key={p.id} className="profile-card">
           <div className="profile-info">
@@ -190,7 +222,7 @@ function MyProfile() {
             <p>Môn học & Mục tiêu điểm</p>
             <div className="course-list">
                 <div className="course-item">
-                  <span>{p?.course?.name}</span>
+                  <span>{p?.course?.code}</span>
                   <strong>Mục tiêu: {p.goal} điểm</strong>
                 </div>
             </div>

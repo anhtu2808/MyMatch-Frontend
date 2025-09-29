@@ -204,7 +204,7 @@ function RequestToMe() {
     <div className='my-request-container'>
       <Filter onFilter={handleFilter} onReset={handleReset} />
       <div className='section-header'>
-        <h2>Yêu cầu gửi tới tôi</h2>
+        <h3>Yêu cầu gửi tới tôi</h3>
         <span className='view-all'>Hiển thị {filteredFeeds.length} yêu cầu</span>
       </div>
 
