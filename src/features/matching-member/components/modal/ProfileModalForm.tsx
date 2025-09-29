@@ -3,6 +3,7 @@ import { Modal, Input, Select } from "antd";
 import "./ProfileModalForm.css";
 import { createProfile, getCourseAPI, getProfileId, getSkillAPI, updateProfile } from "../../apis";
 import { useAppSelector } from "../../../../store/hooks";
+import Notification from "../../../../components/notification/Notification";
 const { TextArea } = Input;
 const { Option } = Select
 interface ProfileForm {
@@ -38,7 +39,7 @@ const ProfileModalForm: React.FC<UserProfileModalProps> = ({ open, onClose, id ,
     })
   const [skills, getSkills] = useState<any[]>([])
   const [courses, setCourses] = useState<any[]>([])
-  
+  const [noti, setNoti] = useState<{ message: string; type: any } | null>(null);
 
     useEffect(() => {
       const fetchSkills = async () => {
@@ -110,14 +111,16 @@ useEffect(() => {
         status: "OPEN", // theo body yêu cầu
       });
       onReload?.()
+      showNotification("Cập nhật thành công", "success")
     } else {
       await createProfile(profileForm);
       onReload?.()
+      showNotification("Tạo thành công", "success")
     }
     onReload?.();
     onClose();
-  } catch (error) {
-    console.error("Lỗi khi lưu profile:", error);
+  } catch (err: any) {
+    showNotification(err?.response?.data?.message || "Thất bại", "error")
   }
 };
 
@@ -128,7 +131,12 @@ useEffect(() => {
   }));
 };
 
+const showNotification = (msg: string, type: any) => {
+    setNoti({ message: msg, type });
+  };
+
   return (
+    <>
     <Modal
       open={open}
       onCancel={onClose}
@@ -241,6 +249,14 @@ useEffect(() => {
         </div>
       </div>
     </Modal>
+    {noti && (
+        <Notification
+          message={noti.message}
+          type={noti.type}
+          onClose={() => setNoti(null)}
+        />
+      )}
+      </>
   );
 };
 

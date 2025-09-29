@@ -3,6 +3,8 @@ import './RequestToMe.css'
 import { getSwapMatchingAPI, updateConfirmSwapRequestAPI } from '../../apis'
 import Filter from '../filter/Filter'
 import { useNavigate } from 'react-router-dom'
+import Notification from '../../../../components/notification/Notification'
+import Pagination from '../../../review/components/Pagination/Pagination'
 
 interface User {
   id: number
@@ -71,23 +73,28 @@ export interface RequestToMe {
 function RequestToMe() {
   const [requests, setRequests] = useState<RequestToMe[]>([])
   const [filteredFeeds, setFilteredFeeds] = useState<RequestToMe[]>([])
-  console.log(filteredFeeds);
-  console.log(requests);
   const navigation = useNavigate()
-  useEffect(() => {
-    const fetchRequestsMatching = async () => {
+  const [noti, setNoti] = useState<{ message: string; type: any } | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalElements, setTotalElements] = useState(0);
+  const pageSize = 10;
+
+  const fetchRequestsMatching = async () => {
       try {
         const response = await getSwapMatchingAPI({
-        page: 0,
-        size: 10,
+        page: currentPage,
+        size: pageSize,
         // status: "PENDING",
       })
         setRequests(response?.result?.data || [])
         setFilteredFeeds(response?.result?.data || [])
+        setTotalElements(response.result.totalElements)
       } catch (error) {
         console.error('Error fetching requests:', error)
       }
     }
+
+  useEffect(() => {
     fetchRequestsMatching()
   }, [])
 
@@ -161,6 +168,8 @@ function RequestToMe() {
         console.log("no id to confirm swap request");
       }
       updateConfirmSwapRequestAPI(data, id)
+      fetchRequestsMatching()
+      showNotification("Đã chấp nhận", "success")
     }
     catch(err){
       console.log(err);
@@ -177,18 +186,25 @@ function RequestToMe() {
         console.log("no id to confirm swap request");
       }
       updateConfirmSwapRequestAPI(data, id)
+      fetchRequestsMatching()
+      showNotification("Đã từ chối", "success")
     }
-    catch(err){
-      console.log(err);
+    catch(err: any){
+      showNotification(err?.response?.data?.message || "Thất bại", "error")
     }
   }
 
+  const showNotification = (msg: string, type: any) => {
+    setNoti({ message: msg, type });
+  };
+
 
   return (
+    <>
     <div className='my-request-container'>
       <Filter onFilter={handleFilter} onReset={handleReset} />
       <div className='section-header'>
-        <h2>Yêu cầu gửi tới tôi</h2>
+        <h3>Yêu cầu gửi tới tôi</h3>
         <span className='view-all'>Hiển thị {filteredFeeds.length} yêu cầu</span>
       </div>
 
@@ -280,6 +296,19 @@ function RequestToMe() {
         </div>
       ))}
     </div>
+    <Pagination
+          currentPage={currentPage}
+          totalPages={totalElements}
+          onPageChange={(p) => setCurrentPage(p)}
+        />
+    {noti && (
+        <Notification
+          message={noti.message}
+          type={noti.type}
+          onClose={() => setNoti(null)}
+        />
+      )}
+      </>
   )
 }
 

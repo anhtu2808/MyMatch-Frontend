@@ -4,6 +4,9 @@ import { useAppSelector } from '../../../../store/hooks'
 import { deleteSwapRequestAPI, getSwapRequestAPI } from '../../apis'
 import Filter from '../filter/Filter'
 import { useNavigate } from 'react-router-dom'
+import Notification from '../../../../components/notification/Notification'
+import ConfirmDelete from '../../../../components/confirm-delete/ConfirmDelete'
+import Pagination from '../../../review/components/Pagination/Pagination'
 
 interface Course {
   id: number
@@ -71,19 +74,25 @@ function MyRequest() {
   const user = useAppSelector((state) => state.user)
   const [filteredFeeds, setFilteredFeeds] = useState<MyRequest[]>([])
   const navigate = useNavigate();
+  const [noti, setNoti] = useState<{ message: string; type: any } | null>(null);
+  const [deleteId, setDeleteId] = useState<number | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalElements, setTotalElements] = useState(0);
+  const pageSize = 10;
 
-  useEffect(() => {
-    const fetchMyRequests = async () => {
+  const fetchMyRequests = async () => {
       try {
         if (!user?.studentId) return
-        // truyền đúng studentId từ redux user
-        const response = await getSwapRequestAPI({ studentId: user.studentId ?? undefined})
+        const response = await getSwapRequestAPI({ studentId: user.studentId ?? undefined, page: currentPage, size: pageSize})
         setMyRequests(response?.result?.data || [])
         setFilteredFeeds(response?.result?.data || [])
+        setTotalElements(response.result.totalElements)
       } catch (error) {
         console.error('Error fetching my requests:', error)
       }
     }
+
+  useEffect(() => {
     fetchMyRequests()
   }, [user?.studentId])
 
@@ -131,25 +140,32 @@ function MyRequest() {
     setFilteredFeeds(myRequests)
   }
 
-  const handleDeleteRequest = async (id: number) => {
-  const confirmDelete = window.confirm("Bạn có chắc chắn muốn xóa yêu cầu này không?");
-  if (confirmDelete) {
+
+const confirmDelete = async () => {
+    if (!deleteId) return;
     try {
-      await deleteSwapRequestAPI(id);
-      alert("Xóa thành công!");
-    } catch (error) {
-      console.error(error);
-      alert("Có lỗi xảy ra khi xóa!");
+      await deleteSwapRequestAPI(deleteId);
+      fetchMyRequests()
+      showNotification("Xóa thành công", "success");
+    } catch (err: any) {
+      showNotification(err?.response?.data?.message || "Xóa thất bại", "error");
+    } finally {
+      setDeleteId(null);
     }
-  }
-};
+  };
+
+
+const showNotification = (msg: string, type: any) => {
+    setNoti({ message: msg, type });
+  };
 
   return (
+    <>
     <div className='my-request-container'>
       <Filter onFilter={handleFilter} onReset={handleReset} />
 
       <div className='section-header'>
-        <h2>Yêu cầu chuyển của tôi</h2>
+        <h3>Yêu cầu chuyển của tôi</h3>
         <span className='view-all'>Hiển thị {filteredFeeds.length} yêu cầu</span>
       </div>
 
@@ -226,11 +242,31 @@ function MyRequest() {
             <button className='btn-message-my-request' onClick={() => navigate(`/swap_class/edit/${request.id}`)}>
                 Chỉnh sửa
               </button>
-            <button className='delete-request' onClick={() => handleDeleteRequest(request.id)}>Xóa</button>
+            <button className='delete-request' onClick={() => setDeleteId(request.id)}>Xóa</button>
           </div>
         </div>
       ))}
     </div>
+    <Pagination
+          currentPage={currentPage}
+          totalPages={totalElements}
+          onPageChange={(p) => setCurrentPage(p)}
+        />
+    {noti && (
+        <Notification
+          message={noti.message}
+          type={noti.type}
+          onClose={() => setNoti(null)}
+        />
+      )}
+      <ConfirmDelete
+        open={!!deleteId}
+        onConfirm={confirmDelete}
+        onCancel={() => setDeleteId(null)}
+        title="Xóa Profile"
+        content="Bạn có chắc chắn muốn xóa profile này không?"
+      />
+      </>
   )
 }
 

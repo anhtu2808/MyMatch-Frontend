@@ -55,7 +55,7 @@ export interface CreatedBy {
 }
 
 // Skill trong TeamRequest
-export interface TeamRequestSkill {
+export interface Skill {
   id: number;
   skill: {
     id: number;
@@ -68,7 +68,7 @@ export interface TeamRequest {
   id: number;
   title: string;
   description: string | null;
-  skills: TeamRequestSkill[];
+  skills: Skill[];
 }
 
 // TeamMember
@@ -78,6 +78,7 @@ export interface TeamMember {
     id: number;
     name: string;
     note: string | null;
+    memberSkills: Skill[];
   };
   createAt: string;
 }
@@ -171,13 +172,14 @@ const GroupModalView: React.FC<GroupDetailModalProps> = ({ open, onClose, id}) =
         {/* Members */}
         <div className="group-view-section">
           <h4>Thành viên hiện tại</h4>
-          {groupDetail?.teamMember.map((m) => (
-            <div key={m.id} className="group-view-member-item">
-              {/* <div className="group-view-avatar">{m.name.charAt(0)}</div> */}
-              <div>
-                <strong>{m.member.name}</strong>
+              {groupDetail?.teamMember?.map((tM) => (
+            <div key={tM.id} className="group-view-position-item">
+              <strong>{tM?.member?.name} ({tM.member.note})</strong>
+              <div className="group-view-tag-list">
+                {tM.member.memberSkills?.map((s) => (
+                  <Tag color="blue">{s.skill.name}</Tag>
+                ))}
               </div>
-              <Tag color="blue">{m.member.note}</Tag>
             </div>
           ))}
         </div>
@@ -185,12 +187,12 @@ const GroupModalView: React.FC<GroupDetailModalProps> = ({ open, onClose, id}) =
         {/* Positions */}
         <div className="group-view-section">
           <h4>Đang tìm kiếm vị trí</h4>
-          {groupDetail?.teamRequest.map((pos) => (
-            <div key={pos.id} className="group-view-position-item">
-              <strong>{pos.title}</strong>
-              <p>{pos.description}</p>
+          {groupDetail?.teamRequest.map((tR) => (
+            <div key={tR.id} className="group-view-position-item">
+              <strong>{tR.title}</strong>
+              <p>{tR.description}</p>
               <div className="group-view-tag-list">
-                {pos.skills.map((s) => (
+                {tR.skills.map((s) => (
                   <Tag color="blue">{s.skill.name}</Tag>
                 ))}
               </div>

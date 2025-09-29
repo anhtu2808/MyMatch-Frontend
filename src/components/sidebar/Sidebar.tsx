@@ -295,7 +295,7 @@ const Sidebar = () => {
   return (
     <>
       <div className="sidebar">
-        <div className="logoSection">
+        <div className="logoSection" onClick={() => navigation("/")}>
           <img src="/mymatch_logo.jpg" alt="MyMatch Logo" className="logoImg" />
         </div>
 

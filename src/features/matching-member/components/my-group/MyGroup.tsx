@@ -6,6 +6,9 @@ import { deleteGroup, getGroupStudentId } from "../../apis";
 import { useAppSelector } from "../../../../store/hooks";
 import Pagination from "../../../review/components/Pagination/Pagination";
 import { Modal } from "antd";
+import Notification from "../../../../components/notification/Notification";
+import ConfirmDelete from "../../../../components/confirm-delete/ConfirmDelete";
+import FindingFilter from "../filter/FindingFilter";
 
 export interface Course {
   id: number;
@@ -96,7 +99,13 @@ function MyGroup() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalElements, setTotalElements] = useState(0);
   const pageSize = 10;
-  const { confirm } = Modal;
+  const [groups, setGroup] = useState<Team[]>([])
+  const user = useAppSelector((state) => state.user)
+  const studentId = user?.studentId
+  const [noti, setNoti] = useState<{ message: string; type: any } | null>(null);
+  const [deleteId, setDeleteId] = useState<number | null>(null);
+  const [filteredFeeds, setFilteredFeeds] = useState<Team[]>([])
+
         const handleOpenGroupModalView = (id: number) => {
         setOpenView(true);
         setSelectedId(id)
@@ -107,15 +116,11 @@ function MyGroup() {
         setSelectedId(id)
       }
 
-  const [groups, setGroup] = useState<Team[]>([])
-  const user = useAppSelector((state) => state.user)
-  const studentId = user?.studentId
-
-
   const fetchGroupByStudentId = async () => {
     try {
       const response = await getGroupStudentId(Number(studentId), currentPage, pageSize);
       setGroup(response.result.data);
+      setFilteredFeeds(response?.result?.data || [])
       setTotalElements(response.result.totalElements)
     } catch (err) {
       console.error("Error fetch Group by student id");
@@ -135,27 +140,57 @@ function MyGroup() {
     })
   }
 
-  const handleDelete = async (id: number) => {
-      confirm({
-        title: "Xác nhận xóa",
-        content: "Bạn có chắc chắn muốn xóa profile này không?",
-        okText: "Xóa",
-        cancelText: "Hủy",
-        okButtonProps: { danger: true }, // nút đỏ
-        onOk: async () => {
-          try {
-            await deleteGroup(id);
-            fetchGroupByStudentId();
-          } catch (err) {
-            console.error("Error delete my profile", err);
-          }
-        },
-      });
-    };
+
+const confirmDelete = async () => {
+    if (!deleteId) return;
+    try {
+      await deleteGroup(deleteId);
+      fetchGroupByStudentId();
+      showNotification("Xóa thành công", "success");
+    } catch (err: any) {
+      showNotification(err?.response?.data?.message || "Xóa thất bại", "error");
+    } finally {
+      setDeleteId(null);
+    }
+  };
+
+    const showNotification = (msg: string, type: any) => {
+    setNoti({ message: msg, type });
+  };
+
+    const handleFilter = (filters: { courseCode: string; skill: string }) => {
+  let filtered = groups;
+
+  if (filters.courseCode) {
+    filtered = filtered.filter(r =>
+      r.course.code.toLowerCase().includes(filters.courseCode.toLowerCase())
+    );
+  }
+
+  if (filters.skill) {
+    filtered = filtered.filter(r =>
+      r.teamRequest.some((tR) => tR.skills.some(s =>
+        s.skill.name.toLowerCase().includes(filters.skill.toLowerCase())
+      ))
+    );
+  }
+
+  setFilteredFeeds(filtered);
+};
+
+const handleReset = () => {
+    setFilteredFeeds(groups)
+  }
 
   return (
+    <>
     <div className="my-group-list">
-      {groups.map((g) => (
+      <FindingFilter onFilter={handleFilter} onReset={handleReset} />
+      <div className='section-header'>
+        <h3>Nhóm của tôi</h3>
+        <span className='view-all'>Hiển thị {filteredFeeds.length} yêu cầu</span>
+      </div>
+      {filteredFeeds.map((g) => (
         <div key={g.id} className="group-card">
           <div className="group-info">
           <div className="group-header">
@@ -202,7 +237,7 @@ function MyGroup() {
             <button className="btn-edit-my-group" onClick={() => handleOpenGroupModalForm(g.id)}>
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-square-pen-icon lucide-square-pen"><path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"/></svg>
                Chỉnh sửa</button>
-            <button className="btn-delete-my-group" onClick={() => handleDelete(g.id)}>
+            <button className="btn-delete-my-group" onClick={() => setDeleteId(g.id)}>
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-trash-icon lucide-trash"><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
                Xóa nhóm</button>
             <button className="btn-detail-my-group" onClick={() => handleOpenGroupModalView(g.id)}>
@@ -219,6 +254,21 @@ function MyGroup() {
       <GroupModalView open={openView} onClose={() => setOpenView(false)} id={Number(selectedId)} />
       <GroupModalForm open={openForm} onClose={() => setOpenForm(false)} id={Number(selectedId)} isEdit={!!selectedId} onReload={fetchGroupByStudentId} />
     </div>
+    {noti && (
+        <Notification
+          message={noti.message}
+          type={noti.type}
+          onClose={() => setNoti(null)}
+        />
+      )}
+      <ConfirmDelete
+        open={!!deleteId}
+        onConfirm={confirmDelete}
+        onCancel={() => setDeleteId(null)}
+        title="Xóa Profile"
+        content="Bạn có chắc chắn muốn xóa nhóm này không?"
+      />
+      </>
   );
 }
 

@@ -4,6 +4,7 @@ import ProfileModalView from "../modal/ProfileModalView";
 import { getProfile } from "../../apis";
 import Pagination from "../../../review/components/Pagination/Pagination";
 import { useNavigate } from "react-router-dom";
+import FindingFilter from "../filter/FindingFilter";
 
 // Skill của member
 export interface Skill {
@@ -97,18 +98,20 @@ function Member() {
   const [totalElements, setTotalElements] = useState(0);
   const pageSize = 10;
   const navigate = useNavigate()
+  const [members, setMembers] = useState<RequestData[]>([])
+  const [filteredFeeds, setFilteredFeeds] = useState<RequestData[]>([])
+
     const handleOpenProfileModalForm = (id: number) => {
     setOpen(true);
     setSelectedId(id);
     }
   
-  const [members, setMembers] = useState<RequestData[]>([]) 
-  console.log("member", members);
   useEffect(() => {
     const fetchProfile = async () => {
       try {
         const response = await getProfile(currentPage, pageSize)
         setMembers(response.result.data)
+        setFilteredFeeds(response?.result?.data || [])
         setTotalElements(response.result.totalElements);
       } catch (err) {
         console.error("Error fetch profile", err);
@@ -117,9 +120,39 @@ function Member() {
     fetchProfile()
   }, [currentPage])
 
+  const handleFilter = (filters: { courseCode: string; skill: string }) => {
+  let filtered = members;
+
+  if (filters.courseCode) {
+    filtered = filtered.filter(r =>
+      r.course.code.toLowerCase().includes(filters.courseCode.toLowerCase())
+    );
+  }
+
+  if (filters.skill) {
+    filtered = filtered.filter(r =>
+      r.skills.some(s =>
+        s.skill.name.toLowerCase().includes(filters.skill.toLowerCase())
+      )
+    );
+  }
+
+  setFilteredFeeds(filtered);
+};
+
+  const handleReset = () => {
+    setFilteredFeeds(members)
+  }
+
   return (
     <div className="member-list">
-      {members.map((m) => (
+      <FindingFilter onFilter={handleFilter} onReset={handleReset} />
+      <div className='section-header'>
+        <h3>Tìm thành viên phù hợp</h3>
+        <span className='view-all'>Hiển thị {filteredFeeds.length} yêu cầu</span>
+      </div>
+
+      {filteredFeeds.map((m) => (
         <div key={m.id} className="member-card">
           <div className="member-left">
             <div className="member-avatar">

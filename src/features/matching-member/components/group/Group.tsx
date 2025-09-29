@@ -4,6 +4,7 @@ import GroupModalView from "../modal/GroupModalView";
 import { getGroup } from "../../apis";
 import Pagination from "../../../review/components/Pagination/Pagination";
 import { useNavigate } from "react-router-dom";
+import FindingFilter from "../filter/FindingFilter";
 
 export interface Course {
   id: number;
@@ -53,6 +54,20 @@ export interface Student {
   major: string;
 }
 
+export interface TeamRequest{
+  id: number;
+  title: string;
+  skills: Skill[]
+}
+
+export interface Skill {
+  id: number,
+  skill: {
+    id: number,
+    name: string
+  }
+}
+
 export interface Team {
   id: number;
   name: string;
@@ -63,7 +78,7 @@ export interface Team {
   campus: Campus;
   student: Student;
   createAt: string;
-  teamRequest: any | null;
+  teamRequest: TeamRequest[];
   teamMember: any | null;
   image: string;
   memberCount: number;
@@ -78,17 +93,20 @@ function Group() {
   const [totalElements, setTotalElements] = useState(0);
   const pageSize = 10;
   const navigate = useNavigate()
+  const [groups, setGroups] = useState<Team[]>([])
+  const [filteredFeeds, setFilteredFeeds] = useState<Team[]>([])
+
   const handleOpenGroupModalView = (id: number) => {
   setOpen(true);
   setSelectedId(id)
 }
-
-  const [groups, setGroups] = useState<Team[]>([])
+  
   useEffect(() => {
     const fetchGroup = async () => {
       try {
         const response = await getGroup(currentPage, pageSize)
         setGroups(response.result.data)
+        setFilteredFeeds(response?.result?.data || [])
         setTotalElements(response.result.totalElements);
       } catch (err) {
         console.error("Error fetch Groups", err);
@@ -97,9 +115,39 @@ function Group() {
     fetchGroup()
   }, [])
 
+  const handleFilter = (filters: { courseCode: string; skill: string }) => {
+  let filtered = groups;
+
+  if (filters.courseCode) {
+    filtered = filtered.filter(r =>
+      r.course.code.toLowerCase().includes(filters.courseCode.toLowerCase())
+    );
+  }
+
+  if (filters.skill) {
+    filtered = filtered.filter(r =>
+      r.teamRequest.some((tR) => tR.skills.some(s =>
+        s.skill.name.toLowerCase().includes(filters.skill.toLowerCase())
+      ))
+    );
+  }
+
+  setFilteredFeeds(filtered);
+};
+
+  const handleReset = () => {
+    setFilteredFeeds(groups)
+  }
+
   return (
     <div className="group-list">
-      {groups.map((m) => (
+      <FindingFilter onFilter={handleFilter} onReset={handleReset} />
+      <div className='section-header'>
+        <h3>Tìm nhóm phù hợp</h3>
+        <span className='view-all'>Hiển thị {filteredFeeds.length} yêu cầu</span>
+      </div>
+
+      {filteredFeeds.map((m) => (
         <div key={m.id} className="group-card">
           <div className="group-left">
             {/* <div className="group-avatar">
@@ -111,6 +159,16 @@ function Group() {
               </div>
               <p className="group-subject">{m?.course?.code}</p>
               <p className="group-desc">{m.description}</p>
+              <label htmlFor="">Cần tìm thành viên có kĩ năng</label>
+              <p className="group-desc">
+                {m?.teamRequest?.map((tr, index) => (
+                  tr.skills.map((s, i) => (
+                    <span key={`${index}-${i}`} className="tag">
+                      {s?.skill?.name}
+                    </span>
+                  ))
+                ))}
+                </p>
               <p className="group-member">
                 Đã có {m.memberCount}/{m.memberMax} thành viên
               </p>
