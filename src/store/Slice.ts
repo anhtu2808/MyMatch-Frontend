@@ -7,8 +7,9 @@ interface UserState {
   studentCode: string | null,
   role: string | null,
   token: null,
-  campus: string | null,
+  campusId: number | null,
   studentId: number | null ,
+  isLoaded: boolean;   // ✅ thêm cờ
 }
 
 const initialState: UserState = {
@@ -18,8 +19,9 @@ const initialState: UserState = {
   studentCode: null,
   role: null,
   token: null,
-  campus: null,
+  campusId: null,
   studentId: null,
+  isLoaded: false
 };
 
 const userSlice = createSlice({
@@ -34,18 +36,15 @@ const userSlice = createSlice({
       state.studentCode = studentCode;
       state.role = role;
       state.token = token;
-      state.campus = campus;
+      state.campusId = campus;
       state.studentId = studentId;
+      state.isLoaded = true;   // ✅ thêm dòng này
     },
-    // clearUser: (state) => {
-    //   state.id = 0 || null;
-    //   state.name = "";
-    //   state.email = "";
-    //   state.role = "";
-    //   state.token = null;
-    // },
+    setLoaded: (state) => {
+      state.isLoaded = true; // ✅ dùng khi API fail
+    }
   },
 });
 
-export const { setUser } = userSlice.actions;
+export const { setUser, setLoaded } = userSlice.actions;
 export default userSlice.reducer;

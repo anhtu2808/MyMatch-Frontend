@@ -25,6 +25,7 @@
   width: 48px;
   height: 48px;
   border-radius: 50%;
+  overflow: hidden;
   background: #0c326f;
   color: #fff;
   font-weight: 600;
@@ -32,6 +33,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.member-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 .member-info {
@@ -113,4 +120,52 @@
 
 .btn-profile-member:hover {
   transform: translateY(-2px);
+}
+
+/* Pagination container */
+.member-pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+/* Nút trang bình thường */
+.ant-pagination-item {
+  border: none;
+  background: transparent;
+  font-size: 16px;
+}
+
+/* Hover nút trang */
+.ant-pagination-item:hover a {
+  color: black; /* xám */
+  background-color: grey;
+}
+
+/* Active (trang hiện tại) */
+.ant-pagination-item-active {
+  border-radius: 6px;
+  background-color: #003366; /* xanh biển đậm */
+  border: none;
+  color: white;
+}
+
+.ant-pagination-item-active a {
+  color: #fff !important;
+  font-weight: bold;
+}
+
+/* Nút prev/next */
+.ant-pagination-prev,
+.ant-pagination-next {
+  border: none;
+  background: #f8f8f8;
+  border-radius: 8px;
+  padding: 0 8px;
+}
+
+/* Hover prev/next */
+.ant-pagination-prev:hover,
+.ant-pagination-next:hover {
+  background: #e5e5e5;
 }
