@@ -9,6 +9,8 @@ import {
 } from "../../apis/MaterialPageAPIs";
 import "./MaterialDetail.css";
 import { useAppSelector } from "../../../../store/hooks";
+import Notification from "../../../../components/notification/Notification";
+import ConfirmDelete from "../../../../components/confirm-delete/ConfirmDelete";
 
 const BackArrowIcon = () => (
   <svg
@@ -30,6 +32,10 @@ const MaterialDetail: React.FC = () => {
   const [material, setMaterial] = useState<MaterialDetailResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const user = useAppSelector((state) => state.user);
+  const [notification, setNotification] = useState<{ message: string; type: "success" | "error" } | null>(null);
+  const [showConfirmDelete, setShowConfirmDelete] = useState(false);
+  const [showConfirmPurchase, setShowConfirmPurchase] = useState(false);
+
   const userId = user?.id;
 
   useEffect(() => {
@@ -121,23 +127,26 @@ const MaterialDetail: React.FC = () => {
             </button>
             <button
               className="material-detail-btn-delete"
-              onClick={async () => {
-                const confirmDelete = window.confirm(
-                  "Bạn có chắc chắn muốn xóa tài liệu này không?"
-                );
-                if (!confirmDelete) return;
-                try {
-                  await deleteMaterialAPI(material.id);
-                  alert("Xóa tài liệu thành công!");
-                  navigate("/material");
-                } catch (err) {
-                  console.error("Xóa thất bại:", err);
-                  alert("Xóa tài liệu thất bại!");
-                }
-              }}
+              onClick={() => setShowConfirmDelete(true)}
             >
               Xóa
             </button>
+            <ConfirmDelete
+              open={showConfirmDelete}
+              onCancel={() => setShowConfirmDelete(false)}
+              onConfirm={async () => {
+                try {
+                  await deleteMaterialAPI(material.id);
+                  setNotification({ message: "Xóa tài liệu thành công!", type: "success" });
+                  navigate("/material");
+                } catch (err) {
+                  console.error(err);
+                  setNotification({ message: "Xóa tài liệu thất bại!", type: "error" });
+                } finally {
+                  setShowConfirmDelete(false);
+                }
+              }}
+            />
           </div>
         ) : material.isPurchased ? (
           <button
@@ -164,26 +173,11 @@ const MaterialDetail: React.FC = () => {
             {/* ({material.price} coins) */}
           </button>
         ) : (
+          <>
           <button
-            className="material-detail-btn-purchase"
-            onClick={async () => {
-              const confirmPurchase = window.confirm(
-                "Bạn có chắc chắn muốn mua tài liệu này không?"
-              );
-              if (!confirmPurchase) return;
-              try {
-                await purchaseMaterialAPI(material.id);
-                alert("Mua tài liệu thành công!");
-                // update trạng thái sau khi mua
-                setMaterial((prev) =>
-                  prev ? { ...prev, isPurchased: true } : prev
-                );
-              } catch (err) {
-                console.error("Mua tài liệu thất bại:", err);
-                alert("Mua tài liệu thất bại!");
-              }
-            }}
-          >
+              className="material-detail-btn-purchase"
+              onClick={() => setShowConfirmPurchase(true)}
+            >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -202,6 +196,26 @@ const MaterialDetail: React.FC = () => {
             Mua tài liệu
             {/* ({material.price} coins) */}
           </button>
+          <ConfirmDelete
+            open={showConfirmPurchase}
+            title="Xác nhận mua"
+            content="Bạn có chắc chắn muốn mua tài liệu này không?"
+            okText="Mua"
+            onCancel={() => setShowConfirmPurchase(false)}
+            onConfirm={async () => {
+              try {
+                await purchaseMaterialAPI(material.id);
+                setMaterial(prev => prev ? { ...prev, isPurchased: true } : prev);
+                setNotification({ message: "Mua tài liệu thành công!", type: "success" });
+              } catch (err) {
+                console.error(err);
+                setNotification({ message: "Mua tài liệu thất bại!", type: "error" });
+              } finally {
+                setShowConfirmPurchase(false);
+              }
+            }}
+          />
+          </>
         )}
 
         <button className="material-detail-btn-preview">
@@ -250,6 +264,14 @@ const MaterialDetail: React.FC = () => {
           </p>
         </div>
       </div>
+      {/* Notification */}
+      {notification && (
+        <Notification
+          message={notification.message}
+          type={notification.type}
+          onClose={() => setNotification(null)}
+        />
+      )}
     </div>
   );
 };

@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getMyReviewsAPI, deleteReviewAPI } from "../../../home/apis";
+import Notification from "../../../../components/notification/Notification";
+import ConfirmDelete from "../../../../components/confirm-delete/ConfirmDelete";
 import "./MyReviewsList.css";
 
 interface ReviewData {
@@ -26,6 +28,11 @@ const MyReviewsList: React.FC<MyReviewsListProps> = ({
   const [reviews, setReviews] = useState<ReviewData[]>([]);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const [deleteId, setDeleteId] = useState<number | null>(null);
+  const [notification, setNotification] = useState<{
+    message: string;
+    type: "success" | "error";
+  } | null>(null);
 
   useEffect(() => {
     const fetchReviews = async () => {
@@ -43,18 +50,21 @@ const MyReviewsList: React.FC<MyReviewsListProps> = ({
     fetchReviews();
   }, [page, size, onTotalPages]);
 
-  const handleDelete = async (id: number) => {
-    if (!window.confirm("Bạn có chắc muốn xóa review này không?")) return;
+  const handleDelete = async () => {
+    if (!deleteId) return;
     try {
-      await deleteReviewAPI(id);
-      setReviews((prev) => prev.filter((r) => r.id !== id));
+      await deleteReviewAPI(deleteId);
+      setReviews((prev) => prev.filter((r) => r.id !== deleteId));
+      setNotification({ message: "Xóa review thành công!", type: "success" });
     } catch (err) {
       console.error("Lỗi khi xóa review:", err);
+      setNotification({ message: "Xóa review thất bại!", type: "error" });
+    } finally {
+      setDeleteId(null);
     }
   };
 
   if (loading) return <p>Đang tải review...</p>;
-
   if (reviews.length === 0) return <p>Bạn chưa có review nào.</p>;
 
   return (
@@ -146,7 +156,7 @@ const MyReviewsList: React.FC<MyReviewsListProps> = ({
             className="delete-review-btn"
             onClick={(e) => {
               e.stopPropagation();
-              handleDelete(r.id);
+              setDeleteId(r.id);
             }}
           >
             <svg
@@ -167,6 +177,23 @@ const MyReviewsList: React.FC<MyReviewsListProps> = ({
           </button>
         </div>
       ))}
+
+      <ConfirmDelete
+        open={!!deleteId}
+        onConfirm={handleDelete}
+        onCancel={() => setDeleteId(null)}
+        title="Xác nhận xóa review"
+        content="Bạn có chắc chắn muốn xóa review này không?"
+      />
+
+      {/* Notification */}
+      {notification && (
+        <Notification
+          message={notification.message}
+          type={notification.type}
+          onClose={() => setNotification(null)}
+        />
+      )}
     </div>
   );
 };

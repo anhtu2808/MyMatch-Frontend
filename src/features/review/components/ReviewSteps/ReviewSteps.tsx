@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import TeacherSelector from "../TeacherSelector/TeacherSelector";
 import { useLocation, Location, useNavigate } from "react-router-dom";
 import "./ReviewSteps.css";
+import Notification from "../../../../components/notification/Notification";
 import {
   getSemestersByUniversityAPI,
   getCoursesAPI,
@@ -72,6 +73,10 @@ const ReviewSteps: React.FC<ReviewStepsProps> = ({
   const isFormValid =
     selectedSemester !== "" && selectedCourse !== "" && classCode.trim() !== "";
   const navigate = useNavigate();
+  const [notification, setNotification] = useState<{
+    message: string;
+    type: "success" | "error" | "info" | "warning";
+  } | null>(null);
 
   const steps = [
     {
@@ -285,10 +290,13 @@ const ReviewSteps: React.FC<ReviewStepsProps> = ({
               </button>
               <button
                 className="btn-submit"
-                disabled={!isReviewValid(reviewData)} // ✅ dùng hàm validate
+                disabled={!isReviewValid(reviewData)}
                 onClick={async () => {
                   if (!selectedTeacher) {
-                    alert("Bạn chưa chọn giảng viên");
+                    setNotification({
+                      message: "Bạn chưa chọn giảng viên",
+                      type: "warning",
+                    });
                     return;
                   }
 
@@ -340,17 +348,18 @@ const ReviewSteps: React.FC<ReviewStepsProps> = ({
                       ),
                     };
 
-                    console.log(
-                      "Payload gửi API:",
-                      JSON.stringify(payload, null, 2)
-                    );
                     await createReviewAPI(payload);
 
-                    alert("Review đã được gửi thành công!");
-                    navigate(`/lecturer-detail/${selectedTeacher.id}`);
+                    setNotification({
+                      message: "Review đã được gửi thành công!",
+                      type: "success",
+                    });
                   } catch (err) {
                     console.error("Error creating review:", err);
-                    alert("Có lỗi khi gửi review, vui lòng thử lại!");
+                    setNotification({
+                      message: "Có lỗi khi gửi review, vui lòng thử lại!",
+                      type: "error",
+                    });
                   }
                 }}
               >
@@ -360,8 +369,23 @@ const ReviewSteps: React.FC<ReviewStepsProps> = ({
           </div>
         )}
       </div>
+      {notification && (
+  <Notification
+    message={notification.message}
+    type={notification.type}
+    onClose={() => {
+      const type = notification.type; // lưu type hiện tại
+      setNotification(null);
+      if (type === "success" && selectedTeacher) {
+        navigate(`/lecturer-detail/${selectedTeacher.id}`);
+      }
+    }}
+  />
+)}
+
     </div>
   );
+  
 };
 
 export default ReviewSteps;
