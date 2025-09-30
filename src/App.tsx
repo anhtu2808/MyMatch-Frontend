@@ -24,11 +24,13 @@ import UpdateMaterial from "./features/material/pages/UpdateMaterial";
 import Finding from "./features/matching-member/pages/Finding";
 import FindingForum from "./features/matching-member/pages/FindingForum";
 import { LayoutWithCoin } from "./LayoutWithCoin";
+import { UnreadMessagesProvider } from "./features/message/components/UnreadMessagesContext";
 
 function App() {
   // getToken();
   return (
     <Router>
+      <UnreadMessagesProvider>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/authenticate" element={<Authenticate />} />
@@ -54,6 +56,7 @@ function App() {
         <Route path="/material/create" element={<PrivateRoute><CreateMaterial /></PrivateRoute>} />
         <Route path="/material/update/:id" element={<PrivateRoute><UpdateMaterial /></PrivateRoute>} />
       </Routes>
+      </UnreadMessagesProvider>
     </Router>
   );
 }
