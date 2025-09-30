@@ -6,6 +6,7 @@ import "./Sidebar.css";
 import { logOut } from "../../features/login/services/authenticationService";
 import { getToken } from "../../features/login/services/localStorageService";
 import { getProfileAPI } from "../../features/profile/apis";
+import { useUnreadMessages } from "../../features/message/components/UnreadMessagesContext";
 
 interface UserInfo {
   id: number;
@@ -38,6 +39,9 @@ const Sidebar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const location = useLocation();
+
+  // Get unread messages state
+  const { hasUnread } = useUnreadMessages();
 
   // Function to check if a nav item should be active
   const isNavItemActive = (path: string) => {
@@ -189,6 +193,7 @@ const Sidebar = () => {
           <path d="M16 12h.01" />
         </svg>
       ),
+      hasNotification: hasUnread,
     },
     {
       id: "material",
@@ -313,7 +318,12 @@ const Sidebar = () => {
                     }`
                   }
                 >
-                  <div className="navIcon">{item.icon}</div>
+                  <div className="navIcon">
+                    {item.icon}
+                    {item.hasNotification && (
+                      <span className="notification-badge"></span>
+                    )}
+                  </div>
                   <div className="tooltip">
                     {item.name}
                     <div className="tooltipArrow"></div>
