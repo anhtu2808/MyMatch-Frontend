@@ -111,16 +111,20 @@ export const getMaterialByIdAPI = async (
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024;
 
-export const createMaterialAPI = async (data: {
-  name: string;
-  description: string;
-  courseId: number;
-  lecturerId: number;
-  materialItemIds: number[];
-}) => {
-  const payload = JSON.stringify(data); 
+export const createMaterialAPI = async (
+  name: string,
+  description: string,
+  courseId: number,
+  lecturerId: number,
+  materialItemIds: number[]
+) => {
+  // const payload = JSON.stringify(data); 
+  // console.log(payload);
+  const materialParams = materialItemIds.map(id => `materialItemIds=${id}`).join("&");
 
-  const response = await api.post("/materials", payload, {
+  const url = `/materials?name=${encodeURIComponent(name)}&description=${encodeURIComponent(description)}&courseId=${courseId}&lecturerId=${lecturerId}&${materialParams}`;
+
+  const response = await api.post(url, null, {
     headers: {
       "Content-Type": "application/json",
     },

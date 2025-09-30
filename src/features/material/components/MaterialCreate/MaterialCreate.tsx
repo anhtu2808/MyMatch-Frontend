@@ -132,19 +132,19 @@ export default function MaterialCreatePage() {
 
 
     try {
-      const res = await createMaterialAPI({
-        name,
-        description,
-        courseId: Number(selectedCourseId),
-        lecturerId: Number(selectedLecturerId),
-        materialItemIds: materialItemIds.filter(Boolean),
-      });
-      setNotification({ message: "Tạo tài liệu thành công!", type: "success" });
-      navigate("/material");
-    } catch (err) {
-      console.error("Tạo tài liệu thất bại:", err);
-      setNotification({ message: "Tạo tài liệu thất bại!", type: "error" });
-    }
+  const res = await createMaterialAPI(
+    name,
+    description,
+    Number(selectedCourseId),
+    Number(selectedLecturerId),
+    materialItemIds.filter(Boolean)
+  );
+    setNotification({ message: "Tạo tài liệu thành công!", type: "success" });
+    navigate("/material");
+  } catch (err) {
+    console.error("Tạo tài liệu thất bại:", err);
+    setNotification({ message: "Tạo tài liệu thất bại!", type: "error" });
+  }
   };
 
   const handleDeleteFile = (index: number) => {
