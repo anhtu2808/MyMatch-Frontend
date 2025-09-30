@@ -159,8 +159,8 @@ const mapSlotToApi = (slot: string) => {
       await createSwapRequestAPI(payload)
       showNotification("Tạo thành công", "success")
     }
-
-    navigate("/swap_class")
+    setTimeout (() => {navigate("/swap_class")}, 2000)
+    
   } catch (err: any) {
     showNotification(err?.response?.data?.message || "Thất bại", "error")
   } finally {

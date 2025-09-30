@@ -248,7 +248,7 @@ function MyProfile() {
         open={!!deleteId}
         onConfirm={confirmDelete}
         onCancel={() => setDeleteId(null)}
-        title="Xóa Profile"
+        title="Xóa profile"
         content="Bạn có chắc chắn muốn xóa profile này không?"
       />
       </>
