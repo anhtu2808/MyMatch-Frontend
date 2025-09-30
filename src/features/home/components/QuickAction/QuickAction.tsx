@@ -182,10 +182,10 @@ const QuickAction = () => {
       ),
     },
     {
-      title: "Nâng cao",
-      description: "Trải nghiệm tính năng nâng cao hơn với AI",
+      title: "Thanh toán",
+      description: "Trải nghiệm tính năng nâng cao hơn",
       disabled: false,
-      path: "/product",
+      path: "/payment",
       iconClass: "icon king",
       icon: (
         <svg

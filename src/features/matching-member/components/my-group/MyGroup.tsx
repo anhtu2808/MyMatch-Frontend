@@ -265,7 +265,7 @@ const handleReset = () => {
         open={!!deleteId}
         onConfirm={confirmDelete}
         onCancel={() => setDeleteId(null)}
-        title="Xóa Profile"
+        title="Xóa nhóm"
         content="Bạn có chắc chắn muốn xóa nhóm này không?"
       />
       </>

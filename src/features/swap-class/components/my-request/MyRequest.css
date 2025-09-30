@@ -235,6 +235,10 @@
 .btn-message-my-request {
     background-color: #0c326f;
     color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px
 }
 
 .btn-message-my-request:hover {
@@ -260,6 +264,10 @@
     background:#ff2424;
     color: white;
     font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px
 }
 
 .delete-request:hover {

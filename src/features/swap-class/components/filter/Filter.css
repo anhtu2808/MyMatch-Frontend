@@ -16,11 +16,12 @@
 .filter-form-row {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    gap: 15px;
+    gap: 40px;
 }
 
 .input-filter {
     height: 40px;
+    width: 210px;
     margin: 20px 0;
 }   
 

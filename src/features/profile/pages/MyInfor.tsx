@@ -95,7 +95,6 @@ const MyInfor: React.FC = () => {
   if (!userUpdate) return;
   try {
     const payload = {
-      username: userUpdate.username,
       phone: userUpdate.phone,
       campusId: userUpdate.campusId,
     };
@@ -111,7 +110,6 @@ const MyInfor: React.FC = () => {
     setIsEditing(false);
     showNotification("Cập nhật thành công", "success")
   } catch (err: any) {
-
     showNotification(err?.response?.data?.message || "Thất bại", "error")
   }
 };
@@ -123,7 +121,6 @@ const MyInfor: React.FC = () => {
   const handleEdit = () => {
   if (userInfo) {
     setUserUpdate({
-      username: userInfo.username,
       phone: userInfo.phone,
       campusId: userInfo.student?.campus?.id || 0,
       major: userInfo.student?.major || "",
@@ -220,13 +217,13 @@ const showNotification = (msg: string, type: any) => {
                   <div className="action-buttons">
                     {!isEditing ? (
                       <button className="edit-btn" onClick={handleEdit}>
-                        <span className="edit-icon">✏️</span>
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-square-pen-icon lucide-square-pen"><path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"/></svg>
                         Chỉnh sửa thông tin
                       </button>
                     ) : (
                       <div className="edit-actions">
                         <button className="save-btn" onClick={handleSave}>
-                          <span className="save-icon">💾</span>
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-save-icon lucide-save"><path d="M15.2 3a2 2 0 0 1 1.4.6l3.8 3.8a2 2 0 0 1 .6 1.4V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M17 21v-7a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7"/><path d="M7 3v4a1 1 0 0 0 1 1h7"/></svg>
                           Lưu
                         </button>
                         <button className="cancel-btn" onClick={handleCancel}>
@@ -303,17 +300,9 @@ const showNotification = (msg: string, type: any) => {
                   <div className="card-content">
                     <div className="info-grid">
                       <div className="info-item">
-                        <label className="info-label">Tên người dùng</label>
-                        {isEditing ? (
-                          <input
-                            type="text"
-                            value={userUpdate?.username}
-                            onChange={(e) => handleInputChange('username', e.target.value)}
-                            className="info-input"
-                          />
-                        ) : (
+                        <label className="info-label">Tên người dùng</label>   
                           <span className="info-value">{userInfo?.username}</span>
-                        )}
+                          <small className="info-note">Tên không thể thay đổi</small>
                       </div>
 
                       <div className="info-item">
