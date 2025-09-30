@@ -9,6 +9,8 @@ import {
 } from "../../apis"
 import { getToken } from "../../../login/services/localStorageService"
 import { io } from "socket.io-client"
+import { useUnreadMessages } from "../UnreadMessagesContext"
+import { useAppSelector } from "../../../../store/hooks"
 
 interface Participant {
   id: number
@@ -55,8 +57,7 @@ interface ChatProps {
 
 const Chat: React.FC<ChatProps> = ({ id, requestId }) => {
   const [conversations, setConversations] = useState<Conversation[]>([])
-  const [selectedConversation, setSelectedConversation] =
-    useState<Conversation | null>(null)
+  const [selectedConversation, setSelectedConversation] = useState<Conversation | null>(null)
   const [messages, setMessages] = useState<Message[]>([])
   const [newMessage, setNewMessage] = useState("")
   const token = getToken()
@@ -64,6 +65,7 @@ const Chat: React.FC<ChatProps> = ({ id, requestId }) => {
   const selectedConvRef = useRef<Conversation | null>(null)
   const messagesEndRef = useRef<HTMLDivElement | null>(null)
   const [searchTerm, setSearchTerm] = useState("")
+  const { unreadConversations, markConversationAsRead } = useUnreadMessages() // chấm đỏ ở message
 
   // thanh search tên user
   const filteredConversations = conversations.filter((conv) =>
@@ -135,11 +137,19 @@ const Chat: React.FC<ChatProps> = ({ id, requestId }) => {
       setMessages((prev) =>
         prev.some((m) => m.id === msg.id) ? prev : [...prev, msg]
       )
+      markConversationAsRead(selectedConversation.id)
       setNewMessage("")
     } catch (err) {
       console.error("Send message error:", err)
     }
   }
+
+  // khi click vào conversation
+const handleSelectConversation = (conv: Conversation) => {
+  setSelectedConversation(conv)
+  fetchMessages(conv.id)
+  markConversationAsRead(conv.id) // ✅ xóa unread
+}
 
   // =========================
   // Socket.IO realtime
@@ -220,6 +230,7 @@ const Chat: React.FC<ChatProps> = ({ id, requestId }) => {
               onClick={() => {
                 setSelectedConversation(conv)
                 fetchMessages(conv.id)
+                markConversationAsRead(conv.id)
               }}
             >
               <div className="items-conversation">
@@ -230,6 +241,11 @@ const Chat: React.FC<ChatProps> = ({ id, requestId }) => {
                 />
                 <div className="conversationName">
                   {conv.conversationName || conv.id}
+
+                  {/* ✅ hiển thị chấm đỏ nếu unread */}
+                  {unreadConversations.has(conv.id) && (
+                    <span className="conversation-unread-badge"></span>
+                  )}
                 </div>
               </div>
             </div>
