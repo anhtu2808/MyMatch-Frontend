@@ -61,7 +61,10 @@ const RecentActivity: React.FC = () => {
   const [swap, setSwap] = useState<SwapActivity | null>(null);
   const [lecturer, setLecturer] = useState<LecturerActivity | null>(null);
   const user = useAppSelector((state) => state.user)
+  const token = localStorage.getItem("accessToken");
+
   useEffect(() => {
+    if (!token) return;
     (async () => {
       try {
         const [latestReview, latestSwap, latestLecturer] = await Promise.all([
@@ -79,13 +82,12 @@ const RecentActivity: React.FC = () => {
         setLoading(false);
       }
     })();
-  }, []);
+  }, [token]);
 
   return (
     <>
-      {(!user?.campus || user?.campus === '' || !user.studentCode) && (
-                    <AddInformationModal forceOpen />
-                  )}
+      {token && user.isLoaded && (!user?.campusId || !user.studentCode) && (
+                    <AddInformationModal forceOpen />)}
     <div className="home-recent-activity">
       <div className="home-recent-activity-list">
         {loading && <p>Đang tải...</p>}

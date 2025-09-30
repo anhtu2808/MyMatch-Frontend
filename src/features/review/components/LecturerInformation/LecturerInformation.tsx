@@ -121,14 +121,25 @@ const LecturerInformation: React.FC<LecturerInformationProps> = ({
 
     const fetchData = async () => {
       try {
-        // lấy thông tin giảng viên
+      
         const res = await getLecturerByIdAPI(Number(id));
         setLecturer(res.result);
-
-        // lấy danh sách review theo lecturerId
         const reviewRes = await getReviewsAPI({ lecturerId: Number(id) });
-        const reviewList: Review[] = reviewRes.result || [];
+        console.log("Review API Response:", reviewRes);
+
+        const reviewList: Review[] = reviewRes.result?.data || [];
+        console.log("Review List (data):", reviewList);
+
         setReviews(reviewList);
+        if (reviewList.length > 0) {
+          const total = reviewList.reduce((sum, r) => sum + (r.overallScore || 0), 0);
+          const avg = total / reviewList.length;
+          console.log("Total:", total, "Count:", reviewList.length, "Average:", avg);
+          setAverageScore(avg);
+        } else {
+          setAverageScore(0);
+        }
+
 
         const courseRes = await getCoursesByLecturerAPI(Number(id));
         const courseList: Course[] = (courseRes.result || []).map(

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import './AddInformation.css'
 import { getCampusesAPI, updateStudentAPI } from '../apis'
 import { useAppSelector } from '../../../store/hooks'
+import Notification from '../../../components/notification/Notification'
 
 interface UserInformation {
   campusId: number
@@ -25,12 +26,13 @@ function AddInformation({ isOpen, onClose, onSuccess, forceOpen = false }: AddIn
   const [isSubmitting, setIsSubmitting] = useState(false)
   const user = useAppSelector((state) => state.user)
   const userId = user?.studentId
+  const [noti, setNoti] = useState<{ message: string; type: any } | null>(null);
+
   useEffect(() => {
     const fetchCampuses = async () => {
       try {
         const response = await getCampusesAPI(1)
         setCampuses(response?.result?.data || [])
-        console.log("campussssss get", response?.result?.data);
       } catch (error) {
         console.error('Error fetching campuses:', error)
       }
@@ -48,7 +50,7 @@ function AddInformation({ isOpen, onClose, onSuccess, forceOpen = false }: AddIn
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!formData.campusId || !formData.studentCode) {
-      alert("Vui lòng điền đầy đủ thông tin")
+      showNotification("Vui lòng điền đầy đủ thông tin", "warning")
       return
     }
 
@@ -60,12 +62,12 @@ function AddInformation({ isOpen, onClose, onSuccess, forceOpen = false }: AddIn
         { campusId: formData.campusId, studentCode: formData.studentCode },
         userId
       )
-
-      alert("Lưu thông tin thành công!")
       onSuccess() // chỉ khi lưu mới đóng
-    } catch (error) {
-      console.error("Error saving user information:", error)
-      alert("Có lỗi xảy ra khi lưu thông tin")
+      showNotification("Cập nhật thành công", "success")
+
+    } catch (err: any) {
+      console.error("Error saving user information:", err)
+      showNotification(err?.response?.data?.message || "Thất bại", "error")
     } finally {
       setIsSubmitting(false)
     }
@@ -73,7 +75,13 @@ function AddInformation({ isOpen, onClose, onSuccess, forceOpen = false }: AddIn
 
   if (!isOpen) return null
 
+  const showNotification = (msg: string, type: any) => {
+    setNoti({ message: msg, type });
+  };
+
+
   return (
+    <>
     <div
       className="add-info-overlay"
       onClick={(e) => {
@@ -108,15 +116,6 @@ function AddInformation({ isOpen, onClose, onSuccess, forceOpen = false }: AddIn
               placeholder="VD: SE172181"
             />
           </div>
-{/* 
-          <div className="form-group">
-            <label>Phone</label>
-            <input
-              type="text"
-              value={formData.phone}
-              onChange={(e) => handleChange('studentCode', e.target.value)}
-            />
-          </div> */}
 
           <div className="form-actions">
             {!forceOpen && (
@@ -124,13 +123,21 @@ function AddInformation({ isOpen, onClose, onSuccess, forceOpen = false }: AddIn
                 Hủy
               </button>
             )}
-            <button type="submit" disabled={isSubmitting}>
+            <button type="submit" disabled={isSubmitting} className='save-button-add-info'>
               {isSubmitting ? "Đang lưu..." : "Lưu"}
             </button>
           </div>
         </form>
       </div>
     </div>
+    {noti && (
+        <Notification
+          message={noti.message}
+          type={noti.type}
+          onClose={() => setNoti(null)}
+        />
+      )}
+      </>
   )
 }
 

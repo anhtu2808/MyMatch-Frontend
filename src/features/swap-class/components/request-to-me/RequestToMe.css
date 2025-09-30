@@ -1,0 +1,61 @@
+.action-buttons-matching {
+    display: flex;
+    gap: 10px
+}
+
+.btn-message-matching {
+    background-color: #0c326f;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    font-weight: 500;
+    transition: background-color 0.2s;
+}
+
+.btn-message-matching:hover {
+    transform: translateY(-2px);
+}
+
+.btn-message-matching-accept {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    font-weight: 500;
+    transition: background-color 0.2s;
+}
+
+.btn-message-matching-accept:hover {
+     transform: translateY(-2px);
+}
+
+.btn-message-matching-reject {
+    background-color: #c02020;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    font-weight: 500;
+    transition: background-color 0.2s;
+}
+
+.btn-message-matching-reject:hover {
+    transform: translateY(-2px);
+}

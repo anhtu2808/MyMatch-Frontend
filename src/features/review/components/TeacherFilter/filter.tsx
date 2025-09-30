@@ -141,12 +141,12 @@ const TeacherFilter: React.FC<TeacherFilterProps> = ({
         >
           Đã review
         </div>
-        <div
+        {/* <div
           className={`tab ${activeTab === "marked" ? "active" : ""}`}
           onClick={() => setActiveTab("marked")}
         >
           Đã đánh dấu
-        </div>
+        </div> */}
         <div
           className={`tab ${activeTab === "myreviews" ? "active" : ""}`}
           onClick={() => setActiveTab("myreviews")}

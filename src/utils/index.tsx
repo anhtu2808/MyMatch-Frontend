@@ -3,6 +3,7 @@ import axios, {
   AxiosInstance,
   AxiosResponse,
   InternalAxiosRequestConfig,
+  AxiosHeaders
 } from "axios";
 import { API_ROOT } from "./constants";
 
@@ -30,7 +31,10 @@ api.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
     const accessToken = localStorage.getItem("accessToken");
     if (accessToken) {
-      config.headers.set("Authorization", `Bearer ${accessToken}`);
+      // config.headers.set("Authorization", `Bearer ${accessToken}`);
+      if (!config.headers) config.headers = new AxiosHeaders();
+      // đảm bảo kiểu và dùng method của AxiosHeaders
+      (config.headers as AxiosHeaders).set("Authorization", `Bearer ${accessToken}`);
     }
     return config;
   },
@@ -60,17 +64,17 @@ api.interceptors.response.use(
       isRefreshing = true;
 
       try {
-        const refreshToken = localStorage.getItem("refreshToken");
-        if (!refreshToken) {
+        const oldAccessToken  = localStorage.getItem("accessToken");
+        if (!oldAccessToken ) {
           throw new Error("No refresh token");
         }
 
         // Gọi API refresh token
         const res = await axios.post(`${API_ROOT}/auth/refresh`, {
-          refreshToken,
+          token: oldAccessToken ,
         });
 
-        const newAccessToken = res.data.accessToken;
+        const newAccessToken = res.data.result.token;
 
         // Lưu token mới
         localStorage.setItem("accessToken", newAccessToken);
@@ -89,8 +93,8 @@ api.interceptors.response.use(
 
         // Refresh fail → logout
         localStorage.removeItem("accessToken");
-        localStorage.removeItem("refreshToken");
-        window.location.href = "/login";
+        // localStorage.removeItem("refreshToken");
+        // window.location.href = "/login";
         return Promise.reject(err);
       }
     }

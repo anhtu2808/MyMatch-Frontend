@@ -1,0 +1,70 @@
+.confirm-delete-modal .ant-modal-footer {
+  display: flex;
+  justify-content: flex-end; 
+  gap: 12px;                 
+  margin-top: 16px;
+}
+
+.confirm-delete-modal .ant-btn {
+  min-width: 80px;        
+  height: 36px;
+  font-weight: 500;
+}
+
+.confirm-delete-content {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.confirm-icon {
+  font-size: 28px;
+  color: #f5222d; /* đỏ warning */
+  flex-shrink: 0;
+}
+
+.confirm-texts {
+  flex: 1;
+}
+
+.confirm-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0 0 4px;
+  color: #1f1f1f;
+}
+
+.confirm-desc {
+  font-size: 15px;
+  color: #595959;
+  margin: 0;
+}
+
+.delete-confirm-btn,
+.cancel-confirm-btn {
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* Xóa */
+.delete-confirm-btn {
+  background: #ff2424;
+  color: white;
+}
+
+.delete-confirm-btn:hover {  
+  background: #ff2424 !important;
+  color: white !important;
+  transform: translateY(-2px);
+}
+
+/* Hủy */
+.cancel-confirm-btn {
+  background-color: #e2e2e2;
+  color: #1f1f1f;
+}
+.cancel-confirm-btn:hover {
+  background-color: #e2e2e2 !important;
+  color: #1f1f1f !important;
+  transform: translateY(-2px);
+}

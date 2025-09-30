@@ -258,19 +258,17 @@
   border: none;
   border-radius: 8px;
   font-size: 14px;
-  font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
 .cancel-btn-create-swap {
-  background: #ff2424;
-  color: white;
+  background: #e2e2e2;
+  color: black;
 }
 
 .cancel-btn-create-swap:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(255, 131, 131, 0.3);
 }
 
 .submit-btn-create-swap {

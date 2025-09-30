@@ -3,6 +3,7 @@ import './NewsFeed.css'
 import { getSwapRequestAPI } from '../../apis'
 import Filter from '../filter/Filter'
 import { useNavigate } from 'react-router-dom'
+import Pagination from '../../../review/components/Pagination/Pagination'
 
 interface Course {
   id: number
@@ -36,6 +37,7 @@ interface User {
   id: number
   username: string
   email: string
+  avatarUrl?: string
 }
 
 interface Student {
@@ -68,12 +70,17 @@ function NewsFeed() {
   const [newsFeeds, setNewsFeeds] = useState<MyRequest[]>([])
   const [filteredFeeds, setFilteredFeeds] = useState<MyRequest[]>([])
   const navigate = useNavigate();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalElements, setTotalElements] = useState(0);
+  const pageSize = 10;
+
   useEffect(() => {
     const fetchNewsFeed = async () => {
       try {
-        const response = await getSwapRequestAPI()
+        const response = await getSwapRequestAPI({page: currentPage, size: pageSize})
         setNewsFeeds(response?.result?.data || [])
         setFilteredFeeds(response?.result?.data || [])
+        setTotalElements(response.result.totalElements)
       } catch (error) {
         console.error('Error fetching news feed:', error)
       }
@@ -126,11 +133,12 @@ function NewsFeed() {
   }
 
   return (
+    <>
     <div className='my-request-container'>
       <Filter onFilter={handleFilter} onReset={handleReset} />
 
       <div className='section-header'>
-        <h2>Bản tin chuyển lớp</h2>
+        <h3>Bản tin chuyển lớp</h3>
         <span className='view-all'>Hiển thị {filteredFeeds.length} yêu cầu</span>
       </div>
 
@@ -139,7 +147,7 @@ function NewsFeed() {
           <div className='card-header'>
             <div className='user-info'>
               <div className='avatar'>
-                <img src="/api/placeholder/40/40" alt="User" />
+                <img src={request?.student?.user?.avatarUrl} alt={request?.student?.user?.username} />
               </div>
               <div className='user-details'>
                 <h3>{request.student.user.username}</h3>
@@ -204,17 +212,24 @@ function NewsFeed() {
               </div>
             </div>
           </div>
-          <div className='action-buttons-request'>
+          <div className='action-buttons-request-news-feed'>
             <button
-              className="btn-message"
+              className="btn-message-news-feed"
               onClick={() => navigate(`/message/${request.student.id}`)}
             >
-              💬 Nhắn tin
+             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-mails-icon lucide-mails"><path d="M17 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 1-1.732"/><path d="m22 5.5-6.419 4.179a2 2 0 0 1-2.162 0L7 5.5"/><rect x="7" y="3" width="15" height="12" rx="2"/></svg>
+              Nhắn tin
             </button>
           </div>
         </div>
       ))}
     </div>
+    <Pagination
+          currentPage={currentPage}
+          totalPages={totalElements}
+          onPageChange={(p) => setCurrentPage(p)}
+        />
+        </>
   )
 }
 
