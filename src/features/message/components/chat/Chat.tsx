@@ -10,7 +10,7 @@ import {
 import { getToken } from "../../../login/services/localStorageService"
 import { io } from "socket.io-client"
 import { useUnreadMessages } from "../UnreadMessagesContext"
-import { useAppSelector } from "../../../../store/hooks"
+import EmojiPicker, { EmojiClickData } from "emoji-picker-react"
 
 interface Participant {
   id: number
@@ -66,6 +66,7 @@ const Chat: React.FC<ChatProps> = ({ id, requestId }) => {
   const messagesEndRef = useRef<HTMLDivElement | null>(null)
   const [searchTerm, setSearchTerm] = useState("")
   const { unreadConversations, markConversationAsRead } = useUnreadMessages() // chấm đỏ ở message
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false)
 
   // thanh search tên user
   const filteredConversations = conversations.filter((conv) =>
@@ -280,6 +281,30 @@ const handleSelectConversation = (conv: Conversation) => {
                 onKeyDown={(e) => e.key === "Enter" && handleSendMessage()}
                 placeholder="Nhập tin nhắn..."
               />
+
+              {/* nút emoji */}
+              <button
+                type="button"
+                className="emoji-btn"
+                onClick={() => setShowEmojiPicker((prev) => !prev)}
+              >
+                😊
+              </button>
+
+              {/* emoji picker popup */}
+              {showEmojiPicker && (
+                <div className="emoji-picker-container">
+                  <EmojiPicker
+                    onEmojiClick={(emojiData: EmojiClickData) => {
+                      setNewMessage((prev) => prev + emojiData.emoji)
+                      setShowEmojiPicker(false) // đóng sau khi chọn
+                    }}
+                    width={300}
+                    height={400}
+                  />
+                </div>
+              )}
+
               <button className="send-btn" onClick={handleSendMessage}>
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" width={20} height={20}><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
               </button>

@@ -347,6 +347,21 @@
     border-color: #0c326f;
 }
 
+.emoji-picker-container {
+  position: absolute;
+  bottom: 70px; /* ngay trên ô input */
+  right: 20px;
+  z-index: 1000;
+}
+
+.EmojiPickerReact .epr-search-container input {
+  padding-left: 28px !important; /* chừa khoảng trống cho icon */
+}
+
+.EmojiPickerReact .epr-search-icon {
+  left: 8px !important; /* icon lệch ra một chút */
+}
+
 .send-btn {
     width: 36px;
     height: 36px;
