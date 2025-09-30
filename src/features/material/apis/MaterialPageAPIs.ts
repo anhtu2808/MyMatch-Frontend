@@ -116,26 +116,23 @@ export const createMaterialAPI = async (data: {
   description: string;
   courseId: number;
   lecturerId: number;
-  file: File;
+  materialItemIds: number[];
 }) => {
-  if (data.file.size > MAX_FILE_SIZE) {
-    throw new Error("File vượt quá dung lượng tối đa 5MB");
-  }
-  const formData = new FormData();
-  formData.append("name", data.name);
-  formData.append("description", data.description);
-  formData.append("courseId", data.courseId.toString());
-  formData.append("lecturerId", data.lecturerId.toString());
-  formData.append("file", data.file);
+  const payload = JSON.stringify(data); 
 
-  const response = await api.post("/materials", formData, {
+  const response = await api.post("/materials", payload, {
     headers: {
-      "Content-Type": "multipart/form-data",
+      "Content-Type": "application/json",
     },
   });
 
   return response.data;
 };
+
+
+
+
+
 
 export const purchaseMaterialAPI = async (materialId: number) => {
   const response = await api.post(`/materials/${materialId}/purchase`);
@@ -192,4 +189,19 @@ export const updateMaterialAPI = async (
     },
   });
   return response.data;
+};
+
+
+export const uploadMaterialAPI = async (name: string, file: File) => {
+  const formData = new FormData();
+  formData.append("name", name);
+  formData.append("file", file);
+
+  const response = await api.post("/material-items", formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+
+  return response.data;  
 };

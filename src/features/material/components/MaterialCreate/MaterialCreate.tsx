@@ -5,8 +5,11 @@ import {
   getCoursesAPI,
   getAllLecturerAPI,
   createMaterialAPI,
+  uploadMaterialAPI,
 } from "../../apis/MaterialPageAPIs";
 import "./MaterialCreate.css";
+import Notification from "../../../../components/notification/Notification";
+import ConfirmDelete from "../../../../components/confirm-delete/ConfirmDelete";
 
 export default function MaterialCreatePage() {
   const [loading, setLoading] = useState(false);
@@ -14,7 +17,8 @@ export default function MaterialCreatePage() {
   // State cho form
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-  const [file, setFile] = useState<File | null>(null);
+  const [files, setFiles] = useState<File[]>([]);
+  const [materialItemIds, setMaterialItemIds] = useState<number[]>([]);
 
   // Course state
   const [courseOptions, setCourseOptions] = useState<any[]>([]);
@@ -26,6 +30,8 @@ export default function MaterialCreatePage() {
     ""
   );
   const [lecturerLoading, setLecturerLoading] = useState(false);
+  const [notification, setNotification] = useState<{ message: string; type: "success" | "error" | "info" | "warning" } | null>(null);
+  const [fileToDeleteIndex, setFileToDeleteIndex] = useState<number | null>(null);
 
   // Load course list
   useEffect(() => {
@@ -82,25 +88,48 @@ export default function MaterialCreatePage() {
 
   const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const selectedFile = e.target.files?.[0];
-    if (selectedFile) {
-      if (selectedFile.size > MAX_FILE_SIZE) {
-        alert("File vượt quá dung lượng tối đa 5MB");
-        e.target.value = ""; // reset input file
-        return;
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const selectedFiles = e.target.files ? Array.from(e.target.files) : [];
+  if (selectedFiles.length === 0) return;
+
+  // Kiểm tra size
+  const oversized = selectedFiles.find((f) => f.size > MAX_FILE_SIZE);
+  if (oversized) {
+    setNotification({ message: `File ${oversized.name} vượt quá dung lượng tối đa 5MB`, type: "error" });
+    return;
+  }
+
+    try {
+      const uploadedIds: number[] = [];
+      for (const f of selectedFiles) {
+        const res = await uploadMaterialAPI(f.name, f);
+        const uploadedId = res.result?.id;
+        if (uploadedId) uploadedIds.push(uploadedId);
       }
-      setFile(selectedFile);
+
+      setFiles((prev) => [...prev, ...selectedFiles]);
+      setMaterialItemIds((prev) => [...prev, ...uploadedIds]);
+      setNotification({ message: "Upload file thành công!", type: "success" });
+    } catch (err) {
+      console.error("Upload file lỗi:", err);
+      setNotification({ message: "Upload file thất bại!", type: "error" });
     }
   };
 
-  // Submit
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!file || !selectedCourseId || !selectedLecturerId || !name) {
-      alert("Vui lòng nhập đầy đủ thông tin!");
+    if (!materialItemIds.length || !selectedCourseId || !selectedLecturerId || !name) {
+      setNotification({ message: "Vui lòng nhập đầy đủ thông tin!", type: "error" });
       return;
     }
+    console.log({
+  name,
+  description,
+  courseId: Number(selectedCourseId),
+  lecturerId: Number(selectedLecturerId),
+  materialItemIds: materialItemIds.filter(Boolean),
+});
+
 
     try {
       const res = await createMaterialAPI({
@@ -108,26 +137,42 @@ export default function MaterialCreatePage() {
         description,
         courseId: Number(selectedCourseId),
         lecturerId: Number(selectedLecturerId),
-        file,
+        materialItemIds: materialItemIds.filter(Boolean),
       });
-      console.log("Material created:", res);
-      alert("Tạo tài liệu thành công!");
-
-      // Reset form
-      setName("");
-      setDescription("");
-      setFile(null);
-      setSelectedCourseId("");
-      setSelectedLecturerId("");
+      setNotification({ message: "Tạo tài liệu thành công!", type: "success" });
       navigate("/material");
     } catch (err) {
       console.error("Tạo tài liệu thất bại:", err);
-      alert("Tạo tài liệu thất bại!");
+      setNotification({ message: "Tạo tài liệu thất bại!", type: "error" });
     }
   };
 
-  // Kiểm tra form đủ dữ liệu chưa
-  const isFormValid = name && file && selectedCourseId && selectedLecturerId;
+  const handleDeleteFile = (index: number) => {
+    setFileToDeleteIndex(index);
+  };
+
+  const confirmDeleteFile = () => {
+    if (fileToDeleteIndex !== null) {
+      const newFiles = [...files];
+      newFiles.splice(fileToDeleteIndex, 1);
+      setFiles(newFiles);
+
+      const newIds = [...materialItemIds];
+      newIds.splice(fileToDeleteIndex, 1);
+      setMaterialItemIds(newIds);
+
+      setNotification({ message: "Xóa file thành công", type: "success" });
+      setFileToDeleteIndex(null);
+    }
+  };
+
+  const handleRemoveFile = (index: number) => {
+  setFiles((prev) => prev.filter((_, i) => i !== index));
+  setMaterialItemIds((prev) => prev.filter((_, i) => i !== index));
+  };
+
+ 
+  const isFormValid = name && files.length > 0 && selectedCourseId && selectedLecturerId;
 
   return (
     <div className="material-create-container p-6">
@@ -145,6 +190,7 @@ export default function MaterialCreatePage() {
           value={name}
           onChange={(e) => setName(e.target.value)}
           className="material-create-input border rounded px-3 py-2 w-full"
+          multiple   
         />
 
         <label className="material-create-label block mb-1 font-medium">
@@ -245,52 +291,18 @@ export default function MaterialCreatePage() {
           />
         </div>
 
-        <label className="material-create-label block mb-1 font-medium">
-          File <span className="textt-red-500">*</span>
-        </label>
-
+        <label className="material-create-label block mb-1 font-medium">File <span className="text-red-500">*</span></label>
         <div className="material-create-file-container">
-          <div className="upload-icon">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="40"
-              height="40"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="lucide lucide-upload"
-            >
-              <path d="M12 3v12" />
-              <path d="m17 8-5-5-5 5" />
-              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-            </svg>
+          <input type="file" id="fileInput" onChange={handleFileChange} multiple className="material-create-file-input" />
+          <div className="preview-list flex gap-4 mt-2 flex-wrap">
+            {files.map((f, i) => (
+              <div key={i} className="preview-item border p-2 rounded bg-gray-100 relative">
+                <p className="text-sm">{f.name}</p>
+              </div>
+            ))}
           </div>
-          <div className="upload-text">
-            {file ? (
-              <p>
-                <strong>File đã chọn:</strong> {file.name}
-              </p>
-            ) : (
-              <>
-                <p>
-                  <strong>Chọn tệp</strong> hoặc kéo thả vào đây
-                </p>
-                <p className="upload-subtext">
-                  Hỗ trợ PDF, DOC, DOCX, PPT, PPTX tối đa 5MB
-                </p>
-              </>
-            )}
-          </div>
-          <input
-            type="file"
-            id="fileInput"
-            onChange={handleFileChange}
-            className="material-create-file-input"
-          />
         </div>
+
 
         <button
           type="submit"
@@ -305,6 +317,24 @@ export default function MaterialCreatePage() {
           Tạo tài liệu
         </button>
       </form>
+      {notification && (
+        <Notification
+          message={notification.message}
+          type={notification.type}
+          onClose={() => setNotification(null)}
+        />
+      )}
+
+      {fileToDeleteIndex !== null && (
+        <ConfirmDelete
+          open={true}
+          onConfirm={confirmDeleteFile}
+          onCancel={() => setFileToDeleteIndex(null)}
+          title="Xác nhận xóa file"
+          content="Bạn có chắc chắn muốn xóa file này không?"
+          okText="Xóa"
+        />
+      )}
     </div>
   );
 }

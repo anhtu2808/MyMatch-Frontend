@@ -9,6 +9,7 @@ interface ConfirmDeleteProps {
   onCancel: () => void;
   title?: string;
   content?: string;
+  okText?: string;
 }
 
 const ConfirmDelete: React.FC<ConfirmDeleteProps> = ({
@@ -17,13 +18,14 @@ const ConfirmDelete: React.FC<ConfirmDeleteProps> = ({
   onCancel,
   title = "Xác nhận xóa",
   content = "Bạn có chắc chắn muốn xóa mục này không?",
+  okText = "Xóa",
 }) => {
   return (
     <Modal
       open={open}
       onOk={onConfirm}
       onCancel={onCancel}
-      okText="Xóa"
+      okText={okText}
       cancelText="Hủy"
       okButtonProps={{ className: "delete-confirm-btn" }}
       cancelButtonProps={{ className: "cancel-confirm-btn" }}
