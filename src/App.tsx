@@ -20,10 +20,12 @@ import Product from "./features/product/pages/Product";
 import Finding from "./features/matching-member/pages/Finding";
 import FindingForum from "./features/matching-member/pages/FindingForum";
 import { LayoutWithCoin } from "./LayoutWithCoin";
+import { UnreadMessagesProvider } from "./features/message/components/UnreadMessagesContext";
 
 function App() {
   return (
     <Router>
+      <UnreadMessagesProvider>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/authenticate" element={<Authenticate />} />
@@ -45,6 +47,7 @@ function App() {
         <Route path="/finding" element={<PrivateRoute><Finding /></PrivateRoute>} />
         <Route path="/finding_forum" element={<PrivateRoute><FindingForum /></PrivateRoute>} />
       </Routes>
+      </UnreadMessagesProvider>
     </Router>
   );
 }

@@ -28,11 +28,36 @@
   color: #61dafb;
 }
 
+/* container mặc định */
+.container {
+  width: 100%;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 16px; /* để không dính sát mép màn hình */
+}
+
+/* container rộng cho màn hình to hơn */
+.container--wide {
+  max-width: 1980px;
+}
+
+/* container full width */
+.container--fluid {
+  max-width: 100%;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
   }
   to {
     transform: rotate(360deg);
+  }
+}
+
+/* Desktop lớn hơn */
+@media (min-width: 1600px) {
+  .main-container {
+    max-width: 1600px;
   }
 }
