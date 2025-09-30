@@ -7,6 +7,7 @@ import Select from "react-select";
 import { createSwapRequestAPI, getSwapRequestAPI, getSwapRequestByIdAPI, updateSwapRequestAPI } from '../apis'
 import { useAppSelector } from '../../../store/hooks'
 import { useLocation } from 'react-router-dom';
+import Notification from '../../../components/notification/Notification'
 
 interface SwapRequestData {
   codeCourse: string
@@ -28,6 +29,10 @@ const CreateSwapRequest: React.FC = () => {
   const navigate = useNavigate()
   const { id } = useParams<{ id: string }>()
   const isEdit = Boolean(id)
+  const [errors, setErrors] = useState<Partial<SwapRequestData>>({})
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const mapDay = (day: string) => day.toUpperCase()
+  const [noti, setNoti] = useState<{ message: string; type: any } | null>(null);
   
   useEffect(() => {
   if (isEdit) {
@@ -74,8 +79,7 @@ const CreateSwapRequest: React.FC = () => {
     reason: ''
   })
 
-  const [errors, setErrors] = useState<Partial<SwapRequestData>>({})
-  const [isSubmitting, setIsSubmitting] = useState(false)
+  
 
   const dayOptions = [
     { value: 'monday', label: 'Thứ 2' },
@@ -125,9 +129,6 @@ const mapSlotToApi = (slot: string) => {
   }
 }
 
-
-  const mapDay = (day: string) => day.toUpperCase()
-
   const handleSubmit = async (e: React.FormEvent) => {
   e.preventDefault()
   setIsSubmitting(true)
@@ -153,16 +154,15 @@ const mapSlotToApi = (slot: string) => {
 
     if (isEdit) {
       await updateSwapRequestAPI(payload, Number(id))
-      alert("Cập nhật yêu cầu thành công!")
+      showNotification("Cập nhật thành công", "success")
     } else {
       await createSwapRequestAPI(payload)
-      alert("Tạo yêu cầu thành công!")
+      showNotification("Tạo thành công", "success")
     }
 
     navigate("/swap_class")
-  } catch (error) {
-    console.error("Error:", error)
-    alert("Có lỗi xảy ra.")
+  } catch (err: any) {
+    showNotification(err?.response?.data?.message || "Thất bại", "error")
   } finally {
     setIsSubmitting(false)
   }
@@ -170,7 +170,12 @@ const mapSlotToApi = (slot: string) => {
 
   const handleCancel = () => navigate('/swap_class')
 
+  const showNotification = (msg: string, type: any) => {
+    setNoti({ message: msg, type });
+  };
+
   return (
+    <>
     <div className="create-swap-page">
       <Sidebar />
       <Header title="Tạo yêu cầu đổi lớp" script="Nhập thông tin lớp học bạn muốn trao đổi" />
@@ -296,6 +301,14 @@ const mapSlotToApi = (slot: string) => {
         </form>
       </div>
     </div>
+    {noti && (
+        <Notification
+          message={noti.message}
+          type={noti.type}
+          onClose={() => setNoti(null)}
+        />
+      )}
+      </>
   )
 }
 

@@ -110,12 +110,9 @@
 .banking-membership-btn {
   width: 100%;
   margin-top: 0.75rem;
-  background-color: #B3A369;
+  background: linear-gradient(to right, #facc15, #f97316);
+  box-shadow: 0 0 25px rgba(250, 204, 21, 0.7);
   border-radius: 8px;
-}
-
-.banking-membership-btn:hover {
-  background-color: rgb(252, 255, 104);
 }
 
 /* Warning Card */
@@ -168,7 +165,7 @@
 .banking-support-contact {
   color: rgb(254, 202, 202) !important;
   font-weight: 700;
-  text-decoration: underline;
+  text-decoration: none;
   background: transparent !important;
   /* Light pink color on dark background for better contrast */
 }

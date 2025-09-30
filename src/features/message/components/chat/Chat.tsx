@@ -9,6 +9,8 @@ import {
 } from "../../apis"
 import { getToken } from "../../../login/services/localStorageService"
 import { io } from "socket.io-client"
+import { useUnreadMessages } from "../UnreadMessagesContext"
+import EmojiPicker, { EmojiClickData } from "emoji-picker-react"
 
 interface Participant {
   id: number
@@ -55,14 +57,22 @@ interface ChatProps {
 
 const Chat: React.FC<ChatProps> = ({ id, requestId }) => {
   const [conversations, setConversations] = useState<Conversation[]>([])
-  const [selectedConversation, setSelectedConversation] =
-    useState<Conversation | null>(null)
+  const [selectedConversation, setSelectedConversation] = useState<Conversation | null>(null)
   const [messages, setMessages] = useState<Message[]>([])
   const [newMessage, setNewMessage] = useState("")
   const token = getToken()
   const socketRef = useRef<any>(null)
   const selectedConvRef = useRef<Conversation | null>(null)
   const messagesEndRef = useRef<HTMLDivElement | null>(null)
+  const [searchTerm, setSearchTerm] = useState("")
+  const { unreadConversations, markConversationAsRead } = useUnreadMessages() // chấm đỏ ở message
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false)
+
+  // thanh search tên user
+  const filteredConversations = conversations.filter((conv) =>
+  conv.conversationName?.toLowerCase().includes(searchTerm.toLowerCase())
+)
+
 //lướt xuống tin nhắn dưới cùng  
   useEffect(() => {
   messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
@@ -128,11 +138,19 @@ const Chat: React.FC<ChatProps> = ({ id, requestId }) => {
       setMessages((prev) =>
         prev.some((m) => m.id === msg.id) ? prev : [...prev, msg]
       )
+      markConversationAsRead(selectedConversation.id)
       setNewMessage("")
     } catch (err) {
       console.error("Send message error:", err)
     }
   }
+
+  // khi click vào conversation
+const handleSelectConversation = (conv: Conversation) => {
+  setSelectedConversation(conv)
+  fetchMessages(conv.id)
+  markConversationAsRead(conv.id) // ✅ xóa unread
+}
 
   // =========================
   // Socket.IO realtime
@@ -160,13 +178,13 @@ const Chat: React.FC<ChatProps> = ({ id, requestId }) => {
     const currentId = selectedConvRef.current?.id ?? 0
     const incomingConvId = data.conversation?.id ?? 0
 
-    if (incomingConvId !== currentId) {
-      console.log("❌ Message not for current conversation", {
-        currentId,
-        incomingConvId,
-      })
-      return
-    }
+    // if (incomingConvId !== currentId) {
+    //   console.log("❌ Message not for current conversation", {
+    //     currentId,
+    //     incomingConvId,
+    //   })
+    //   return
+    // }
 
     setMessages((prev) =>
       prev.some((m) => m.id === data.id) ? prev : [...prev, data]
@@ -174,8 +192,8 @@ const Chat: React.FC<ChatProps> = ({ id, requestId }) => {
   }
 
 
-    socket.on("connect", () => console.log("✅ Socket.IO connected"))
-    socket.on("disconnect", () => console.log("❌ Socket.IO disconnected"))
+    // socket.on("connect", () => console.log("✅ Socket.IO connected"))
+    // socket.on("disconnect", () => console.log("❌ Socket.IO disconnected"))
     socket.on("connect_error", (err) =>
       console.error("Socket connection error:", err)
     )
@@ -192,8 +210,19 @@ const Chat: React.FC<ChatProps> = ({ id, requestId }) => {
       {/* Sidebar */}
       <div className="chat-sidebar">
         <h2 className="title-message">Tin nhắn</h2>
+
+        {/* Search box */}
+        <div className="search-box-message">
+          <input
+            type="text"
+            placeholder="Tìm kiếm tên..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </div>
+
         <div className="chat-list">
-          {conversations.map((conv) => (
+          {filteredConversations.map((conv) => (
             <div
               key={conv.id}
               className={`chat-item ${
@@ -202,6 +231,7 @@ const Chat: React.FC<ChatProps> = ({ id, requestId }) => {
               onClick={() => {
                 setSelectedConversation(conv)
                 fetchMessages(conv.id)
+                markConversationAsRead(conv.id)
               }}
             >
               <div className="items-conversation">
@@ -212,6 +242,11 @@ const Chat: React.FC<ChatProps> = ({ id, requestId }) => {
                 />
                 <div className="conversationName">
                   {conv.conversationName || conv.id}
+
+                  {/* ✅ hiển thị chấm đỏ nếu unread */}
+                  {unreadConversations.has(conv.id) && (
+                    <span className="conversation-unread-badge"></span>
+                  )}
                 </div>
               </div>
             </div>
@@ -246,27 +281,39 @@ const Chat: React.FC<ChatProps> = ({ id, requestId }) => {
                 onKeyDown={(e) => e.key === "Enter" && handleSendMessage()}
                 placeholder="Nhập tin nhắn..."
               />
+
+              {/* nút emoji */}
+              <button
+                type="button"
+                className="emoji-btn"
+                onClick={() => setShowEmojiPicker((prev) => !prev)}
+              >
+                😊
+              </button>
+
+              {/* emoji picker popup */}
+              {showEmojiPicker && (
+                <div className="emoji-picker-container">
+                  <EmojiPicker
+                    onEmojiClick={(emojiData: EmojiClickData) => {
+                      setNewMessage((prev) => prev + emojiData.emoji)
+                      setShowEmojiPicker(false) // đóng sau khi chọn
+                    }}
+                    width={300}
+                    height={400}
+                  />
+                </div>
+              )}
+
               <button className="send-btn" onClick={handleSendMessage}>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="lucide lucide-corner-right-up-icon"
-                >
-                  <path d="m10 9 5-5 5 5" />
-                  <path d="M4 20h7a4 4 0 0 0 4-4V4" />
-                </svg>
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" width={20} height={20}><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
               </button>
             </div>
           </>
         ) : (
-          <h3 className="note">Chọn một cuộc trò chuyện để bắt đầu</h3>
+          <div className="note">
+            <h3 >Chọn một cuộc trò chuyện để bắt đầu</h3>
+          </div>
         )}
       </div>
     </div>

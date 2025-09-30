@@ -1,5 +1,4 @@
 .my-request-container {
-    max-width: 100vw;
     margin: 0;  
     padding: 0;
 }
@@ -28,7 +27,7 @@
     background-color: white;
     border-radius: 12px;
     padding: 24px;
-    margin-bottom: 20px;
+    margin: 50px 0;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     border: 1px solid #f0f0f0;
 }
@@ -47,11 +46,15 @@
 }
 
 .avatar {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    overflow: hidden;
-    background-color: #f0f0f0;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  color: #fff;
+  font-weight: 600;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .avatar img {
@@ -213,12 +216,12 @@
     font-weight: bold;
 }
 
-.action-buttons-request {
+.action-buttons-my-request {
     display: flex;
     gap: 12px;
 }
 
-.action-buttons-request button {
+.action-buttons-my-request button {
     flex: 1;
     padding: 12px 24px;
     border: none;
@@ -229,13 +232,13 @@
     transition: background-color 0.2s;
 }
 
-.btn-message {
-    background-color: #1e3a8a;
+.btn-message-my-request {
+    background-color: #0c326f;
     color: white;
 }
 
-.btn-message:hover {
-    background-color: #1e40af;
+.btn-message-my-request:hover {
+    transform: translateY(-2px);
 }
 
 .success-message {
@@ -254,13 +257,13 @@
 }
 
 .delete-request {
-    background:rgb(198, 109, 109);
+    background:#ff2424;
     color: white;
+    font-weight: bold;
 }
 
 .delete-request:hover {
-    background-color: rgb(255, 152, 152);
-    color: red
+    transform: translateY(-2px);
 }
 
 /* Responsive adjustments */
@@ -281,7 +284,7 @@
         transform: rotate(90deg);
     }
 
-    .action-buttons-request {
+    .action-buttons-my-request {
         flex-direction: column;
     }
 }

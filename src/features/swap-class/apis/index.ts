@@ -15,6 +15,14 @@ export const deleteSwapRequestAPI = async (id: number) => {
   return response.data
 }
 
+
+// Khai báo enum ở FE
+export enum SwapStatus {
+  PENDING = "PENDING",
+  APPROVE = "APPROVE",
+  REJECT = "REJECT"
+}
+
 export const getSwapMatchingAPI = async (params: {
   page?: number;
   size?: number;

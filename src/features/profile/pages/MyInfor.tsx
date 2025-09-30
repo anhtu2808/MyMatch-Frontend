@@ -2,8 +2,9 @@ import React, { useState, useRef, useEffect } from 'react'
 import "./MyInfor.css"
 import Header from '../../../components/header/Header'
 import Sidebar from '../../../components/sidebar/Sidebar'
-import { createImageAPI, getProfileAPI, updateUserAPI } from '../apis'
+import { createImageAPI, getProfileAPI, getStudentIdAPI, updateStudentAPI, updateUserAPI } from '../apis'
 import { useAppSelector } from '../../../store/hooks'
+import Notification from '../../../components/notification/Notification'
 
 interface UserInfo {
   id: number
@@ -43,6 +44,11 @@ interface Image {
   file: string
 }
 
+interface StudentInfo {
+  id: number
+  major: string
+}
+
 const MyInfor: React.FC = () => {
   const user = useAppSelector((state) => state.user)
   const fileInputRef = useRef<HTMLInputElement>(null)
@@ -50,11 +56,33 @@ const MyInfor: React.FC = () => {
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
   const [userUpdate, setUserUpdate] = useState<UserUpdate | null>(null)
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [studentInfo, setStudentInfo] = useState<StudentInfo | null>(null)
+  const [noti, setNoti] = useState<{ message: string; type: any } | null>(null);
+
+  useEffect(() => {
+  const handleFetchStudentId = async () => {
+    try {
+      const response = await getStudentIdAPI(Number(user?.studentId));
+      setStudentInfo(response.result);
+    } catch (error) {
+      console.error("Lỗi khi fetch student info:", error);
+    }
+  };
+
+  if (user?.studentId) {
+    handleFetchStudentId();
+  }
+}, [user?.studentId]);
+
 
   useEffect(() => {
     const handleFetchProfile = async () => {  
-      const response = await getProfileAPI()
-      setUserInfo(response?.result)
+      try {
+        const response = await getProfileAPI()
+        setUserInfo(response?.result)
+      } catch (error) {
+        console.error("Lỗi khi fetch profile", error)
+      }
     }
     handleFetchProfile()
   }, [])
@@ -70,14 +98,21 @@ const MyInfor: React.FC = () => {
       username: userUpdate.username,
       phone: userUpdate.phone,
       campusId: userUpdate.campusId,
-      major: userUpdate.major,
     };
+    const payloadStudent = {
+      major: userUpdate.major
+    }
     await updateUserAPI(Number(user.id), payload);
+    await updateStudentAPI(Number(user.studentId), payloadStudent)
     const response = await getProfileAPI();
     setUserInfo(response?.result);
+    const response1 = await getStudentIdAPI(Number(user.studentId))
+    setStudentInfo(response1?.result);
     setIsEditing(false);
-  } catch (err) {
-    console.error("Update user failed:", err);
+    showNotification("Cập nhật thành công", "success")
+  } catch (err: any) {
+
+    showNotification(err?.response?.data?.message || "Thất bại", "error")
   }
 };
 
@@ -114,7 +149,12 @@ const handleInputChange = (field: string, value: any) => {
   });
 }; 
 
+const showNotification = (msg: string, type: any) => {
+    setNoti({ message: msg, type });
+  };
+
   return (
+    <>
     <div className="my-infor-page">
         <Header title='Thông tin cá nhân' script='Quản lý thông tin cá nhân của bạn' />
         <Sidebar />
@@ -215,7 +255,6 @@ const handleInputChange = (field: string, value: any) => {
                         <label className="info-label">Trường</label>                 
                           <span className="info-value">FPT University</span>
                       </div>
-
                       <div className="info-item">
                         <label className="info-label">Cơ sở</label>
                         {isEditing ? (
@@ -233,6 +272,21 @@ const handleInputChange = (field: string, value: any) => {
                         ) : (
                           <span className="info-value">{userInfo?.student?.campus?.name}</span>
                         )}
+                      </div>
+                      <div className="info-item">
+                        <label className="info-label">Ngành</label>                 
+                          <span className="info-value">
+                            {isEditing ? (
+                          <input
+                            type="text"
+                            value={userUpdate?.major}
+                            onChange={(e) => handleInputChange('major', e.target.value)}
+                            className="info-input"
+                          />
+                        ) : (
+                          <span className="info-value">{studentInfo?.major}</span>
+                        )}
+                          </span>
                       </div>
                     </div>
                   </div>
@@ -295,6 +349,14 @@ const handleInputChange = (field: string, value: any) => {
           </div>
         </div>
     </div>
+    {noti && (
+        <Notification
+          message={noti.message}
+          type={noti.type}
+          onClose={() => setNoti(null)}
+        />
+      )}
+      </>
   )
 }
 

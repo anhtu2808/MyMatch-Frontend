@@ -44,6 +44,5 @@
 .nav-btn.active:focus {
   background-color: #0c326f !important; 
   color: #fff !important;
-  font-weight: 600;
   outline: none !important;
 }
