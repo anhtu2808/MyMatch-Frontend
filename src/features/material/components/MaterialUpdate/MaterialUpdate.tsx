@@ -95,6 +95,9 @@ export default function MaterialUpdatePage() {
         // file: file || null,
       });
       setNotification({ message: "Cập nhật tài liệu thành công!", type: "success" });
+      setTimeout(() => {
+      navigate("/material");
+    }, 2000);
     } catch (err) {
       console.error(err);
       setNotification({ message: "Cập nhật thất bại!", type: "error" });
@@ -238,6 +241,14 @@ export default function MaterialUpdatePage() {
           Cập nhật tài liệu
         </button>
       </form>
+      {notification && (
+        <Notification
+          message={notification.message}
+          type={notification.type}
+          onClose={() => setNotification(null)}
+        />
+      )}
+
     </div>
   );
 }
