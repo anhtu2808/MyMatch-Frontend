@@ -32,6 +32,7 @@ export default function MaterialCreatePage() {
   const [lecturerLoading, setLecturerLoading] = useState(false);
   const [notification, setNotification] = useState<{ message: string; type: "success" | "error" | "info" | "warning" } | null>(null);
   const [fileToDeleteIndex, setFileToDeleteIndex] = useState<number | null>(null);
+  
 
   // Load course list
   useEffect(() => {
@@ -132,19 +133,19 @@ export default function MaterialCreatePage() {
 
 
     try {
-      const res = await createMaterialAPI({
-        name,
-        description,
-        courseId: Number(selectedCourseId),
-        lecturerId: Number(selectedLecturerId),
-        materialItemIds: materialItemIds.filter(Boolean),
-      });
-      setNotification({ message: "Tạo tài liệu thành công!", type: "success" });
-      navigate("/material");
-    } catch (err) {
-      console.error("Tạo tài liệu thất bại:", err);
-      setNotification({ message: "Tạo tài liệu thất bại!", type: "error" });
-    }
+  const res = await createMaterialAPI(
+    name,
+    description,
+    Number(selectedCourseId),
+    Number(selectedLecturerId),
+    materialItemIds.filter(Boolean)
+  );
+    setNotification({ message: "Tạo tài liệu thành công!", type: "success" });
+    navigate("/material");
+  } catch (err) {
+    console.error("Tạo tài liệu thất bại:", err);
+    setNotification({ message: "Tạo tài liệu thất bại!", type: "error" });
+  }
   };
 
   const handleDeleteFile = (index: number) => {
@@ -291,17 +292,67 @@ export default function MaterialCreatePage() {
           />
         </div>
 
-        <label className="material-create-label block mb-1 font-medium">File <span className="text-red-500">*</span></label>
-        <div className="material-create-file-container">
-          <input type="file" id="fileInput" onChange={handleFileChange} multiple className="material-create-file-input" />
-          <div className="preview-list flex gap-4 mt-2 flex-wrap">
-            {files.map((f, i) => (
-              <div key={i} className="preview-item border p-2 rounded bg-gray-100 relative">
-                <p className="text-sm">{f.name}</p>
-              </div>
-            ))}
+        <label className="material-create-label block mb-1 font-medium">
+          File <span className="text-red-500">*</span>
+        </label>
+
+        <div className="material-create-file-container border border-dashed p-4 rounded relative cursor-pointer">
+          <div className="upload-icon mb-2 text-center">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="40"
+              height="40"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="lucide lucide-upload mx-auto"
+            >
+              <path d="M12 3v12" />
+              <path d="m17 8-5-5-5 5" />
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+            </svg>
           </div>
-        </div>
+
+          <div className="upload-text text-center mb-2">
+            {files.length > 0 ? (
+              <p>
+                <strong>{files.length} file đã chọn</strong>
+              </p>
+            ) : (
+              <>
+                <p>
+                  <strong>Chọn tệp</strong> hoặc kéo thả vào đây
+                </p>
+                <p className="upload-subtext text-sm text-gray-500">
+                  Hỗ trợ PDF, DOC, DOCX, PPT, PPTX tối đa 5MB
+                </p>
+              </>
+            )}
+          </div>
+           <input
+            type="file"
+            multiple
+            id="fileInput"
+            onChange={handleFileChange}
+            className="material-create-file-input"
+          />
+
+            {files.length > 0 && (
+              <div className="preview-list flex gap-2 mt-2 flex-wrap">
+                {files.map((f, i) => (
+                  <div
+                    key={i}
+                    className="preview-item border p-2 rounded bg-gray-100 relative"
+                  >
+                    <p className="text-sm">{f.name}</p>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
 
 
         <button

@@ -35,6 +35,7 @@ const MaterialDetail: React.FC = () => {
   const [notification, setNotification] = useState<{ message: string; type: "success" | "error" } | null>(null);
   const [showConfirmDelete, setShowConfirmDelete] = useState(false);
   const [showConfirmPurchase, setShowConfirmPurchase] = useState(false);
+  const [showItemList, setShowItemList] = useState(false);
 
   const userId = user?.id;
 
@@ -149,9 +150,10 @@ const MaterialDetail: React.FC = () => {
             />
           </div>
         ) : material.isPurchased ? (
+          <>
           <button
             className="material-detail-btn-download"
-            onClick={() => downloadMaterialAPI(material.id)}
+            onClick={() => setShowItemList(!showItemList)}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -172,6 +174,20 @@ const MaterialDetail: React.FC = () => {
             Tải xuống
             {/* ({material.price} coins) */}
           </button>
+          {showItemList && (
+          <div className="material-item-list">
+            {material.items?.map((item) => (
+              <button
+                key={item.id}
+                className="material-item-btn"
+                onClick={() => downloadMaterialAPI(item.id)}
+              >
+                {item.originalFileName} ({item.size} MB)
+              </button>
+            ))}
+          </div>
+        )}
+          </>
         ) : (
           <>
           <button
@@ -218,7 +234,7 @@ const MaterialDetail: React.FC = () => {
           </>
         )}
 
-        <button className="material-detail-btn-preview">
+        {/* <button className="material-detail-btn-preview">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -235,7 +251,7 @@ const MaterialDetail: React.FC = () => {
             <circle cx="12" cy="12" r="3" />
           </svg>{" "}
           Xem trước miễn phí
-        </button>
+        </button> */}
 
         <div className="material-detail-stats">
           {/* <p>Định dạng: PDF</p> */}

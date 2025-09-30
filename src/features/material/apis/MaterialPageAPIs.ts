@@ -73,6 +73,15 @@ export const deleteMaterialAPI = async (id: number) => {
   return response.data;
 };
 
+export interface MaterialItem {
+  id: number;
+  fileURL: string;
+  size: number;  
+  originalFileName: string;
+  fileType: string;
+  downloadCont: number;
+}
+
 export interface MaterialDetailResponse {
   id: number;
   name: string;
@@ -100,6 +109,7 @@ export interface MaterialDetailResponse {
   updateAt: string;
   isPurchased: boolean;
   fileUrl?: string;
+  items?: MaterialItem[];
 }
 
 export const getMaterialByIdAPI = async (
@@ -111,16 +121,20 @@ export const getMaterialByIdAPI = async (
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024;
 
-export const createMaterialAPI = async (data: {
-  name: string;
-  description: string;
-  courseId: number;
-  lecturerId: number;
-  materialItemIds: number[];
-}) => {
-  const payload = JSON.stringify(data); 
+export const createMaterialAPI = async (
+  name: string,
+  description: string,
+  courseId: number,
+  lecturerId: number,
+  materialItemIds: number[]
+) => {
+  // const payload = JSON.stringify(data); 
+  // console.log(payload);
+  const materialParams = materialItemIds.map(id => `materialItemIds=${id}`).join("&");
 
-  const response = await api.post("/materials", payload, {
+  const url = `/materials?name=${encodeURIComponent(name)}&description=${encodeURIComponent(description)}&courseId=${courseId}&lecturerId=${lecturerId}&${materialParams}`;
+
+  const response = await api.post(url, null, {
     headers: {
       "Content-Type": "application/json",
     },
@@ -141,7 +155,7 @@ export const purchaseMaterialAPI = async (materialId: number) => {
 
 
 export const downloadMaterialAPI = async (materialId: number) => {
-  const response = await api.get(`/materials/${materialId}/download`, {
+  const response = await api.get(`/material-items/${materialId}/download`, {
     responseType: "blob",
   });
 
@@ -160,13 +174,14 @@ export const downloadMaterialAPI = async (materialId: number) => {
     }
   }
 
-  const url = window.URL.createObjectURL(new Blob([response.data]));
+  const url = window.URL.createObjectURL(response.data);
   const link = document.createElement("a");
   link.href = url;
   link.setAttribute("download", filename);
   document.body.appendChild(link);
   link.click();
   link.remove();
+  window.URL.revokeObjectURL(url);
 
   return response.data;
 };
