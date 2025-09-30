@@ -259,6 +259,11 @@ const handleSelectConversation = (conv: Conversation) => {
         {selectedConversation ? (
           <>
             <div className="chat-conversation-header">
+              <img
+                  className="conversationAvatar"
+                  src={selectedConversation.conversationAvatar || "/placeholder.svg"}
+                  alt={selectedConversation.conversationName}
+                />
               <h3>{selectedConversation.conversationName || "Cuộc trò chuyện"}</h3>
             </div>
 
