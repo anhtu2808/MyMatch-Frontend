@@ -5,6 +5,8 @@ import App from './App';
 import { Provider } from 'react-redux';
 import { store, persistor } from './store/Store';
 import { PersistGate } from 'redux-persist/integration/react';
+import ReactGA from 'react-ga4';
+ReactGA.initialize("G-Y6QJ9R0L6P");
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
