@@ -22,13 +22,13 @@ function FindingForum() {
           className={`finding-option ${activeTab === 0 ? 'active' : ''}`}
           onClick={() => setActiveTab(0)}
         >
-          Member
+          Thành viên
         </button>
         <button
           className={`finding-option ${activeTab === 1 ? 'active' : ''}`}
           onClick={() => setActiveTab(1)}
         >
-          Group
+          Nhóm
         </button>
       </div>
 

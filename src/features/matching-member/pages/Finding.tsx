@@ -6,8 +6,8 @@ import MyGroup from '../components/my-group/MyGroup'
 import MyProfile from '../components/my-profile/MyProfile'
 import FindingNavbar from '../components/navbar/FindingNavbar'
 import "./Finding.css"
-import ProfileModal from '../components/modal/ProfileModal'
-import GroupDetailModalChange from '../components/modal/GroupDetailModalChange'
+import ProfileModalForm from '../components/modal/ProfileModalForm'
+import GroupModalForm from '../components/modal/GroupModalForm'
 
 function Finding() {
     const [activeTab, setActiveTab] = useState(0)
@@ -55,8 +55,8 @@ function Finding() {
              </div>
           </div>
             {renderTabContent()}
-            <ProfileModal open={openProfile} onClose={() => setOpenProfile(false)} />
-            <GroupDetailModalChange open={openGroup} onClose={() => setOpenGroup(false)} />
+            <ProfileModalForm open={openProfile} onClose={() => setOpenProfile(false)}/>
+            <GroupModalForm open={openGroup} onClose={() => setOpenGroup(false)} />
         </div>
     </div>
   )

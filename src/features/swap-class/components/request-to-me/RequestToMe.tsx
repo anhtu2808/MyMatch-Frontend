@@ -3,6 +3,8 @@ import './RequestToMe.css'
 import { getSwapMatchingAPI, updateConfirmSwapRequestAPI } from '../../apis'
 import Filter from '../filter/Filter'
 import { useNavigate } from 'react-router-dom'
+import Notification from '../../../../components/notification/Notification'
+import Pagination from '../../../review/components/Pagination/Pagination'
 
 interface User {
   id: number
@@ -71,23 +73,28 @@ export interface RequestToMe {
 function RequestToMe() {
   const [requests, setRequests] = useState<RequestToMe[]>([])
   const [filteredFeeds, setFilteredFeeds] = useState<RequestToMe[]>([])
-  console.log(filteredFeeds);
-  console.log(requests);
   const navigation = useNavigate()
-  useEffect(() => {
-    const fetchRequestsMatching = async () => {
+  const [noti, setNoti] = useState<{ message: string; type: any } | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalElements, setTotalElements] = useState(0);
+  const pageSize = 10;
+
+  const fetchRequestsMatching = async () => {
       try {
         const response = await getSwapMatchingAPI({
-        page: 0,
-        size: 10,
+        page: currentPage,
+        size: pageSize,
         // status: "PENDING",
       })
         setRequests(response?.result?.data || [])
         setFilteredFeeds(response?.result?.data || [])
+        setTotalElements(response.result.totalElements)
       } catch (error) {
         console.error('Error fetching requests:', error)
       }
     }
+
+  useEffect(() => {
     fetchRequestsMatching()
   }, [])
 
@@ -153,14 +160,16 @@ function RequestToMe() {
 
   const handleAcceptSwap = (id: number) => {
     const data = {
-      decision: "ACCEPTED",
-      reason: "accept"
+      decision: "APPROVE",
+      reason: "approve"
     }
     try{
       if(!id){
         console.log("no id to confirm swap request");
       }
       updateConfirmSwapRequestAPI(data, id)
+      fetchRequestsMatching()
+      showNotification("Đã chấp nhận", "success")
     }
     catch(err){
       console.log(err);
@@ -169,7 +178,7 @@ function RequestToMe() {
 
   const handleRejectSwap = (id: number) => {
     const data = {
-      decision: "REJECTED",
+      decision: "REJECT",
       reason: "reject"
     }
     try{
@@ -177,18 +186,25 @@ function RequestToMe() {
         console.log("no id to confirm swap request");
       }
       updateConfirmSwapRequestAPI(data, id)
+      fetchRequestsMatching()
+      showNotification("Đã từ chối", "success")
     }
-    catch(err){
-      console.log(err);
+    catch(err: any){
+      showNotification(err?.response?.data?.message || "Thất bại", "error")
     }
   }
 
+  const showNotification = (msg: string, type: any) => {
+    setNoti({ message: msg, type });
+  };
+
 
   return (
+    <>
     <div className='my-request-container'>
       <Filter onFilter={handleFilter} onReset={handleReset} />
       <div className='section-header'>
-        <h2>Yêu cầu gửi tới tôi</h2>
+        <h3>Yêu cầu gửi tới tôi</h3>
         <span className='view-all'>Hiển thị {filteredFeeds.length} yêu cầu</span>
       </div>
 
@@ -264,6 +280,8 @@ function RequestToMe() {
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-mails-icon lucide-mails"><path d="M17 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 1-1.732"/><path d="m22 5.5-6.419 4.179a2 2 0 0 1-2.162 0L7 5.5"/><rect x="7" y="3" width="15" height="12" rx="2"/></svg>
               Nhắn tin
               </button>
+              {request.status === "PENDING" && (
+                <div className='action-buttons-matching'>
             <button className='btn-message-matching-reject' onClick={() => handleRejectSwap(request.id)}>
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-copy-x-icon lucide-copy-x"><line x1="12" x2="18" y1="12" y2="18"/><line x1="12" x2="18" y1="18" y2="12"/><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
               Từ chối
@@ -271,11 +289,26 @@ function RequestToMe() {
             <button className='btn-message-matching-accept' onClick={() => handleAcceptSwap(request.id)}>
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-copy-check-icon lucide-copy-check"><path d="m12 15 2 2 4-4"/><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
               Chấp nhận
-              </button>
+              </button> 
+               </div>
+                 )}
           </div>
         </div>
       ))}
     </div>
+    <Pagination
+          currentPage={currentPage}
+          totalPages={totalElements}
+          onPageChange={(p) => setCurrentPage(p)}
+        />
+    {noti && (
+        <Notification
+          message={noti.message}
+          type={noti.type}
+          onClose={() => setNoti(null)}
+        />
+      )}
+      </>
   )
 }
 

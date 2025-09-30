@@ -6,6 +6,8 @@ import {
   createLecturerAPI,
 } from "../../apis/TeacherPageApis";
 
+import Notification from "../../../../components/notification/Notification";
+
 // Info Icon
 const InfoIcon = () => (
   <svg
@@ -38,6 +40,10 @@ interface AddTeacherFormProps {
 
 function AddTeacherForm({ onSubmit, onBack }: AddTeacherFormProps) {
   const navigate = useNavigate();
+  const [notification, setNotification] = useState<{
+    message: string;
+    type: "success" | "error" | "info" | "warning";
+  } | null>(null);
 
   const [formData, setFormData] = useState({
     fullName: "",
@@ -60,6 +66,7 @@ function AddTeacherForm({ onSubmit, onBack }: AddTeacherFormProps) {
         setCampuses(data.map((c: any) => ({ id: c.id, name: c.name })));
       } catch (err) {
         console.error("Error fetching campuses:", err);
+        setNotification({ message: "Lỗi khi tải danh sách campus", type: "error" });
       } finally {
         setLoading(false);
       }
@@ -73,7 +80,10 @@ function AddTeacherForm({ onSubmit, onBack }: AddTeacherFormProps) {
 
   const handleSubmit = async () => {
     if (!formData.fullName || !formData.lecturerCode || !formData.campusId) {
-      alert("Vui lòng điền đầy đủ Họ tên, Mã giảng viên và chọn Campus!");
+      setNotification({
+        message: "Vui lòng điền đầy đủ Họ tên, Mã giảng viên và chọn Campus!",
+        type: "warning",
+      });
       return;
     }
 
@@ -86,14 +96,21 @@ function AddTeacherForm({ onSubmit, onBack }: AddTeacherFormProps) {
       };
 
       const res = await createLecturerAPI(payload);
-      alert("Tạo giảng viên thành công!");
       console.log("Created lecturer:", res);
 
+      setNotification({
+        message: "Tạo giảng viên thành công!",
+        type: "success",
+      });
+
       // Sau khi tạo thì điều hướng
-      navigate("/add-review");
+      setTimeout(() => navigate("/add-review"), 1500);
     } catch (error) {
       console.error("Error creating lecturer:", error);
-      alert("Có lỗi xảy ra khi tạo giảng viên!");
+      setNotification({
+        message: "Có lỗi xảy ra khi tạo giảng viên!",
+        type: "error",
+      });
     }
   };
 
@@ -104,6 +121,16 @@ function AddTeacherForm({ onSubmit, onBack }: AddTeacherFormProps) {
 
   return (
     <div className="add-teacher-form">
+      {/* Hiển thị Notification */}
+      {notification && (
+        <Notification
+          message={notification.message}
+          type={notification.type}
+          onClose={() => setNotification(null)}
+          duration={3000}
+        />
+      )}
+
       <div className="form-header">
         <h2>Thông tin giảng viên</h2>
       </div>
@@ -205,9 +232,7 @@ function AddTeacherForm({ onSubmit, onBack }: AddTeacherFormProps) {
           <div className="info-content">
             <h4>Lưu ý:</h4>
             <ul>
-              <li>
-                Tất cả thông tin sẽ được quản trị viên xem xét và xác minh
-              </li>
+              <li>Tất cả thông tin sẽ được quản trị viên xem xét và xác minh</li>
               <li>Vui lòng cung cấp thông tin chính xác và đầy đủ</li>
               <li>Vui lòng kiểm tra lại thông tin trước khi submit</li>
             </ul>
@@ -227,5 +252,6 @@ function AddTeacherForm({ onSubmit, onBack }: AddTeacherFormProps) {
     </div>
   );
 }
+
 
 export default AddTeacherForm;

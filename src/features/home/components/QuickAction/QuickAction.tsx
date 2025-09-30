@@ -32,7 +32,7 @@ const QuickAction = () => {
     {
       title: "Đổi chéo lớp",
       description: "Quản lý đổi chéo lớp",
-      disabled: false,
+      disabled: true,
       path: "/swap_class",
       iconClass: "icon green",
       icon: (
@@ -58,8 +58,8 @@ const QuickAction = () => {
     {
       title: "Tài liệu học tập",
       description: "Chia sẻ và tải tài liệu",
-      disabled: true,
-      path: "",
+      disabled: false,
+      path: "/material",
       iconClass: "icon purple",
       icon: (
         <svg
@@ -82,7 +82,7 @@ const QuickAction = () => {
     {
       title: "Tin nhắn",
       description: "Xem tin nhắn",
-      disabled: false,
+      disabled: true,
       path: "/messages",
       iconClass: "icon red",
       icon: (
@@ -108,8 +108,8 @@ const QuickAction = () => {
     {
       title: "Tìm đội nhóm",
       description: "Kết nối với các bạn học cùng lớp",
-      disabled: true,
-      path: "",
+      disabled: false,
+      path: "/finding",
       iconClass: "icon yellow",
       icon: (
         <svg
@@ -184,8 +184,8 @@ const QuickAction = () => {
     {
       title: "Nâng cao",
       description: "Trải nghiệm tính năng nâng cao hơn với AI",
-      disabled: true,
-      path: "",
+      disabled: false,
+      path: "/product",
       iconClass: "icon king",
       icon: (
         <svg

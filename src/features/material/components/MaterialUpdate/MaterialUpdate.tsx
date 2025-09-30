@@ -8,6 +8,7 @@ import {
   getAllLecturerAPI,
 } from "../../apis/MaterialPageAPIs";
 import "./UpdateMaterial.css";
+import Notification from "../../../../components/notification/Notification";
 
 export default function MaterialUpdatePage() {
   const { id } = useParams<{ id: string }>();
@@ -27,6 +28,10 @@ export default function MaterialUpdatePage() {
     ""
   );
   const [lecturerLoading, setLecturerLoading] = useState(false);
+  const [notification, setNotification] = useState<{
+    message: string;
+    type: "success" | "error" | "info" | "warning";
+  } | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -66,7 +71,7 @@ export default function MaterialUpdatePage() {
         );
       } catch (err) {
         console.error(err);
-        alert("Lấy dữ liệu tài liệu thất bại!");
+        setNotification({ message: "Lấy dữ liệu tài liệu thất bại!", type: "error" });
       } finally {
         setLoading(false);
       }
@@ -77,7 +82,7 @@ export default function MaterialUpdatePage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!name || !selectedCourseId || !selectedLecturerId) {
-      alert("Vui lòng nhập đầy đủ thông tin!");
+      setNotification({ message: "Vui lòng nhập đầy đủ thông tin!", type: "warning" });
       return;
     }
 
@@ -89,11 +94,10 @@ export default function MaterialUpdatePage() {
         lecturerId: Number(selectedLecturerId),
         // file: file || null,
       });
-      alert("Cập nhật tài liệu thành công!");
-      navigate(`/material/${id}`);
+      setNotification({ message: "Cập nhật tài liệu thành công!", type: "success" });
     } catch (err) {
       console.error(err);
-      alert("Cập nhật thất bại!");
+      setNotification({ message: "Cập nhật thất bại!", type: "error" });
     }
   };
 

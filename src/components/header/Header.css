@@ -31,10 +31,3 @@
     color: #666;
     margin: 0;
 }
-
-.coin-container {
-    position: absolute;
-    right: 100px;
-    top: 50%;
-    transform: translateY(-50%);
-}

@@ -45,7 +45,7 @@ const Banking: React.FC = () => {
             <div className="banking-actions">
               {/* Coin Conversion */}
               <div className="banking-fuo">
-                💰 1.000 Coin = 1.000 VND
+                💰 1 Coin = 1.000 VND
                 <div className="banking-btn-subtitle">Tỷ giá quy đổi có định</div>
               </div>
 
@@ -78,7 +78,12 @@ const Banking: React.FC = () => {
                     <div>⚠️ Sau khi chuyển tiền, vui lòng chờ ít nhất 1 phút để hệ</div>
                     <div>thống xử lý</div>
                     <div>
-                      ⚠️ Liên hệ hỗ trợ: <span className="banking-support-contact">https://www.facebook.com/hao.van.1466/</span>
+                      ⚠️ Liên hệ hỗ trợ: 
+                      <a href="https://www.facebook.com/hao.van.1466/" 
+                      className="banking-support-contact"
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      > MyMatch</a>
                     </div>
                   </div>
                 </div>

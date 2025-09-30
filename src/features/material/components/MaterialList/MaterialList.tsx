@@ -3,6 +3,8 @@ import "./MaterialList.css";
 import { useState, useEffect } from "react";
 import { deleteMaterialAPI } from "../../apis/MaterialPageAPIs";
 import { useNavigate } from "react-router-dom";
+import Notification from "../../../../components/notification/Notification";
+import ConfirmDelete from "../../../../components/confirm-delete/ConfirmDelete";
 
 export interface Material {
   id: number;
@@ -38,23 +40,37 @@ interface Props {
 const MaterialList: React.FC<Props> = ({ materials, isMyUploads }) => {
   const [list, setList] = useState<Material[]>(materials);
   const navigate = useNavigate();
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [materialToDelete, setMaterialToDelete] = useState<Material | null>(null);
+  const [notification, setNotification] = useState<{ message: string; type: "success" | "error" } | null>(null);
 
   useEffect(() => {
     setList(materials);
   }, [materials]);
 
-  const handleDelete = async (id: number) => {
-    const confirmDelete = window.confirm(
-      "Bạn có chắc chắn muốn xóa tài liệu này?"
-    );
-    if (!confirmDelete) return;
+  const showDeleteModal = (m: Material) => {
+    setMaterialToDelete(m);
+    setDeleteModalOpen(true);
+  };
+
+  const handleConfirmDelete = async () => {
+    if (!materialToDelete) return;
     try {
-      await deleteMaterialAPI(id);
-      setList(list.filter((m) => m.id !== id));
-    } catch (error) {
-      console.error("Delete failed:", error);
-      alert("Xóa thất bại!");
+      await deleteMaterialAPI(materialToDelete.id);
+      setList(list.filter((m) => m.id !== materialToDelete.id));
+      setNotification({ message: "Xóa tài liệu thành công!", type: "success" });
+    } catch (err) {
+      console.error(err);
+      setNotification({ message: "Xóa thất bại!", type: "error" });
+    } finally {
+      setDeleteModalOpen(false);
+      setMaterialToDelete(null);
     }
+  };
+
+  const handleCancelDelete = () => {
+    setDeleteModalOpen(false);
+    setMaterialToDelete(null);
   };
 
   if (list.length === 0) {
@@ -143,7 +159,7 @@ const MaterialList: React.FC<Props> = ({ materials, isMyUploads }) => {
               className="material-delete"
               onClick={(e) => {
                 e.stopPropagation();
-                handleDelete(m.id);
+                showDeleteModal(m);
               }}
             >
               <svg
@@ -165,6 +181,21 @@ const MaterialList: React.FC<Props> = ({ materials, isMyUploads }) => {
           )}
         </div>
       ))}
+      {deleteModalOpen && (
+        <ConfirmDelete
+          open={deleteModalOpen}
+          onConfirm={handleConfirmDelete}
+          onCancel={handleCancelDelete}
+        />
+      )}
+
+      {notification && (
+        <Notification
+          message={notification.message}
+          type={notification.type}
+          onClose={() => setNotification(null)}
+        />
+      )}
     </div>
   );
 };

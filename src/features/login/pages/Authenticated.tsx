@@ -11,7 +11,6 @@ export default function Authenticate() {
   const [isLoggedin, setIsLoggedin] = useState(false);
 
   useEffect(() => {
-    console.log(window.location.href);
 
     const authCodeRegex = /code=([^&]+)/;
     const isMatch = window.location.href.match(authCodeRegex);
@@ -24,7 +23,6 @@ export default function Authenticate() {
 
         LoginGoogleAPI(authCode, redirectUri)
           .then((data) => {
-          console.log("Auth response:", data);
           if (data.result?.token) {
             setToken(data.result.token);
             setIsLoggedin(true);
