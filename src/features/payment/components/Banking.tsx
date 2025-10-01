@@ -41,7 +41,7 @@ const Banking: React.FC = () => {
             <div className="banking-actions">
               {/* Coin Conversion */}
               <div className="banking-fuo">
-                💰 1 Coin = 1.000 VND
+                💰 1.000 Coin = 1.000 VND
                 <div className="banking-btn-subtitle">Tỷ giá quy đổi có định</div>
               </div>
 
