@@ -79,7 +79,7 @@ const Banking: React.FC = () => {
                     <div>thống xử lý</div>
                     <div>
                       ⚠️ Liên hệ hỗ trợ: 
-                      <a href="https://www.facebook.com/hao.van.1466/" 
+                      <a href="https://www.facebook.com/mymatchh/" 
                       className="banking-support-contact"
                       target="_blank" 
                       rel="noopener noreferrer"
