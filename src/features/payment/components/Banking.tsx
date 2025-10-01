@@ -12,10 +12,6 @@ export interface Payment {
 }
 
 const Banking: React.FC = () => {
-  const [accountHolder, setAccountHolder] = useState("NGUYEN THI KIM CHI")
-  const [accountNumber, setAccountNumber] = useState("fuoverflowbank")
-  const [bank, setBank] = useState("MB BANK")
-  const [transferContent, setTransferContent] = useState("NAP5536FUO")
   const [qrCode, setQrCode] = useState<Payment | null>(null)
   const navigation = useNavigate();
 
