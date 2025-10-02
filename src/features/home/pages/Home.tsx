@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Sidebar from "../../../components/sidebar/Sidebar";
 import Header from "../../../components/header/Header";
 import QuickAction from "../components/QuickAction/QuickAction";
@@ -7,10 +7,13 @@ import "./Home.css";
 import { useAppDispatch } from "../../../store/hooks";
 import { getProfileAPI } from "../../profile/apis";
 import { setUser, setLoaded } from "../../../store/Slice";
+import { useResponsive } from "../../../useResponsive";
 
 function Home() {
   const dispatch = useAppDispatch();
-  
+  const isMobile = useResponsive(1024);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
     if (!token) {
@@ -42,8 +45,19 @@ function Home() {
 
   return (
     <div className="home-page">
-      <Sidebar />
-      <Header title="Bảng điều khiển" script="Quản lý hoạt động của bạn" />
+      {!isMobile && <Sidebar />} 
+      <Header title="Bảng điều khiển" script="Quản lý hoạt động của bạn" onToggleSidebar={() => setSidebarOpen(!sidebarOpen)} isMobile={isMobile}/>
+      {/* Sidebar dạng overlay khi mobile */}
+      {isMobile && (
+        <>
+          <div className={`sidebar-drawer ${sidebarOpen ? "open" : ""}`}>
+            <Sidebar isMobile={true} />
+          </div>
+          {sidebarOpen && (
+            <div className="overlay" onClick={() => setSidebarOpen(false)} />
+          )}
+        </>
+      )}
       <div className="home-main-content">
         <div className="home-container">
           <div className="welcome-section">

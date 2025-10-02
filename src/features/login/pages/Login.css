@@ -179,6 +179,42 @@
 }
 
 /* Responsive design */
+@media (max-width: 480px) {
+  .login-container .login-card {
+    margin: 16px;
+    padding: 24px 16px;
+  }
+
+  .login-container .login-title {
+    font-size: 1.8rem;
+  }
+
+  .login-container .google-login-btn {
+    font-size: 14px;
+    padding: 12px 20px;
+  }
+
+  .login-container .script {
+    font-size: 1rem;
+  }
+}
+
+@media (min-width: 481px) and (max-width: 1024px) {
+  .login-container .login-card {
+    margin: 20px;
+    padding: 28px;
+    max-width: 400px;
+  }
+
+  .login-container .login-title {
+    font-size: 2rem;
+  }
+
+  .login-container .script {
+    font-size: 1rem;
+  }
+}
+
 @media (max-width: 768px) {
   .login-container .login-card {
     margin: 20px;
@@ -195,18 +231,34 @@
   }
 }
 
-@media (max-width: 480px) {
+@media (min-width: 1025px) and (max-width: 1439px) {
   .login-container .login-card {
-    margin: 16px;
-    padding: 24px 16px;
+    max-width: 500px;
+    padding: 40px;
   }
 
   .login-container .login-title {
-    font-size: 1.8rem;
+    font-size: 2.2rem;
+  }
+}
+
+@media (min-width: 1920px) {
+  .login-container .login-card {
+    max-width: 700px;
+    padding: 60px;
+  }
+
+  .login-container .login-title {
+    font-size: 3rem;
+  }
+
+  .login-container .script {
+    font-size: 1.2rem;
   }
 
   .login-container .google-login-btn {
-    font-size: 14px;
-    padding: 12px 20px;
+    font-size: 18px;
+    padding: 18px 32px;
   }
 }
+
