@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import Home from "./features/home/pages/Home";
 import SwapClass from "./features/swap-class/pages/SwapClass";
 import CreateSwapRequest from "./features/swap-class/pages/CreateSwapRequest";
@@ -26,11 +26,12 @@ import FindingForum from "./features/matching-member/pages/FindingForum";
 import { UnreadMessagesProvider } from "./features/message/components/UnreadMessagesContext";
 import Coin from "./features/coin/pages/Coin";
 
-function App() {
+function AppRoutes() {
   const token = localStorage.getItem("accessToken");
-
+  const location = useLocation()
+  const hiddenCoinRoutes = ["/login", "/authenticate"]
+  const showCoin = token && !hiddenCoinRoutes.includes(location.pathname)
   return (
-    <Router>
       <UnreadMessagesProvider>
       <Routes>
         <Route path="/" element={<Home />} />
@@ -52,15 +53,21 @@ function App() {
         <Route path="/product" element={<PrivateRoute><Product /></PrivateRoute>} />
         <Route path="/finding" element={<PrivateRoute><Finding /></PrivateRoute>} />
         <Route path="/finding_forum" element={<PrivateRoute><FindingForum /></PrivateRoute>} />
-         <Route path="/material" element={<PrivateRoute><MaterialPage /></PrivateRoute>} />
+        <Route path="/material" element={<PrivateRoute><MaterialPage /></PrivateRoute>} />
         <Route path="/material/:id" element={<PrivateRoute><MaterialDetailPage /></PrivateRoute>} />
         <Route path="/material/create" element={<PrivateRoute><CreateMaterial /></PrivateRoute>} />
         <Route path="/material/update/:id" element={<PrivateRoute><UpdateMaterial /></PrivateRoute>} />
       </Routes>
-      {token &&  <Coin /> }
+      {showCoin &&  <Coin /> }
       </UnreadMessagesProvider>
-    </Router>
   );
 }
 
+function App() {
+  return (
+  <Router>
+    <AppRoutes />
+  </Router>
+  )
+}
 export default App;
