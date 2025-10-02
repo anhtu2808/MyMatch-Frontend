@@ -33,7 +33,7 @@ interface UserInfo {
   };
 }
 
-const Sidebar = () => {
+const Sidebar = ({ isMobile = false }) => {
   //   const coinsBalance = useSelector(selectCoinsBalance);
   //   const currentUser = useSelector(selectCurrentUser);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -263,69 +263,6 @@ const Sidebar = () => {
         </svg>
       ),
     },
-    // {
-    //   id: "swap",
-    //   name: "Trao đổi lớp",
-    //   path: "/swap_class",
-    //   icon: (
-    //     <svg
-    //       className="w-6 h-6"
-    //       fill="none"
-    //       stroke="currentColor"
-    //       viewBox="0 0 24 24"
-    //     >
-    //       <path
-    //         strokeLinecap="round"
-    //         strokeLinejoin="round"
-    //         strokeWidth={1.5}
-    //         d="M7.5 21 3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5"
-    //       />
-    //     </svg>
-    //   ),
-    // },
-    // {
-    //   id: "messages",
-    //   name: "Tin nhắn",
-    //   path: "/messages",
-    //   icon: (
-    //     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-message-circle-more-icon lucide-message-circle-more">
-    //       <path d="M2.992 16.342a2 2 0 0 1 .094 1.167l-1.065 3.29a1 1 0 0 0 1.236 1.168l3.413-.998a2 2 0 0 1 1.099.092 10 10 0 1 0-4.777-4.719"/><path d="M8 12h.01"/><path d="M12 12h.01"/><path d="M16 12h.01"/>
-    //     </svg>
-    //   ),
-    // },
-    // {
-    //   id: "payment",
-    //   name: "Thanh toán",
-    //   path: "/payment",
-    //   icon: (
-    //     <svg
-    //       xmlns="http://www.w3.org/2000/svg"
-    //       width="32"
-    //       height="32"
-    //       viewBox="0 0 24 24"
-    //       fill="none"
-    //       stroke="currentColor"
-    //       strokeWidth="2"
-    //       strokeLinecap="round"
-    //       strokeLinejoin="round"
-    //       className="lucide lucide-circle-dollar-sign-icon lucide-circle-dollar-sign"
-    //     >
-    //       <circle cx="12" cy="12" r="10" />
-    //       <path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8" />
-    //       <path d="M12 18V6" />
-    //     </svg>
-    //   )
-    // },
-    // {
-    //   id: 'product',
-    //   name: 'Sản phẩm',
-    //   path: '/product',
-    //   icon: (
-    //     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-shopping-cart-icon lucide-shopping-cart"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/>
-    //     <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>
-    //     </svg>
-    //   )
-    // }
     // others ...
   ];
 
@@ -362,7 +299,7 @@ const Sidebar = () => {
   const token = getToken();
   return (
     <>
-      <div className="sidebar">
+      <div className={`sidebar ${isMobile ? "sidebar-mobile" : ""}`}>
         <div className="logoSection" onClick={() => navigation("/")}>
           <img src="/mymatch_logo.jpg" alt="MyMatch Logo" className="logoImg" />
         </div>
@@ -387,6 +324,13 @@ const Sidebar = () => {
                       <span className="notification-badge"></span>
                     )}
                   </div>
+                  { isMobile && 
+                  <div className="navIcon-mobile">
+                    <span>{item.name}</span> 
+                    {item.hasNotification && (
+                      <span className="notification-badge"></span>
+                    )}
+                  </div>}
                   <div className="tooltip">
                     {item.name}
                     <div className="tooltipArrow"></div>
@@ -399,9 +343,7 @@ const Sidebar = () => {
 
         <div className="userProfileSection" ref={dropdownRef}>
           <div className="userProfile" onClick={() => handleDropdownToggle()}>
-            <div>
               <img className="userAvatar" src={info?.avatarUrl} />
-            </div>
             <div className="tooltip">
               {/* <div className="font-medium">{currentUser?.name || 'Alex Johnson'}</div>
               <div className="balanceText">¥{(typeof coinsBalance === 'number' ? coinsBalance : 0).toLocaleString()}</div> */}
