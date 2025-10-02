@@ -12,10 +12,6 @@ export interface Payment {
 }
 
 const Banking: React.FC = () => {
-  const [accountHolder, setAccountHolder] = useState("NGUYEN THI KIM CHI")
-  const [accountNumber, setAccountNumber] = useState("fuoverflowbank")
-  const [bank, setBank] = useState("MB BANK")
-  const [transferContent, setTransferContent] = useState("NAP5536FUO")
   const [qrCode, setQrCode] = useState<Payment | null>(null)
   const navigation = useNavigate();
 
@@ -45,7 +41,7 @@ const Banking: React.FC = () => {
             <div className="banking-actions">
               {/* Coin Conversion */}
               <div className="banking-fuo">
-                💰 1 Coin = 1.000 VND
+                💰 1.000 Coin = 1.000 VND
                 <div className="banking-btn-subtitle">Tỷ giá quy đổi có định</div>
               </div>
 
@@ -79,7 +75,7 @@ const Banking: React.FC = () => {
                     <div>thống xử lý</div>
                     <div>
                       ⚠️ Liên hệ hỗ trợ: 
-                      <a href="https://www.facebook.com/hao.van.1466/" 
+                      <a href="https://www.facebook.com/mymatchh/" 
                       className="banking-support-contact"
                       target="_blank" 
                       rel="noopener noreferrer"

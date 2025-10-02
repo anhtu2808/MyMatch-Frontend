@@ -114,3 +114,74 @@
   color: #111827;
   margin-left: 6px;
 }
+
+/* Mobile nhỏ (≤480px) */
+@media (max-width: 480px) {
+  .home-recent-activity {
+    padding: 12px;
+  }
+
+  .home-activity-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  .home-activity-icon {
+    width: 32px;
+    height: 32px;
+  }
+
+  .home-activity-title {
+    font-size: 14px;
+  }
+
+  .home-activity-time {
+    font-size: 11px;
+  }
+
+  .homestatus {
+    font-size: 12px;
+  }
+}
+
+/* Tablet (≤768px) */
+@media (max-width: 768px) {
+  .home-activity-item {
+    padding: 10px;
+  }
+
+  .home-activity-title {
+    font-size: 15px;
+  }
+
+  .home-activity-time {
+    font-size: 12px;
+  }
+}
+
+/* Desktop lớn (≥1440px) */
+@media (min-width: 1440px) {
+  .home-recent-activity {
+    padding: 20px;
+  }
+  .home-activity-title {
+    font-size: 18px;
+  }
+  .home-activity-time {
+    font-size: 14px;
+  }
+}
+
+/* 2K/4K (≥1920px) */
+@media (min-width: 1920px) {
+  .home-recent-activity {
+    padding: 24px;
+  }
+  .home-activity-title {
+    font-size: 20px;
+  }
+  .home-activity-time {
+    font-size: 15px;
+  }
+}

@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import Home from "./features/home/pages/Home";
 import SwapClass from "./features/swap-class/pages/SwapClass";
 import CreateSwapRequest from "./features/swap-class/pages/CreateSwapRequest";
@@ -23,13 +23,15 @@ import CreateMaterial from "./features/material/pages/CreateMaterial";
 import UpdateMaterial from "./features/material/pages/UpdateMaterial";
 import Finding from "./features/matching-member/pages/Finding";
 import FindingForum from "./features/matching-member/pages/FindingForum";
-import { LayoutWithCoin } from "./LayoutWithCoin";
 import { UnreadMessagesProvider } from "./features/message/components/UnreadMessagesContext";
+import Coin from "./features/coin/pages/Coin";
 
-function App() {
-  // getToken();
+function AppRoutes() {
+  const token = localStorage.getItem("accessToken");
+  const location = useLocation()
+  const hiddenCoinRoutes = ["/login", "/authenticate"]
+  const showCoin = token && !hiddenCoinRoutes.includes(location.pathname)
   return (
-    <Router>
       <UnreadMessagesProvider>
       <Routes>
         <Route path="/" element={<Home />} />
@@ -46,19 +48,26 @@ function App() {
         <Route path="/add-teacher" element={<PrivateRoute><AddTeacherPage /></PrivateRoute>} />
         <Route path="/profile" element={<PrivateRoute><MyInfor /></PrivateRoute>} />
         <Route path="/message/:studentId" element={<PrivateRoute><Message /></PrivateRoute>} />
-        <Route path="/payment" element={<PrivateRoute><LayoutWithCoin><Payment/></LayoutWithCoin></PrivateRoute>}/>
+        <Route path="/payment" element={<PrivateRoute><Payment/></PrivateRoute>}/>
         <Route path="/review/:id" element={<PrivateRoute><ReviewDetail /></PrivateRoute>} />
-        <Route path="/product" element={<PrivateRoute><LayoutWithCoin><Product /></LayoutWithCoin></PrivateRoute>} />
+        <Route path="/product" element={<PrivateRoute><Product /></PrivateRoute>} />
         <Route path="/finding" element={<PrivateRoute><Finding /></PrivateRoute>} />
         <Route path="/finding_forum" element={<PrivateRoute><FindingForum /></PrivateRoute>} />
-         <Route path="/material" element={<PrivateRoute><MaterialPage /></PrivateRoute>} />
+        <Route path="/material" element={<PrivateRoute><MaterialPage /></PrivateRoute>} />
         <Route path="/material/:id" element={<PrivateRoute><MaterialDetailPage /></PrivateRoute>} />
         <Route path="/material/create" element={<PrivateRoute><CreateMaterial /></PrivateRoute>} />
         <Route path="/material/update/:id" element={<PrivateRoute><UpdateMaterial /></PrivateRoute>} />
       </Routes>
+      {showCoin &&  <Coin /> }
       </UnreadMessagesProvider>
-    </Router>
   );
 }
 
+function App() {
+  return (
+  <Router>
+    <AppRoutes />
+  </Router>
+  )
+}
 export default App;
