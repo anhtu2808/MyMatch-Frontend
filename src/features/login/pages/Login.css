@@ -179,34 +179,26 @@
 }
 
 /* Responsive design */
-/* ========================
-   Mobile nhỏ (≤480px)
-   ======================== */
 @media (max-width: 480px) {
   .login-container .login-card {
-    margin: 12px;
-    padding: 20px 16px;
-    max-width: 90%;
+    margin: 16px;
+    padding: 24px 16px;
   }
 
   .login-container .login-title {
-    font-size: 1.6rem;
-  }
-
-  .login-container .script {
-    font-size: 0.85rem;
-    margin-bottom: 20px;
+    font-size: 1.8rem;
   }
 
   .login-container .google-login-btn {
     font-size: 14px;
-    padding: 12px;
+    padding: 12px 20px;
+  }
+
+  .login-container .script {
+    font-size: 1rem;
   }
 }
 
-/* ========================
-   Tablet (481px – 1024px)
-   ======================== */
 @media (min-width: 481px) and (max-width: 1024px) {
   .login-container .login-card {
     margin: 20px;
@@ -223,9 +215,22 @@
   }
 }
 
-/* ========================
-   Laptop/Desktop nhỏ (1025px – 1439px)
-   ======================== */
+@media (max-width: 768px) {
+  .login-container .login-card {
+    margin: 20px;
+    padding: 30px 20px;
+    max-width: 350px;
+  }
+
+  .login-container .login-title {
+    font-size: 2rem;
+  }
+
+  .login-container .script {
+    font-size: 0.9rem;
+  }
+}
+
 @media (min-width: 1025px) and (max-width: 1439px) {
   .login-container .login-card {
     max-width: 500px;
@@ -237,32 +242,6 @@
   }
 }
 
-/* ========================
-   Desktop lớn (≥1440px)
-   ======================== */
-@media (min-width: 1440px) {
-  .login-container .login-card {
-    max-width: 600px;
-    padding: 48px;
-  }
-
-  .login-container .login-title {
-    font-size: 2.6rem;
-  }
-
-  .login-container .script {
-    font-size: 1.1rem;
-  }
-
-  .login-container .google-login-btn {
-    font-size: 17px;
-    padding: 16px 28px;
-  }
-}
-
-/* ========================
-   2K/4K (≥1920px)
-   ======================== */
 @media (min-width: 1920px) {
   .login-container .login-card {
     max-width: 700px;
@@ -282,3 +261,4 @@
     padding: 18px 32px;
   }
 }
+
