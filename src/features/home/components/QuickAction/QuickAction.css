@@ -129,6 +129,10 @@
 
 /* Desktop lớn (≥1440px) */
 @media (min-width: 1440px) {
+  .quick-actions-grid {
+    gap: 32px;
+    grid-template-columns: repeat(4, 1fr);
+  }
   .quick-card {
     padding: 24px;
   }
@@ -144,6 +148,7 @@
 @media (min-width: 1920px) {
   .quick-actions-grid {
     gap: 32px;
+    grid-template-columns: repeat(4, 1fr);
   }
   .quick-card {
     padding: 28px;
