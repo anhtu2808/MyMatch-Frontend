@@ -4,10 +4,9 @@ import Sidebar from '../../../components/sidebar/Sidebar'
 import Header from '../../../components/header/Header'
 import './CreateSwapRequest.css'
 import Select from "react-select";
-import { createSwapRequestAPI, getSwapRequestAPI, getSwapRequestByIdAPI, updateSwapRequestAPI } from '../apis'
-import { useAppSelector } from '../../../store/hooks'
-import { useLocation } from 'react-router-dom';
+import { createSwapRequestAPI, getSwapRequestByIdAPI, updateSwapRequestAPI } from '../apis'
 import Notification from '../../../components/notification/Notification'
+import { useResponsive } from '../../../useResponsive'
 
 interface SwapRequestData {
   codeCourse: string
@@ -33,6 +32,8 @@ const CreateSwapRequest: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const mapDay = (day: string) => day.toUpperCase()
   const [noti, setNoti] = useState<{ message: string; type: any } | null>(null);
+  const isMobile = useResponsive(1024);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   
   useEffect(() => {
   if (isEdit) {
@@ -177,13 +178,23 @@ const mapSlotToApi = (slot: string) => {
   return (
     <>
     <div className="create-swap-page">
-      <Sidebar />
-      <Header title="Tạo yêu cầu đổi lớp" script="Nhập thông tin lớp học bạn muốn trao đổi" />
+      {!isMobile && <Sidebar />}
+      <Header title="Tạo yêu cầu đổi lớp" script="Nhập thông tin lớp học bạn muốn trao đổi" onToggleSidebar={() => setSidebarOpen(!sidebarOpen)} isMobile={isMobile}/>
+        {isMobile && (
+        <>
+          <div className={`sidebar-drawer ${sidebarOpen ? "open" : ""}`}>
+            <Sidebar isMobile={true} />
+          </div>
+          {sidebarOpen && (
+            <div className="overlay" onClick={() => setSidebarOpen(false)} />
+          )}
+        </>
+      )}
       <div className="create-swap-main-content">
         <form className="swap-form" onSubmit={handleSubmit}>
           {/* Subject Section */}
           <div className="form-section subject-section">
-            <div className="section-header">
+            <div className="section-header-create">
               <div className="section-icon-wrapper blue"><span className="section-icon">📚</span></div>
               <h3 className="section-title">Môn học</h3>
             </div>
@@ -204,7 +215,7 @@ const mapSlotToApi = (slot: string) => {
           <div className="two-column-layout">
             {/* Current Class */}
             <div className="form-section current-class-section">
-              <div className="section-header">
+              <div className="section-header-create">
                 <div className="section-icon-wrapper blue"><span className="section-icon">📋</span></div>
                 <h3 className="section-title">Lớp hiện tại của bạn</h3>
               </div>
@@ -244,7 +255,7 @@ const mapSlotToApi = (slot: string) => {
 
             {/* Desired Class */}
             <div className="form-section desired-class-section">
-              <div className="section-header">
+              <div className="section-header-create">
                 <div className="section-icon-wrapper green"><span className="section-icon">✅</span></div>
                 <h3 className="section-title">Lớp muốn đổi</h3>
               </div>

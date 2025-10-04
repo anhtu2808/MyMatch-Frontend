@@ -2,8 +2,9 @@
   display: flex;
   justify-content: flex-start;
   margin: 30px 0;
-  width: 1240px;
-  height: 50px;
+  width: 100%; /* Đổi từ 1240px thành 100% */
+  max-width: 1240px; /* Thêm max-width */
+  height: auto; /* Để chiều cao tự động co dãn */
 }
 
 .nav-links {
@@ -13,6 +14,7 @@
   border-radius: 8px;
   width: 100%;
   overflow: hidden; /* giữ border-radius gọn */
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
 }
 
 .nav-btn {
@@ -20,8 +22,8 @@
   background-color: #fff;
   color: #000;
   border: none;
-  padding: 15px 30px;
-  font-size: 16px;
+  padding: 15px 20px; /* Giảm padding ngang một chút */
+  font-size: 15px; /* Giảm font-size một chút */
   cursor: pointer;
   transition: background-color 0.2s, color 0.2s;
   display: flex;
@@ -29,7 +31,13 @@
   justify-content: center;
   gap: 8px;
   font-weight: 500;
+  white-space: nowrap; /* Ngăn text xuống dòng */
 }
+
+.nav-btn .nav-btn-text {
+  display: inline; /* Mặc định hiển thị text */
+}
+
 
 /* Hover chỉ áp dụng khi KHÔNG active */
 .nav-btn:not(.active):hover,
@@ -45,4 +53,58 @@
   background-color: #0c326f !important; 
   color: #fff !important;
   outline: none !important;
+}
+
+
+/* --- RESPONSIVE --- */
+
+/* Tablet (<= 768px) */
+@media (max-width: 768px) {
+  .navbar {
+    margin: 20px 0;
+  }
+  .nav-btn {
+    font-size: 14px;
+    padding: 12px 10px;
+    gap: 6px;
+  }
+}
+
+/* Mobile (<= 600px) */
+@media (max-width: 600px) {
+  .nav-btn .nav-btn-text {
+    display: none; /* Ẩn chữ trên màn hình nhỏ */
+  }
+  .nav-btn {
+    padding: 12px;
+  }
+}
+
+/* Khi màn hình quá hẹp, chuyển sang layout dọc */
+@media (max-width: 400px) {
+  .nav-btn {
+    justify-content: flex-start; /* Căn icon và text về bên trái */
+  }
+  .nav-btn .nav-btn-text {
+    display: none; /* Ẩn chữ trên màn hình nhỏ */
+  }
+}
+
+/* Màn hình Desktop lớn (>= 1440px) */
+@media (min-width: 1440px) {
+  .nav-btn {
+    padding: 18px 24px;
+    font-size: 16px;
+  }
+}
+
+/* Màn hình 2K/4K (>= 1920px) */
+@media (min-width: 1920px) {
+  .navbar {
+    max-width: 1600px; /* Tăng chiều rộng tối đa */
+  }
+  .nav-btn {
+    padding: 20px 30px;
+    font-size: 17px;
+  }
 }
