@@ -132,22 +132,18 @@ const Banking: React.FC = () => {
                   </h3>
                   <div className="banking-account-info-list">
                     <div className="banking-account-info-item">
-                      <div className="banking-account-info-item-icon" />
                       <span className="banking-account-info-label">Chủ tài khoản:</span>
                       <span className="banking-account-info-value">{qrCode?.accountName}</span>
                     </div>
                     <div className="banking-account-info-item">
-                      <div className="banking-account-info-item-icon" />
                       <span className="banking-account-info-label">Số tài khoản:</span>
                       <span className="banking-account-info-value">{qrCode?.accountNumber}</span>
                     </div>
                     <div className="banking-account-info-item">
-                      <div className="banking-account-info-item-icon" />
                       <span className="banking-account-info-label">Ngân hàng:</span>
                       <span className="banking-account-info-value">{qrCode?.bankCode}</span>
                     </div>
                     <div className="banking-account-info-item">
-                      <div className="banking-account-info-item-icon" />
                       <span className="banking-account-info-label">Nội dung:</span>
                       <span className="banking-account-info-value">{qrCode?.content}</span>
                     </div>
