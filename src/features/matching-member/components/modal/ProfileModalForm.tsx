@@ -242,6 +242,12 @@ const showNotification = (msg: string, type: any) => {
           </div>
         </div>
 
+             {!isEdit && (
+              <p className="profile-form-fee-warning">
+                Mỗi lượt tạo sẽ mất phí <strong>3.000 Coin</strong>
+              </p>
+            )}
+            
         {/* Footer */}
         <div className="profile-form-modal-footer">
           <button className="profile-form-button-cancel" onClick={onClose}>Hủy</button>
