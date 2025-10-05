@@ -5,6 +5,7 @@ import Sidebar from '../../../components/sidebar/Sidebar'
 import { createImageAPI, getProfileAPI, getStudentIdAPI, updateStudentAPI, updateUserAPI } from '../apis'
 import { useAppSelector } from '../../../store/hooks'
 import Notification from '../../../components/notification/Notification'
+import { useResponsive } from '../../../useResponsive'
 
 interface UserInfo {
   id: number
@@ -58,6 +59,8 @@ const MyInfor: React.FC = () => {
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [studentInfo, setStudentInfo] = useState<StudentInfo | null>(null)
   const [noti, setNoti] = useState<{ message: string; type: any } | null>(null);
+  const isMobile = useResponsive(1024);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
   const handleFetchStudentId = async () => {
@@ -153,8 +156,18 @@ const showNotification = (msg: string, type: any) => {
   return (
     <>
     <div className="my-infor-page">
-        <Header title='Thông tin cá nhân' script='Quản lý thông tin cá nhân của bạn' />
-        <Sidebar />
+      {!isMobile && <Sidebar />} 
+        <Header title='Thông tin' script='Quản lý thông tin cá nhân của bạn' onToggleSidebar={() => setSidebarOpen(!sidebarOpen)} isMobile={isMobile}/>
+        {isMobile && (
+        <>
+          <div className={`sidebar-drawer ${sidebarOpen ? "open" : ""}`}>
+            <Sidebar isMobile={true} />
+          </div>
+          {sidebarOpen && (
+            <div className="overlay" onClick={() => setSidebarOpen(false)} />
+          )}
+        </>
+      )}
         <div className='my-infor-content-wrapper'>
           <div className='my-infor-main-content'>
             <div className="my-infor-container">
