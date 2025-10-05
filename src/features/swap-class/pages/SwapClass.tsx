@@ -7,10 +7,13 @@ import './SwapClass.css'
 import MyRequest from '../components/my-request/MyRequest'
 import RequestToMe from '../components/request-to-me/RequestToMe'
 import NewsFeed from '../components/news-feed/NewsFeed'
+import { useResponsive } from '../../../useResponsive'
 
 function SwapClass() {
   const navigate = useNavigate()
   const [activeTab, setActiveTab] = useState(0)
+  const isMobile = useResponsive(1024);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const handleCreateRequest = () => {
     navigate('/swap_class/create')
   }
@@ -30,8 +33,18 @@ function SwapClass() {
 
   return (
     <div className='swap-class'>
-        <Sidebar />
-        <Header title="Đổi chéo lớp" script="Quản lý yêu cầu chuyển lớp một cách dễ dàng" />
+      {!isMobile && <Sidebar />}
+        <Header title="Đổi chéo lớp" script="Quản lý yêu cầu chuyển lớp một cách dễ dàng" onToggleSidebar={() => setSidebarOpen(!sidebarOpen)} isMobile={isMobile}/>
+        {isMobile && (
+        <>
+          <div className={`sidebar-drawer ${sidebarOpen ? "open" : ""}`}>
+            <Sidebar isMobile={true} />
+          </div>
+          {sidebarOpen && (
+            <div className="overlay" onClick={() => setSidebarOpen(false)} />
+          )}
+        </>
+      )}
         <div className='main-content-swap-class'>
           <Navbar activeTab={activeTab} setActiveTab={setActiveTab} />
 

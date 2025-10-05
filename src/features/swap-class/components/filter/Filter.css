@@ -1,109 +1,236 @@
+/* Base Styles */
 .filter-section {
-    background-color: white;
-    margin: 20px 20px 20px 0;
-    border-radius: 8px;
-    padding: 20px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    width: 1240px;
+  background-color: white;
+  margin: 20px auto;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 100%;
 }
 
 .filter-form {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .filter-form-row {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 40px;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 16px;
 }
 
 .input-filter {
-    height: 40px;
-    width: 210px;
-    margin: 20px 0;
-}   
-
-.form-group-filterlabel {
-    font-size: 14px;
-    color: #333;
-    font-weight: 500;
-    margin-bottom: 6px;
+  height: 40px;
+  width: 100%;
+  margin: 10px 0;
 }
 
-/* Khi hover vào option */
+.form-group-filter {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group-filter label {
+  font-size: 14px;
+  color: #333;
+  font-weight: 500;
+  margin-bottom: 6px;
+  display: block;
+}
+
+/* Ant Design Select Customization */
 .ant-select-item-option-active {
-  background-color: #f5f5f5 !important; /* nền đỏ nhạt */
+  background-color: #f5f5f5 !important;
 }
 
-/* Khi option được chọn */
 .ant-select-item-option-selected {
-  background-color: #0c326f     !important; /* nền đỏ nhạt */
-  color: white !important;           /* chữ đỏ đậm */
+  background-color: #0c326f !important;
+  color: white !important;
   font-weight: 500;
 }
 
 .form-group-filter input,
 .form-group-filter select {
-    padding: 10px 12px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 14px;
-    background-color: white;
-    transition: border-color 0.2s;
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  background-color: white;
+  transition: border-color 0.2s;
 }
 
 .form-group-filter input:focus,
 .form-group-filter select:focus {
-    outline: none;
-    border-color: #4A90E2;
+  outline: none;
+  border-color: #4a90e2;
 }
 
 .form-group-filter input::placeholder {
-    color: #999;
+  color: #999;
 }
 
+/* Button Actions */
 .button-form-actions-filter {
-    display: flex;
-    gap: 10px;
-    justify-content: flex-start;
-
+  display: flex;
+  gap: 10px;
+  justify-content: flex-start;
 }
 
+.search-btn,
+.delete-btn {
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
 
 .search-btn {
-    background-color: #0c326f;
-    color: white;
-    border: none;
-    padding: 10px 16px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 14px;
-    display: flex;
-    align-items: center;
-    font-weight: 500;
-    transition: background-color 0.2s;
+  background-color: #0c326f;
+  color: white;
 }
 
 .delete-btn {
-    background-color: #f5f5f5;
-    color: black;
-    border: none;
-    padding: 10px 16px;
+  background-color: #f5f5f5;
+  color: black;
+}
+
+.delete-btn:hover,
+.search-btn:hover {
+  transform: translateY(-2px);
+}
+
+.search-btn:hover {
+  box-shadow: 0 4px 8px rgba(12, 50, 111, 0.3);
+}
+
+.delete-btn:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* ========================================
+   RESPONSIVE MEDIA QUERIES
+======================================== */
+
+/* Desktop lớn (>= 1440px) */
+@media (min-width: 1440px) {
+  .filter-section {
+    padding: 24px;
+  }
+
+  .filter-form-row {
+    gap: 20px;
+  }
+}
+
+/* Màn hình 2K/4K (>= 1920px) */
+@media (min-width: 1920px) {
+  .filter-section {
+    max-width: 1600px;
+    padding: 28px;
+  }
+
+  .filter-form-row {
+    gap: 24px;
+  }
+}
+
+/* Laptop trung bình (1240px - 1439px) */
+@media (max-width: 1439px) and (min-width: 1240px) {
+  .filter-form-row {
+    grid-template-columns: repeat(5, 1fr);
+    gap: 14px;
+  }
+}
+
+/* Laptop nhỏ (1024px - 1239px) */
+@media (max-width: 1239px) {
+  .filter-form-row {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+
+  .filter-section {
+    padding: 18px;
+  }
+}
+
+/* Tablet ngang (768px - 1023px) */
+@media (max-width: 1023px) {
+  .filter-section {
+    margin: 16px auto;
+    padding: 16px;
+    width: calc(100% - 32px);
+  }
+
+  .filter-form-row {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+
+  .button-form-actions-filter {
+    justify-content: flex-start;
+  }
+
+  .form-group-filter label {
+    font-size: 13px;
+  }
+
+  .input-filter {
+    height: 38px;
+    margin: 8px 0;
+  }
+}
+
+/* Tablet dọc và Mobile lớn (≤ 768px) */
+@media (max-width: 768px) {
+  .filter-section {
+    margin: 12px auto;
+    padding: 14px;
+    width: calc(100% - 24px);
     border-radius: 6px;
-    cursor: pointer;
-    font-size: 14px;
-    display: flex;
-    align-items: center;
-    font-weight: 500;
-    transition: background-color 0.2s;
-}
+  }
 
-.delete-btn:hover{
-    transform: translateY(-2px);
-}
+  .filter-form-row {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
 
- .search-btn:hover{
-     transform: translateY(-2px);
- }
+  .form-group-filter label {
+    font-size: 12px;
+    margin-bottom: 4px;
+  }
+
+  .input-filter {
+    height: 36px;
+    margin: 6px 0;
+  }
+
+  .form-group-filter input,
+  .form-group-filter select {
+    padding: 8px 10px;
+    font-size: 13px;
+  }
+
+  .button-form-actions-filter {
+    grid-column: span 2;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 8px;
+  }
+
+  .search-btn,
+  .delete-btn {
+    width: 100%;
+    justify-content: center;
+    padding: 10px 14px;
+    font-size: 13px;
+  }
+}
