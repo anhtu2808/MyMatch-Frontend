@@ -5,7 +5,7 @@
     max-width: 1240px; /* Quan trọng */
 }
 
-.section-header {
+.section-header-request {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -13,7 +13,7 @@
     padding: 0 24px; /* Thêm padding để không dính sát viền */
 }
 
-.section-header h2 {
+.section-header-request h2 {
     font-size: 24px;
     font-weight: bold;
     color: #333;
@@ -293,7 +293,7 @@
     padding: 0;
   }
 
-  .section-header {
+  .section-header-request {
     padding: 0;
     width: 1240px;
     margin-left: 80px;
@@ -312,7 +312,7 @@
     padding: 0;
   }
   
-  .section-header {
+  .section-header-request {
         padding: 0;
     }
 
@@ -331,7 +331,7 @@
     padding: 0;
   }
 
-  .section-header h3 {
+  .section-header-request h3 {
     font-size: 18px;
   }
   
@@ -370,7 +370,7 @@
     padding: 12px;
   }
   
-  .section-header {
+  .section-header-request {
     flex-direction: column;
     align-items: flex-start;
     gap: 8px;
@@ -462,7 +462,7 @@
     padding: 8px;
   }
   
-  .section-header h3 {
+  .section-header-request h3 {
     font-size: 16px;
   }
   
@@ -568,7 +568,7 @@
 
 /* Mobile cực nhỏ (<= 375px) */
 @media (max-width: 375px) {
-  .section-header h3 {
+  .section-header-request h3 {
     font-size: 15px;
   }
   

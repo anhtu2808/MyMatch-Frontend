@@ -137,7 +137,7 @@ function NewsFeed() {
     <div className='my-request-container'>
       <Filter onFilter={handleFilter} onReset={handleReset} />
 
-      <div className='section-header'>
+      <div className='section-header-request'>
         <h3>Bản tin chuyển lớp</h3>
         <span className='view-all'>Hiển thị {filteredFeeds.length} yêu cầu</span>
       </div>
