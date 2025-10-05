@@ -1,110 +1,240 @@
-.navbar {
+/* FindingNavbar.css - Base Styles */
+.swap-navbar {
   display: flex;
   justify-content: flex-start;
+  width: 100%;
+  max-width: 1240px;
   margin: 30px 0;
-  width: 100%; /* Đổi từ 1240px thành 100% */
-  max-width: 1240px; /* Thêm max-width */
-  height: auto; /* Để chiều cao tự động co dãn */
 }
 
-.nav-links {
+.swap-nav-links {
   background-color: #fff;
   display: flex;
   flex-direction: row;
   border-radius: 8px;
   width: 100%;
-  overflow: hidden; /* giữ border-radius gọn */
-  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.06);
 }
 
-.nav-btn {
+.swap-nav-btn {
   flex: 1;
   background-color: #fff;
   color: #000;
   border: none;
-  padding: 15px 20px; /* Giảm padding ngang một chút */
-  font-size: 15px; /* Giảm font-size một chút */
+  padding: 14px 30px;
+  font-size: 16px;
   cursor: pointer;
-  transition: background-color 0.2s, color 0.2s;
+  transition: background-color 0.3s, color 0.3s;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
   font-weight: 500;
-  white-space: nowrap; /* Ngăn text xuống dòng */
 }
 
-.nav-btn .nav-btn-text {
-  display: inline; /* Mặc định hiển thị text */
-}
-
-
-/* Hover chỉ áp dụng khi KHÔNG active */
-.nav-btn:not(.active):hover,
-.nav-btn:not(.active):focus {
-  background-color: #f1f1f1; /* xám nhạt */
+.swap-nav-btn:not(.active):hover,
+.swap-nav-btn:not(.active):focus {
+  background-color: #f1f1f1;
   color: #333;
 }
 
-/* Active giữ nguyên xanh kể cả khi hover hoặc focus */
-.nav-btn.active,
-.nav-btn.active:hover,
-.nav-btn.active:focus {
+.swap-nav-btn.active,
+.swap-nav-btn.active:hover,
+.swap-nav-btn.active:focus {
   background-color: #0c326f !important; 
   color: #fff !important;
   outline: none !important;
 }
 
+/* ===== RESPONSIVE DESIGN ===== */
 
-/* --- RESPONSIVE --- */
+/* Mobile siêu nhỏ (<= 375px) */
+@media (max-width: 375px) {
+  .swap-navbar {
+    margin: 16px 0;
+  }
 
-/* Tablet (<= 768px) */
-@media (max-width: 768px) {
-  .navbar {
+  .swap-nav-links {
+    flex-direction: column;
+    border-radius: 8px;
+  }
+
+  .swap-nav-btn {
+    padding: 12px 16px;
+    font-size: 13px;
+    gap: 6px;
+    justify-content: flex-start;
+    border-bottom: 1px solid #f0f0f0;
+  }
+
+  .swap-nav-btn:last-child {
+    border-bottom: none;
+  }
+
+  .swap-nav-btn svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .swap-nav-btn.active {
+    border-radius: 0;
+  }
+
+  .swap-nav-btn:first-child.active {
+    border-radius: 8px 8px 0 0;
+  }
+
+  .swap-nav-btn:last-child.active {
+    border-radius: 0 0 8px 8px;
+  }
+}
+
+/* Mobile nhỏ (376px - 480px) */
+@media (min-width: 376px) and (max-width: 480px) {
+  .swap-navbar {
+    margin: 18px 0;
+  }
+
+  .swap-nav-links {
+    flex-direction: column;
+  }
+
+  .swap-nav-btn {
+    padding: 13px 18px;
+    font-size: 14px;
+    gap: 7px;
+    justify-content: flex-start;
+    border-bottom: 1px solid #f0f0f0;
+  }
+
+  .swap-nav-btn:last-child {
+    border-bottom: none;
+  }
+
+  .swap-nav-btn svg {
+    width: 19px;
+    height: 19px;
+  }
+
+  .swap-nav-btn.active {
+    border-radius: 0;
+  }
+
+  .swap-nav-btn:first-child.active {
+    border-radius: 8px 8px 0 0;
+  }
+
+  .swap-nav-btn:last-child.active {
+    border-radius: 0 0 8px 8px;
+  }
+}
+
+/* Tablet nhỏ (481px - 768px) */
+@media (min-width: 481px) and (max-width: 768px) {
+  .swap-navbar {
     margin: 20px 0;
   }
-  .nav-btn {
-    font-size: 14px;
-    padding: 12px 10px;
+
+  .swap-nav-links {
+    flex-direction: row;
+  }
+
+  .swap-nav-btn {
+    padding: 12px 16px;
+    font-size: 13px;
     gap: 6px;
   }
-}
 
-/* Mobile (<= 600px) */
-@media (max-width: 600px) {
-  .nav-btn .nav-btn-text {
-    display: none; /* Ẩn chữ trên màn hình nhỏ */
+  .swap-nav-btn svg {
+    width: 18px;
+    height: 18px;
   }
-  .nav-btn {
-    padding: 12px;
-  }
-}
 
-/* Khi màn hình quá hẹp, chuyển sang layout dọc */
-@media (max-width: 400px) {
-  .nav-btn {
-    justify-content: flex-start; /* Căn icon và text về bên trái */
-  }
-  .nav-btn .nav-btn-text {
-    display: none; /* Ẩn chữ trên màn hình nhỏ */
+  .swap-nav-btn.active {
+    border-radius: 8px;
   }
 }
 
-/* Màn hình Desktop lớn (>= 1440px) */
-@media (min-width: 1440px) {
-  .nav-btn {
-    padding: 18px 24px;
+/* Tablet (769px - 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .swap-navbar {
+    margin: 24px 0;
+  }
+
+  .swap-nav-btn {
+    padding: 13px 20px;
+    font-size: 14px;
+    gap: 7px;
+  }
+
+  .swap-nav-btn svg {
+    width: 19px;
+    height: 19px;
+  }
+
+  .swap-nav-btn.active {
+    border-radius: 8px;
+  }
+}
+
+/* Laptop nhỏ (1025px - 1200px) */
+@media (min-width: 1025px) and (max-width: 1200px) {
+  .swap-navbar {
+    margin: 26px 0;
+    max-width: 100%;
+  }
+
+  .swap-nav-btn {
+    padding: 13px 24px;
+    font-size: 15px;
+  }
+
+  .swap-nav-btn.active {
+    border-radius: 8px;
+  }
+}
+
+/* Desktop thông thường (1201px - 1919px) */
+@media (min-width: 1201px) and (max-width: 1919px) {
+  .swap-navbar {
+    margin: 28px 0;
+    max-width: 1240px;
+  }
+
+  .swap-nav-btn {
+    padding: 14px 30px;
     font-size: 16px;
   }
+
+  .swap-nav-btn.active {
+    border-radius: 8px;
+  }
 }
 
-/* Màn hình 2K/4K (>= 1920px) */
+/* Desktop lớn (>= 1920px) */
 @media (min-width: 1920px) {
-  .navbar {
-    max-width: 1600px; /* Tăng chiều rộng tối đa */
+  .swap-navbar {
+    margin: 32px 0;
+    max-width: 1600px;
   }
-  .nav-btn {
-    padding: 20px 30px;
+
+  .swap-nav-links {
+    border-radius: 10px;
+  }
+
+  .swap-nav-btn {
+    padding: 16px 36px;
     font-size: 17px;
+    gap: 10px;
+  }
+
+  .swap-nav-btn svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .swap-nav-btn.active {
+    border-radius: 10px;
   }
 }

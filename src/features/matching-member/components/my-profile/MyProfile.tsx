@@ -170,12 +170,12 @@ function MyProfile() {
 
   return (
     <>
+    <div className="my-profile-list">
     <FindingFilter onFilter={handleFilter} onReset={handleReset} />
       <div className='section-header'>
         <h3>Tìm thành viên phù hợp</h3>
         <span className='view-all'>Hiển thị {filteredFeeds.length} yêu cầu</span>
       </div>
-    <div className="my-profile-list">
       {filteredFeeds.map((p) => (
         <div className="profile-card-container">
         <div key={p.id} className="profile-card">

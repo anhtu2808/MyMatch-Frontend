@@ -1,9 +1,29 @@
+/* MyProfile.css - Base Styles */
 .my-profile-list {
   display: flex;
   flex-direction: column;
   gap: 20px;
-  width: 1240px;
+  width: 100%;
+  max-width: 1240px;
   margin-top: 20px;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.section-header h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.view-all {
+  font-size: 14px;
+  color: #666;
 }
 
 .profile-card-container {
@@ -11,24 +31,32 @@
   border-radius: 12px;
   padding: 20px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  transition: box-shadow 0.3s ease;
+}
+
+.profile-card-container:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
 }
 
 .profile-card {
   display: flex;
-  justify-content: space-between; /* chia trái – phải */
-  align-items: flex-start; /* các block căn trên */
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
 }
 
 .my-profile-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin-bottom: 12px;
 }
 
 .profile-info {
-  display: grid;
-  align-items: center;
-  gap: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1;
 }
 
 .avatar {
@@ -42,6 +70,7 @@
   border-radius: 50%;
   font-weight: bold;
   font-size: 16px;
+  flex-shrink: 0;
 }
 
 .profile-name {
@@ -50,15 +79,46 @@
   font-weight: 600;
   display: flex;
   align-items: center;
+  gap: 6px;
+  color: #1f2937;
 }
 
-.profile-intro, .profile-major, .profile-class {
+.profile-intro, 
+.profile-major, 
+.profile-class {
   font-size: 14px;
   color: #444;
+  line-height: 1.5;
 }
 
-.profile-section p, .profile-info {
-  margin: 0 0 5px 0;
+.profile-major {
+  margin: 0;
+  font-weight: 400;
+}
+
+.profile-section {
+  margin-bottom: 12px;
+}
+
+.profile-section p {
+  margin: 0 0 8px 0;
+  font-weight: 500;
+  font-size: 14px;
+  color: #374151;
+}
+
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tag {
+  background: #e0e7ff;
+  color: #3730a3;
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-size: 13px;
   font-weight: 500;
 }
 
@@ -72,56 +132,370 @@
   display: flex;
   justify-content: space-between;
   background: #f0f7ff;
-  padding: 8px 12px;
-  border-radius: 6px;
+  padding: 10px 14px;
+  border-radius: 8px;
+}
+
+.course-item span {
+  font-weight: 500;
+  color: #0c326f;
+}
+
+.course-item strong {
+  color: #374151;
+  font-size: 14px;
 }
 
 .my-profile-actions {
   display: flex;
   gap: 10px;
   flex-direction: column;
+  flex-shrink: 0;
 }
 
-.my-profile-btn-edit, .my-profile-btn-delete, .my-profile-btn-detail {
-  padding: 6px 12px;
-  border-radius: 6px;
+.my-profile-btn-edit, 
+.my-profile-btn-delete, 
+.my-profile-btn-detail {
+  padding: 8px 14px;
+  border-radius: 8px;
   border: none;
   cursor: pointer;
   font-size: 13px;
   font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: transform 0.2s ease;
+  white-space: nowrap;
 }
 
 .my-profile-btn-detail {
-    background: #0c326f;
+  background: #0c326f;
   color: #fff;
-  display: flex;
-  gap: 5px;
 }
 
 .my-profile-btn-detail:hover {
-    transform: translateY(-2px);
+  transform: translateY(-2px);
 }
 
 .my-profile-btn-edit {
   background: #f0f9ff;
   color: #0369a1;
   border: 1px solid #bae6fd;
-  display: flex;
-  gap: 5px
 }
 
 .my-profile-btn-edit:hover {
-    transform: translateY(-2px);
+  transform: translateY(-2px);
 }
 
 .my-profile-btn-delete {
   background: #fee2e2;
   color: #b91c1c;
   border: 1px solid #fecaca;
-  display: flex;
-  gap: 5px
 }
 
 .my-profile-btn-delete:hover {
-     transform: translateY(-2px);
+  transform: translateY(-2px);
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+
+/* Mobile siêu nhỏ (<= 375px) */
+@media (max-width: 375px) {
+  .my-profile-list {
+    gap: 12px;
+    margin-top: 14px;
+  }
+
+  .section-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    margin-bottom: 12px;
+  }
+
+  .section-header h3 {
+    font-size: 16px;
+  }
+
+  .view-all {
+    font-size: 12px;
+  }
+
+  .profile-card-container {
+    padding: 14px;
+    border-radius: 10px;
+  }
+
+  .profile-card {
+    flex-direction: column;
+    margin-bottom: 12px;
+  }
+
+  .my-profile-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .profile-name {
+    font-size: 16px;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .profile-major {
+    font-size: 13px;
+  }
+
+  .profile-intro {
+    font-size: 13px;
+  }
+
+  .profile-section p {
+    font-size: 13px;
+  }
+
+  .tag {
+    padding: 3px 10px;
+    font-size: 11px;
+  }
+
+  .course-item {
+    flex-direction: column;
+    gap: 4px;
+    padding: 8px 12px;
+  }
+
+  .course-item strong {
+    font-size: 13px;
+  }
+
+  .my-profile-actions {
+    width: 100%;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .my-profile-btn-edit, 
+  .my-profile-btn-delete, 
+  .my-profile-btn-detail {
+    flex: 1;
+    min-width: calc(50% - 4px);
+    padding: 9px 12px;
+    font-size: 12px;
+    justify-content: center;
+  }
+
+  .my-profile-btn-edit svg,
+  .my-profile-btn-delete svg,
+  .my-profile-btn-detail svg {
+    width: 14px;
+    height: 14px;
+  }
+}
+
+/* Mobile nhỏ (376px - 480px) */
+@media (min-width: 376px) and (max-width: 480px) {
+  .my-profile-list {
+    gap: 14px;
+    margin-top: 16px;
+  }
+
+  .section-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .section-header h3 {
+    font-size: 17px;
+  }
+
+  .view-all {
+    font-size: 13px;
+  }
+
+  .profile-card-container {
+    padding: 16px;
+  }
+
+  .profile-card {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .profile-name {
+    font-size: 17px;
+  }
+
+  .profile-intro,
+  .profile-major {
+    font-size: 13px;
+  }
+
+  .tag {
+    font-size: 12px;
+  }
+
+  .course-item {
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .my-profile-actions {
+    width: 100%;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .my-profile-btn-edit, 
+  .my-profile-btn-delete, 
+  .my-profile-btn-detail {
+    flex: 1;
+    min-width: calc(50% - 5px);
+    justify-content: center;
+  }
+}
+
+/* Tablet nhỏ (481px - 768px) */
+@media (min-width: 481px) and (max-width: 768px) {
+  .my-profile-list {
+    gap: 16px;
+    margin-top: 18px;
+  }
+
+  .profile-card-container {
+    padding: 18px;
+  }
+
+  .profile-card {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .course-item {
+    flex-direction: row;
+  }
+
+  .my-profile-actions {
+    width: 100%;
+    flex-direction: row;
+    gap: 12px;
+  }
+
+  .my-profile-btn-edit, 
+  .my-profile-btn-delete, 
+  .my-profile-btn-detail {
+    flex: 1;
+  }
+}
+
+/* Tablet (769px - 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .my-profile-list {
+    gap: 18px;
+    margin-top: 20px;
+  }
+
+  .profile-card-container {
+    padding: 18px;
+  }
+
+  .profile-card {
+    flex-direction: row;
+  }
+
+  .my-profile-actions {
+    flex-direction: column;
+  }
+}
+
+/* Laptop nhỏ (1025px - 1200px) */
+@media (min-width: 1025px) and (max-width: 1200px) {
+  .my-profile-list {
+    max-width: 100%;
+  }
+
+  .profile-card-container {
+    padding: 19px;
+  }
+}
+
+/* Desktop thông thường (1201px - 1919px) */
+@media (min-width: 1201px) and (max-width: 1919px) {
+  .my-profile-list {
+    max-width: 1240px;
+  }
+
+  .profile-card-container {
+    padding: 20px;
+  }
+}
+
+/* Desktop lớn (>= 1920px) */
+@media (min-width: 1920px) {
+  .my-profile-list {
+    max-width: 1600px;
+    gap: 24px;
+    margin-top: 24px;
+  }
+
+  .section-header h3 {
+    font-size: 20px;
+  }
+
+  .view-all {
+    font-size: 15px;
+  }
+
+  .profile-card-container {
+    padding: 24px;
+    border-radius: 14px;
+  }
+
+  .profile-card {
+    margin-bottom: 20px;
+  }
+
+  .profile-name {
+    font-size: 19px;
+  }
+
+  .profile-intro,
+  .profile-major,
+  .profile-class {
+    font-size: 15px;
+  }
+
+  .profile-section p {
+    font-size: 15px;
+  }
+
+  .tag {
+    padding: 5px 14px;
+    font-size: 14px;
+  }
+
+  .course-item {
+    padding: 12px 16px;
+  }
+
+  .course-item span,
+  .course-item strong {
+    font-size: 15px;
+  }
+
+  .my-profile-actions {
+    gap: 12px;
+  }
+
+  .my-profile-btn-edit, 
+  .my-profile-btn-delete, 
+  .my-profile-btn-detail {
+    padding: 10px 16px;
+    font-size: 14px;
+  }
 }

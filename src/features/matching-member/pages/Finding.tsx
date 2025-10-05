@@ -8,6 +8,7 @@ import FindingNavbar from '../components/navbar/FindingNavbar'
 import "./Finding.css"
 import ProfileModalForm from '../components/modal/ProfileModalForm'
 import GroupModalForm from '../components/modal/GroupModalForm'
+import { useResponsive } from '../../../useResponsive'
 
 function Finding() {
     const [activeTab, setActiveTab] = useState(0)
@@ -26,6 +27,8 @@ function Finding() {
 
   const [openGroup, setOpenGroup] = useState(false);
   const [openProfile, setOpenProfile] = useState(false)
+  const isMobile = useResponsive(1024);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
           const handleOpenModalGroup = () => {
           setOpenGroup(true);
           }
@@ -35,8 +38,18 @@ function Finding() {
         }
   return (
     <div className='finding-container'>
-        <Header title='Tìm nhóm' script='Kết nối với học sinh dựa trên kỹ năng, sở thích và môn học'/>
-        <Sidebar />
+       {!isMobile && <Sidebar />}
+        <Header title='Tìm nhóm' script='Kết nối với học sinh dựa trên kỹ năng, sở thích và môn học' onToggleSidebar={() => setSidebarOpen(!sidebarOpen)} isMobile={isMobile}/>
+        {isMobile && (
+        <>
+          <div className={`sidebar-drawer ${sidebarOpen ? "open" : ""}`}>
+            <Sidebar isMobile={true} />
+          </div>
+          {sidebarOpen && (
+            <div className="overlay" onClick={() => setSidebarOpen(false)} />
+          )}
+        </>
+      )}
         <div className='main-content-finding'>
             <FindingNavbar activeTab={activeTab} setActiveTab={setActiveTab} />
             <div className='add-info-finding'>

@@ -186,7 +186,7 @@ const handleReset = () => {
     <>
     <div className="my-group-list">
       <FindingFilter onFilter={handleFilter} onReset={handleReset} />
-      <div className='section-header'>
+    <div className='section-header'>
         <h3>Nhóm của tôi</h3>
         <span className='view-all'>Hiển thị {filteredFeeds.length} yêu cầu</span>
       </div>

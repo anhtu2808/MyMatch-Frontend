@@ -63,6 +63,23 @@
     .add-info-request {
         max-width: 1600px; /* Tăng chiều rộng cho màn hình siêu lớn */
     }
+
+    .add-info-request {
+        max-width: 1600px;
+    }
+
+    .add-info-request h3 {
+        font-size: 20px;
+    }
+
+    .add-info-request p {
+        font-size: 16px;
+    }
+
+    .create-btn-request {
+        padding: 12px 20px;
+        font-size: 15px;
+    }
 }
 
 /* Laptop (<= 1440px) */
