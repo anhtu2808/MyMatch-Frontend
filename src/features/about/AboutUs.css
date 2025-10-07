@@ -388,7 +388,7 @@
 /* Desktop: 1201px - 1919px */
 @media (min-width: 1201px) and (max-width: 1919px) {
   .about-us-page {
-    margin-left: 240px;
+    margin-left: 50px;
   }
   
   .hero-section {
@@ -399,7 +399,7 @@
 /* Laptop: 1025px - 1200px */
 @media (min-width: 1025px) and (max-width: 1200px) {
   .about-us-page {
-    margin-left: 240px;
+    margin-left: 50px;
   }
   
   .hero-title {
