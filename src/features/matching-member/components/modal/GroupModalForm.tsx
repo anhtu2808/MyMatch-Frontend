@@ -507,7 +507,7 @@ const showNotification = (msg: string, type: any) => {
         {/* Footer */}
         <div className="group-form-modal-footer">
           <button className="group-form-button-cancel" onClick={onClose}>
-            Đóng
+            Hủy
           </button>
           <button className="group-form-button-create" onClick={handleSave}>
             Lưu
