@@ -25,12 +25,11 @@
 }
 
 .logoSection {
-  padding: 1.5rem 1rem;
+  padding: 1.1rem;
   border-bottom: 1px solid #F3F4F6;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 20px;
 }
 
 .logoImg {
@@ -38,6 +37,20 @@
   height: 3rem; /* 10 */
   border-radius: 0.5rem;
   object-fit: cover;
+}
+
+/* THAY BẰNG CSS MỚI DƯỚI ĐÂY */
+.logo-video-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.logo-video {
+  width: 60px;
+  height: 60px;
+  object-fit: cover; 
+  border-radius: 0.5rem;
 }
 
 .nav {

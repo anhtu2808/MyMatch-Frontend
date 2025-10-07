@@ -301,7 +301,18 @@ const Sidebar = ({ isMobile = false }) => {
     <>
       <div className={`sidebar ${isMobile ? "sidebar-mobile" : ""}`}>
         <div className="logoSection" onClick={() => navigation("/")}>
-          <img src="/mymatch_logo.jpg" alt="MyMatch Logo" className="logoImg" />
+          {/* Thay đổi class ở đây */}
+          <div className="logo-video-wrapper"> 
+            <video
+              className="logo-video" // Thay đổi class ở đây
+              autoPlay
+              loop
+              muted
+              playsInline
+            >
+              <source src="/logo2.mp4" type="video/mp4" />
+            </video>
+          </div>
         </div>
 
         <nav className="nav">
