@@ -303,15 +303,20 @@ const Sidebar = ({ isMobile = false }) => {
         <div className="logoSection" onClick={() => navigation("/")}>
           {/* Thay đổi class ở đây */}
           <div className="logo-video-wrapper"> 
-            <video
-              className="logo-video" // Thay đổi class ở đây
+            {/* <video
+              className="logo-video"
               autoPlay
               loop
               muted
               playsInline
             >
               <source src="/logo2.mp4" type="video/mp4" />
-            </video>
+            </video> */}
+            <img 
+              src="/logo.gif" 
+              alt="MyMatch Logo Animation" 
+              className="logo-image" 
+            />
           </div>
         </div>
 
