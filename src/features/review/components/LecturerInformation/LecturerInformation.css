@@ -241,120 +241,6 @@
   box-shadow: 0 2px 8px rgba(255, 87, 34, 0.3);
 }
 
-/* Responsive Design */
-@media (max-width: 1024px) {
-  .lecturer-main-info {
-    gap: 24px;
-  }
-
-  .lecturer-name {
-    font-size: 28px;
-  }
-
-  .action-buttons {
-    gap: 12px;
-  }
-}
-
-@media (max-width: 768px) {
-  .lecturer-information {
-    margin: 16px;
-    padding: 28px;
-  }
-
-  .lecturer-main-info {
-    flex-direction: column;
-    gap: 24px;
-    align-items: center;
-    text-align: center;
-  }
-
-  .lecturer-avatar-section {
-    gap: 20px;
-    justify-content: center;
-  }
-
-  .lecturer-avatar {
-    width: 80px;
-    height: 80px;
-  }
-
-  .lecturer-name {
-    font-size: 28px;
-  }
-
-  .lecturer-username {
-    font-size: 16px;
-  }
-
-  .lecturer-info {
-    font-size: 14px;
-  }
-
-  .action-buttons {
-    flex-direction: row;
-    justify-content: center;
-    gap: 12px;
-    width: 100%;
-  }
-
-  .save-button,
-  .rate-button,
-  .tutor-button {
-    min-width: 120px;
-    padding: 12px 20px;
-    font-size: 14px;
-  }
-}
-
-@media (max-width: 480px) {
-  .lecturer-information {
-    margin: 12px;
-    padding: 24px;
-  }
-
-  .lecturer-avatar-section {
-    flex-direction: column;
-    text-align: center;
-    gap: 16px;
-  }
-
-  .lecturer-avatar {
-    width: 72px;
-    height: 72px;
-    margin: 0 auto;
-  }
-
-  .lecturer-name {
-    font-size: 24px;
-  }
-
-  .lecturer-username {
-    font-size: 15px;
-  }
-
-  .lecturer-info {
-    font-size: 13px;
-  }
-
-  .rating-section {
-    justify-content: center;
-  }
-
-  .action-buttons {
-    flex-direction: column;
-    width: 100%;
-    gap: 12px;
-  }
-
-  .save-button,
-  .rate-button,
-  .tutor-button {
-    width: 100%;
-    justify-content: center;
-    min-width: auto;
-  }
-}
 
 .tutor-button:disabled {
   background: rgba(255, 255, 255, 0.15);
@@ -401,4 +287,79 @@
 .tutor-button:hover .tooltip-text {
   visibility: visible;
   opacity: 1;
+}
+/* === RESPONSIVE BREAKPOINTS === */
+
+/* Mobile nhỏ */
+@media (max-width: 375px) {
+  .lecturer-information {
+    padding: 20px;
+    margin: 8px;
+  }
+  .lecturer-name {
+    font-size: 22px;
+  }
+  .lecturer-info {
+    font-size: 12px;
+  }
+}
+
+/* Mobile vừa */
+@media (min-width: 376px) and (max-width: 480px) {
+  .lecturer-information {
+    padding: 22px;
+  }
+  .lecturer-name {
+    font-size: 24px;
+  }
+}
+
+/* Tablet dọc */
+@media (min-width: 481px) and (max-width: 768px) {
+  .lecturer-main-info {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .lecturer-avatar {
+    width: 80px;
+    height: 80px;
+  }
+}
+
+/* Tablet ngang */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .lecturer-name {
+    font-size: 28px;
+  }
+  .lecturer-avatar {
+    width: 90px;
+    height: 90px;
+  }
+}
+
+/* Laptop nhỏ */
+@media (min-width: 1025px) and (max-width: 1200px) {
+  .lecturer-information {
+    width: 95%;
+  }
+  .lecturer-name {
+    font-size: 30px;
+  }
+}
+
+/* Laptop lớn / Desktop */
+@media (min-width: 1201px) and (max-width: 1919px) {
+  .lecturer-information {
+    width: 90%;
+  }
+}
+
+/* Màn hình 4K */
+@media (min-width: 1920px) {
+  .lecturer-information {
+    width: 80%;
+    max-width: 1600px;
+    margin: auto;
+  }
 }

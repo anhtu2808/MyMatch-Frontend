@@ -254,63 +254,6 @@
   height: 16px;
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-  .teacher-selector {
-    max-width: none;
-    padding: 0 16px;
-  }
-
-  .teacher-item {
-    padding: 16px;
-  }
-
-  .teacher-avatar {
-    width: 40px;
-    height: 40px;
-    font-size: 16px;
-  }
-
-  .teacher-name {
-    font-size: 16px;
-  }
-
-  .help-section {
-    flex-direction: column;
-    text-align: center;
-  }
-
-  .help-icon {
-    align-self: center;
-  }
-}
-
-@media (max-width: 480px) {
-  .search-input {
-    padding: 14px 16px;
-    font-size: 14px;
-  }
-
-  .teacher-item {
-    padding: 12px;
-  }
-
-  .teacher-name {
-    font-size: 15px;
-  }
-
-  .teacher-subtitle {
-    font-size: 13px;
-  }
-
-  .help-content h4 {
-    font-size: 16px;
-  }
-
-  .help-content p {
-    font-size: 13px;
-  }
-}
 
 /* Navigation Buttons */
 .navigation-buttons {
@@ -364,15 +307,142 @@
   transform: none;
 }
 
-@media (max-width: 480px) {
-  .navigation-buttons {
-    flex-direction: column;
-    gap: 12px;
+/* Mobile nhỏ */
+@media (max-width: 375px) {
+  .teacher-selector {
+    padding: 0 12px;
   }
 
-  .btn-back,
-  .btn-next {
-    width: 100%;
-    min-width: auto;
+  .search-input {
+    padding: 12px 14px;
+    font-size: 13px;
+  }
+
+  .teacher-item {
+    padding: 10px;
+  }
+
+  .teacher-avatar {
+    width: 36px;
+    height: 36px;
+    font-size: 14px;
+  }
+
+  .teacher-name {
+    font-size: 14px;
+  }
+
+  .teacher-subtitle {
+    font-size: 12px;
+  }
+
+  .help-content h4 {
+    font-size: 15px;
+  }
+
+  .help-content p {
+    font-size: 12px;
+  }
+
+  .navigation-buttons {
+    flex-direction: column;
+    gap: 10px;
   }
 }
+
+/* Mobile lớn */
+@media (min-width: 376px) and (max-width: 480px) {
+  .search-input {
+    padding: 14px 16px;
+    font-size: 14px;
+  }
+
+  .teacher-item {
+    padding: 12px;
+  }
+
+  .teacher-avatar {
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+  }
+
+  .teacher-name {
+    font-size: 15px;
+  }
+
+  .teacher-subtitle {
+    font-size: 13px;
+  }
+
+  .help-content h4 {
+    font-size: 16px;
+  }
+
+  .help-content p {
+    font-size: 13px;
+  }
+}
+
+/* Tablet nhỏ */
+@media (min-width: 481px) and (max-width: 768px) {
+  .teacher-selector {
+    padding: 0 16px;
+  }
+
+  .teacher-item {
+    padding: 16px;
+  }
+
+  .teacher-avatar {
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+  }
+
+  .teacher-name {
+    font-size: 16px;
+  }
+
+  .help-section {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .help-icon {
+    align-self: center;
+  }
+}
+
+/* Tablet lớn / Desktop nhỏ */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .teacher-selector {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+}
+
+/* Desktop trung bình */
+@media (min-width: 1025px) and (max-width: 1200px) {
+  .teacher-selector {
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+}
+
+/* Desktop lớn */
+@media (min-width: 1201px) and (max-width: 1919px) {
+  .teacher-selector {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+}
+
+/* Ultra-wide */
+@media (min-width: 1920px) {
+  .teacher-selector {
+    max-width: 1600px;
+    margin: 0 auto;
+  }
+}
+

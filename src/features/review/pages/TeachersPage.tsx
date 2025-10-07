@@ -13,6 +13,7 @@ import {
 import "./TeachersPage.css";
 import MyReviewsList from "../components/ReviewDetail/MyReviewsList";
 import { getMyReviewsAPI } from "../../home/apis";
+import { useResponsive } from "../../../useResponsive";
 
 function TeachersPage() {
   const [lecturers, setLecturers] = useState<TeacherCardData[]>([]);
@@ -24,6 +25,8 @@ function TeachersPage() {
   const [activeTab, setActiveTab] = useState("all");
   const [bookmarkedTeachers, setBookmarkedTeachers] = useState<number[]>([]);
   const [loading, setLoading] = useState(false);
+  const isMobile = useResponsive(1024);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const handleToggleBookmark = (teacherId: number) => {
     setBookmarkedTeachers((prev) =>
@@ -119,48 +122,48 @@ function TeachersPage() {
 
   return (
     <div className="teachers-page-container">
-      <Sidebar />
+      {!isMobile && <Sidebar />}
       <Header
         title="Review giảng viên"
         script="Chia sẻ review và tìm hiểu về giảng viên"
+        onToggleSidebar={() => setSidebarOpen(!sidebarOpen)}
+        isMobile={isMobile}
       />
+
+      {isMobile && (
+        <>
+          <div className={`sidebar-drawer ${sidebarOpen ? "open" : ""}`}>
+            <Sidebar isMobile={true} />
+          </div>
+          {sidebarOpen && <div className="overlay" onClick={() => setSidebarOpen(false)} />}
+        </>
+      )}
+
       <div className="teachers-page">
         <TeacherFilter
           activeTab={activeTab}
           setActiveTab={setActiveTab}
           onSearch={(newFilters) => {
             const filtersWithTab: any = { ...newFilters };
-
-            if (activeTab === "rated") {
-              filtersWithTab.isReviewed = true;
-            } else if (activeTab === "marked") {
-              filtersWithTab.isMarked = true;
-            }
-
+            if (activeTab === "rated") filtersWithTab.isReviewed = true;
+            // if (activeTab === "marked") filtersWithTab.isMarked = true;
             setFilters(filtersWithTab);
             setPage(1);
           }}
         />
 
+      <div className="teacher-card-list">
         <h1 className="h1">
-          {activeTab === "myreviews"
-            ? "Review của tôi"
-            : "Danh sách giảng viên"}
+          {activeTab === "myreviews" ? "Review của tôi" : "Danh sách giảng viên"}
         </h1>
 
         <div
-          className={
-            activeTab === "myreviews"
-              ? "my-reviews-container"
-              : "teachers-page-components"
-          }
+          className={`teachers-page-components ${activeTab === "myreviews" ? "my-reviews-container" : ""}`}
+          data-tab={activeTab}
         >
+
           {activeTab === "myreviews" ? (
-            <MyReviewsList
-              page={page}
-              size={9}
-              onTotalPages={(total) => setTotalPages(total)}
-            />
+            <MyReviewsList page={page} size={9} onTotalPages={(total) => setTotalPages(total)} />
           ) : (
             <TeacherPageComponents
               teachers={lecturers}
@@ -173,12 +176,9 @@ function TeachersPage() {
             />
           )}
         </div>
+      </div>
 
-        <Pagination
-          currentPage={page}
-          totalPages={totalPages}
-          onPageChange={(p) => setPage(p)}
-        />
+        <Pagination currentPage={page} totalPages={totalPages} onPageChange={(p) => setPage(p)} />
       </div>
     </div>
   );

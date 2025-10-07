@@ -96,7 +96,7 @@ export default function MaterialCreatePage() {
   // Kiểm tra size
   const oversized = selectedFiles.find((f) => f.size > MAX_FILE_SIZE);
   if (oversized) {
-    setNotification({ message: `File ${oversized.name} vượt quá dung lượng tối đa 5MB`, type: "error" });
+    setNotification({ message: `File ${oversized.name} vượt quá dung lượng tối đa 500MB`, type: "error" });
     return;
   }
 
@@ -327,7 +327,7 @@ export default function MaterialCreatePage() {
                   <strong>Chọn tệp</strong> hoặc kéo thả vào đây
                 </p>
                 <p className="upload-subtext text-sm text-gray-500">
-                  Hỗ trợ PDF, DOC, DOCX, PPT, PPTX tối đa 5MB
+                  Hỗ trợ PDF, DOC, DOCX, PPT, PPTX tối đa 500MB
                 </p>
               </>
             )}

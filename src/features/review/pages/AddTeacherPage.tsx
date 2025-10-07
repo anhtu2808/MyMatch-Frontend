@@ -5,6 +5,7 @@ import Header from '../../../components/header/Header';
 import AddTeacherForm from '../components/AddTeacherForm/AddTeacherForm';
 import './AddTeacherPage.css';
 import Notification from '../../../components/notification/Notification';
+import { useResponsive } from '../../../useResponsive';
 
 function AddTeacherPage() {
   const navigate = useNavigate();
@@ -12,6 +13,10 @@ function AddTeacherPage() {
     message: string;
     type: 'success' | 'error' | 'info' | 'warning';
   } | null>(null);
+
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const isMobile = useResponsive(1024);
+
 
   const handleSubmit = (data: any) => {
     console.log('Teacher data submitted:', data);
@@ -27,11 +32,24 @@ function AddTeacherPage() {
 
   return (
     <div className="add-teacher-page-container">
-      <Sidebar />
+      {!isMobile && <Sidebar />}
       <Header
         title="Thêm giảng viên"
         script="Thêm thông tin giảng viên mới vào hệ thống"
+        onToggleSidebar={() => setSidebarOpen(!sidebarOpen)}
+        isMobile={isMobile}
       />
+
+      {isMobile && (
+        <>
+          <div className={`sidebar-drawer ${sidebarOpen ? 'open' : ''}`}>
+            <Sidebar isMobile={true} />
+          </div>
+          {sidebarOpen && (
+            <div className="overlay" onClick={() => setSidebarOpen(false)} />
+          )}
+        </>
+      )}
       <div className="add-teacher-content">
         <AddTeacherForm
           onSubmit={handleSubmit}

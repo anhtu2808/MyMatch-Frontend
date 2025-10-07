@@ -7,7 +7,7 @@
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
   font-family: "Inter", sans-serif;
   width: 93%;
-  margin: 20px 20px 20px 0;
+  margin: 20px 20px 20px 20px;
 }
 
 /* Tabs */
@@ -148,4 +148,146 @@
 
 .btn-create .btn-icon {
   stroke: white;
+}
+/* Mobile rất nhỏ: ≤375px */
+@media (max-width: 375px) {
+  .material-filter {
+    padding: 12px;
+    width: 100%;
+    margin: 10px 0;
+  }
+
+  .material-tabs {
+    flex-direction: column;
+    gap: 10px;
+    font-size: 13px;
+  }
+
+  .material-filter-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .material-actions {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .btn-clear,
+  .btn-search,
+  .btn-create {
+    width: 100%;
+    justify-content: center;
+    font-size: 13px;
+  }
+}
+
+/* Mobile vừa: 376px - 480px */
+@media (min-width: 376px) and (max-width: 480px) {
+  .material-filter {
+    padding: 14px;
+  }
+
+  .material-tabs {
+    font-size: 14px;
+    gap: 16px;
+  }
+
+  .material-filter-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .material-actions {
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .btn-clear,
+  .btn-search,
+  .btn-create {
+    width: 100%;
+  }
+}
+
+/* Tablet nhỏ: 481px - 768px */
+@media (min-width: 481px) and (max-width: 768px) {
+  .material-filter {
+    padding: 16px;
+  }
+
+  .material-tabs {
+    font-size: 14px;
+  }
+
+  .material-filter-grid {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+  }
+
+  .btn-clear,
+  .btn-search,
+  .btn-create {
+    font-size: 14px;
+  }
+}
+
+/* Tablet lớn: 769px - 1024px */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .material-filter {
+    padding: 18px;
+  }
+
+  .material-tabs {
+    font-size: 15px;
+    gap: 20px;
+  }
+
+  .material-filter-grid {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  }
+}
+
+/* Laptop nhỏ: 1025px - 1200px */
+@media (min-width: 1025px) and (max-width: 1200px) {
+  .material-filter {
+    padding: 20px;
+  }
+
+  .material-filter-grid {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  }
+}
+
+/* Laptop vừa: 1201px - 1919px */
+@media (min-width: 1201px) and (max-width: 1919px) {
+  .material-filter {
+    max-width: 1100px;
+    margin: 20px auto;
+  }
+}
+
+/* Desktop lớn: ≥1920px */
+@media (min-width: 1920px) {
+  .material-filter {
+    max-width: 1400px;
+    margin: 30px auto;
+    padding: 24px;
+  }
+
+  .material-tabs {
+    font-size: 16px;
+  }
+
+  .material-filter-grid {
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 24px;
+  }
+
+  .btn-clear,
+  .btn-search,
+  .btn-create {
+    font-size: 15px;
+    padding: 12px 18px;
+  }
 }
