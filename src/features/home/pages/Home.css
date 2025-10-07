@@ -41,7 +41,6 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  /* width: calc(100vw - 150px); */
 }
 
 .home-container {
@@ -73,6 +72,22 @@
 
 .welcome-icon {
   font-size: 36px;
+  animation-name: wave-animation;  /* Tên animation */
+  animation-duration: 2.5s;        /* Thời gian chạy animation */
+  animation-iteration-count: infinite;  /* Lặp lại vô hạn */
+  transform-origin: 70% 70%;       /* Điểm xoay của animation */
+  display: inline-block;
+}
+
+@keyframes wave-animation {
+    0% { transform: rotate( 0.0deg) }
+   10% { transform: rotate(14.0deg) }
+   20% { transform: rotate(-8.0deg) }
+   30% { transform: rotate(14.0deg) }
+   40% { transform: rotate(-4.0deg) }
+   50% { transform: rotate(10.0deg) }
+   60% { transform: rotate( 0.0deg) }
+  100% { transform: rotate( 0.0deg) }
 }
 
 .welcome-description {
@@ -81,6 +96,241 @@
   margin: 0;
   max-width: 600px;
   margin: 0 auto;
+}
+
+/* ========================================
+   AI BANNER SECTION
+======================================== */
+
+.ai-banner {
+  position: relative;
+  background: linear-gradient(135deg, #4a5568 0%, #2d3748 50%, #1a365d 100%);
+  border-radius: 16px;
+  padding: 32px 40px;
+  margin-bottom: 32px;
+  overflow: hidden;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+}
+
+.ai-banner:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
+}
+
+/* Background Particles */
+.ai-banner-background {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.ai-particle {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  animation: float 3s ease-in-out infinite;
+}
+
+.ai-particle-1 {
+  width: 8px;
+  height: 8px;
+  left: 20%;
+  top: 30%;
+  animation-delay: 0s;
+  animation-duration: 3s;
+}
+
+.ai-particle-2 {
+  width: 6px;
+  height: 6px;
+  left: 35%;
+  top: 60%;
+  animation-delay: 0.8s;
+  animation-duration: 3.5s;
+}
+
+.ai-particle-3 {
+  width: 10px;
+  height: 10px;
+  left: 50%;
+  top: 20%;
+  animation-delay: 1.6s;
+  animation-duration: 4s;
+}
+
+.ai-particle-4 {
+  width: 7px;
+  height: 7px;
+  left: 65%;
+  top: 50%;
+  animation-delay: 2.4s;
+  animation-duration: 3.2s;
+}
+
+.ai-particle-5 {
+  width: 9px;
+  height: 9px;
+  left: 80%;
+  top: 35%;
+  animation-delay: 3.2s;
+  animation-duration: 3.8s;
+}
+
+.ai-particle-6 {
+  width: 5px;
+  height: 5px;
+  left: 90%;
+  top: 70%;
+  animation-delay: 4s;
+  animation-duration: 3.3s;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 0.3;
+  }
+  50% {
+    transform: translateY(-20px) scale(1.1);
+    opacity: 0.8;
+  }
+}
+
+/* Banner Content */
+.ai-banner-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 32px;
+}
+
+.ai-banner-text {
+  flex: 1;
+  color: white;
+  padding: 40px;
+  border-radius: 16px;
+  text-align: center;
+}
+
+.ai-text-glow {
+  color: #fbbf24;
+  animation: textGlow 2s ease-in-out infinite;
+}
+
+@keyframes textGlow {
+  0%,
+  100% {
+    text-shadow: 0 0 10px #fbbf24, 0 0 20px #fbbf24;
+  }
+  50% {
+    text-shadow: 0 0 20px #fbbf24, 0 0 30px #fbbf24, 0 0 40px #fbbf24;
+  }
+}
+
+
+/* Button */
+.ai-banner-button {
+  position: relative;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 12px 24px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.ai-banner-button:hover {
+  background: rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: scale(1.05);
+  box-shadow: 0 10px 30px rgba(255, 255, 255, 0.3);
+}
+
+.ai-banner-button:active {
+  transform: scale(0.98);
+}
+
+/* Button Shimmer Effect */
+.button-shimmer {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  transform: translateX(-100%) skewX(-15deg);
+  animation: shimmer 3s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%) skewX(-15deg);
+  }
+  50%,
+  100% {
+    transform: translateX(200%) skewX(-15deg);
+  }
+}
+
+/* Button Icon */
+.button-icon {
+  width: 20px;
+  height: 20px;
+  color: #fbbf24;
+  animation: iconSpin 4s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes iconSpin {
+  0% {
+    transform: rotate(0deg) scale(1);
+  }
+  50% {
+    transform: rotate(180deg) scale(1.1);
+  }
+  100% {
+    transform: rotate(360deg) scale(1);
+  }
+}
+
+.button-text {
+  position: relative;
+  z-index: 1;
+}
+
+/* Pulsing Border */
+.ai-banner-border {
+  position: absolute;
+  inset: 0;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  pointer-events: none;
+  animation: borderPulse 3s ease-in-out infinite;
+}
+
+@keyframes borderPulse {
+  0%,
+  100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.8;
+  }
 }
 
 /* Section Titles */
@@ -107,157 +357,405 @@
   margin-bottom: 32px;
 }
 
-.actions-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 20px;
-}
-
-.action-card {
-  background: white;
-  padding: 24px;
-  border-radius: 16px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  cursor: pointer;
-  transition: all 0.3s ease;
-  border: 2px solid transparent;
-}
-
-.action-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
-  border-color: #667eea;
-}
-
-.card-icon {
-  font-size: 48px;
-  margin-bottom: 16px;
-  text-align: center;
-}
-
-.card-title {
-  font-size: 18px;
-  font-weight: 600;
-  color: #2d3748;
-  margin: 0 0 8px 0;
-  text-align: center;
-}
-
-.card-description {
-  font-size: 14px;
-  color: #718096;
-  margin: 0;
-  text-align: center;
-  line-height: 1.5;
-}
-
 /* Stats Section */
 .stats-section {
   margin-top: 32px;
   margin-bottom: 32px;
 }
 
-.stats-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 20px;
+/* Overlay */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(2px);
+  z-index: 1500;
 }
 
-.stat-card {
-  background: white;
-  padding: 24px;
-  border-radius: 16px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  text-align: center;
-  border-left: 4px solid #667eea;
+/* Sidebar Drawer */
+.sidebar-drawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 200px;
+  height: 100vh;
+  background: #fff;
+  box-shadow: 4px 0 12px rgba(0, 0, 0, 0.2);
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+  z-index: 2000;
+  border-top-right-radius: 16px;
+  border-bottom-right-radius: 16px;
+  overflow-y: auto;
 }
 
-.stat-number {
-  font-size: 36px;
-  font-weight: 700;
-  color: #667eea;
-  margin-bottom: 8px;
+.sidebar-drawer.open {
+  transform: translateX(0);
 }
 
-.stat-label {
-  font-size: 14px;
-  color: #718096;
-  font-weight: 500;
-}
+/* ========================================
+   RESPONSIVE MEDIA QUERIES
+======================================== */
 
-/* Responsive Design */
-@media (max-width: 1024px) {
-  .home-main-content {
-    margin-left: 0;
-    width: 100%;
-    padding: 16px;
+/* Desktop lớn (>= 1920px) */
+@media (min-width: 1920px) {
+  .home-container {
+    max-width: 1600px;
   }
 
-  .actions-grid {
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 16px;
-  }
-
-  .stats-grid {
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 16px;
-  }
-}
-
-@media (max-width: 768px) {
   .welcome-section {
-    padding: 24px;
+    padding: 50px;
   }
 
   .welcome-title {
-    font-size: 24px;
+    font-size: 38px;
+  }
+
+  .welcome-icon {
+    font-size: 42px;
+  }
+
+  .welcome-description {
+    font-size: 20px;
+  }
+
+  .ai-banner {
+    padding: 40px 48px;
+  }
+
+  .ai-banner-button {
+    padding: 14px 28px;
+    font-size: 16px;
+  }
+
+  .button-icon {
+    width: 22px;
+    height: 22px;
+  }
+
+  .section-title {
+    font-size: 28px;
+  }
+}
+
+/* Desktop thông thường (1201px - 1919px) */
+@media (min-width: 1201px) and (max-width: 1919px) {
+  .home-main-content {
+    margin-left: 150px;
+  }
+
+  .home-container {
+    max-width: 1240px;
+  }
+}
+
+/* Laptop nhỏ (1025px - 1200px) */
+@media (min-width: 1025px) and (max-width: 1200px) {
+  .home-main-content {
+    margin-left: 64px;
+  }
+
+  .ai-banner {
+    padding: 28px 32px;
+  }
+
+}
+
+/* Tablet (769px - 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .home-main-content {
+    margin-left: 0;
+    margin-top: 64px;
+    padding: 18px;
+  }
+
+  .home-container {
+    margin-top: 80px;
+  }
+
+  .welcome-section {
+    padding: 32px;
+  }
+
+  .welcome-title {
+    font-size: 28px;
   }
 
   .welcome-description {
     font-size: 16px;
   }
 
-  .actions-grid {
-    grid-template-columns: 1fr;
+  .ai-banner {
+    padding: 24px 28px;
   }
 
-  .stats-grid {
-    grid-template-columns: repeat(3, 1fr);
+  .ai-banner-content {
+    flex-direction: column;
+    gap: 20px;
+    text-align: center;
   }
 
-  .stat-card {
-    padding: 16px;
+  .ai-banner-button {
+    width: 100%;
+    justify-content: center;
   }
 
-  .stat-number {
-    font-size: 28px;
+  .section-title {
+    font-size: 22px;
   }
 }
 
-@media (max-width: 480px) {
+/* Tablet nhỏ (481px - 768px) */
+@media (min-width: 481px) and (max-width: 768px) {
+  .home-main-content {
+    margin-left: 0;
+    margin-top: 64px;
+    padding: 16px;
+  }
+
+  .home-container {
+    margin-top: 70px;
+  }
+
   .welcome-section {
-    padding: 20px;
+    padding: 28px 24px;
+    border-radius: 14px;
   }
 
   .welcome-title {
-    font-size: 20px;
+    font-size: 24px;
+  }
+
+  .welcome-icon {
+    font-size: 32px;
+  }
+
+  .welcome-description {
+    font-size: 15px;
+  }
+
+  .ai-banner {
+    padding: 20px 24px;
+    border-radius: 12px;
+  }
+
+  .ai-banner-content {
     flex-direction: column;
-    gap: 8px;
+    gap: 16px;
+  }
+
+  .ai-banner-button {
+    width: 100%;
+    justify-content: center;
+    padding: 12px 20px;
+    font-size: 14px;
+  }
+
+  .button-icon {
+    width: 18px;
+    height: 18px;
   }
 
   .section-title {
     font-size: 20px;
   }
 
-  .stats-grid {
-    grid-template-columns: 1fr;
+  .section-title::before {
+    height: 22px;
+  }
+}
+
+/* Mobile (376px - 480px) */
+@media (min-width: 376px) and (max-width: 480px) {
+  .home-main-content {
+    margin-left: 0;
+    margin-top: 64px;
+    padding: 14px;
   }
 
-  .action-card {
-    padding: 20px;
+  .home-container {
+    margin-top: 60px;
   }
 
-  .card-icon {
-    font-size: 40px;
+  .welcome-section {
+    padding: 24px 20px;
+    border-radius: 12px;
+  }
+
+  .welcome-title {
+    font-size: 22px;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .welcome-icon {
+    font-size: 30px;
+  }
+
+  .welcome-description {
+    font-size: 14px;
+  }
+
+  .ai-banner {
+    padding: 18px 20px;
+    border-radius: 10px;
+  }
+
+  .ai-banner-content {
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .ai-banner-button {
+    width: 100%;
+    justify-content: center;
+    padding: 11px 18px;
+    font-size: 13px;
+  }
+
+  .button-icon {
+    width: 18px;
+    height: 18px;
+  }
+
+  .section-title {
+    font-size: 18px;
+  }
+
+  .section-title::before {
+    height: 20px;
+  }
+
+  /* Particles thu nhỏ */
+  .ai-particle-1 {
+    width: 6px;
+    height: 6px;
+  }
+
+  .ai-particle-2 {
+    width: 5px;
+    height: 5px;
+  }
+
+  .ai-particle-3 {
+    width: 7px;
+    height: 7px;
+  }
+
+  .ai-particle-4 {
+    width: 5px;
+    height: 5px;
+  }
+
+  .ai-particle-5 {
+    width: 6px;
+    height: 6px;
+  }
+
+  .ai-particle-6 {
+    width: 4px;
+    height: 4px;
+  }
+}
+
+/* Mobile siêu nhỏ (<= 375px) */
+@media (max-width: 375px) {
+  .home-main-content {
+    margin-left: 0;
+    margin-top: 64px;
+    padding: 12px;
+  }
+
+  .home-container {
+    margin-top: 56px;
+  }
+
+  .welcome-section {
+    padding: 20px 16px;
+    border-radius: 10px;
+  }
+
+  .welcome-title {
+    font-size: 20px;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .welcome-icon {
+    font-size: 28px;
+  }
+
+  .welcome-description {
+    font-size: 13px;
+  }
+
+  .ai-banner {
+    padding: 16px 18px;
+    border-radius: 10px;
+  }
+
+  .ai-banner-content {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .ai-banner-button {
+    width: 100%;
+    justify-content: center;
+    padding: 10px 16px;
+    font-size: 12px;
+  }
+
+  .button-icon {
+    width: 16px;
+    height: 16px;
+  }
+
+  .section-title {
+    font-size: 16px;
+  }
+
+  .section-title::before {
+    width: 3px;
+    height: 18px;
+  }
+
+  /* Particles thu nhỏ tối đa */
+  .ai-particle-1,
+  .ai-particle-3,
+  .ai-particle-5 {
+    width: 5px;
+    height: 5px;
+  }
+
+  .ai-particle-2,
+  .ai-particle-4,
+  .ai-particle-6 {
+    width: 4px;
+    height: 4px;
+  }
+}
+
+/* Landscape mode cho mobile */
+@media (max-height: 500px) and (orientation: landscape) {
+  .home-container {
+    margin-top: 70px;
+  }
+
+  .welcome-section {
+    padding: 20px 24px;
+  }
+
+  .ai-banner {
+    padding: 16px 24px;
+  }
+
+  .ai-banner-content {
+    flex-direction: row;
+    gap: 20px;
+  }
+
+  .ai-banner-button {
+    width: auto;
   }
 }

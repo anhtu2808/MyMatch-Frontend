@@ -51,6 +51,32 @@
   gap: 10px
 }
 
+.profile-form-fee-warning {
+  background-color: #fff3cd;       /* vàng nhạt nổi bật */
+  color: #856404;                  /* chữ vàng nâu */
+  padding: 10px 14px;
+  border: 1px solid #ffeeba;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 14px;
+  text-align: center;
+  margin-top: 12px;
+  animation: fadeIn 0.5s ease;
+}
+
+/* Hiệu ứng nhẹ cho vui mắt */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
 /* Footer */
 .profile-form-modal-footer {
   margin-top: 10px;

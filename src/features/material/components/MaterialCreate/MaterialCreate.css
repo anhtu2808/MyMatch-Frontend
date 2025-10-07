@@ -171,3 +171,129 @@
 .material-create-select {
   margin-top: 10px;
 }
+/* Mobile rất nhỏ: ≤375px */
+@media (max-width: 375px) {
+  .material-create-container {
+    width: 100%;
+    margin: 10px auto;
+    padding: 12px;
+  }
+
+  .material-create-title {
+    font-size: 1.2rem;
+    padding: 12px;
+  }
+
+  .material-create-form {
+    gap: 0.75rem;
+    padding: 12px;
+  }
+
+  .material-create-input,
+  .material-create-textarea {
+    font-size: 0.85rem;
+    padding: 10px 12px;
+  }
+
+  .material-create-button {
+    font-size: 0.85rem;
+    padding: 10px;
+  }
+
+  .upload-icon svg {
+    width: 28px;
+    height: 28px;
+  }
+
+  .upload-text p {
+    font-size: 0.85rem;
+  }
+}
+
+/* Mobile vừa: 376px - 480px */
+@media (min-width: 376px) and (max-width: 480px) {
+  .material-create-container {
+    width: 100%;
+    margin: 12px auto;
+    padding: 14px;
+  }
+
+  .material-create-title {
+    font-size: 1.3rem;
+    padding: 14px;
+  }
+
+  .material-create-button {
+    font-size: 0.9rem;
+    padding: 12px;
+  }
+}
+
+/* Tablet nhỏ: 481px - 768px */
+@media (min-width: 481px) and (max-width: 768px) {
+  .material-create-container {
+    width: 95%;
+    margin: 16px auto;
+    padding: 16px;
+  }
+
+  .material-create-title {
+    font-size: 1.4rem;
+  }
+
+  .material-create-form {
+    padding: 16px;
+  }
+}
+
+/* Tablet lớn: 769px - 1024px */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .material-create-container {
+    width: 90%;
+    margin: 20px auto;
+    padding: 18px;
+  }
+
+  .material-create-title {
+    font-size: 1.5rem;
+  }
+
+  .material-create-form {
+    padding: 18px;
+  }
+}
+
+/* Laptop nhỏ: 1025px - 1200px */
+@media (min-width: 1025px) and (max-width: 1200px) {
+  .material-create-container {
+    width: 90%;
+  }
+}
+
+/* Laptop vừa: 1201px - 1919px */
+@media (min-width: 1201px) and (max-width: 1919px) {
+  .material-create-container {
+    width: 85%;
+  }
+}
+
+/* Desktop lớn: ≥1920px */
+@media (min-width: 1920px) {
+  .material-create-container {
+    width: 75%;
+  }
+
+  .material-create-title {
+    font-size: 1.75rem;
+  }
+
+  .material-create-input,
+  .material-create-textarea {
+    font-size: 1rem;
+  }
+
+  .material-create-button {
+    font-size: 1rem;
+    padding: 14px 18px;
+  }
+}

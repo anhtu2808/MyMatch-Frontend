@@ -1,9 +1,28 @@
+/* MyGroup.css - Base Styles */
 .my-group-list {
   display: flex;
   flex-direction: column;
   gap: 20px;
-  width: 1240px;
+  width: 100%;
   margin-top: 20px;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.section-header h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.view-all {
+  font-size: 14px;
+  color: #666;
 }
 
 .group-card {
@@ -12,20 +31,37 @@
   padding: 20px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.08);
   display: flex;
-  justify-content: space-between; /* chia trái – phải */
-  align-items: flex-start; /* các block căn trên */
+  justify-content: space-between;
+  align-items: flex-start;
+  transition: box-shadow 0.3s ease;
+}
+
+.group-card:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+}
+
+.group-info {
+  flex: 1;
 }
 
 .group-header {
   display: flex;
   align-items: center;
   gap: 12px;
+  margin-bottom: 16px;
 }
 
 .group-name {
   font-size: 18px;
   font-weight: 600;
   margin: 0;
+  color: #1f2937;
+}
+
+.group-code {
+  color: #0c326f;
+  font-weight: 500;
+  font-size: 14px;
 }
 
 .status {
@@ -44,31 +80,30 @@
   color: #b91c1c;
 }
 
-.group-code {
-  color: #0c326f;
-  font-weight: 500;
-}
-
 .group-desc {
   font-size: 14px;
   color: #555;
-  margin: 0;
+  margin: 8px 0;
+  line-height: 1.5;
 }
 
 .group-stats {
   display: flex;
-  gap: 20px;
+  gap: 16px;
+  margin: 16px 0;
+  flex-wrap: wrap;
 }
 
 .stat-box {
-  background: #f9f9f9;
+  background: #f9fafb;
   border-radius: 8px;
-  padding: 12px 18px;
-  min-width: 250px;
+  padding: 12px 16px;
+  flex: 1;
+  min-width: 200px;
 }
 
 .stat-box p {
-  margin: 0;
+  margin: 0 0 4px 0;
   font-size: 13px;
   color: #666;
 }
@@ -79,7 +114,7 @@
 }
 
 .group-section p {
-  margin: 0 0 5px 0;
+  margin: 0 0 8px 0;
   font-size: 14px;
   font-weight: 500;
 }
@@ -88,71 +123,386 @@
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
+  margin: 8px 0;
 }
 
 .tag {
-  background: #e6f0ff;
-  color: #0c326f;
-  padding: 4px 10px;
-  border-radius: 6px;
+  background: #e0e7ff;
+  color: #3730a3;
+  padding: 4px 12px;
+  border-radius: 16px;
   font-size: 13px;
-}
-
-.tag.member {
-  background: #eff6ff;
-}
-
-.tag.searching {
-  background: #fef9c3;
-  color: #92400e;
+  font-weight: 500;
 }
 
 .group-actions {
   display: flex;
-  flex-direction: column; /* hoặc row nếu muốn nằm ngang */
+  flex-direction: column;
   gap: 10px;
+  flex-shrink: 0;
 }
 
-.btn-edit-my-group, .btn-delete-my-group, .btn-detail-my-group {
-  padding: 6px 12px;
-  border-radius: 6px;
+.btn-edit-my-group, 
+.btn-delete-my-group, 
+.btn-detail-my-group {
+  padding: 8px 14px;
+  border-radius: 8px;
   border: none;
   cursor: pointer;
   font-size: 13px;
   font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: transform 0.2s ease;
+  white-space: nowrap;
 }
 
 .btn-edit-my-group {
   background: #f0f9ff;
   color: #0369a1;
   border: 1px solid #bae6fd;
-  display: flex;
-  gap: 5px;
 }
 
-.btn-edit-my-group:hover{
-    transform: translateY(-2px);
+.btn-edit-my-group:hover {
+  transform: translateY(-2px);
 }
 
 .btn-delete-my-group {
   background: #fee2e2;
   color: #b91c1c;
   border: 1px solid #fecaca;
-  display: flex;
-  gap: 5px;
 }
 
 .btn-delete-my-group:hover {
-    transform: translateY(-2px);
+  transform: translateY(-2px);
 }
 
 .btn-detail-my-group {
   background: #0c326f;
   color: #fff;
-  display: flex;
-  gap: 5px;
 }
 
 .btn-detail-my-group:hover {
-    transform: translateY(-2px);
+  transform: translateY(-2px);
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+
+/* Mobile siêu nhỏ (<= 375px) */
+@media (max-width: 375px) {
+  .my-group-list {
+    gap: 12px;
+    margin-top: 14px;
+  }
+
+  .section-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    margin-bottom: 12px;
+  }
+
+  .section-header h3 {
+    font-size: 16px;
+  }
+
+  .view-all {
+    font-size: 12px;
+  }
+
+  .group-card {
+    flex-direction: column;
+    padding: 14px;
+    gap: 16px;
+    border-radius: 10px;
+  }
+
+  .group-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+
+  .group-name {
+    font-size: 16px;
+  }
+
+  .group-code {
+    font-size: 13px;
+  }
+
+  .group-stats {
+    flex-direction: column;
+    gap: 10px;
+    margin: 12px 0;
+  }
+
+  .stat-box {
+    min-width: 100%;
+    padding: 10px 12px;
+  }
+
+  .stat-box p {
+    font-size: 12px;
+  }
+
+  .stat-box strong {
+    font-size: 14px;
+  }
+
+  .group-desc {
+    font-size: 13px;
+  }
+
+  .tag {
+    padding: 3px 10px;
+    font-size: 11px;
+  }
+
+  .group-actions {
+    width: 100%;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .btn-edit-my-group, 
+  .btn-delete-my-group, 
+  .btn-detail-my-group {
+    flex: 1;
+    min-width: calc(50% - 4px);
+    padding: 9px 12px;
+    font-size: 12px;
+    justify-content: center;
+  }
+
+  .btn-edit-my-group svg,
+  .btn-delete-my-group svg,
+  .btn-detail-my-group svg {
+    width: 14px;
+    height: 14px;
+  }
+}
+
+/* Mobile nhỏ (376px - 480px) */
+@media (min-width: 376px) and (max-width: 480px) {
+  .my-group-list {
+    gap: 14px;
+    margin-top: 16px;
+  }
+
+  .section-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .section-header h3 {
+    font-size: 17px;
+  }
+
+  .view-all {
+    font-size: 13px;
+  }
+
+  .group-card {
+    flex-direction: column;
+    padding: 16px;
+    gap: 16px;
+  }
+
+  .group-header {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .group-name {
+    font-size: 17px;
+  }
+
+  .group-stats {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .stat-box {
+    min-width: 100%;
+  }
+
+  .tag {
+    font-size: 12px;
+  }
+
+  .group-actions {
+    width: 100%;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .btn-edit-my-group, 
+  .btn-delete-my-group, 
+  .btn-detail-my-group {
+    flex: 1;
+    min-width: calc(50% - 5px);
+    justify-content: center;
+  }
+}
+
+/* Tablet nhỏ (481px - 768px) */
+@media (min-width: 481px) and (max-width: 768px) {
+  .my-group-list {
+    gap: 16px;
+    margin-top: 18px;
+  }
+
+  .group-card {
+    flex-direction: column;
+    padding: 18px;
+    gap: 18px;
+  }
+
+  .group-stats {
+    gap: 12px;
+  }
+
+  .stat-box {
+    min-width: calc(50% - 6px);
+  }
+
+  .group-actions {
+    width: 100%;
+    flex-direction: row;
+    gap: 12px;
+  }
+
+  .btn-edit-my-group, 
+  .btn-delete-my-group, 
+  .btn-detail-my-group {
+    flex: 1;
+  }
+}
+
+/* Tablet (769px - 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .my-group-list {
+    gap: 18px;
+    margin-top: 20px;
+  }
+
+  .group-card {
+    flex-direction: row;
+    padding: 18px;
+  }
+
+  .group-stats {
+    gap: 14px;
+  }
+
+  .stat-box {
+    min-width: 180px;
+  }
+
+  .group-actions {
+    flex-direction: column;
+  }
+}
+
+/* Laptop nhỏ (1025px - 1200px) */
+@media (min-width: 1025px) and (max-width: 1200px) {
+  .my-group-list {
+    max-width: 100%;
+  }
+
+  .group-card {
+    padding: 19px;
+  }
+
+  .stat-box {
+    min-width: 200px;
+  }
+}
+
+/* Desktop thông thường (1201px - 1919px) */
+@media (min-width: 1201px) and (max-width: 1919px) {
+  .my-group-list {
+    max-width: 1240px;
+  }
+
+  .group-card {
+    padding: 20px;
+  }
+}
+
+/* Desktop lớn (>= 1920px) */
+@media (min-width: 1920px) {
+  .my-group-list {
+    max-width: 1600px;
+    gap: 24px;
+    margin-top: 24px;
+  }
+
+  .section-header {
+    display: column;
+  }
+  
+  .section-header h3 {
+    font-size: 20px;
+  }
+
+  .view-all {
+    font-size: 15px;
+  }
+
+  .group-card {
+    padding: 24px;
+    border-radius: 14px;
+  }
+
+  .group-name {
+    font-size: 19px;
+  }
+
+  .group-code {
+    font-size: 15px;
+  }
+
+  .group-desc {
+    font-size: 15px;
+  }
+
+  .group-stats {
+    gap: 20px;
+  }
+
+  .stat-box {
+    padding: 14px 18px;
+    min-width: 220px;
+  }
+
+  .stat-box p {
+    font-size: 14px;
+  }
+
+  .stat-box strong {
+    font-size: 16px;
+  }
+
+  .tag {
+    padding: 5px 14px;
+    font-size: 14px;
+  }
+
+  .group-actions {
+    gap: 12px;
+  }
+
+  .btn-edit-my-group, 
+  .btn-delete-my-group, 
+  .btn-detail-my-group {
+    padding: 10px 16px;
+    font-size: 14px;
+  }
 }

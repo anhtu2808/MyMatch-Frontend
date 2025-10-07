@@ -1,35 +1,145 @@
+/* FindingForum.css - Base Styles */
+.finding-forum-container {
+    width: 100%;
+}
+
 .finding-option-title {
     display: flex;
     gap: 10px;
-    margin-top: 30px 
+    margin-top: 30px;
 }
 
 .finding-option {
-  background: none;
-  border: none;
-  padding: 8px 12px;
-  font-size: 16px;
-  cursor: pointer;
-  position: relative;
-  color: #333;
+    background: none;
+    border: none;
+    padding: 8px 12px;
+    font-size: 16px;
+    cursor: pointer;
+    position: relative;
+    color: #333;
+    transition: color 0.3s ease;
 }
 
 .finding-option::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  height: 2px;
-  width: 0;
-  background-color: #0c326f; /* màu underline */
-  transition: width 0.3s ease-in-out;
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 2px;
+    width: 0;
+    background-color: #0c326f;
+    transition: width 0.3s ease-in-out;
 }
 
 .finding-option.active {
-  color: #0c326f;
-  font-weight: 500;
+    color: #0c326f;
+    font-weight: 500;
 }
 
 .finding-option.active::after {
-  width: 100%; /* khi active thì underline chạy hết */
+    width: 100%;
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+
+/* Mobile siêu nhỏ (<= 375px) */
+@media (max-width: 375px) {
+    .finding-forum-container {
+        width: 100%;
+    }
+
+    .finding-option-title {
+        gap: 6px;
+        margin-top: 16px;
+    }
+
+    .finding-option {
+        padding: 6px 10px;
+        font-size: 13px;
+    }
+}
+
+/* Mobile nhỏ (376px - 480px) */
+@media (min-width: 376px) and (max-width: 480px) {
+    .finding-forum-container {
+        width: 100%;
+    }
+
+    .finding-option-title {
+        gap: 8px;
+        margin-top: 18px;
+    }
+
+    .finding-option {
+        padding: 7px 11px;
+        font-size: 14px;
+    }
+}
+
+/* Tablet nhỏ (481px - 768px) */
+@media (min-width: 481px) and (max-width: 768px) {
+    .finding-forum-container {
+        width: 100%;
+    }
+
+    .finding-option-title {
+        gap: 10px;
+        margin-top: 20px;
+    }
+
+    .finding-option {
+        padding: 8px 12px;
+        font-size: 15px;
+    }
+}
+
+/* Tablet (769px - 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .finding-forum-container {
+        width: 100%;
+    }
+
+    .finding-option-title {
+        margin-top: 24px;
+    }
+}
+
+/* Laptop nhỏ (1025px - 1200px) */
+@media (min-width: 1025px) and (max-width: 1200px) {
+    .finding-forum-container {
+        width: 100%;
+        max-width: 1100px;
+    }
+
+    .finding-option-title {
+        margin-top: 26px;
+    }
+}
+
+/* Desktop thông thường (1201px - 1919px) */
+@media (min-width: 1201px) and (max-width: 1919px) {
+    .finding-forum-container {
+        max-width: 1240px;
+    }
+
+    .finding-option-title {
+        margin-top: 28px;
+    }
+}
+
+/* Desktop lớn (>= 1920px) */
+@media (min-width: 1920px) {
+    .finding-forum-container {
+        max-width: 1600px;
+    }
+
+    .finding-option-title {
+        margin-top: 32px;
+        gap: 12px;
+    }
+
+    .finding-option {
+        padding: 10px 16px;
+        font-size: 17px;
+    }
 }

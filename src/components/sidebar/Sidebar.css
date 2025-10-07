@@ -15,14 +15,21 @@
   /* overflow-x: hidden;  */
 }
 
+/* Mobile: full width trong drawer */
+.sidebar.sidebar-mobile {
+  width: 100% !important;
+  min-width: 100% !important;
+  max-width: 100% !important;
+  height: 100vh !important;
+  overflow-y: auto;
+}
 
 .logoSection {
-  padding: 1.5rem 1rem;
+  padding: 1.1rem;
   border-bottom: 1px solid #F3F4F6;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 20px;
 }
 
 .logoImg {
@@ -30,6 +37,20 @@
   height: 3rem; /* 10 */
   border-radius: 0.5rem;
   object-fit: cover;
+}
+
+/* THAY BẰNG CSS MỚI DƯỚI ĐÂY */
+.logo-video-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.logo-video {
+  width: 60px;
+  height: 60px;
+  object-fit: cover; 
+  border-radius: 0.5rem;
 }
 
 .nav {
@@ -81,6 +102,36 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+/* Mobile: icon + text căn hàng ngang */
+.sidebar-mobile .navLink {
+  justify-content: flex-start;   /* icon + text từ trái qua */
+  width: 100%;                   /* full chiều rộng */
+  padding: 0.5rem 1rem;          /* thêm khoảng cách */
+}
+
+/* Icon khi mobile: giữ size cố định để đều nhau */
+.sidebar-mobile .navIcon {
+  min-width: 2rem; /* đảm bảo icon thẳng hàng */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 0.75rem; /* cách chữ */
+}
+
+/* Text kế bên icon */
+.sidebar-mobile .navIcon-mobile {
+  font-size: 0.95rem;
+  color: #374151;
+  white-space: nowrap;
+}
+
+.sidebar-mobile .navLinkActive .navIcon-mobile {
+  font-size: 0.95rem;
+  color: #374151;
+  white-space: nowrap;
+  color: white;
 }
 
 .notification-badge {
@@ -196,9 +247,9 @@
 
 .sidebar .dropdownMenu {
   position: absolute;
-  bottom: 100%; /* Đặt menu lên trên user profile */
+  bottom: 10%;
   left: 100%;
-  transform: translateX(-10%);
+  transform: translateY(-50%) translateX(-10%);
   background-color: #fff;
   border: 1px solid #ccc;
   border-radius: 8px;
@@ -207,6 +258,22 @@
   padding: 8px 0;
   z-index: 1300;
 }
+
+.sidebar-mobile .dropdownMenu {
+  position: absolute;
+  bottom: 100%; 
+  right: 0;
+  left: auto;
+  transform: translateY(-10%); 
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  min-width: 150px;
+  padding: 8px 0;
+  z-index: 1300;
+}
+
 
 .sidebar .dropdownItem {
   display: block;

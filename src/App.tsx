@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import Home from "./features/home/pages/Home";
 import SwapClass from "./features/swap-class/pages/SwapClass";
 import CreateSwapRequest from "./features/swap-class/pages/CreateSwapRequest";
@@ -25,12 +25,16 @@ import Finding from "./features/matching-member/pages/Finding";
 import FindingForum from "./features/matching-member/pages/FindingForum";
 import { UnreadMessagesProvider } from "./features/message/components/UnreadMessagesContext";
 import Coin from "./features/coin/pages/Coin";
+import TermsOfService from "./features/legal/TermsOfService";
+import PrivacyPolicy from "./features/legal/PrivacyPolicy";
+import AboutUsPage from "./features/about/AboutUsPage";
 
-function App() {
+function AppRoutes() {
   const token = localStorage.getItem("accessToken");
-
+  const location = useLocation()
+  const hiddenCoinRoutes = ["/login", "/authenticate"]
+  const showCoin = token && !hiddenCoinRoutes.includes(location.pathname)
   return (
-    <Router>
       <UnreadMessagesProvider>
       <Routes>
         <Route path="/" element={<Home />} />
@@ -52,15 +56,26 @@ function App() {
         <Route path="/product" element={<PrivateRoute><Product /></PrivateRoute>} />
         <Route path="/finding" element={<PrivateRoute><Finding /></PrivateRoute>} />
         <Route path="/finding_forum" element={<PrivateRoute><FindingForum /></PrivateRoute>} />
-         <Route path="/material" element={<PrivateRoute><MaterialPage /></PrivateRoute>} />
+        <Route path="/material" element={<PrivateRoute><MaterialPage /></PrivateRoute>} />
         <Route path="/material/:id" element={<PrivateRoute><MaterialDetailPage /></PrivateRoute>} />
         <Route path="/material/create" element={<PrivateRoute><CreateMaterial /></PrivateRoute>} />
         <Route path="/material/update/:id" element={<PrivateRoute><UpdateMaterial /></PrivateRoute>} />
       </Routes>
-      {token &&  <Coin /> }
+      {showCoin &&  <Coin /> }
       </UnreadMessagesProvider>
-    </Router>
   );
 }
 
+function App() {
+  return (
+  <Router>
+    <AppRoutes />
+    <Routes>
+      <Route path="/terms_of_service" element={<UnreadMessagesProvider><TermsOfService /></UnreadMessagesProvider>} />
+      <Route path="/privacy_policy" element={<UnreadMessagesProvider><PrivacyPolicy /></UnreadMessagesProvider>} />
+      <Route path="/about" element={<UnreadMessagesProvider><AboutUsPage /></UnreadMessagesProvider>} />
+    </Routes>
+  </Router>
+  )
+}
 export default App;

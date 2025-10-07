@@ -3,7 +3,8 @@
   overflow-x: auto;
   padding: 8px 8px 8px 0;
   scroll-snap-type: x mandatory;
-  width: 94%;
+  width: 100%;
+
 }
 
 .my-review-card {
@@ -86,4 +87,98 @@
 
 .delete-review-btn:hover {
   color: #c0392b;
+}
+/* ================= Responsive Styles ================= */
+
+/* Mobile nhỏ: iPhone SE, Galaxy Fold */
+@media (max-width: 375px) {
+  .my-review-list {
+    width: 100%;
+    padding: 4px;
+    gap: 8px;
+  }
+
+  .my-review-card {
+    flex: 0 0 90%;
+    padding: 10px;
+  }
+
+  .my-review-course-semester h3 {
+    font-size: 14px;
+  }
+
+  .my-review-semester {
+    font-size: 10px;
+  }
+
+  .delete-review-btn svg {
+    width: 14px;
+    height: 14px;
+  }
+}
+
+/* Mobile trung bình: iPhone 12, Pixel, v.v. */
+@media (min-width: 376px) and (max-width: 480px) {
+  .my-review-card {
+    flex: 0 0 85%;
+    padding: 12px;
+  }
+
+  .my-review-course-semester h3 {
+    font-size: 15px;
+  }
+}
+
+/* Tablet dọc */
+@media (min-width: 481px) and (max-width: 768px) {
+  .my-review-card {
+    flex: 0 0 45%;
+  }
+
+  .my-review-list {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .my-review-course-semester h3 {
+    font-size: 16px;
+  }
+}
+
+/* Tablet ngang / laptop nhỏ */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .my-review-card {
+    flex: 0 0 40%;
+  }
+
+  .my-review-list {
+    flex-wrap: wrap;
+  }
+}
+
+/* Laptop phổ thông */
+@media (min-width: 1025px) and (max-width: 1200px) {
+  .my-review-card {
+    flex: 0 0 30%;
+  }
+}
+
+/* Màn hình lớn (Full HD) */
+@media (min-width: 1201px) and (max-width: 1919px) {
+  .my-review-card {
+    flex: 0 0 22%;
+  }
+}
+
+/* Màn hình cực lớn (2K, 4K) */
+@media (min-width: 1920px) {
+  .my-review-list {
+    width: 80%;
+    margin: 0 auto;
+  }
+
+  .my-review-card {
+    flex: 0 0 18%;
+    padding: 16px;
+  }
 }

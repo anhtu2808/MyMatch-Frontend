@@ -137,7 +137,7 @@ function NewsFeed() {
     <div className='my-request-container'>
       <Filter onFilter={handleFilter} onReset={handleReset} />
 
-      <div className='section-header'>
+      <div className='section-header-request'>
         <h3>Bản tin chuyển lớp</h3>
         <span className='view-all'>Hiển thị {filteredFeeds.length} yêu cầu</span>
       </div>
@@ -194,7 +194,9 @@ function NewsFeed() {
             </div>
 
             <div className='swap-arrow'>
-              <div className='arrow-icon'>⇄</div>
+              <div className='arrow-icon'>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-arrow-right-left-icon lucide-arrow-right-left"><path d="m16 3 4 4-4 4"/><path d="M20 7H4"/><path d="m8 21-4-4 4-4"/><path d="M4 17h16"/></svg>
+              </div>
             </div>
 
             <div className='swap-section'>

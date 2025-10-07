@@ -1,32 +1,113 @@
-/* Nút coin */
+/* Coin.css */
+
+/* Mặc định (desktop) */
 .coin-button {
-    width: fit-content;
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    z-index: 9999;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 16px 24px;
-    border: 2px solid #fcd34d;
-    border-radius: 9999px;
-    font-weight: bold;
-    font-size: 14px;
-    color: white;
-    background: linear-gradient(to right, #facc15, #f97316);
-    box-shadow: 0 0 25px rgba(250, 204, 21, 0.7);
-    cursor: pointer;
-    transition: all 0.3s ease;
+  width: fit-content;
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 24px;
+  border: 2px solid #fcd34d;
+  border-radius: 9999px;
+  font-weight: bold;
+  font-size: 14px;
+  color: white;
+  background: linear-gradient(to right, #facc15, #f97316);
+  box-shadow: 0 0 25px rgba(250, 204, 21, 0.7);
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
 .coin-button:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 35px rgba(250, 204, 21, 0.9);
+  transform: scale(1.05);
+  box-shadow: 0 0 35px rgba(250, 204, 21, 0.9);
 }
 
 .coin-text {
-    line-height: 1.2;
-    text-align: right;
+  line-height: 1.2;
+  text-align: right;
 }
 
+/* Tablet (<= 1024px) */
+@media (max-width: 1024px) {
+  .coin-button {
+    top: 15px;
+    right: 15px;
+    padding: 12px 18px;
+    font-size: 13px;
+    gap: 6px;
+  }
+
+  .coin-button svg {
+    width: 22px;
+    height: 22px;
+  }
+}
+
+/* Mobile (<= 768px) */
+@media (max-width: 768px) {
+  .coin-button {
+    top: 12px;
+    right: 12px;
+    padding: 10px 14px;
+    font-size: 12px;
+    gap: 4px;
+  }
+
+  .coin-button svg {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+/* Small mobile (<= 480px) */
+@media (max-width: 480px) {
+  .coin-button {
+    top: 10px;
+    right: 10px;
+    padding: 8px 12px;
+    font-size: 11px;
+    gap: 3px;
+  }
+
+  .coin-button svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  /* Desktop lớn (>= 1440px) */
+@media (min-width: 1440px) {
+  .coin-button {
+    top: 25px;
+    right: 25px;
+    padding: 18px 28px;
+    font-size: 16px;
+    gap: 10px;
+  }
+
+  .coin-button svg {
+    width: 28px;
+    height: 28px;
+  }
+}
+
+/* Màn 2K trở lên (>= 1920px) */
+@media (min-width: 1920px) {
+  .coin-button {
+    top: 30px;
+    right: 30px;
+    padding: 20px 32px;
+    font-size: 18px;
+    gap: 12px;
+  }
+
+  .coin-button svg {
+    width: 32px;
+    height: 32px;
+  }
+}
+}

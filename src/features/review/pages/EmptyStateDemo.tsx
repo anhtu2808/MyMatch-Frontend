@@ -5,6 +5,7 @@ import TeacherFilter from "../components/TeacherFilter/filter";
 import TeacherPageComponents from "../components/TeacherCard/TeacherPageComponents";
 import Pagination from "../components/Pagination/Pagination";
 import "./TeachersPage.css";
+import { useResponsive } from "../../../useResponsive";
 
 function EmptyStateDemo() {
   const [showEmptyState, setShowEmptyState] = useState(false);
@@ -12,7 +13,8 @@ function EmptyStateDemo() {
   const [activeTab, setActiveTab] = useState("all");
   const [filters, setFilters] = useState({});
   const [bookmarkedTeachers, setBookmarkedTeachers] = useState<number[]>([]);
-
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const isMobile = useResponsive(1024);
   const handleToggleBookmark = (teacherId: number) => {
     setBookmarkedTeachers((prev) =>
       prev.includes(teacherId)
@@ -23,11 +25,22 @@ function EmptyStateDemo() {
 
   return (
     <div className="teachers-page-container">
-      <Sidebar />
+      {!isMobile && <Sidebar />}
       <Header
         title="Demo Empty State"
         script="Test empty state component khi không tìm thấy giảng viên"
+        onToggleSidebar={() => setSidebarOpen(!sidebarOpen)}
+        isMobile={isMobile}
       />
+
+      {isMobile && (
+        <>
+          <div className={`sidebar-drawer ${sidebarOpen ? "open" : ""}`}>
+            <Sidebar isMobile={true} />
+          </div>
+          {sidebarOpen && <div className="overlay" onClick={() => setSidebarOpen(false)} />}
+        </>
+      )}
       <div className="teachers-page">
         <TeacherFilter
           activeTab={activeTab}

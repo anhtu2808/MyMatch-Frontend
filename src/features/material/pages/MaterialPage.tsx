@@ -11,6 +11,7 @@ import {
   getCoursesAPI,
   getAllLecturerAPI,
 } from "../apis/MaterialPageAPIs";
+import { useResponsive } from '../../../useResponsive'
 
 interface Material {
   id: number;
@@ -46,6 +47,9 @@ const MaterialPage: React.FC = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [activeTab, setActiveTab] = useState("all");
 
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  const isMobile = useResponsive(1024);
   const user = useAppSelector((state) => state.user);
   const userId = user?.id;
 
@@ -54,19 +58,15 @@ const MaterialPage: React.FC = () => {
       let courseId: number | undefined;
       let lecturerId: number | undefined;
 
-      // tìm courseId nếu có filter course
       if (filters.course) {
         const courseRes = await getCoursesAPI({ code: filters.course });
         courseId = courseRes?.result?.data?.[0]?.id;
       }
 
-      // tìm lecturerId nếu có filter lecturer
       if (filters.lecturer) {
         const lecturerRes = await getAllLecturerAPI({ name: filters.lecturer });
         lecturerId = lecturerRes?.result?.data?.[0]?.id;
       }
-
-      console.log("Current userId from localStorage:", userId);
 
       const res = await getMaterialsAPI({
         page,
@@ -117,11 +117,25 @@ const MaterialPage: React.FC = () => {
 
   return (
     <div className="material-page-container">
-      <Sidebar />
+      {!isMobile && <Sidebar />}
       <Header
         title="Tài liệu học tập"
         script="Tài nguyên học tập và tài liệu môn học"
+        onToggleSidebar={() => setSidebarOpen(!sidebarOpen)}
+        isMobile={isMobile}
       />
+
+      {isMobile && (
+        <>
+          <div className={`sidebar-drawer ${sidebarOpen ? "open" : ""}`}>
+            <Sidebar isMobile={true} />
+          </div>
+          {sidebarOpen && (
+            <div className="overlay" onClick={() => setSidebarOpen(false)} />
+          )}
+        </>
+      )}
+
       <div className="material-page">
         <MaterialFilter
           activeTab={activeTab}

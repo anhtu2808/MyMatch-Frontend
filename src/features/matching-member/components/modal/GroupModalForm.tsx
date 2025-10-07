@@ -498,6 +498,12 @@ const showNotification = (msg: string, type: any) => {
           </Button>
         </div>
 
+            {!isEdit && (
+              <p className="group-form-fee-warning">
+                Mỗi lượt tạo sẽ mất phí <strong>3.000 Coin</strong>
+              </p>
+            )}
+
         {/* Footer */}
         <div className="group-form-modal-footer">
           <button className="group-form-button-cancel" onClick={onClose}>

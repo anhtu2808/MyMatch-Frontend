@@ -6,10 +6,14 @@
   display: flex;
   flex-direction: column;
   width: 400px;
-  min-height: 300px;
+  /* min-height: 300px; */
   transition: all 0.2s ease;
   border: 1px solid #f0f0f0;
   overflow: hidden;
+  flex: 1 1 300px;
+  max-width: 400px;
+  min-width: 280px;
+  box-sizing: border-box;
 }
 
 .btn-bookmark.active .bookmark-icon {
@@ -267,4 +271,137 @@
 
 .btn-eye {
   padding-right: 4px;
+}
+/* Mobile nhỏ (<=375px) */
+@media (max-width: 375px) {
+  .teacher-card {
+    width: 100%;
+    min-height: 280px;
+  }
+
+  .teacher-card-top {
+    padding: 20px 16px;
+  }
+
+  .teacher-card-bottom {
+    padding: 16px;
+  }
+
+  .teacher-namee {
+    font-size: 20px;
+  }
+
+  .teacher-usernamee {
+    font-size: 13px;
+  }
+
+  .stat-number {
+    font-size: 16px;
+  }
+
+  .stat-label {
+    font-size: 11px;
+  }
+
+  .teacher-card-footer {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .btn-rate,
+  .btn-view {
+    height: 40px;
+    font-size: 13px;
+  }
+}
+
+/* Mobile lớn (376px - 480px) */
+@media (min-width: 376px) and (max-width: 480px) {
+  .teacher-card {
+    width: 100%;
+    min-height: 300px;
+  }
+
+  .teacher-card-top {
+    padding: 22px 18px;
+  }
+
+  .teacher-card-bottom {
+    padding: 18px;
+  }
+
+  .teacher-namee {
+    font-size: 22px;
+  }
+
+  .teacher-usernamee {
+    font-size: 14px;
+  }
+
+  .stat-number {
+    font-size: 18px;
+  }
+
+  .stat-label {
+    font-size: 12px;
+  }
+
+  .teacher-card-footer {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .btn-rate,
+  .btn-view {
+    height: 42px;
+    font-size: 13px;
+  }
+}
+
+/* Tablet nhỏ (481px - 768px) */
+@media (min-width: 481px) and (max-width: 768px) {
+  .teacher-card {
+    width: 48%;
+    min-height: 300px;
+  }
+
+  .teacher-card-footer {
+    flex-direction: row;
+  }
+}
+
+/* Tablet lớn / Desktop nhỏ (769px - 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .teacher-card {
+    width: 31%;
+  }
+}
+
+/* Desktop trung bình (1025px - 1200px) */
+@media (min-width: 1025px) and (max-width: 1200px) {
+  .teacher-card {
+    width: 30%;
+  }
+}
+
+/* Desktop lớn (1201px - 1919px) */
+@media (min-width: 1201px) and (max-width: 1919px) {
+  .teacher-card {
+    width: 25%;
+  }
+}
+
+/* Ultra-wide (>=1920px) */
+@media (min-width: 1920px) {
+  .teacher-card {
+    width: 20%;
+  }
+}
+
+/* Teacher container responsive */
+.teacher-page-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
 }

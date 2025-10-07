@@ -276,3 +276,154 @@
   background-color: #f3f4f6;
   border-color: #9ca3af;
 }
+
+/* Mobile rất nhỏ: ≤375px */
+@media (max-width: 375px) {
+  .material-detail {
+    flex-direction: column;
+    width: 100%;
+    gap: 16px;
+    margin-top: 10px;
+  }
+
+  .material-detail-left,
+  .material-detail-right {
+    padding: 12px;
+    width: 100%;
+  }
+
+  .material-detail-image img {
+    height: 180px;
+  }
+
+  .material-detail-title {
+    font-size: 18px;
+  }
+
+  .material-detail-meta {
+    flex-direction: column;
+    gap: 8px;
+    font-size: 12px;
+  }
+
+  .material-detail-btn-download,
+  .material-detail-btn-purchase,
+  .material-detail-btn-update,
+  .material-detail-btn-delete {
+    font-size: 13px;
+    padding: 10px;
+  }
+
+  .material-item-btn {
+    font-size: 12px;
+  }
+}
+
+/* Mobile vừa: 376px - 480px */
+@media (min-width: 376px) and (max-width: 480px) {
+  .material-detail {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .material-detail-left,
+  .material-detail-right {
+    padding: 14px;
+    width: 100%;
+  }
+
+  .material-detail-image img {
+    height: 200px;
+  }
+
+  .material-detail-title {
+    font-size: 20px;
+  }
+}
+
+/* Tablet nhỏ: 481px - 768px */
+@media (min-width: 481px) and (max-width: 768px) {
+  .material-detail {
+    flex-direction: column;
+    width: 95%;
+    margin: 0 auto;
+  }
+
+  .material-detail-left,
+  .material-detail-right {
+    padding: 16px;
+  }
+
+  .material-detail-title {
+    font-size: 22px;
+  }
+}
+
+/* Tablet lớn: 769px - 1024px */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .material-detail {
+    flex-direction: row;
+    gap: 20px;
+    width: 95%;
+    margin: 0 auto;
+  }
+
+  .material-detail-title {
+    font-size: 23px;
+  }
+}
+
+/* Laptop nhỏ: 1025px - 1200px */
+@media (min-width: 1025px) and (max-width: 1200px) {
+  .material-detail {
+    width: 95%;
+    margin: 0 auto;
+  }
+
+  .material-detail-title {
+    font-size: 24px;
+  }
+}
+
+/* Laptop vừa: 1201px - 1919px */
+@media (min-width: 1201px) and (max-width: 1919px) {
+  .material-detail {
+    width: 90%;
+    margin: 0 auto;
+  }
+
+  .material-detail-title {
+    font-size: 25px;
+  }
+}
+
+/* Desktop lớn: ≥1920px */
+@media (min-width: 1920px) {
+  .material-detail {
+    width: 80%;
+    margin: 0 auto;
+    gap: 32px;
+  }
+
+  .material-detail-left,
+  .material-detail-right {
+    padding: 24px;
+  }
+
+  .material-detail-title {
+    font-size: 28px;
+  }
+
+  .material-detail-btn-download,
+  .material-detail-btn-purchase,
+  .material-detail-btn-update,
+  .material-detail-btn-delete {
+    font-size: 15px;
+    padding: 14px;
+  }
+
+  .material-item-btn {
+    font-size: 14px;
+    padding: 10px 14px;
+  }
+}

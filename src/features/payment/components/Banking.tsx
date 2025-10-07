@@ -54,7 +54,7 @@ const Banking: React.FC = () => {
                   </div>
                   <div className="banking-membership-steps">
                     <div>Quy trình 2 bước:</div>
-                    <div>📝 Bước 1: Nạp Coint (tại trang này)</div>
+                    <div>📝 Bước 1: Nạp Coin (tại trang này)</div>
                     <div>📝 Bước 2: Thanh toán các gói Premium bằng Coin</div>
                   </div>
                   <button className="banking-membership-btn" onClick={() => navigation("/product")}> Mua</button>
@@ -114,9 +114,9 @@ const Banking: React.FC = () => {
                   <div  className="banking-badge-mb">
                     TPBank
                   </div>
-                  <div className="banking-badge-napas">
+                  {/* <div className="banking-badge-napas">
                     napas 247
-                  </div>
+                  </div> */}
                   <div  className="banking-badge-vietqr">
                     VietQR
                   </div>
@@ -132,22 +132,18 @@ const Banking: React.FC = () => {
                   </h3>
                   <div className="banking-account-info-list">
                     <div className="banking-account-info-item">
-                      <div className="banking-account-info-item-icon" />
                       <span className="banking-account-info-label">Chủ tài khoản:</span>
                       <span className="banking-account-info-value">{qrCode?.accountName}</span>
                     </div>
                     <div className="banking-account-info-item">
-                      <div className="banking-account-info-item-icon" />
                       <span className="banking-account-info-label">Số tài khoản:</span>
                       <span className="banking-account-info-value">{qrCode?.accountNumber}</span>
                     </div>
                     <div className="banking-account-info-item">
-                      <div className="banking-account-info-item-icon" />
                       <span className="banking-account-info-label">Ngân hàng:</span>
                       <span className="banking-account-info-value">{qrCode?.bankCode}</span>
                     </div>
                     <div className="banking-account-info-item">
-                      <div className="banking-account-info-item-icon" />
                       <span className="banking-account-info-label">Nội dung:</span>
                       <span className="banking-account-info-value">{qrCode?.content}</span>
                     </div>

@@ -1,16 +1,19 @@
 .my-request-container {
     margin: 0;  
     padding: 0;
+    width: 100%; /* Quan trọng */
+    max-width: 1240px; /* Quan trọng */
 }
 
-.section-header {
+.section-header-request {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
+    padding: 0 24px; /* Thêm padding để không dính sát viền */
 }
 
-.section-header h2 {
+.section-header-request h2 {
     font-size: 24px;
     font-weight: bold;
     color: #333;
@@ -153,6 +156,7 @@
 
 .class-card.want-swap {
     border-color: #c02020;
+    border-width: 1px;
     background-color: #fddddd;
     justify-content: center;
     display: flex;
@@ -161,6 +165,7 @@
 
 .class-card.your-class {
     border-color: #4CAF50;
+    border-width: 1px;
     background-color: #f8fff8;
     justify-content: center;
     display: flex;
@@ -204,7 +209,6 @@
 }
 
 .arrow-icon {
-    background-color: #0c326f;
     color: white;
     width: 40px;
     height: 40px;
@@ -274,25 +278,363 @@
     transform: translateY(-2px);
 }
 
-/* Responsive adjustments */
-@media (max-width: 1400px) {
-    .my-request-container {
-        width: 100%;
-        max-width: 1260px;
-    }
+/* ========================================
+   RESPONSIVE MEDIA QUERIES
+======================================== */
+/* Màn hình 2K/4K (>= 1920px) */
+@media (min-width: 1920px) {
+  .my-request-container {
+    max-width: 1600px;
+  }
 }
 
-@media (max-width: 768px) {
-    .swap-details {
-        flex-direction: column;
-        gap: 16px;
+@media (min-width: 1201px) and (max-width: 1919px) {
+  .my-request-container {
+    padding: 0;
+  }
+
+  .section-header-request {
+    padding: 0;
+    width: 1240px;
+    margin-left: 80px;
+    }
+    
+  .request-card {
+    padding: 28px;
+    width: 1240px;
+    margin-left: 80px;
+  }
+}
+
+/* Laptop và Tablet ngang (<= 1200px) */
+@media (min-width: 1025px) and (max-width: 1200px) {
+  .my-request-container {
+    padding: 0;
+  }
+  
+  .section-header-request {
+        padding: 0;
     }
 
-    .swap-arrow {
-        transform: rotate(90deg);
-    }
+  .request-card {
+    padding: 20px;
+  }
+  
+  .swap-details {
+    gap: 16px;
+  }
+}
 
-    .action-buttons-my-request {
-        flex-direction: column;
-    }
+/* Tablet chiều dọc (<= 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .my-request-container {
+    padding: 0;
+  }
+
+  .section-header-request h3 {
+    font-size: 18px;
+  }
+  
+  .card-header {
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .status-badges {
+    align-items: flex-start;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+  }
+  
+  .subject-info {
+    align-items: flex-start;
+  }
+  
+  .swap-details {
+    gap: 12px;
+  }
+  
+  .class-card {
+    padding: 14px;
+  }
+  
+  .arrow-icon {
+    font-size: 28px;
+  }
+}
+
+/* Tablet nhỏ và Mobile lớn (<= 768px) */
+@media (min-width: 481px) and (max-width: 768px) {
+  .my-request-container {
+    padding: 12px;
+  }
+  
+  .section-header-request {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  
+  .request-card {
+    padding: 16px;
+    margin-bottom: 16px;
+  }
+  
+  .user-info {
+    gap: 12px;
+  }
+  
+  .avatar {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .user-details h3 {
+    font-size: 15px;
+  }
+  
+  .user-details p {
+    font-size: 13px;
+  }
+  
+  /* Giữ layout ngang nhưng thu nhỏ */
+  .swap-details {
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  
+  .swap-section h4 {
+    font-size: 12px;
+    margin-bottom: 8px;
+  }
+  
+  .swap-arrow {
+    padding: 0 4px;
+  }
+  
+  .arrow-icon {
+    font-size: 20px;
+  }
+  
+  .class-card {
+    padding: 10px;
+  }
+  
+  .class-code {
+    font-size: 14px;
+    margin-bottom: 2px;
+  }
+  
+  .subject-small {
+    font-size: 11px;
+    margin-bottom: 8px;
+  }
+  
+  .class-info {
+    font-size: 11px;
+  }
+  
+  .class-info > div {
+    margin-bottom: 2px;
+  }
+  
+  .schedule {
+    font-size: 10px;
+  }
+  
+  .action-buttons-matching {
+    justify-content: stretch;
+  }
+  
+  .btn-message-matching,
+  .btn-message-matching-accept,
+  .btn-message-matching-reject {
+    flex: 1;
+    justify-content: center;
+    min-width: 0;
+  }
+}
+
+/* Mobile nhỏ (<= 480px) */
+@media (min-width: 376px) and (max-width: 480px) {
+  .my-request-container {
+    padding: 8px;
+  }
+  
+  .section-header-request h3 {
+    font-size: 16px;
+  }
+  
+  .view-all {
+    font-size: 13px;
+  }
+  
+  .request-card {
+    padding: 12px;
+    border-radius: 8px;
+  }
+  
+  .card-header {
+    margin-bottom: 12px;
+  }
+  
+  .user-info {
+    gap: 10px;
+  }
+  
+  .avatar {
+    width: 36px;
+    height: 36px;
+  }
+  
+  .user-details h3 {
+    font-size: 14px;
+  }
+  
+  .user-details p {
+    font-size: 11px;
+  }
+  
+  .status-badges {
+    flex-direction: column;
+    gap: 6px;
+  }
+  
+  .status-badge {
+    font-size: 10px;
+    padding: 4px 8px;
+  }
+  
+  /* Giữ layout ngang, thu nhỏ hơn nữa */
+  .swap-details {
+    gap: 6px;
+    margin-bottom: 12px;
+  }
+  
+  .swap-section h4 {
+    font-size: 11px;
+    margin-bottom: 6px;
+  }
+  
+  .arrow-icon {
+    font-size: 18px;
+  }
+  
+  .class-card {
+    padding: 8px;
+  }
+  
+  .class-code {
+    font-size: 13px;
+    margin-bottom: 2px;
+  }
+  
+  .subject-small {
+    font-size: 10px;
+    margin-bottom: 6px;
+  }
+  
+  .class-info {
+    font-size: 10px;
+    line-height: 1.4;
+  }
+  
+  .schedule {
+    font-size: 9px;
+    margin-top: 2px;
+  }
+  
+  .action-buttons-matching {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .btn-message-matching,
+  .btn-message-matching-accept,
+  .btn-message-matching-reject {
+    width: 100%;
+    padding: 10px 12px;
+    font-size: 12px;
+  }
+  
+  /* Ẩn icon SVG trên mobile rất nhỏ để tiết kiệm không gian */
+  .btn-message-matching svg,
+  .btn-message-matching-accept svg,
+  .btn-message-matching-reject svg {
+    display: none;
+  }
+}
+
+/* Mobile cực nhỏ (<= 375px) */
+@media (max-width: 375px) {
+  .section-header-request h3 {
+    font-size: 15px;
+  }
+  
+  .request-card {
+    padding: 10px;
+  }
+  
+  .user-details h3 {
+    font-size: 13px;
+  }
+  
+  .avatar {
+    width: 32px;
+    height: 32px;
+  }
+  
+  /* Thu nhỏ thêm để vừa màn hình nhỏ */
+  .swap-section h4 {
+    font-size: 10px;
+    margin-bottom: 4px;
+  }
+  
+  .arrow-icon {
+    font-size: 16px;
+  }
+  
+  .class-card {
+    padding: 6px;
+  }
+  
+  .class-code {
+    font-size: 12px;
+  }
+  
+  .subject-small {
+    font-size: 9px;
+    margin-bottom: 4px;
+  }
+  
+  .class-info {
+    font-size: 9px;
+  }
+  
+  .schedule {
+    font-size: 8px;
+  }
+  
+  .btn-message-matching,
+  .btn-message-matching-accept,
+  .btn-message-matching-reject {
+    padding: 10px 12px;
+    font-size: 11px;
+  }
+}
+
+/* Landscape mode cho mobile */
+@media (max-height: 500px) and (orientation: landscape) {
+  .request-card {
+    padding: 12px;
+  }
+  
+  .card-header {
+    margin-bottom: 12px;
+  }
+  
+  .swap-details {
+    margin-bottom: 12px;
+  }
 }

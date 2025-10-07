@@ -67,6 +67,21 @@ const Chat: React.FC<ChatProps> = ({ id, requestId }) => {
   const [searchTerm, setSearchTerm] = useState("")
   const { unreadConversations, markConversationAsRead } = useUnreadMessages() // chấm đỏ ở message
   const [showEmojiPicker, setShowEmojiPicker] = useState(false)
+  // Thêm state để quản lý mobile view
+  const [isMobileView, setIsMobileView] = useState(false)
+  const [showChatWindow, setShowChatWindow] = useState(false)
+
+// Detect mobile screen
+useEffect(() => {
+  const checkMobile = () => {
+    setIsMobileView(window.innerWidth <= 480)
+  }
+  
+  checkMobile()
+  window.addEventListener('resize', checkMobile)
+  
+  return () => window.removeEventListener('resize', checkMobile)
+}, [])
 
   // thanh search tên user
   const filteredConversations = conversations.filter((conv) =>
@@ -145,11 +160,21 @@ const Chat: React.FC<ChatProps> = ({ id, requestId }) => {
     }
   }
 
-  // khi click vào conversation
+// Cập nhật hàm handleSelectConversation
 const handleSelectConversation = (conv: Conversation) => {
   setSelectedConversation(conv)
   fetchMessages(conv.id)
-  markConversationAsRead(conv.id) // ✅ xóa unread
+  markConversationAsRead(conv.id)
+  
+  // Trên mobile, hiện chat window và ẩn sidebar
+  if (isMobileView) {
+    setShowChatWindow(true)
+  }
+}
+
+const handleBackToSidebar = () => {
+  setShowChatWindow(false)
+  setSelectedConversation(null)
 }
 
   // =========================
@@ -208,7 +233,7 @@ const handleSelectConversation = (conv: Conversation) => {
   return (
     <div className="chat-container">
       {/* Sidebar */}
-      <div className="chat-sidebar">
+      <div className={`chat-sidebar ${isMobileView && showChatWindow ? 'hide-on-mobile' : ''}`}>
         <h2 className="title-message">Tin nhắn</h2>
 
         {/* Search box */}
@@ -229,9 +254,7 @@ const handleSelectConversation = (conv: Conversation) => {
                 selectedConversation?.id === conv.id ? "active" : ""
               }`}
               onClick={() => {
-                setSelectedConversation(conv)
-                fetchMessages(conv.id)
-                markConversationAsRead(conv.id)
+                handleSelectConversation(conv)
               }}
             >
               <div className="items-conversation">
@@ -255,10 +278,18 @@ const handleSelectConversation = (conv: Conversation) => {
       </div>
 
       {/* Chat window */}
-      <div className="chat-window">
+      <div className={`chat-window ${isMobileView && showChatWindow ? 'show-on-mobile' : ''}`}>
         {selectedConversation ? (
           <>
             <div className="chat-conversation-header">
+              {isMobileView && (
+              <button 
+                className="mobile-back-btn" 
+                onClick={handleBackToSidebar}
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-arrow-big-left-dash-icon lucide-arrow-big-left-dash"><path d="M13 9a1 1 0 0 1-1-1V5.061a1 1 0 0 0-1.811-.75l-6.835 6.836a1.207 1.207 0 0 0 0 1.707l6.835 6.835a1 1 0 0 0 1.811-.75V16a1 1 0 0 1 1-1h2a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1z"/><path d="M20 9v6"/></svg>
+              </button>
+            )}
               <img
                   className="conversationAvatar"
                   src={selectedConversation.conversationAvatar || "/placeholder.svg"}
