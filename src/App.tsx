@@ -25,6 +25,8 @@ import Finding from "./features/matching-member/pages/Finding";
 import FindingForum from "./features/matching-member/pages/FindingForum";
 import { UnreadMessagesProvider } from "./features/message/components/UnreadMessagesContext";
 import Coin from "./features/coin/pages/Coin";
+import TermsOfService from "./features/legal/TermsOfService";
+import PrivacyPolicy from "./features/legal/PrivacyPolicy";
 
 function AppRoutes() {
   const token = localStorage.getItem("accessToken");
@@ -67,6 +69,10 @@ function App() {
   return (
   <Router>
     <AppRoutes />
+    <Routes>
+      <Route path="/terms_of_service" element={<UnreadMessagesProvider><TermsOfService /></UnreadMessagesProvider>} />
+      <Route path="/privacy_policy" element={<UnreadMessagesProvider><PrivacyPolicy /></UnreadMessagesProvider>} />
+    </Routes>
   </Router>
   )
 }

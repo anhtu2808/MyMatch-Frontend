@@ -9,11 +9,13 @@ import { getProfileAPI } from "../../profile/apis";
 import { setUser, setLoaded } from "../../../store/Slice";
 import { useResponsive } from "../../../useResponsive";
 import Footer from "../../../components/footer/Footer";
+import { useNavigate } from "react-router-dom";
 
 function Home() {
   const dispatch = useAppDispatch();
   const isMobile = useResponsive(1024);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const navigate = useNavigate()
 
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
@@ -83,7 +85,7 @@ function Home() {
                 </p>
               </div>
 
-              <button className="ai-banner-button">
+              <button className="ai-banner-button" onClick={() => navigate("/teachers")}>
                 <div className="button-shimmer"></div>
                 <svg
                   className="button-icon"

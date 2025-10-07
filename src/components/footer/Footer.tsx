@@ -19,8 +19,8 @@ const Footer = () => {
           <ul className="footer-list">
             <li><a href="/about">Giới thiệu</a></li>
             {/* <li><a href="/how-it-works">Cách hoạt động</a></li> */}
-            <li><a href="/terms">Điều khoản dịch vụ</a></li>
-            <li><a href="/privacy">Chính sách bảo mật</a></li>
+            <li><a href="/terms_of_service">Điều khoản dịch vụ</a></li>
+            <li><a href="/privacy_policy">Chính sách bảo mật</a></li>
           </ul>
         </div>
 
