@@ -271,7 +271,8 @@ export default function TeacherPageComponents({
 
   return (
     <div>
-      <div style={{ display: "flex", flexWrap: "wrap", gap: "20px" }}>
+      <div style={{ display: "flex", flexWrap: "wrap", gap: "20px" ,
+    justifyContent: "center"}}>
         {filteredTeachers.map((teacher) => (
           <TeacherCard
             key={teacher.id}

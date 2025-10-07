@@ -8,6 +8,7 @@ import "../components/ReviewCreteria/ReviewCreteria.css";
 // import "./TeachersPage.css";
 import "./ReviewDetail.css";
 import { getStudentIdFromToken } from "../../home/apis";
+import { useResponsive } from "../../../useResponsive";
 
 const ReviewDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -15,6 +16,9 @@ const ReviewDetail: React.FC = () => {
   const navigate = useNavigate();
   const [review, setReview] = useState<any>(null);
   const currentUserId = getStudentIdFromToken();
+  const isMobile = useResponsive(1024);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
 
   useEffect(() => {
     if (!reviewId) return;
@@ -34,9 +38,26 @@ const ReviewDetail: React.FC = () => {
   if (!review) return <p>Đang tải dữ liệu...</p>;
 
   return (
-    <div className="teachers-page-container">
-      <Sidebar />
-      <Header title="Chi tiết Review" script="Xem chi tiết review giảng viên" />
+     <div className="review-detail-container">
+      {!isMobile && <Sidebar />}
+      <Header
+        title="Chi tiết Review"
+        script="Xem chi tiết review giảng viên"
+        onToggleSidebar={() => setSidebarOpen(!sidebarOpen)}
+        isMobile={isMobile}
+      />
+
+      {isMobile && (
+        <>
+          <div className={`sidebar-drawer ${sidebarOpen ? "open" : ""}`}>
+            <Sidebar isMobile={true} />
+          </div>
+          {sidebarOpen && (
+            <div className="overlay" onClick={() => setSidebarOpen(false)} />
+          )}
+        </>
+      )}
+
 
       <div className="review-detail-page">
         {/* --- Step 2 info (course/semester/class) --- */}

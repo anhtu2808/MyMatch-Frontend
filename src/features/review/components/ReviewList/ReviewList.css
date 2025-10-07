@@ -426,67 +426,6 @@
   box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-  .review-list {
-    margin: 20px 16px;
-    padding: 24px;
-  }
-
-  .review-header {
-    flex-direction: column;
-    gap: 16px;
-  }
-
-  .search-container {
-    min-width: auto;
-    width: 100%;
-  }
-
-  .review-filters {
-    flex-wrap: wrap;
-    gap: 16px;
-  }
-
-  .review-metrics {
-    grid-template-columns: 1fr;
-    gap: 16px;
-  }
-
-  .reviewer-info {
-    gap: 12px;
-  }
-
-  .reviewer-avatar {
-    width: 40px;
-    height: 40px;
-    font-size: 14px;
-  }
-}
-
-@media (max-width: 480px) {
-  .review-card {
-    padding: 20px;
-  }
-
-  .review-main {
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  .review-rating {
-    align-self: flex-start;
-  }
-
-  .review-tags {
-    gap: 6px;
-  }
-
-  .tag {
-    font-size: 12px;
-    padding: 4px 8px;
-  }
-}
 
 .modal-overlay {
   position: fixed;
@@ -561,4 +500,101 @@
   display: flex;
   align-items: center;
   gap: 4px;
+}
+
+/* --- Desktop lớn (>=1920px) --- */
+@media (min-width: 1920px) {
+  .review-list {
+    margin: 50px 200px;
+    padding: 40px;
+    font-size: 18px;
+  }
+}
+
+/* --- Laptop lớn (1201px - 1919px) --- */
+@media (min-width: 1201px) and (max-width: 1919px) {
+  .review-list {
+    margin-right: 115px;
+    padding: 32px;
+  }
+}
+
+/* --- Laptop vừa (1025px - 1200px) --- */
+@media (min-width: 1025px) and (max-width: 1200px) {
+  .review-list {
+    margin-right: 30px;
+    padding: 28px;
+  }
+}
+
+/* --- Tablet ngang (769px - 1024px) --- */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .review-list {
+    margin-right: 40px;
+    padding: 24px;
+  }
+
+  .review-header {
+    flex-direction: row;
+  }
+
+  .review-filters {
+    flex-wrap: wrap;
+  }
+}
+
+/* --- Tablet dọc & điện thoại lớn (481px - 768px) --- */
+@media (min-width: 481px) and (max-width: 768px) {
+  .review-list {
+    margin: 20px;
+    padding: 20px;
+  }
+
+  .review-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .review-metrics {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* --- Điện thoại vừa (376px - 480px) --- */
+@media (min-width: 376px) and (max-width: 480px) {
+  .review-list {
+    margin: 16px;
+    padding: 16px;
+  }
+
+  .review-card {
+    padding: 16px;
+  }
+
+  .tag {
+    font-size: 12px;
+    padding: 4px 8px;
+  }
+}
+
+/* --- Điện thoại nhỏ (<=375px) --- */
+@media (max-width: 375px) {
+  .review-list {
+    margin: 10px;
+    padding: 12px;
+  }
+
+  .review-title h2 {
+    font-size: 18px;
+  }
+
+  .review-content p {
+    font-size: 13px;
+  }
+
+  .reviewer-avatar {
+    width: 36px;
+    height: 36px;
+    font-size: 13px;
+  }
 }

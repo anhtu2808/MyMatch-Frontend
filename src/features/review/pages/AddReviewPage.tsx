@@ -4,6 +4,8 @@ import Sidebar from "../../../components/sidebar/Sidebar";
 import Header from "../../../components/header/Header";
 import ReviewSteps from "../components/ReviewSteps/ReviewSteps";
 import "./AddReviewPage.css";
+import { useResponsive } from "../../../useResponsive";
+
 
 interface Teacher {
   id: string;
@@ -22,6 +24,9 @@ function AddReviewPage() {
   const location = useLocation();
   const navigate = useNavigate();
   const state = location.state as LocationState;
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const isMobile = useResponsive(1024);
+
 
   // Always start at step 1 unless teacher is pre-selected
   const [currentStep, setCurrentStep] = useState(() => {
@@ -73,11 +78,23 @@ function AddReviewPage() {
 
   return (
     <div className="add-review-page-container">
-      <Sidebar />
+      {!isMobile && <Sidebar />}
       <Header
         title="Thêm review giảng viên"
         script="Chia sẻ trải nghiệm của bạn để giúp các sinh viên khác"
+        onToggleSidebar={() => setSidebarOpen(!sidebarOpen)}
+        isMobile={isMobile}
       />
+
+      {isMobile && (
+        <>
+          <div className={`sidebar-drawer ${sidebarOpen ? "open" : ""}`}>
+            <Sidebar isMobile={true} />
+          </div>
+          {sidebarOpen && <div className="overlay" onClick={() => setSidebarOpen(false)} />}
+        </>
+      )}
+
       <div className="add-review-content">
         {/* Debug info */}
         {/* <div style={{

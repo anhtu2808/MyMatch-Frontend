@@ -7,7 +7,7 @@
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
   font-family: "Inter", sans-serif;
   width: 93%;
-  margin: 20px 20px 20px 0;
+  margin: 20px 20px 20px 20px;
 }
 
 /* Tabs */
@@ -25,7 +25,7 @@
   color: #444;
 }
 
-.tab.active {
+.tab.active, .tab.rated {
   color: #0d47a1;
   border-bottom: 2px solid #0d47a1;
 }
@@ -217,4 +217,141 @@
   font-size: 16px;
   font-weight: 600;
   color: #374151;
+}
+/* Mobile nhỏ */
+@media (max-width: 375px) {
+  .teacher-filter {
+    padding: 12px;
+    width: 95%;
+    margin: 10px auto;
+  }
+
+  .tabs {
+    gap: 12px;
+    font-size: 13px;
+  }
+
+  .filterr-grid {
+    gap: 12px;
+  }
+
+  .form-group input,
+  .form-group select,
+  .dropdown-trigger {
+    padding: 10px;
+    font-size: 13px;
+    height: 38px;
+  }
+
+  .btn-clear,
+  .btn-search {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* Mobile lớn */
+@media (min-width: 376px) and (max-width: 480px) {
+  .teacher-filter {
+    padding: 14px;
+    width: 95%;
+    margin: 12px auto;
+  }
+
+  .tabs {
+    gap: 16px;
+    font-size: 14px;
+  }
+
+  .filterr-grid {
+    gap: 16px;
+  }
+
+  .form-group input,
+  .form-group select,
+  .dropdown-trigger {
+    padding: 12px;
+    font-size: 14px;
+    height: 40px;
+  }
+
+  .btn-clear,
+  .btn-search {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* Tablet nhỏ */
+@media (min-width: 481px) and (max-width: 768px) {
+  .teacher-filter {
+    padding: 16px;
+    width: 90%;
+    margin: 15px auto;
+  }
+
+  .tabs {
+    gap: 20px;
+    font-size: 15px;
+  }
+
+  .filterr-grid {
+    gap: 18px;
+  }
+
+  .form-group input,
+  .form-group select,
+  .dropdown-trigger {
+    padding: 14px;
+    font-size: 14px;
+    height: 42px;
+  }
+
+  .buttons {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .btn-clear,
+  .btn-search {
+    width: 100%;
+  }
+}
+
+/* Tablet lớn / Desktop nhỏ */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .teacher-filter {
+    width: 85%;
+    margin: 20px auto;
+    padding: 18px;
+  }
+
+  .tabs {
+    font-size: 15px;
+    gap: 20px;
+  }
+}
+
+/* Desktop trung bình */
+@media (min-width: 1025px) and (max-width: 1200px) {
+  .teacher-filter {
+    width: 80%;
+    margin: 20px auto;
+  }
+}
+
+/* Desktop lớn */
+@media (min-width: 1201px) and (max-width: 1919px) {
+  .teacher-filter {
+    width: 80%;
+    margin: 20px auto;
+  }
+}
+
+/* Ultra-wide */
+@media (min-width: 1920px) {
+  .teacher-filter {
+    width: 70%;
+    margin: 20px auto;
+  }
 }
