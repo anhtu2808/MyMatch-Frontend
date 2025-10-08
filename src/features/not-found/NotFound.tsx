@@ -27,9 +27,9 @@ export default function NotFound() {
       </div>
 
       {/* Floating Stars */}
-      <div className="stars">
+      <div className="stars-404">
         {[...Array(20)].map((_, i) => (
-          <div key={i} className="star" style={{
+          <div key={i} className="star-404" style={{
             left: `${Math.random() * 100}%`,
             top: `${Math.random() * 100}%`,
             animationDelay: `${Math.random() * 3}s`
