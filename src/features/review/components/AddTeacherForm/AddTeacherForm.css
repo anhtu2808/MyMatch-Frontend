@@ -1,0 +1,273 @@
+.add-teacher-form {
+  background: white;
+  border-radius: 16px;
+  border: 1px solid #e5e7eb;
+  width: 90%;
+  overflow: visible;
+}
+
+.form-header {
+  background: white;
+  color: #374151;
+  padding: 24px 32px;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
+  border-radius: 16px 16px 0 0;
+}
+
+.form-header h2 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.form-body {
+  padding: 32px;
+}
+
+.form-group {
+  margin-bottom: 24px;
+}
+
+.form-label {
+  display: block;
+  font-size: 16px;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 8px;
+}
+
+.form-description {
+  font-size: 14px;
+  color: #6b7280;
+  margin: 4px 0 8px 0;
+}
+
+.required {
+  color: #ef4444;
+}
+
+.form-input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: border-color 0.3s ease;
+  background: white;
+  box-sizing: border-box;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.form-input::placeholder {
+  color: #9ca3af;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+/* Custom Dropdown */
+
+/* Subjects Section */
+.subjects-section {
+  margin-top: 32px;
+}
+
+.section-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #374151;
+  margin: 0 0 8px 0;
+}
+
+/* Info Section */
+.info-section {
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  border-radius: 12px;
+  padding: 20px;
+  margin: 32px 0;
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.info-icon {
+  color: #3b82f6;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.info-content h4 {
+  color: #1e40af;
+  margin: 0 0 8px 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.info-content ul {
+  margin: 0;
+  padding-left: 20px;
+  color: #1e40af;
+}
+
+.info-content li {
+  margin-bottom: 4px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* Action Buttons */
+.form-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 40px;
+  padding-top: 32px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.btn-back,
+.btn-submit {
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  min-width: 120px;
+}
+
+.btn-back {
+  background: #f9fafb;
+  color: #374151;
+  border: 1px solid #d1d5db;
+}
+
+.btn-back:hover {
+  background: #f3f4f6;
+}
+
+.btn-submit {
+  background: linear-gradient(135deg, #0c326f 0%, #1853aa 100%);
+  color: white;
+}
+
+.btn-submit:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(12, 50, 111, 0.4);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .form-header {
+    padding: 24px 20px;
+  }
+
+  .form-header h2 {
+    font-size: 18px;
+  }
+
+  .form-body {
+    padding: 24px 20px;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .form-actions {
+    flex-direction: column;
+  }
+
+  .btn-back,
+  .btn-submit {
+    width: 100%;
+    min-width: auto;
+  }
+}
+
+/* Custom Dropdown */
+.custom-dropdown {
+  position: relative;
+  min-width: 220px;
+}
+
+.dropdown-trigger {
+  padding: 10px 14px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #2b3f60;
+  background: white;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  transition: border-color 0.2s ease;
+}
+
+.dropdown-trigger:hover {
+  border-color: #999;
+}
+
+.dropdown-trigger:focus {
+  border-color: #0d47a1;
+  outline: none;
+}
+
+.dropdown-arrow {
+  transition: transform 0.2s ease;
+  color: #666;
+}
+
+.dropdown-arrow.open {
+  transform: rotate(180deg);
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  margin-top: 4px;
+}
+
+.dropdown-option {
+  padding: 12px 16px;
+  font-size: 14px;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.dropdown-option:hover {
+  background: #f5f5f5;
+}
+
+.dropdown-option.selected {
+  background: #0c326f;
+  color: white;
+  font-weight: 500;
+}
+
+.dropdown-option.selected:hover {
+  background: #2b3f60;
+}

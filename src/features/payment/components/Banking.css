@@ -1,0 +1,672 @@
+/* Main Container */
+.banking-container {
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.banking-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+/* Card Styles */
+.banking-card {
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  height: 100%;
+}
+
+.banking-card-header {
+  padding-bottom: 1rem;
+}
+
+.banking-card-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  color: rgb(126, 34, 206);
+  font-weight: bold;
+  margin-top: 40px;
+  font-size: 1.25rem;
+}
+
+.banking-card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Action Buttons Section */
+.banking-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding-top: 1rem;
+}
+
+/* FUO Point Button */
+.banking-fuo {
+  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0 20px;
+  border-radius: 8px;
+}
+
+.banking-btn-subtitle {
+  font-size: 0.75rem;
+  opacity: 0.9;
+  margin-top: 0.25rem;
+}
+
+/* Membership Card */
+.banking-membership-card {
+  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-radius: 8px;
+  margin: 10px 20px;
+}
+
+.banking-membership-content {
+  padding: 1rem;
+}
+
+.banking-membership-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.banking-membership-icon {
+  width: 1rem;
+  height: 1rem;
+}
+
+.banking-membership-title {
+  font-weight: 500;
+}
+
+.banking-membership-steps {
+  font-size: 0.875rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.banking-membership-btn {
+  width: 100%;
+  margin-top: 0.75rem;
+  background: linear-gradient(to right, #facc15, #f97316);
+  box-shadow: 0 0 25px rgba(250, 204, 21, 0.7);
+  border-radius: 8px;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  transition: transform 0.2s ease;
+}
+
+.banking-membership-btn:hover {
+  transform: translateY(-2px);
+}
+
+/* Warning Card */
+.banking-warning-card {
+  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+  color: white !important;
+  border-radius: 0.5rem;
+  padding: 10px;
+  border: 1px solid transparent;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  margin: 0 20px;
+}
+
+.banking-warning-content {
+  padding: 0.5rem;
+}
+
+.banking-warning-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+  background: transparent !important;
+}
+
+.banking-warning-icon {
+  width: 1rem;
+  height: 1rem;
+  color: white !important;
+}
+
+.banking-warning-title {
+  font-weight: 500;
+  color: white !important;
+  background: transparent !important;
+}
+
+.banking-warning-list {
+  font-size: 0.875rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  color: white !important;
+  background: transparent !important;
+}
+
+.banking-warning-list > div {
+  color: white !important;
+  background: transparent !important;
+}
+
+.banking-support-contact {
+  color: rgb(254, 202, 202) !important;
+  font-weight: 700;
+  text-decoration: none;
+  background: transparent !important;
+}
+
+/* QR Section */
+.banking-qr-content {
+  padding: 1.5rem;
+}
+
+.banking-qr-section {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.banking-qr-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.banking-qr-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: rgb(147, 51, 234);
+}
+
+.banking-qr-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: rgb(126, 34, 206);
+}
+
+.banking-qr-subtitle {
+  font-size: 0.875rem;
+  color: rgb(75, 85, 99);
+}
+
+/* QR Code Container */
+.banking-qr-container {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+  border: 2px solid rgb(243, 244, 246);
+}
+
+.banking-qr-wrapper {
+  width: 12rem;
+  height: 12rem;
+  margin: 0 auto;
+  background: white;
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgb(229, 231, 235);
+}
+
+.banking-qr-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.banking-qr-badges {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+
+.banking-badge-mb,
+.banking-badge-napas,
+.banking-badge-vietqr {
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.banking-badge-mb {
+  color: rgb(220, 38, 38);
+  background: rgb(254, 226, 226);
+  border: 1px solid rgb(254, 202, 202);
+}
+
+.banking-badge-napas {
+  color: rgb(37, 99, 235);
+  background: rgb(219, 234, 254);
+  border: 1px solid rgb(191, 219, 254);
+}
+
+.banking-badge-vietqr {
+  color: rgb(22, 163, 74);
+  background: rgb(220, 252, 231);
+  border: 1px solid rgb(187, 247, 208);
+}
+
+/* Account Info Card */
+.banking-account-info-card {
+  background-color: rgb(250, 245, 255);
+  border: 1px solid rgb(196, 181, 253);
+  border-radius: 8px;
+}
+
+.banking-account-info-content {
+  padding: 1rem;
+}
+
+.banking-account-info-title {
+  font-weight: 600;
+  color: rgb(126, 34, 206);
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.banking-account-info-icon {
+  width: 1rem;
+  height: 1rem;
+}
+
+.banking-account-info-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.banking-account-info-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.banking-account-info-item-icon {
+  width: 1rem;
+  height: 1rem;
+  color: rgb(107, 114, 128);
+}
+
+.banking-account-info-label {
+  color: rgb(75, 85, 99);
+}
+
+.banking-account-info-value {
+  font-weight: 500;
+  color: rgb(126, 34, 206);
+  word-break: break-word;
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+
+/* Mobile siêu nhỏ (<= 375px) */
+@media (max-width: 375px) {
+  .banking-grid {
+    gap: 1rem;
+  }
+
+  .banking-card {
+    border-radius: 12px;
+  }
+
+  .banking-card-title {
+    font-size: 1rem;
+    margin-top: 20px;
+  }
+
+  .banking-fuo {
+    margin: 0 12px;
+    padding: 0.625rem;
+    font-size: 0.875rem;
+  }
+
+  .banking-btn-subtitle {
+    font-size: 0.7rem;
+  }
+
+  .banking-membership-card {
+    margin: 8px 12px;
+  }
+
+  .banking-membership-content {
+    padding: 0.75rem;
+  }
+
+  .banking-membership-steps {
+    font-size: 0.75rem;
+  }
+
+  .banking-membership-btn {
+    padding: 8px;
+    font-size: 0.875rem;
+  }
+
+  .banking-warning-card {
+    margin: 0 12px 12px 12px;
+    padding: 8px;
+  }
+
+  .banking-warning-list {
+    font-size: 0.75rem;
+  }
+
+  .banking-qr-content {
+    padding: 1rem;
+  }
+
+  .banking-qr-section {
+    gap: 1rem;
+  }
+
+  .banking-qr-title {
+    font-size: 0.875rem;
+  }
+
+  .banking-qr-subtitle {
+    font-size: 0.75rem;
+  }
+
+  .banking-qr-container {
+    padding: 1rem;
+  }
+
+  .banking-qr-wrapper {
+    width: 10rem;
+    height: 10rem;
+  }
+
+  .banking-qr-badges {
+    gap: 0.5rem;
+  }
+
+  .banking-account-info-content {
+    padding: 0.75rem;
+  }
+
+  .banking-account-info-title {
+    font-size: 0.875rem;
+  }
+
+  .banking-account-info-list {
+    font-size: 0.75rem;
+    gap: 0.375rem;
+  }
+
+  .banking-account-info-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+/* Mobile nhỏ (376px - 480px) */
+@media (min-width: 376px) and (max-width: 480px) {
+  .banking-grid {
+    gap: 1.25rem;
+  }
+
+  .banking-card-title {
+    font-size: 1.1rem;
+    margin-top: 24px;
+  }
+
+  .banking-fuo {
+    margin: 0 14px;
+    padding: 0.7rem;
+  }
+
+  .banking-membership-card {
+    margin: 10px 14px;
+  }
+
+  .banking-membership-content {
+    padding: 0.875rem;
+  }
+
+  .banking-warning-card {
+    margin: 0 14px;
+  }
+
+  .banking-qr-content {
+    padding: 1.25rem;
+  }
+
+  .banking-qr-wrapper {
+    width: 10.5rem;
+    height: 10.5rem;
+  }
+
+  .banking-account-info-item {
+    flex-wrap: nowrap;
+  }
+}
+
+/* Tablet nhỏ (481px - 768px) */
+@media (min-width: 481px) and (max-width: 768px) {
+  .banking-grid {
+    gap: 1.5rem;
+  }
+
+  .banking-card-title {
+    font-size: 1.15rem;
+    margin-top: 30px;
+  }
+
+  .banking-fuo {
+    margin: 0 16px;
+  }
+
+  .banking-membership-card {
+    margin: 10px 16px;
+  }
+
+  .banking-warning-card {
+    margin: 0 16px;
+  }
+
+  .banking-qr-wrapper {
+    width: 11rem;
+    height: 11rem;
+  }
+}
+
+/* Tablet (769px - 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .banking-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+
+  .banking-card-title {
+    margin-top: 32px;
+  }
+
+  .banking-fuo {
+    margin: 0 18px;
+  }
+
+  .banking-membership-card {
+    margin: 10px 18px;
+  }
+
+  .banking-warning-card {
+    margin: 0 18px;
+  }
+
+  .banking-qr-wrapper {
+    width: 11.5rem;
+    height: 11.5rem;
+  }
+}
+
+/* Laptop nhỏ (1025px - 1200px) */
+@media (min-width: 1025px) and (max-width: 1200px) {
+  .banking-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+
+  .banking-card-title {
+    margin-top: 36px;
+  }
+
+  .banking-qr-wrapper {
+    width: 11.5rem;
+    height: 11.5rem;
+  }
+}
+
+/* Desktop thông thường (1201px - 1919px) */
+@media (min-width: 1201px) and (max-width: 1919px) {
+  .banking-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+
+  .banking-card-title {
+    margin-top: 40px;
+    font-size: 1.25rem;
+  }
+
+  .banking-qr-wrapper {
+    width: 12rem;
+    height: 12rem;
+  }
+}
+
+/* Desktop lớn (>= 1920px) */
+@media (min-width: 1920px) {
+  .banking-container {
+    max-width: 1600px;
+  }
+
+  .banking-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+
+  .banking-card {
+    border-radius: 12px;
+  }
+
+  .banking-card-title {
+    margin-top: 48px;
+    font-size: 1.5rem;
+  }
+
+  .banking-fuo {
+    margin: 0 24px;
+    padding: 1rem;
+    font-size: 1.125rem;
+  }
+
+  .banking-btn-subtitle {
+    font-size: 0.875rem;
+  }
+
+  .banking-membership-card {
+    margin: 12px 24px;
+  }
+
+  .banking-membership-content {
+    padding: 1.25rem;
+  }
+
+  .banking-membership-steps {
+    font-size: 1rem;
+  }
+
+  .banking-membership-btn {
+    padding: 12px;
+    font-size: 1rem;
+  }
+
+  .banking-warning-card {
+    margin: 0 24px;
+    padding: 12px;
+  }
+
+  .banking-warning-list {
+    font-size: 1rem;
+  }
+
+  .banking-qr-content {
+    padding: 2rem;
+  }
+
+  .banking-qr-section {
+    gap: 2rem;
+  }
+
+  .banking-qr-title {
+    font-size: 1.25rem;
+  }
+
+  .banking-qr-subtitle {
+    font-size: 1rem;
+  }
+
+  .banking-qr-container {
+    padding: 2rem;
+  }
+
+  .banking-qr-wrapper {
+    width: 14rem;
+    height: 14rem;
+  }
+
+  .banking-qr-badges {
+    gap: 1.25rem;
+  }
+
+  .banking-badge-mb,
+  .banking-badge-napas,
+  .banking-badge-vietqr {
+    padding: 6px 16px;
+    font-size: 0.875rem;
+  }
+
+  .banking-account-info-content {
+    padding: 1.5rem;
+  }
+
+  .banking-account-info-title {
+    font-size: 1.125rem;
+  }
+
+  .banking-account-info-list {
+    font-size: 1rem;
+    gap: 0.75rem;
+  }
+}

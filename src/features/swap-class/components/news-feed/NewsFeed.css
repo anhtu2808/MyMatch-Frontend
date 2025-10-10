@@ -1,0 +1,429 @@
+.btn-message-news-feed {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    background-color: #0c326f;
+    color: white;
+    gap: 10px;
+    border: none;
+    border-radius: 8px;
+    width: 100%;
+}
+
+.btn-message-news-feed:hover {
+    transform: translateY(-2px);
+}
+
+/* ========================================
+   RESPONSIVE MEDIA QUERIES
+======================================== */
+
+/* Desktop lớn (>= 1440px) */
+@media (min-width: 1440px) {
+  .my-request-container {
+    max-width: 1400px;
+  }
+  
+  .request-card {
+    padding: 28px;
+  }
+}
+
+/* Màn hình 2K/4K (>= 1920px) */
+@media (min-width: 1920px) {
+  .my-request-container {
+    max-width: 1600px;
+  }
+}
+
+/* Laptop và Tablet ngang (<= 1200px) */
+@media (max-width: 1200px) {
+  .my-request-container {
+    padding: 16px;
+  }
+  
+  .request-card {
+    padding: 20px;
+  }
+  
+  .swap-details {
+    gap: 16px;
+  }
+}
+
+/* Tablet chiều dọc (<= 1024px) */
+@media (max-width: 1024px) {
+  .section-header-request h3 {
+    font-size: 18px;
+  }
+  
+  .card-header {
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .status-badges {
+    align-items: flex-start;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+  }
+  
+  .subject-info {
+    align-items: flex-start;
+  }
+  
+  .swap-details {
+    gap: 12px;
+  }
+  
+  .class-card {
+    padding: 14px;
+  }
+  
+  .arrow-icon {
+    font-size: 28px;
+  }
+}
+
+/* Tablet nhỏ và Mobile lớn (<= 768px) */
+@media (max-width: 768px) {
+  .my-request-container {
+    padding: 12px;
+  }
+  
+  .section-header-request {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  
+  .request-card {
+    padding: 12px;
+    margin-bottom: 16px;
+  }
+  
+  /* Thu nhỏ card-header */
+  .card-header {
+    margin-bottom: 10px;
+    gap: 10px;
+  }
+  
+  .user-info {
+    gap: 8px;
+  }
+  
+  .avatar {
+    width: 36px;
+    height: 36px;
+  }
+  
+  .user-details h3 {
+    font-size: 13px;
+    margin-bottom: 2px;
+  }
+  
+  .user-details p {
+    font-size: 10px;
+    margin: 1px 0;
+  }
+  
+  .time {
+    font-size: 9px;
+    margin-top: 4px;
+  }
+  
+  .status-badges {
+    gap: 6px;
+  }
+  
+  .status-badge {
+    font-size: 9px;
+    padding: 4px 8px;
+  }
+  
+  /* Thu nhỏ subject-info */
+  .subject-label {
+    font-size: 9px;
+  }
+  
+  .subject-code {
+    font-size: 10px;
+  }
+  
+  /* Giữ layout ngang nhưng thu nhỏ */
+  .swap-details {
+    gap: 6px;
+    margin-bottom: 16px;
+  }
+  
+  .swap-section {
+    flex: 1;
+    min-width: 0;
+  }
+  
+  .swap-section h4 {
+    font-size: 11px;
+    margin-bottom: 6px;
+  }
+  
+  .swap-arrow {
+    padding: 0 2px;
+  }
+  
+  .arrow-icon svg {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .class-card {
+    padding: 8px;
+  }
+  
+  .class-code {
+    font-size: 13px;
+    margin-bottom: 2px;
+  }
+  
+  .subject-small {
+    font-size: 10px;
+    margin-bottom: 6px;
+  }
+  
+  .class-info {
+    font-size: 10px;
+    line-height: 1.4;
+  }
+  
+  .class-info > div {
+    margin-bottom: 2px;
+  }
+  
+  .schedule {
+    font-size: 9px;
+  }
+  
+  .action-buttons-matching {
+    justify-content: stretch;
+  }
+  
+  .btn-message-matching,
+  .btn-message-matching-accept,
+  .btn-message-matching-reject {
+    flex: 1;
+    justify-content: center;
+    min-width: 0;
+  }
+}
+
+/* Mobile nhỏ (<= 480px) */
+@media (max-width: 480px) {
+  .my-request-container {
+    padding: 8px;
+  }
+  
+  .section-header-request h3 {
+    font-size: 16px;
+  }
+  
+  .view-all {
+    font-size: 13px;
+  }
+  
+  .request-card {
+    padding: 12px;
+    border-radius: 8px;
+  }
+  
+  .card-header {
+    margin-bottom: 12px;
+  }
+  
+  .user-info {
+    gap: 10px;
+  }
+  
+  .avatar {
+    width: 36px;
+    height: 36px;
+  }
+  
+  .user-details h3 {
+    font-size: 14px;
+  }
+  
+  .user-details p {
+    font-size: 11px;
+  }
+  
+  .status-badges {
+    flex-direction: column;
+    gap: 6px;
+  }
+  
+  .status-badge {
+    font-size: 10px;
+    padding: 4px 8px;
+  }
+  
+  /* Giữ layout ngang, thu nhỏ hơn nữa */
+  .swap-details {
+    gap: 6px;
+    margin-bottom: 12px;
+  }
+  
+  .swap-section h4 {
+    font-size: 11px;
+    margin-bottom: 6px;
+  }
+  
+  .arrow-icon {
+    font-size: 18px;
+  }
+  
+  .class-card {
+    padding: 8px;
+  }
+  
+  .class-code {
+    font-size: 13px;
+    margin-bottom: 2px;
+  }
+  
+  .subject-small {
+    font-size: 10px;
+    margin-bottom: 6px;
+  }
+  
+  .class-info {
+    font-size: 10px;
+    line-height: 1.4;
+  }
+  
+  .schedule {
+    font-size: 9px;
+    margin-top: 2px;
+  }
+  
+  .action-buttons-matching {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .btn-message-matching,
+  .btn-message-matching-accept,
+  .btn-message-matching-reject {
+    width: 100%;
+    padding: 10px 12px;
+    font-size: 12px;
+  }
+  
+  /* Ẩn icon SVG trên mobile rất nhỏ để tiết kiệm không gian */
+  .btn-message-matching svg,
+  .btn-message-matching-accept svg,
+  .btn-message-matching-reject svg {
+    display: none;
+  }
+}
+
+/* Mobile cực nhỏ (<= 375px) */
+@media (max-width: 375px) {
+  .section-header-request h3 {
+    font-size: 15px;
+  }
+  
+  .request-card {
+    padding: 8px;
+  }
+  
+  .user-details h3 {
+    font-size: 12px;
+  }
+  
+  .user-details p {
+    font-size: 9px;
+  }
+  
+  .avatar {
+    width: 28px;
+    height: 28px;
+  }
+  
+  /* Thu nhỏ subject-info tối đa */
+  .subject-label {
+    font-size: 7px;
+  }
+  
+  .subject-code {
+    font-size: 8px;
+    line-height: 1.2;
+  }
+  
+  /* Thu nhỏ thêm để vừa màn hình nhỏ nhất */
+  .swap-details {
+    gap: 3px;
+  }
+  
+  .swap-section {
+    flex: 1;
+    min-width: 0;
+  }
+  
+  .swap-section h4 {
+    font-size: 9px;
+    margin-bottom: 3px;
+  }
+  
+  .swap-arrow {
+    padding: 0 1px;
+  }
+  
+  .arrow-icon svg {
+    width: 14px;
+    height: 14px;
+  }
+  
+  .class-card {
+    padding: 5px;
+  }
+  
+  .class-code {
+    font-size: 11px;
+  }
+  
+  .subject-small {
+    font-size: 8px;
+    margin-bottom: 3px;
+  }
+  
+  .class-info {
+    font-size: 8px;
+  }
+  
+  .schedule {
+    font-size: 7px;
+  }
+  
+  .btn-message-matching,
+  .btn-message-matching-accept,
+  .btn-message-matching-reject {
+    padding: 9px 10px;
+    font-size: 10px;
+  }
+}
+
+/* Landscape mode cho mobile */
+@media (max-height: 500px) and (orientation: landscape) {
+  .request-card {
+    padding: 12px;
+  }
+  
+  .card-header {
+    margin-bottom: 12px;
+  }
+  
+  .swap-details {
+    margin-bottom: 12px;
+  }
+}

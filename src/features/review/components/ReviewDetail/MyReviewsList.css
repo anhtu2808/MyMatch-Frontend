@@ -1,0 +1,184 @@
+.my-review-list {
+  gap: 16px;
+  overflow-x: auto;
+  padding: 8px 8px 8px 0;
+  scroll-snap-type: x mandatory;
+  width: 100%;
+
+}
+
+.my-review-card {
+  position: relative;
+  flex: 0 0 280px;
+  display: flex;
+  gap: 12px;
+  background: #fff;
+  border: 1px solid #ddd;
+  padding: 12px 12px 12px 16px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.2s;
+  scroll-snap-align: start;
+  margin-bottom: 8px;
+}
+
+.my-review-card:hover {
+  background: #f9f9f9;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.my-review-info {
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.my-review-header {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.my-review-semester {
+  background: #f1f3f5;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  margin-left: 6px;
+}
+
+.my-review-status.unverified {
+  color: red;
+  font-size: 13px;
+}
+
+.my-review-rating {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.my-review-course-semester {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.my-review-course-semester h3 {
+  color: #111827;
+}
+
+.delete-review-btn {
+  position: absolute; /* bám vào card */
+  top: 6px; /* cách trên */
+  right: 6px; /* cách phải */
+  background: transparent;
+  border: none;
+  padding: 4px;
+  cursor: pointer;
+  color: #e74c3c; /* màu icon */
+}
+
+.delete-review-btn svg {
+  width: 16px; /* nhỏ hơn */
+  height: 16px;
+}
+
+.delete-review-btn:hover {
+  color: #c0392b;
+}
+/* ================= Responsive Styles ================= */
+
+/* Mobile nhỏ: iPhone SE, Galaxy Fold */
+@media (max-width: 375px) {
+  .my-review-list {
+    width: 100%;
+    padding: 4px;
+    gap: 8px;
+  }
+
+  .my-review-card {
+    flex: 0 0 90%;
+    padding: 10px;
+  }
+
+  .my-review-course-semester h3 {
+    font-size: 14px;
+  }
+
+  .my-review-semester {
+    font-size: 10px;
+  }
+
+  .delete-review-btn svg {
+    width: 14px;
+    height: 14px;
+  }
+}
+
+/* Mobile trung bình: iPhone 12, Pixel, v.v. */
+@media (min-width: 376px) and (max-width: 480px) {
+  .my-review-card {
+    flex: 0 0 85%;
+    padding: 12px;
+  }
+
+  .my-review-course-semester h3 {
+    font-size: 15px;
+  }
+}
+
+/* Tablet dọc */
+@media (min-width: 481px) and (max-width: 768px) {
+  .my-review-card {
+    flex: 0 0 45%;
+  }
+
+  .my-review-list {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .my-review-course-semester h3 {
+    font-size: 16px;
+  }
+}
+
+/* Tablet ngang / laptop nhỏ */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .my-review-card {
+    flex: 0 0 40%;
+  }
+
+  .my-review-list {
+    flex-wrap: wrap;
+  }
+}
+
+/* Laptop phổ thông */
+@media (min-width: 1025px) and (max-width: 1200px) {
+  .my-review-card {
+    flex: 0 0 30%;
+  }
+}
+
+/* Màn hình lớn (Full HD) */
+@media (min-width: 1201px) and (max-width: 1919px) {
+  .my-review-card {
+    flex: 0 0 22%;
+  }
+}
+
+/* Màn hình cực lớn (2K, 4K) */
+@media (min-width: 1920px) {
+  .my-review-list {
+    width: 80%;
+    margin: 0 auto;
+  }
+
+  .my-review-card {
+    flex: 0 0 18%;
+    padding: 16px;
+  }
+}

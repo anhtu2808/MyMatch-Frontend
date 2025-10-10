@@ -1,0 +1,407 @@
+.teacher-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+  /* min-height: 300px; */
+  transition: all 0.2s ease;
+  border: 1px solid #f0f0f0;
+  overflow: hidden;
+  flex: 1 1 300px;
+  max-width: 400px;
+  min-width: 280px;
+  box-sizing: border-box;
+}
+
+.btn-bookmark.active .bookmark-icon {
+  stroke: #df8f34;
+  fill: #df8f34;
+}
+
+.teacher-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* Top Section with gray background */
+.teacher-card-top {
+  background: linear-gradient(135deg, #544661 0%, #343d67 50%, #14346e 100%);
+  padding: 28px 24px;
+  flex: 1;
+}
+
+/* Header */
+.teacher-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
+}
+
+.teacher-avatar-container {
+  position: relative;
+}
+
+.teacher-avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.online-indicator {
+  position: absolute;
+  bottom: 4px;
+  right: 4px;
+  width: 16px;
+  height: 16px;
+  background: #10b981;
+  border-radius: 50%;
+  border: 3px solid #fff;
+}
+
+.teacher-rating-badge {
+  background: #10b981;
+  color: white;
+  padding: 10px 14px;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.badge-star {
+  width: 16px;
+  height: 16px;
+  color: #ffc107;
+}
+
+/* Teacher Info */
+.teacher-info {
+  margin-bottom: 0;
+}
+
+/* Bottom Section with white background */
+.teacher-card-bottom {
+  background: #fff;
+  padding: 24px;
+  flex: 1.2;
+}
+
+.teacher-namee {
+  margin: 0 0 8px 0;
+  font-size: 24px;
+  font-weight: 700;
+  color: white;
+}
+
+.teacher-usernamee {
+  font-size: 15px;
+  color: white;
+  margin: 0 0 12px 0;
+}
+
+.teacher-courses {
+  font-size: 15px;
+  color: #666;
+  margin: 0;
+}
+
+/* Rating Section */
+.teacher-rating-section {
+  margin-bottom: 16px;
+}
+
+.rating-stars {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+}
+
+.stars-container {
+  display: flex;
+  gap: 2px;
+}
+
+.rating-star {
+  width: 16px;
+  height: 16px;
+  color: #ffc107;
+}
+
+.rating-star[fill="currentColor"] {
+  fill: #ffc107;
+}
+
+.rating-text {
+  font-weight: bold;
+  color: #1da078;
+  margin-left: 8px;
+}
+
+.review-count {
+  color: #777;
+  font-size: 13px;
+  margin-left: auto;
+}
+
+/* Progress Section */
+.progress-section {
+  margin-bottom: 16px;
+}
+
+.progress-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.progress-label {
+  font-size: 13px;
+  color: #666;
+  min-width: 60px;
+}
+
+.progress-bar-container {
+  flex: 1;
+  height: 8px;
+  border-radius: 4px;
+  background: #eee;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.progress-bar.green {
+  background: #4bd8a5;
+}
+
+.progress-bar.gray {
+  background: #a1aec1;
+}
+
+.progress-value {
+  font-size: 13px;
+  color: #777;
+  min-width: 30px;
+  text-align: right;
+}
+
+/* Stats */
+.teacher-stats {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.stat {
+  flex: 1;
+  text-align: center;
+  background: #f3f6fa;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.stat-number {
+  font-size: 20px;
+  font-weight: bold;
+  display: block;
+  color: #333;
+}
+
+.stat-label {
+  font-size: 13px;
+  color: #666;
+  margin: 4px 0 0 0;
+}
+
+/* Footer */
+.teacher-card-footer {
+  display: flex;
+  gap: 8px;
+  margin-top: auto;
+}
+
+.btn-rate,
+.btn-view {
+  flex: 1; 
+  height: 44px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 14px;
+  transition: background-color 0.2s ease;
+}
+
+.btn-rate {
+  background: #0c326f;
+  color: white;
+  gap: 6px;
+}
+
+.btn-rate:hover {
+  background: #50617d;
+}
+
+.btn-view {
+  background: #f3f6fa;
+  color: #666;
+}
+
+.btn-view:hover {
+  background: #e0e0e0;
+}
+
+.btn-eye {
+  padding-right: 4px;
+}
+/* Mobile nhỏ (<=375px) */
+@media (max-width: 375px) {
+  .teacher-card {
+    width: 100%;
+    min-height: 280px;
+  }
+
+  .teacher-card-top {
+    padding: 20px 16px;
+  }
+
+  .teacher-card-bottom {
+    padding: 16px;
+  }
+
+  .teacher-namee {
+    font-size: 20px;
+  }
+
+  .teacher-usernamee {
+    font-size: 13px;
+  }
+
+  .stat-number {
+    font-size: 16px;
+  }
+
+  .stat-label {
+    font-size: 11px;
+  }
+
+  .teacher-card-footer {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .btn-rate,
+  .btn-view {
+    height: 40px;
+    font-size: 13px;
+  }
+}
+
+/* Mobile lớn (376px - 480px) */
+@media (min-width: 376px) and (max-width: 480px) {
+  .teacher-card {
+    width: 100%;
+    min-height: 300px;
+  }
+
+  .teacher-card-top {
+    padding: 22px 18px;
+  }
+
+  .teacher-card-bottom {
+    padding: 18px;
+  }
+
+  .teacher-namee {
+    font-size: 22px;
+  }
+
+  .teacher-usernamee {
+    font-size: 14px;
+  }
+
+  .stat-number {
+    font-size: 18px;
+  }
+
+  .stat-label {
+    font-size: 12px;
+  }
+
+  .teacher-card-footer {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .btn-rate,
+  .btn-view {
+    height: 42px;
+    font-size: 13px;
+  }
+}
+
+/* Tablet nhỏ (481px - 768px) */
+@media (min-width: 481px) and (max-width: 768px) {
+  .teacher-card {
+    width: 48%;
+    min-height: 300px;
+  }
+
+  .teacher-card-footer {
+    flex-direction: row;
+  }
+}
+
+/* Tablet lớn / Desktop nhỏ (769px - 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .teacher-card {
+    width: 31%;
+  }
+}
+
+/* Desktop trung bình (1025px - 1200px) */
+@media (min-width: 1025px) and (max-width: 1200px) {
+  .teacher-card {
+    width: 30%;
+  }
+}
+
+/* Desktop lớn (1201px - 1919px) */
+@media (min-width: 1201px) and (max-width: 1919px) {
+  .teacher-card {
+    width: 25%;
+  }
+}
+
+/* Ultra-wide (>=1920px) */
+@media (min-width: 1920px) {
+  .teacher-card {
+    width: 20%;
+  }
+}
+
+/* Teacher container responsive */
+.teacher-page-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}

@@ -1,0 +1,249 @@
+/* Finding.css - Base Styles */
+.finding-container {
+    min-height: 100vh;
+    background-color: #FBFAF9; 
+    margin: 0;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
+.main-content-finding {
+    flex: 1;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    box-sizing: border-box;
+}
+
+.add-info-finding {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white;
+    width: 100%;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.button-action-finding-nav {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.create-btn-finding {
+    background: #0c326f;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.create-btn-finding:hover {
+    transform: translateY(-2px);
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+
+/* Mobile siêu nhỏ (<= 375px) */
+@media (max-width: 375px) {
+    .main-content-finding {
+        margin: 70px 0 0 0;
+        padding: 12px;
+    }
+
+    .add-info-finding {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+        padding: 14px;
+    }
+
+    .add-info-finding h3 {
+        font-size: 16px;
+        margin: 0;
+    }
+
+    .add-info-finding p {
+        font-size: 12px;
+        margin: 4px 0 0 0;
+    }
+
+    .button-action-finding-nav {
+        width: 100%;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .create-btn-finding {
+        width: 100%;
+        padding: 10px 14px;
+        font-size: 13px;
+    }
+}
+
+/* Mobile nhỏ (376px - 480px) */
+@media (min-width: 376px) and (max-width: 480px) {
+    .main-content-finding {
+        margin: 75px 0 0 0;
+        padding: 14px;
+    }
+
+    .add-info-finding {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 14px;
+        padding: 16px;
+    }
+
+    .add-info-finding h3 {
+        font-size: 17px;
+        margin: 0;
+    }
+
+    .add-info-finding p {
+        font-size: 13px;
+        margin: 4px 0 0 0;
+    }
+
+    .button-action-finding-nav {
+        width: 100%;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .create-btn-finding {
+        width: 100%;
+        padding: 11px 16px;
+        font-size: 14px;
+    }
+}
+
+/* Tablet nhỏ (481px - 768px) */
+@media (min-width: 481px) and (max-width: 768px) {
+    .main-content-finding {
+        margin: 80px 0 0 0;
+        padding: 16px;
+    }
+
+    .add-info-finding {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+        padding: 18px;
+    }
+
+    .add-info-finding h3 {
+        font-size: 18px;
+    }
+
+    .add-info-finding p {
+        font-size: 14px;
+    }
+
+    .button-action-finding-nav {
+        width: 100%;
+        flex-direction: row;
+        gap: 12px;
+    }
+
+    .create-btn-finding {
+        flex: 1;
+        min-width: 0;
+        padding: 11px 14px;
+        font-size: 13px;
+    }
+}
+
+/* Tablet (769px - 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .main-content-finding {
+        margin: 85px 0 0 0;
+        padding: 20px;
+    }
+
+    .add-info-finding {
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 20px;
+    }
+
+    .button-action-finding-nav {
+        gap: 10px;
+    }
+
+    .create-btn-finding {
+        padding: 10px 14px;
+        font-size: 13px;
+    }
+}
+
+/* Laptop nhỏ (1025px - 1200px) */
+@media (min-width: 1025px) and (max-width: 1200px) {
+    .main-content-finding {
+        margin: 75px 0 0 120px;
+        padding: 20px;
+    }
+
+    .add-info-finding {
+        max-width: 100%;
+        padding: 20px;
+    }
+
+    .create-btn-finding {
+        padding: 10px 16px;
+        font-size: 14px;
+    }
+}
+
+/* Desktop thông thường (1201px - 1919px) */
+@media (min-width: 1201px) and (max-width: 1919px) {
+    .main-content-finding {
+        margin: 80px 0 0 150px;
+        padding: 20px;
+    }
+
+    .add-info-finding {
+        max-width: 1240px;
+        padding: 22px;
+    }
+}
+
+/* Desktop lớn (>= 1920px) */
+@media (min-width: 1920px) {
+    .main-content-finding {
+        margin: 90px 0 0 160px;
+        padding: 24px;
+    }
+
+    .add-info-finding {
+        max-width: 1600px;
+       margin-top: 15px; 
+    }
+
+    .add-info-finding h3 {
+        font-size: 20px;
+    }
+
+    .add-info-finding p {
+        font-size: 16px;
+    }
+
+    .create-btn-finding {
+        padding: 12px 20px;
+        font-size: 15px;
+    }
+}

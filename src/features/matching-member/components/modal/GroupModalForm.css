@@ -1,0 +1,115 @@
+/* Giữ nguyên phần cũ, thêm chỉnh cho editable items */
+.group-form-member-item.editable,
+.group-form-position-item.editable {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.group-form-member-item.editable .ant-input,
+.group-form-position-item.editable .ant-input {
+  flex: 1;
+}
+
+.group-form-position-item.editable .ant-input-textarea {
+  flex: 2;
+}
+
+.group-form-remove-icon {
+  font-size: 18px;
+  color: #ff4d4f;
+  cursor: pointer;
+  margin-top: 6px;
+}
+
+/* Header */
+.group-form-modal-header {
+  border-bottom: 1px solid #eee;
+  padding-bottom: 12px;
+}
+.group-form-modal-header h2 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+}
+.group-form-modal-header p {
+  margin: 4px 0 0;
+  font-size: 14px;
+  color: #444;
+}
+
+.group-form-section {
+  margin-top: 10px;
+  padding: 15px;
+  background-color: #fafafa;
+  border-radius: 8px;
+}
+
+.group-form-project {
+  display: grid;
+  gap: 10px;
+}
+
+.group-form-info {
+  display: flex;
+  gap: 10px;
+}
+
+
+.group-form-fee-warning {
+  background-color: #fff3cd;       /* vàng nhạt nổi bật */
+  color: #856404;                  /* chữ vàng nâu */
+  padding: 10px 14px;
+  border: 1px solid #ffeeba;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 14px;
+  text-align: center;
+  margin-top: 12px;
+  animation: fadeIn 0.5s ease;
+}
+
+/* Hiệu ứng nhẹ cho vui mắt */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+.group-form-modal-footer {
+  margin-top: 10px;
+  display: flex;
+  gap: 10px
+}
+
+.group-form-button-cancel {
+  background-color: #e2e2e2;
+  border: none;
+  border-radius: 8px;
+  color: #333;
+  padding: 10px 16px ;
+}
+
+.group-form-button-cancel:hover {
+  transform: translateY(-2px);
+}
+
+.group-form-button-create {
+  background-color: #0c326f;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  padding: 10px 16px ;
+}
+
+.group-form-button-create:hover {
+   transform: translateY(-2px);
+}

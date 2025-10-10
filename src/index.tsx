@@ -2,17 +2,20 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
+import { Provider } from 'react-redux';
+import { store, persistor } from './store/Store';
+import { PersistGate } from 'redux-persist/integration/react';
+import ReactGA from 'react-ga4';
+ReactGA.initialize("G-Y6QJ9R0L6P");
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+  <Provider store={store}>
+    <PersistGate loading={<div>Loading...</div>} persistor={persistor}>
+      <App />
+    </PersistGate>
+  </Provider>
+
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-

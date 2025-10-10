@@ -1,0 +1,93 @@
+.teachers-page {
+  flex: 1;
+  margin-top: 97px;
+  padding: 20px;
+  transition: margin-left 0.3s ease;
+  margin-left: 4rem; /* khi sidebar ở dạng icon */
+  box-sizing: border-box;
+}
+
+/* Khi sidebar mở rộng */
+.sidebar-expanded .teachers-page {
+  margin-left: 260px; /* đúng bằng chiều rộng sidebar đầy đủ */
+}
+
+/* Khi ở mobile (sidebar overlay, nên không cần margin) */
+@media (max-width: 1024px) {
+  .teachers-page {
+    margin-left: 0;
+  }
+}
+
+
+
+.teachers-page-components .stat-label {
+  color: #666;
+}
+
+.teachers-page-components .rating-text {
+  color: #666;
+}
+
+.teachers-page-container {
+  /* width: 100vw; */
+  /* height: 100vh; */
+  background-color: #fbfaf9;
+  margin: 0;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.teachers-page-components {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0; 
+  align-items: start;
+}
+
+
+.h1 {
+  font-size: 25px;
+  font-weight: 700;
+  margin: 5px 20px 5px 5px;
+  color: #333;
+}
+
+.my-reviews-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+.teacher-card-list {
+  width: 100%;
+  max-width: 1200px; /* giới hạn độ rộng màn lớn */
+  margin: 0 auto; /* canh giữa */
+  padding: 20px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  /* gap: 20px; */
+}
+
+
+.teachers-page-components[data-tab="rated"] .teacher-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+  transition: all 0.2s ease;
+  border: 1px solid #f0f0f0;
+  overflow: hidden;
+  flex: 1 1 300px;
+  max-width: 400px;
+  min-height: 300px;
+}

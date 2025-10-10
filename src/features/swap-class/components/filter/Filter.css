@@ -1,0 +1,395 @@
+/* Base Styles */
+.filter-section {
+  background-color: white;
+  margin: 20px auto;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 1240px;
+}
+
+.filter-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.filter-form-row {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 16px;
+}
+
+.input-filter {
+  height: 40px;
+  width: 100%;
+  margin: 10px 0;
+}
+
+.form-group-filter {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group-filter label {
+  font-size: 14px;
+  color: #333;
+  font-weight: 500;
+  margin-bottom: 6px;
+  display: block;
+}
+
+/* Ant Design Select Customization */
+.ant-select-item-option-active {
+  background-color: #f5f5f5 !important;
+}
+
+.ant-select-item-option-selected {
+  background-color: #0c326f !important;
+  color: white !important;
+  font-weight: 500;
+}
+
+.form-group-filter input,
+.form-group-filter select {
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  background-color: white;
+  transition: border-color 0.2s;
+}
+
+.form-group-filter input:focus,
+.form-group-filter select:focus {
+  outline: none;
+  border-color: #4a90e2;
+}
+
+.form-group-filter input::placeholder {
+  color: #999;
+}
+
+/* Button Actions */
+.button-form-actions-filter {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-start;
+  margin-top: 10px;
+}
+
+.search-btn,
+.delete-btn {
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.search-btn {
+  background-color: #0c326f;
+  color: white;
+}
+
+.delete-btn {
+  background-color: #f5f5f5;
+  color: black;
+}
+
+.delete-btn:hover,
+.search-btn:hover {
+  transform: translateY(-2px);
+}
+
+.search-btn:hover {
+  box-shadow: 0 4px 8px rgba(12, 50, 111, 0.3);
+}
+
+.delete-btn:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* ========================================
+   RESPONSIVE MEDIA QUERIES
+======================================== */
+
+/* Desktop lớn (>= 1920px) */
+@media (min-width: 1920px) {
+  .filter-section {
+    max-width: 1600px;
+    padding: 28px;
+  }
+
+  .filter-form-row {
+    gap: 24px;
+  }
+
+  .input-filter {
+    height: 44px;
+  }
+
+  .form-group-filter label {
+    font-size: 15px;
+  }
+
+  .form-group-filter input,
+  .form-group-filter select {
+    font-size: 15px;
+  }
+
+  .search-btn,
+  .delete-btn {
+    padding: 12px 18px;
+    font-size: 15px;
+  }
+}
+
+/* Desktop thông thường (1201px - 1919px) */
+@media (min-width: 1201px) and (max-width: 1919px) {
+  .filter-section {
+    max-width: 1240px;
+    padding: 24px;
+  }
+
+  .filter-form-row {
+    grid-template-columns: repeat(5, 1fr);
+    gap: 20px;
+  }
+
+  .input-filter {
+    height: 40px;
+  }
+}
+
+/* Laptop nhỏ (1025px - 1200px) */
+@media (min-width: 1025px) and (max-width: 1200px) {
+  .filter-section {
+    padding: 20px;
+    max-width: 100%;
+  }
+
+  .filter-form-row {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+
+  .input-filter {
+    height: 38px;
+    margin: 8px 0;
+  }
+
+  .form-group-filter label {
+    font-size: 13px;
+  }
+
+  .form-group-filter input,
+  .form-group-filter select {
+    font-size: 13px;
+  }
+}
+
+/* Tablet (769px - 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .filter-section {
+    margin: 16px auto;
+    padding: 18px;
+    width: calc(100% - 32px);
+  }
+
+  .filter-form-row {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+
+  .input-filter {
+    height: 38px;
+    margin: 8px 0;
+  }
+
+  .form-group-filter label {
+    font-size: 13px;
+    margin-bottom: 5px;
+  }
+
+  .form-group-filter input,
+  .form-group-filter select {
+    padding: 9px 11px;
+    font-size: 13px;
+  }
+
+  .button-form-actions-filter {
+    margin-top: 8px;
+  }
+
+  .search-btn,
+  .delete-btn {
+    padding: 10px 15px;
+    font-size: 13px;
+  }
+}
+
+/* Tablet nhỏ (481px - 768px) */
+@media (min-width: 481px) and (max-width: 768px) {
+  .filter-section {
+    margin: 14px auto;
+    padding: 16px;
+    width: calc(100% - 28px);
+    border-radius: 6px;
+  }
+
+  .filter-form-row {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .input-filter {
+    height: 36px;
+    margin: 6px 0;
+  }
+
+  .form-group-filter label {
+    font-size: 12px;
+    margin-bottom: 4px;
+  }
+
+  .form-group-filter input,
+  .form-group-filter select {
+    padding: 8px 10px;
+    font-size: 12px;
+  }
+
+  .button-form-actions-filter {
+    grid-column: span 2;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 8px;
+  }
+
+  .search-btn,
+  .delete-btn {
+    width: 100%;
+    justify-content: center;
+    padding: 10px 14px;
+    font-size: 13px;
+  }
+}
+
+/* Mobile (376px - 480px) */
+@media (min-width: 376px) and (max-width: 480px) {
+  .filter-section {
+    margin: 12px auto;
+    padding: 14px;
+    width: calc(100% - 24px);
+    border-radius: 6px;
+  }
+
+  .filter-form-row {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .input-filter {
+    height: 34px;
+    margin: 5px 0;
+  }
+
+  .form-group-filter label {
+    font-size: 11px;
+    margin-bottom: 3px;
+  }
+
+  .form-group-filter input,
+  .form-group-filter select {
+    padding: 7px 9px;
+    font-size: 12px;
+  }
+
+  .form-group-filter input::placeholder {
+    font-size: 11px;
+  }
+
+  .button-form-actions-filter {
+    grid-column: span 1;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 6px;
+  }
+
+  .search-btn,
+  .delete-btn {
+    width: 100%;
+    padding: 9px 12px;
+    font-size: 12px;
+  }
+
+  .search-btn svg,
+  .delete-btn svg {
+    width: 14px;
+    height: 14px;
+  }
+}
+
+/* Mobile siêu nhỏ (<= 375px) */
+@media (max-width: 375px) {
+  .filter-section {
+    margin: 10px auto;
+    padding: 12px;
+    width: calc(100% - 20px);
+    border-radius: 6px;
+  }
+
+  .filter-form-row {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .input-filter {
+    height: 32px;
+    margin: 4px 0;
+  }
+
+  .form-group-filter label {
+    font-size: 10px;
+    margin-bottom: 2px;
+  }
+
+  .form-group-filter input,
+  .form-group-filter select {
+    padding: 6px 8px;
+    font-size: 11px;
+    border-radius: 3px;
+  }
+
+  .form-group-filter input::placeholder {
+    font-size: 10px;
+  }
+
+  .button-form-actions-filter {
+    grid-column: span 1;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 4px;
+  }
+
+  .search-btn,
+  .delete-btn {
+    width: 100%;
+    padding: 8px 10px;
+    font-size: 11px;
+    border-radius: 5px;
+  }
+
+  .search-btn svg,
+  .delete-btn svg {
+    width: 12px;
+    height: 12px;
+  }
+}

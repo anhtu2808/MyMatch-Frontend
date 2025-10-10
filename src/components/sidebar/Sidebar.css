@@ -4,16 +4,28 @@
   top: 0;
   height: 100vh;
   background-color: white;
-  z-index: 50;
+  z-index: 1200;
   display: flex;
   flex-direction: column;
   box-shadow: 0 0 10px rgba(0,0,0,0.1);
   border-right: 1px solid #E5E7EB;
-  width: 6rem; /* 16 */
+  width: 4rem;
+  min-width: 4rem;
+  max-width: 4rem; 
+  /* overflow-x: hidden;  */
+}
+
+/* Mobile: full width trong drawer */
+.sidebar.sidebar-mobile {
+  width: 100% !important;
+  min-width: 100% !important;
+  max-width: 100% !important;
+  height: 100vh !important;
+  overflow-y: auto;
 }
 
 .logoSection {
-  padding: 1.5rem 1rem;
+  padding: 1.1rem;
   border-bottom: 1px solid #F3F4F6;
   display: flex;
   justify-content: center;
@@ -21,10 +33,24 @@
 }
 
 .logoImg {
-  width: 4rem; /* 10 */
-  height: 4rem; /* 10 */
+  width: 3rem; /* 10 */
+  height: 3rem; /* 10 */
   border-radius: 0.5rem;
   object-fit: cover;
+}
+
+/* THAY BẰNG CSS MỚI DƯỚI ĐÂY */
+.logo-video-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.logo-image {
+  width: 60px;
+  height: 60px;
+  object-fit: cover; 
+  border-radius: 0.5rem;
 }
 
 .nav {
@@ -38,19 +64,20 @@
   list-style: none;
   margin: 0;
   padding: 0;
-  gap: 0.5rem;
   display: flex;
   flex-direction: column;
 }
 
-.navItem {}
+.navItem {
+  margin: 5px 0;
+}
 
 .navLink {
   display: flex;
   justify-content: center;   /* giữ icon ở giữa */
   align-items: center;
-  width: 4rem;               /* vừa bằng icon */
-  height: 4rem;              /* làm nó vuông */
+  width: 3rem;               /* vừa bằng icon */
+  height: 3rem;              /* làm nó vuông */
   margin: 0 auto;            /* căn giữa trong sidebar */
   border-radius: 0.75rem;
   text-decoration: none;
@@ -60,7 +87,7 @@
 }
 
 .navLinkActive {
-  background-color: #2b2c8c; /* primary */
+  background-color: #0c326f; /* primary */
   color: white;
   box-shadow: 0 4px 6px rgba(99, 102, 241, 0.4);
 }
@@ -71,9 +98,81 @@
 }
 
 .navIcon {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Mobile: icon + text căn hàng ngang */
+.sidebar-mobile .navLink {
+  justify-content: flex-start;   /* icon + text từ trái qua */
+  width: 100%;                   /* full chiều rộng */
+  padding: 0.5rem 1rem;          /* thêm khoảng cách */
+}
+
+/* Icon khi mobile: giữ size cố định để đều nhau */
+.sidebar-mobile .navIcon {
+  min-width: 2rem; /* đảm bảo icon thẳng hàng */
   display: flex;
   justify-content: center;
-  min-width: 3rem;
+  align-items: center;
+  margin-right: 0.75rem; /* cách chữ */
+}
+
+/* Text kế bên icon */
+.sidebar-mobile .navIcon-mobile {
+  font-size: 0.95rem;
+  color: #374151;
+  white-space: nowrap;
+}
+
+.sidebar-mobile .navLinkActive .navIcon-mobile {
+  font-size: 0.95rem;
+  color: #374151;
+  white-space: nowrap;
+  color: white;
+}
+
+.notification-badge {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  width: 8px;
+  height: 8px;
+  background-color: #dc3545;
+  border-radius: 50%;
+  border: 2px solid white;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.1);
+  }
+}
+
+.notification-badge-count {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  min-width: 18px;
+  height: 18px;
+  background-color: #dc3545;
+  border-radius: 10px;
+  border: 2px solid white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 600;
+  color: white;
+  padding: 0 4px;
 }
 
 .tooltip {
@@ -89,7 +188,7 @@
   pointer-events: none;
   white-space: nowrap;
   transition: opacity 0.2s ease;
-  z-index: 50;
+  z-index: 1250;
   top: 50%;
   transform: translateY(-50%);
 }
@@ -110,29 +209,24 @@
   background-color: #111827; /* gray-900 */
 }
 
-.settingsSection,
-.userProfileSection {
-  padding: 0 0.5rem 1rem;
+.sidebar .userProfileSection {
+  padding-bottom: 10px;
+  margin-bottom: 10px;
 }
 
-.userProfile {
+.sidebar .userProfile {
   display: flex;
   align-items: center;
-  width: 100%;
-  padding: 0.75rem;
-  border-radius: 0.75rem;
+  justify-content: center;
+  padding: 0.5rem;
   cursor: pointer;
   position: relative;
-  transition: background-color 0.2s ease;
+  margin: 0 auto;
 }
 
-.userProfile:hover {
-  background-color: #F3F4F6;
-}
-
-.userAvatar {
-  width: 1.5rem;
-  height: 1.5rem;
+.sidebar .userAvatar {
+  width: 2rem;
+  height: 2rem;
   border-radius: 9999px;
   background: linear-gradient(to bottom right, #ec4899, #8b5cf6);
   display: flex;
@@ -141,11 +235,59 @@
   color: white;
   font-weight: 600;
   font-size: 0.75rem;
-  min-width: 1.5rem;
+  min-width: 2rem;
+  max-width: 2rem;
+  flex-shrink: 0;
 }
 
-.balanceText {
-  color: #d1d5db; /* gray-300 */
-  font-size: 0.75rem;
-  margin-top: 0.25rem;
+/* Sidebar.css */
+.sidebar .userProfileSection {
+  position: relative; /* Quan trọng để dropdown hiển thị đúng vị trí */
+}
+
+.sidebar .dropdownMenu {
+  position: absolute;
+  bottom: 10%;
+  left: 100%;
+  transform: translateY(-50%) translateX(-10%);
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  min-width: 150px;
+  padding: 8px 0;
+  z-index: 1300;
+}
+
+.sidebar-mobile .dropdownMenu {
+  position: absolute;
+  bottom: 100%; 
+  right: 0;
+  left: auto;
+  transform: translateY(-10%); 
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  min-width: 150px;
+  padding: 8px 0;
+  z-index: 1300;
+}
+
+
+.sidebar .dropdownItem {
+  display: block;
+  width: 70%;
+  padding: 10px 16px;
+  text-align: left;
+  color: #333;
+  text-decoration: none;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.sidebar .dropdownItem:hover {
+  font-weight: 600;
 }

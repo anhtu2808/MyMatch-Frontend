@@ -1,0 +1,22 @@
+.material-create-page-container {
+  width: 100vw;
+  height: 100vh;
+  background-color: #fbfaf9;
+  margin: 0;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+.material-create-content {
+  flex: 1;
+  /* margin-left: 150px; */
+  margin-top: 97px;
+  padding: 20px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
+  /* width: calc(100vw - 150px); */
+  box-sizing: border-box;
+}

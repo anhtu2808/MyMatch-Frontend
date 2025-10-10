@@ -1,0 +1,167 @@
+.review-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Mỗi tiêu chí */
+.criteria-item {
+  background: #fafafa;
+  padding: 16px;
+  border-radius: 8px;
+}
+
+.criteria-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  height: 70px;
+}
+
+.criteria-title {
+  display: flex;
+  flex-direction: column;
+}
+
+.criteria-title h4 {
+  margin: 0;
+}
+.criteria-description {
+  margin: 0;
+  color: #666;
+  font-size: 14px;
+}
+
+/* --- BUTTON --- */
+.mark-options {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+.yesno-options {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+.mark-btn,
+.yes-btn,
+.no-btn {
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  background: #e5e7eb; /* xám nhạt */
+  color: #374151;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.mark-btn {
+  width: 40px;
+  height: 40px;
+}
+
+.yes-btn,
+.no-btn {
+  width: 500px;
+}
+
+.mark-btn.selected,
+.yes-btn.selected,
+.no-btn.selected {
+  background: #0a2d6d; /* xanh đậm */
+  color: #fff;
+}
+
+/* --- SCORE TEXT --- */
+.score-text {
+  font-weight: bold;
+  color: #003366;
+}
+
+/* --- UPLOAD EVIDENCE --- */
+.evidence-box .upload-placeholder {
+  border: 1px dashed #bbb;
+
+  text-align: center;
+  cursor: pointer;
+  border-radius: 8px;
+  width: 100%; /* chiếm hết chiều ngang container */
+}
+.evidence-box {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.note-text {
+  font-size: 14px;
+  color: #0ea5e9;
+  margin-top: 12px; /* thêm khoảng cách phía trên */
+  line-height: 1.4;
+}
+
+/* --- POLICY BOX --- */
+.policyy-boxx {
+  background: #fff7e6;
+  padding: 16px;
+  border-radius: 8px;
+  border: 1px solid #ffd591;
+  padding-left: 40px;
+}
+.policyy-boxx ul {
+  margin: 0;
+  padding-left: 20px;
+  color: #663c00;
+}
+
+/* ép wrapper của Ant Upload full width */
+.evidence-box .ant-upload-wrapper,
+.evidence-box .ant-upload,
+.evidence-box .ant-upload-select {
+  display: block;
+  width: 100%;
+}
+
+/* chỉnh lại placeholder */
+.evidence-box .upload-placeholder {
+  width: 97%;
+  min-height: 120px;
+  border: 1px dashed #bbb;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  cursor: pointer;
+  padding: 16px;
+  text-align: center;
+}
+
+.btn-submit:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.policyy-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.policyy-header svg {
+  width: 20px;
+  height: 20px;
+  color: #663c00;
+}
+
+.policyy-boxx h3 {
+  margin: 0;
+  font-size: 18px;
+  color: #663c00;
+}

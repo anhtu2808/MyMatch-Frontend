@@ -1,0 +1,229 @@
+.material-empty {
+  color: #888;
+  padding: 20px;
+  text-align: center;
+}
+
+.material-list {
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  gap: 15px;
+  padding: 20px;
+}
+
+.material-list h2 {
+  margin: 0;
+  font-size: 20px;
+  color: #333;
+}
+
+.material-card {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.material-card:hover {
+  /* transform: translateY(-2px); */
+  box-shadow: 0 3px 7px rgba(0, 0, 0, 0.12);
+  border-color: #d1d5db;
+}
+
+.material-info {
+  flex: 1;
+}
+
+.material-title {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.material-meta {
+  font-size: 13px;
+  color: #555;
+  margin-bottom: 4px;
+}
+
+.material-stats {
+  font-size: 13px;
+  color: #666;
+}
+
+.material-dates {
+  font-size: 12px;
+  color: #888;
+  margin-top: 4px;
+}
+
+.material-status {
+  display: flex;
+  align-items: center;
+}
+
+.material-purchased {
+  color: green;
+  font-weight: 600;
+}
+
+.material-not-purchased {
+  color: red;
+  font-weight: 600;
+}
+.material-title {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.material-stats {
+  font-size: 12px;
+  color: #777;
+  margin-left: 4px;
+}
+
+.material-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.material-delete {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  background: transparent;
+  border: none;
+  padding: 4px;
+  cursor: pointer;
+  color: #e74c3c;
+}
+
+.material-delete svg {
+  width: 16px;
+  height: 16px;
+}
+
+.material-delete:hover {
+  color: #c0392b;
+}
+/* Mobile rất nhỏ: ≤375px */
+@media (max-width: 375px) {
+  .material-list {
+    padding: 10px;
+    gap: 10px;
+  }
+
+  .material-card {
+    flex-direction: column;
+    padding: 12px;
+    font-size: 13px;
+  }
+
+  .material-title {
+    font-size: 14px;
+  }
+
+  .material-meta,
+  .material-dates,
+  .material-stats {
+    font-size: 11px;
+  }
+
+  .material-delete {
+    top: 4px;
+    right: 4px;
+  }
+}
+
+/* Mobile vừa: 376px - 480px */
+@media (min-width: 376px) and (max-width: 480px) {
+  .material-list {
+    padding: 12px;
+  }
+
+  .material-card {
+    flex-direction: column;
+    padding: 14px;
+  }
+
+  .material-title {
+    font-size: 15px;
+  }
+}
+
+/* Tablet nhỏ: 481px - 768px */
+@media (min-width: 481px) and (max-width: 768px) {
+  .material-card {
+    padding: 14px 16px;
+  }
+
+  .material-title {
+    font-size: 16px;
+  }
+}
+
+/* Tablet lớn: 769px - 1024px */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .material-list {
+    gap: 18px;
+  }
+
+  .material-card {
+    padding: 16px 20px;
+  }
+
+  .material-title {
+    font-size: 17px;
+  }
+}
+
+/* Laptop nhỏ: 1025px - 1200px */
+@media (min-width: 1025px) and (max-width: 1200px) {
+  .material-card {
+    padding: 18px 22px;
+  }
+}
+
+/* Laptop vừa: 1201px - 1919px */
+@media (min-width: 1201px) and (max-width: 1919px) {
+  .material-list {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .material-card {
+    padding: 20px;
+  }
+}
+
+/* Desktop lớn: ≥1920px */
+@media (min-width: 1920px) {
+  .material-list {
+    max-width: 1400px;
+    margin: 0 auto;
+    gap: 20px;
+  }
+
+  .material-card {
+    padding: 22px 24px;
+    font-size: 15px;
+  }
+
+  .material-title {
+    font-size: 18px;
+  }
+
+  .material-meta,
+  .material-dates,
+  .material-stats {
+    font-size: 13px;
+  }
+}

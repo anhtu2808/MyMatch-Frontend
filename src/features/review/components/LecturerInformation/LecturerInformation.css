@@ -1,0 +1,365 @@
+.lecturer-information {
+  background: linear-gradient(135deg, #544661 0%, #343d67 50%, #14346e 100%);
+  display: flex;
+  flex-direction: column;
+  border-radius: 12px;
+  padding: 20px;
+  font-family: "Inter", sans-serif;
+  width: 91%;
+  padding-bottom: 30px;
+}
+
+/* .lecturer-information::before {
+  content: '';
+  position: absolute;
+  top: -50px;
+  right: -50px;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 60%);
+  border-radius: 50%;
+}
+
+.lecturer-information::after {
+  content: '';
+  position: absolute;
+  bottom: -100px;
+  right: 100px;
+  width: 150px;
+  height: 150px;
+  background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%);
+  border-radius: 50%;
+} */
+
+.lecturer-header {
+  position: relative;
+  z-index: 2;
+}
+
+.back-button {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.9);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  cursor: pointer;
+  margin-bottom: 24px;
+  padding: 8px 0;
+  transition: all 0.2s ease;
+  font-weight: 500;
+}
+
+.back-button:hover {
+  color: white;
+  transform: translateX(-2px);
+}
+
+.breadcrumb {
+  opacity: 0.6;
+  margin-left: 4px;
+  font-weight: 400;
+}
+
+.lecturer-main-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 32px;
+}
+
+.lecturer-avatar-section {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex: 1;
+}
+
+.avatar-container {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.lecturer-avatar {
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.online-indicator {
+  position: absolute;
+  bottom: 6px;
+  right: 6px;
+  width: 18px;
+  height: 18px;
+  background: #10b981;
+  border-radius: 50%;
+  border: 3px solid white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.lecturer-details {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+}
+
+.lecturer-name {
+  font-size: 32px;
+  font-weight: 800;
+  margin: 0;
+  line-height: 1.1;
+  letter-spacing: -0.5px;
+  color: white;
+}
+
+.lecturer-username {
+  font-size: 17px;
+  opacity: 0.85;
+  margin: 0;
+  font-weight: 500;
+  color: white;
+}
+
+.lecturer-info {
+  font-size: 15px;
+  opacity: 0.9;
+  margin: 2px 0 2px 0;
+  font-weight: 400;
+  color: white;
+}
+
+.rating-section {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.stars {
+  display: flex;
+  gap: 3px;
+}
+
+.rating-text {
+  font-size: 18px;
+  font-weight: 700;
+  margin-left: 6px;
+  color: white;
+}
+
+.review-count {
+  font-size: 15px;
+  opacity: 0.8;
+  font-weight: 400;
+  color: white;
+}
+
+.action-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  align-items: flex-end;
+  flex-shrink: 0;
+}
+
+.save-button,
+.rate-button,
+.tutor-button {
+  border: none;
+  border-radius: 12px;
+  padding: 14px 24px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 140px;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.save-button {
+  background: rgba(255, 255, 255, 0.25);
+  color: white;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(10px);
+  width: 218px;
+}
+
+.save-button:hover {
+  background: rgba(255, 255, 255, 0.35);
+  border-color: rgba(255, 255, 255, 0.6);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+.rate-button {
+  background: rgba(255, 255, 255, 0.25);
+  color: white;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(10px);
+  width: 218px;
+}
+
+.rate-button:hover {
+  background: rgba(255, 255, 255, 0.35);
+  border-color: rgba(255, 255, 255, 0.6);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+.tutor-button {
+  background: linear-gradient(135deg, #f9ca14 0%, #ebb409 100%);
+  color: #1a1a1a;
+  position: relative;
+  font-weight: 700;
+  border: 2px solid transparent;
+}
+
+.tutor-button:hover {
+  background: linear-gradient(135deg, #deb419 0%, #aab861 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(255, 193, 7, 0.4);
+}
+
+.pro-badge {
+  background: linear-gradient(135deg, #ff5722 0%, #eb4a44 100%);
+  color: white;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 4px 8px;
+  border-radius: 15px;
+  margin-left: 6px;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 8px rgba(255, 87, 34, 0.3);
+}
+
+
+.tutor-button:disabled {
+  background: rgba(255, 255, 255, 0.15);
+  color: rgba(255, 255, 255, 0.6);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+
+.tutor-button:disabled:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: none;
+  box-shadow: none;
+}
+
+.tutor-button:disabled .pro-badge {
+  background: rgba(255, 255, 255, 0.3);
+  color: rgba(255, 255, 255, 0.8);
+  box-shadow: none;
+}
+
+.tutor-button .tooltip-text {
+  visibility: hidden;
+  width: max-content;
+  max-width: 200px;
+  background-color: rgba(0, 0, 0, 0.75);
+  color: #fff;
+  text-align: center;
+  padding: 6px 8px;
+  border-radius: 4px;
+  position: absolute;
+  bottom: 110%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 13px;
+  line-height: 1.2;
+  z-index: 10;
+  opacity: 0;
+  transition: opacity 0.2s;
+  pointer-events: none;
+}
+
+.tutor-button:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+}
+/* === RESPONSIVE BREAKPOINTS === */
+
+/* Mobile nhỏ */
+@media (max-width: 375px) {
+  .lecturer-information {
+    padding: 20px;
+    margin: 8px;
+  }
+  .lecturer-name {
+    font-size: 22px;
+  }
+  .lecturer-info {
+    font-size: 12px;
+  }
+}
+
+/* Mobile vừa */
+@media (min-width: 376px) and (max-width: 480px) {
+  .lecturer-information {
+    padding: 22px;
+  }
+  .lecturer-name {
+    font-size: 24px;
+  }
+}
+
+/* Tablet dọc */
+@media (min-width: 481px) and (max-width: 768px) {
+  .lecturer-main-info {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .lecturer-avatar {
+    width: 80px;
+    height: 80px;
+  }
+}
+
+/* Tablet ngang */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .lecturer-name {
+    font-size: 28px;
+  }
+  .lecturer-avatar {
+    width: 90px;
+    height: 90px;
+  }
+}
+
+/* Laptop nhỏ */
+@media (min-width: 1025px) and (max-width: 1200px) {
+  .lecturer-information {
+    width: 95%;
+  }
+  .lecturer-name {
+    font-size: 30px;
+  }
+}
+
+/* Laptop lớn / Desktop */
+@media (min-width: 1201px) and (max-width: 1919px) {
+  .lecturer-information {
+    width: 90%;
+  }
+}
+
+/* Màn hình 4K */
+@media (min-width: 1920px) {
+  .lecturer-information {
+    width: 80%;
+    max-width: 1600px;
+    margin: auto;
+  }
+}

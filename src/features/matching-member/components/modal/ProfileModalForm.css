@@ -1,0 +1,109 @@
+.profile-form-modal {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Header */
+.profile-form-modal-header {
+  border-bottom: 1px solid #eee;
+  padding-bottom: 12px;
+}
+.profile-form-modal-header h2 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+}
+.profile-form-modal-header p {
+  margin: 4px 0 0;
+  font-size: 14px;
+  color: #444;
+}
+
+/* Section */
+.profile-form-section {
+  background: #fafafa;
+  border-radius: 8px;
+  padding: 15px;
+}
+.profile-form-section h4 {
+  margin: 0 0 10px 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: #111;
+}
+
+.profile-form-info {
+  display: flex;
+  gap: 10px;
+}
+
+/* Form layout */
+.profile-form-two-cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.profile-form-input {
+  display: grid;
+  gap: 10px
+}
+
+.profile-form-fee-warning {
+  background-color: #fff3cd;       /* vàng nhạt nổi bật */
+  color: #856404;                  /* chữ vàng nâu */
+  padding: 10px 14px;
+  border: 1px solid #ffeeba;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 14px;
+  text-align: center;
+  margin-top: 12px;
+  animation: fadeIn 0.5s ease;
+}
+
+/* Hiệu ứng nhẹ cho vui mắt */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+/* Footer */
+.profile-form-modal-footer {
+  margin-top: 10px;
+  display: flex;
+  gap: 10px
+}
+
+.profile-form-button-cancel {
+  background-color: #e2e2e2;
+  border: none;
+  border-radius: 8px;
+  color: #333;
+  padding: 10px 16px ;
+}
+
+.profile-form-button-cancel:hover {
+  transform: translateY(-2px);
+}
+
+.profile-form-button-create {
+  background-color: #0c326f;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  padding: 10px 16px ;
+}
+
+.profile-form-button-create:hover {
+   transform: translateY(-2px);
+}
