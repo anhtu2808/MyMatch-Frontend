@@ -221,57 +221,39 @@
 }
 
 .action-buttons-my-request {
-    display: flex;
-    gap: 12px;
+  display: flex;
+  gap: 10px;
+  justify-content: flex-start;
+  flex-wrap: wrap;
 }
 
-.action-buttons-my-request button {
-    flex: 1;
-    padding: 12px 24px;
-    border: none;
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background-color 0.2s;
+.btn-message-my-request,
+.delete-request {
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  white-space: nowrap;
 }
 
 .btn-message-my-request {
-    background-color: #0c326f;
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px
+  background-color: #0c326f;
+  color: white;
 }
 
 .btn-message-my-request:hover {
     transform: translateY(-2px);
 }
 
-.success-message {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background-color: #D4EDDA;
-    color: #155724;
-    padding: 12px 16px;
-    border-radius: 8px;
-    font-size: 14px;
-}
-
-.success-icon {
-    font-size: 16px;
-}
-
 .delete-request {
     background:#ff2424;
     color: white;
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px
 }
 
 .delete-request:hover {

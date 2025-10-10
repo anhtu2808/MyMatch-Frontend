@@ -148,7 +148,7 @@ const showNotification = (msg: string, type: any) => {
       <div className="profile-form-modal">
         {/* Header */}
         <div className="profile-form-modal-header">
-          <h2>Thông tin profile</h2>
+          <h2>Thông tin hồ sơ cá nhân</h2>
           <p>Đăng profile của bạn để tìm nhóm phù hợp</p>
         </div>
 
