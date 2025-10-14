@@ -598,3 +598,42 @@
     font-size: 13px;
   }
 }
+.review-details-grid {
+  background-color: #f8f9fa; /* Nền xám rất nhạt, sạch sẽ */
+  border: 1px solid #e9ecef;   /* Viền tinh tế */
+  border-radius: 12px;          /* Bo góc mềm mại hơn */
+  padding: 20px;                /* Tăng khoảng cách bên trong */
+  margin-top: 20px;             /* Khoảng cách với nội dung bình luận */
+
+  display: grid;
+  /* Giữ lại layout grid responsive nhưng có thể tăng minmax nếu muốn */
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px 24px; /* Khoảng cách giữa các hàng và cột */
+}
+
+.score-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* Bỏ border-bottom để giao diện thoáng hơn, dựa vào khoảng cách gap */
+}
+
+.score-name {
+  font-size: 14px;
+  color: #495057; 
+  flex-grow: 1; 
+  font-weight: 600;
+}
+
+.score-value {
+  font-weight: 700;
+  font-size: 14px;
+  color: #0056b3; 
+  background-color: #e7f5ff; 
+  border: 1px solid #b3d7ff; 
+  padding: 5px 12px;
+  border-radius: 20px; 
+  min-width: 55px;     
+  text-align: center;
+  flex-shrink: 0;     
+}

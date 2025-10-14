@@ -297,3 +297,51 @@
     padding: 14px 18px;
   }
 }
+.preview-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.preview-item {
+  position: relative; /* Cần thiết để định vị nút xóa */
+  background-color: #f0f2f5;
+  border: 1px solid #e1e8ed;
+  border-radius: 8px;
+  padding: 8px 36px 8px 12px; /* Thêm padding bên phải để nút xóa không đè lên chữ */
+  display: flex;
+  align-items: center;
+  max-width: 250px; /* Giới hạn chiều rộng để không quá dài */
+}
+
+.file-name {
+  font-size: 14px;
+  color: #333;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; /* Thêm "..." nếu tên file quá dài */
+  margin: 0;
+}
+
+.delete-file-btn {
+  position: absolute;
+  top: 50%;
+  right: 6px;
+  transform: translateY(-50%);
+  background-color: rgba(20, 23, 26, 0.6); /* Nền mờ giống ảnh mẫu */
+  border: none;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  padding: 0;
+}
+
+.delete-file-btn:hover {
+  background-color: #e53e3e; /* Đổi màu khi hover để báo hiệu hành động xóa */
+}

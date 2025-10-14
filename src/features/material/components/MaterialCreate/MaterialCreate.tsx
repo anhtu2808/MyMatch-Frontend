@@ -11,6 +11,25 @@ import "./MaterialCreate.css";
 import Notification from "../../../../components/notification/Notification";
 import ConfirmDelete from "../../../../components/confirm-delete/ConfirmDelete";
 
+
+const TrashIcon = () => (
+  <svg
+    width="16"
+    height="16"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="white"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <polyline points="3 6 5 6 21 6"></polyline>
+    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+    <line x1="10" y1="11" x2="10" y2="17"></line>
+    <line x1="14" y1="11" x2="14" y2="17"></line>
+  </svg>
+);
+
 export default function MaterialCreatePage() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -87,7 +106,7 @@ export default function MaterialCreatePage() {
     fetchLecturers();
   }, []);
 
-  const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
+  const MAX_FILE_SIZE = 500 * 1024 * 1024; // 500MB
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
   const selectedFiles = e.target.files ? Array.from(e.target.files) : [];
@@ -152,24 +171,20 @@ export default function MaterialCreatePage() {
     setFileToDeleteIndex(index);
   };
 
+  // Hàm này được gọi khi xác nhận xóa từ modal
   const confirmDeleteFile = () => {
     if (fileToDeleteIndex !== null) {
-      const newFiles = [...files];
-      newFiles.splice(fileToDeleteIndex, 1);
+      // Xóa file khỏi state files
+      const newFiles = files.filter((_, i) => i !== fileToDeleteIndex);
       setFiles(newFiles);
 
-      const newIds = [...materialItemIds];
-      newIds.splice(fileToDeleteIndex, 1);
+      // Xóa ID tương ứng khỏi materialItemIds
+      const newIds = materialItemIds.filter((_, i) => i !== fileToDeleteIndex);
       setMaterialItemIds(newIds);
 
       setNotification({ message: "Xóa file thành công", type: "success" });
-      setFileToDeleteIndex(null);
+      setFileToDeleteIndex(null); // Đóng modal
     }
-  };
-
-  const handleRemoveFile = (index: number) => {
-  setFiles((prev) => prev.filter((_, i) => i !== index));
-  setMaterialItemIds((prev) => prev.filter((_, i) => i !== index));
   };
 
  
@@ -341,16 +356,28 @@ export default function MaterialCreatePage() {
           />
 
             {files.length > 0 && (
-              <div className="preview-list flex gap-2 mt-2 flex-wrap">
-                {files.map((f, i) => (
-                  <div
-                    key={i}
-                    className="preview-item border p-2 rounded bg-gray-100 relative"
-                  >
-                    <p className="text-sm">{f.name}</p>
-                  </div>
-                ))}
-              </div>
+                // ✅ CẬP NHẬT PHẦN HIỂN THỊ FILE PREVIEW
+                <div className="preview-list flex gap-3 mt-4 flex-wrap">
+                  {files.map((f, i) => (
+                    <div
+                      key={i}
+                      className="preview-item" // Sử dụng class mới từ CSS
+                    >
+                      <p className="file-name">{f.name}</p>
+                      <button
+                        type="button" // Quan trọng để không submit form
+                        className="delete-file-btn"
+                        onClick={(e) => {
+                            e.preventDefault(); // Ngăn sự kiện click lan ra ngoài
+                            e.stopPropagation();
+                            handleDeleteFile(i);
+                        }}
+                      >
+                        <TrashIcon />
+                      </button>
+                    </div>
+                  ))}
+                </div>
             )}
           </div>
 
