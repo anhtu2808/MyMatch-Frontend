@@ -94,16 +94,25 @@ const MaterialFilter: React.FC<MaterialFilterProps> = ({
     fetchUser();
   }, []);
 
-  const handleSearch = () => {
-    onSearch({ name, course, lecturer, ownerOnly: activeTab === "mine" });
-  };
+  useEffect(() => {
+    const timerId = setTimeout(() => {
+      onSearch({ name, course, lecturer, ownerOnly: activeTab === "mine" });
+    }, 500);
+    return () => {
+      clearTimeout(timerId);
+    };
+  }, [name, course, lecturer, activeTab, onSearch]); 
+
 
   const handleClear = () => {
     setName("");
     setCourse("");
     setLecturer("");
     setActiveTab("all");
-    onSearch({});
+  };
+  
+  const handleSearch = () => {
+    onSearch({ name, course, lecturer, ownerOnly: activeTab === "mine" });
   };
 
   return (
@@ -112,19 +121,13 @@ const MaterialFilter: React.FC<MaterialFilterProps> = ({
       <div className="material-tabs">
         <div
           className={`tab ${activeTab === "all" ? "active" : ""}`}
-          onClick={() => {
-            setActiveTab("all");
-            onSearch({ name, course, lecturer, ownerOnly: false });
-          }}
+          onClick={() => setActiveTab("all")}
         >
           Tất cả tài liệu
         </div>
         <div
           className={`tab ${activeTab === "mine" ? "active" : ""}`}
-          onClick={() => {
-            setActiveTab("mine");
-            onSearch({ name, course, lecturer, ownerOnly: true });
-          }}
+          onClick={() => setActiveTab("mine")}
         >
           Tài liệu đã đăng tải
         </div>
@@ -141,7 +144,6 @@ const MaterialFilter: React.FC<MaterialFilterProps> = ({
             value={name}
             placeholder="e.g. Assignment 1"
             onChange={(e) => setName(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && handleSearch()}
           />
         </div>
         <div className="material-form-group">
@@ -151,7 +153,6 @@ const MaterialFilter: React.FC<MaterialFilterProps> = ({
             value={course}
             placeholder="e.g. EXE201"
             onChange={(e) => setCourse(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && handleSearch()}
           />
         </div>
         <div className="material-form-group">
@@ -161,7 +162,7 @@ const MaterialFilter: React.FC<MaterialFilterProps> = ({
             value={lecturer}
             placeholder="e.g. Nguyen Van A"
             onChange={(e) => setLecturer(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && handleSearch()}
+        
           />
         </div>
       </div>
