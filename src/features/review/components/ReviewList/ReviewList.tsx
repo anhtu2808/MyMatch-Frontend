@@ -136,6 +136,28 @@ interface Review {
   dislikes?: number;
 }
 
+const ExpandableText: React.FC<{ text: string; maxLength: number }> = ({
+  text,
+  maxLength,
+}) => {
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  if (text.length <= maxLength) {
+    return <p>{text}</p>;
+  }
+
+  return (
+    <div>
+      <p style={{ margin: 0 }}>
+        {isExpanded ? text : `${text.substring(0, maxLength)}...`}
+      </p>
+      <button className="expand-button" onClick={() => setIsExpanded(!isExpanded)}>
+        {isExpanded ? "Thu gọn" : "Xem thêm"}
+      </button>
+    </div>
+  );
+};
+
 const ReviewList: React.FC<{ lecturerId: number }> = ({ lecturerId }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [courseId, setCourseId] = useState<number>(0);
@@ -195,7 +217,7 @@ const ReviewList: React.FC<{ lecturerId: number }> = ({ lecturerId }) => {
       }
     };
     fetchReviews();
-  }, [lecturerId, courseId, semesterId, isVerified, isAnonymous]);
+  }, [lecturerId, courseId, semesterId, isAnonymous]);
 
   const displayedReviews = showAllReviews ? reviews : reviews.slice(0, 1);
 
@@ -217,6 +239,9 @@ const ReviewList: React.FC<{ lecturerId: number }> = ({ lecturerId }) => {
       )
     );
   };
+
+  
+  
 
   return (
     <div className="review-list">
@@ -472,12 +497,20 @@ const ReviewList: React.FC<{ lecturerId: number }> = ({ lecturerId }) => {
       </div>
 
       <div className="reviews-container">
-        {displayedReviews.map((review) => (
-          <div
-            key={review.id}
-            className="review-card"
-            onClick={() => navigate(`/review/${review.id}`)}
-          >
+        {displayedReviews.map((review) => {
+          const scoreDetails = review.details.filter(
+            (d) => d.criteria.type === "mark" && d.score !== null
+          );
+          const commentDetails = review.details.filter(
+            (d) => d.criteria.type === "comment" && d.comment
+          );
+
+          return (
+            <div
+              key={review.id}
+              className="review-card"
+              onClick={() => navigate(`/review/${review.id}`)}
+            >
             <div className="review-main">
               <div className="reviewer-info">
                 <div className="reviewer-avatar">
@@ -567,12 +600,25 @@ const ReviewList: React.FC<{ lecturerId: number }> = ({ lecturerId }) => {
             </div>
 
             <div className="review-content">
-              {review.details
-                .filter((d) => d.criteria.type === "comment")
-                .map((d) => (
-                  <p key={d.id}>{d.comment}</p>
+                {commentDetails.map((d) => (
+                  <ExpandableText
+                    key={d.id}
+                    text={d.comment}
+                    maxLength={200}
+                  />
                 ))}
-            </div>
+              </div>
+
+              {scoreDetails.length > 0 && (
+                <div className="review-details-grid">
+                  {scoreDetails.map((detail) => (
+                    <div key={detail.id} className="score-item">
+                      <span className="score-name">{detail.criteria.name}</span>
+                      <span className="score-value">{detail.score}/5</span> 
+                    </div>
+                  ))}
+                </div>
+              )}
 
             {/* <div className="review-tags">
               {review.tags?.map((tag) => (
@@ -599,7 +645,8 @@ const ReviewList: React.FC<{ lecturerId: number }> = ({ lecturerId }) => {
               </button>
             </div> */}
           </div>
-        ))}
+           );
+      })}
       </div>
 
       {!showAllReviews && reviews.length > 1 && (

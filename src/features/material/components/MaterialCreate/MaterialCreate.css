@@ -297,3 +297,67 @@
     padding: 14px 18px;
   }
 }
+.preview-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.preview-item {
+  position: relative; 
+  background-color: #f0f2f5;
+  border: 1px solid #e1e8ed;
+  border-radius: 8px;
+  padding: 8px 36px 8px 12px;  
+  display: flex;
+  align-items: center;
+  max-width: 250px;  
+}
+
+.file-name {
+  font-size: 14px;
+  color: #333;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; 
+  margin: 0;
+}
+
+.delete-file-btn {
+  position: absolute;
+  top: 50%;
+  right: 6px;
+  transform: translateY(-50%);
+  background-color: rgba(20, 23, 26, 0.6); 
+  border: none;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  padding: 0;
+}
+
+.delete-file-btn:hover {
+  background-color: #e53e3e;  
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spinner-icon {
+  animation: spin 1s linear infinite;
+  width: 20px;   
+  height: 20px;  
+  margin-left: 5px;
+}
