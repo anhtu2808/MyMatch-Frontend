@@ -312,6 +312,7 @@
   .btn-view {
     height: 40px;
     font-size: 13px;
+    flex:initial;
   }
 }
 
@@ -355,6 +356,7 @@
   .btn-view {
     height: 42px;
     font-size: 13px;
+    flex:initial;
   }
 }
 
