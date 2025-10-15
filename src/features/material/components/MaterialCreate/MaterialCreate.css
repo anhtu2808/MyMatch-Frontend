@@ -305,14 +305,14 @@
 }
 
 .preview-item {
-  position: relative; /* Cần thiết để định vị nút xóa */
+  position: relative; 
   background-color: #f0f2f5;
   border: 1px solid #e1e8ed;
   border-radius: 8px;
-  padding: 8px 36px 8px 12px; /* Thêm padding bên phải để nút xóa không đè lên chữ */
+  padding: 8px 36px 8px 12px;  
   display: flex;
   align-items: center;
-  max-width: 250px; /* Giới hạn chiều rộng để không quá dài */
+  max-width: 250px;  
 }
 
 .file-name {
@@ -320,7 +320,7 @@
   color: #333;
   white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis; /* Thêm "..." nếu tên file quá dài */
+  text-overflow: ellipsis; 
   margin: 0;
 }
 
@@ -329,7 +329,7 @@
   top: 50%;
   right: 6px;
   transform: translateY(-50%);
-  background-color: rgba(20, 23, 26, 0.6); /* Nền mờ giống ảnh mẫu */
+  background-color: rgba(20, 23, 26, 0.6); 
   border: none;
   border-radius: 50%;
   width: 24px;
@@ -343,5 +343,21 @@
 }
 
 .delete-file-btn:hover {
-  background-color: #e53e3e; /* Đổi màu khi hover để báo hiệu hành động xóa */
+  background-color: #e53e3e;  
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spinner-icon {
+  animation: spin 1s linear infinite;
+  width: 20px;   
+  height: 20px;  
+  margin-left: 5px;
 }
