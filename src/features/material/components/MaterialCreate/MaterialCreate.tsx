@@ -11,6 +11,40 @@ import "./MaterialCreate.css";
 import Notification from "../../../../components/notification/Notification";
 import ConfirmDelete from "../../../../components/confirm-delete/ConfirmDelete";
 
+
+const TrashIcon = () => (
+  <svg
+    width="16"
+    height="16"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="white"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <polyline points="3 6 5 6 21 6"></polyline>
+    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+    <line x1="10" y1="11" x2="10" y2="17"></line>
+    <line x1="14" y1="11" x2="14" y2="17"></line>
+  </svg>
+);
+
+const SpinnerIcon = () => (
+    <svg className="spinner-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="#3B82F6" strokeWidth="4"></circle>
+        <path className="opacity-75" fill="#60A5FA" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+    </svg>
+);
+
+const ErrorIcon = () => (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="red" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="12" cy="12" r="10"></circle>
+        <line x1="12" y1="8" x2="12" y2="12"></line>
+        <line x1="12" y1="16" x2="12.01" y2="16"></line>
+    </svg>
+);
+
 export default function MaterialCreatePage() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -32,7 +66,7 @@ export default function MaterialCreatePage() {
   const [lecturerLoading, setLecturerLoading] = useState(false);
   const [notification, setNotification] = useState<{ message: string; type: "success" | "error" | "info" | "warning" } | null>(null);
   const [fileToDeleteIndex, setFileToDeleteIndex] = useState<number | null>(null);
-  
+  const [uploadProgress, setUploadProgress] = useState<{ [key: string]: 'uploading' | 'success' | 'error' }>({});
 
   // Load course list
   useEffect(() => {
@@ -87,35 +121,58 @@ export default function MaterialCreatePage() {
     fetchLecturers();
   }, []);
 
-  const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
+  const MAX_FILE_SIZE = 500 * 1024 * 1024; // 500MB
 
-  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-  const selectedFiles = e.target.files ? Array.from(e.target.files) : [];
-  if (selectedFiles.length === 0) return;
+   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const selectedFiles = e.target.files ? Array.from(e.target.files) : [];
+        if (selectedFiles.length === 0) return;
 
-  // Kiểm tra size
-  const oversized = selectedFiles.find((f) => f.size > MAX_FILE_SIZE);
-  if (oversized) {
-    setNotification({ message: `File ${oversized.name} vượt quá dung lượng tối đa 500MB`, type: "error" });
-    return;
-  }
+        const oversized = selectedFiles.find((f) => f.size > MAX_FILE_SIZE);
+        if (oversized) {
+            setNotification({ message: `File ${oversized.name} vượt quá dung lượng tối đa 500MB`, type: "error" });
+            return;
+        }
 
-    try {
-      const uploadedIds: number[] = [];
-      for (const f of selectedFiles) {
-        const res = await uploadMaterialAPI(f.name, f);
-        const uploadedId = res.result?.id;
-        if (uploadedId) uploadedIds.push(uploadedId);
-      }
+        setFiles((prev) => [...prev, ...selectedFiles]);
+        const initialProgress = selectedFiles.reduce((acc, file) => {
+            acc[`${file.name}-${file.lastModified}`] = 'uploading';
+            return acc;
+        }, {} as { [key: string]: 'uploading' });
+        setUploadProgress(prev => ({ ...prev, ...initialProgress }));
 
-      setFiles((prev) => [...prev, ...selectedFiles]);
-      setMaterialItemIds((prev) => [...prev, ...uploadedIds]);
-      setNotification({ message: "Upload file thành công!", type: "success" });
-    } catch (err) {
-      console.error("Upload file lỗi:", err);
-      setNotification({ message: "Upload file thất bại!", type: "error" });
-    }
-  };
+        let successCount = 0;
+        const uploadPromises = selectedFiles.map(async (file) => {
+            const fileKey = `${file.name}-${file.lastModified}`;
+            try {
+                const res = await uploadMaterialAPI(file.name, file);
+                const uploadedId = res.result?.id;
+                if (uploadedId) {
+                    setUploadProgress(prev => ({ ...prev, [fileKey]: 'success' }));
+                    successCount++;
+                    return uploadedId;
+                } else {
+                    throw new Error("Upload failed, no ID returned");
+                }
+            } catch (err) {
+                console.error(`Upload file ${file.name} lỗi:`, err);
+                setUploadProgress(prev => ({ ...prev, [fileKey]: 'error' }));
+                return null;
+            }
+        });
+
+        const results = await Promise.all(uploadPromises);
+        const newIds = results.filter((id): id is number => id !== null);
+        setMaterialItemIds((prev) => [...prev, ...newIds]);
+
+        if (successCount > 0) {
+            setNotification({ message: `Upload thành công ${successCount}/${selectedFiles.length} file!`, type: "success" });
+        }
+        if (successCount < selectedFiles.length) {
+            setNotification({ message: `Có ${selectedFiles.length - successCount} file upload thất bại.`, type: "error" });
+        }
+        if(e.target) e.target.value = '';
+    };
+
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -123,29 +180,36 @@ export default function MaterialCreatePage() {
       setNotification({ message: "Vui lòng nhập đầy đủ thông tin!", type: "error" });
       return;
     }
-    console.log({
-  name,
-  description,
-  courseId: Number(selectedCourseId),
-  lecturerId: Number(selectedLecturerId),
-  materialItemIds: materialItemIds.filter(Boolean),
-});
+    const validIds = files.reduce((acc, file, index) => {
+        const fileKey = `${file.name}-${file.lastModified}`;
+        if (uploadProgress[fileKey] === 'success') {
+            const idIndex = files.slice(0, index).filter(f => uploadProgress[`${f.name}-${f.lastModified}`] === 'success').length;
+            acc.push(materialItemIds[idIndex]);
+        }
+        return acc;
+    }, [] as number[]);
 
 
-    try {
-  const res = await createMaterialAPI(
-    name,
-    description,
-    Number(selectedCourseId),
-    Number(selectedLecturerId),
-    materialItemIds.filter(Boolean)
-  );
-    setNotification({ message: "Tạo tài liệu thành công!", type: "success" });
-    navigate("/material");
-  } catch (err) {
-    console.error("Tạo tài liệu thất bại:", err);
-    setNotification({ message: "Tạo tài liệu thất bại!", type: "error" });
-  }
+    if (validIds.length === 0) {
+        setNotification({ message: "Không có file hợp lệ nào để tạo tài liệu!", type: "error" });
+        return;
+    }
+
+
+   try {
+      const res = await createMaterialAPI(
+        name,
+        description,
+        Number(selectedCourseId),
+        Number(selectedLecturerId),
+        validIds 
+      );
+      setNotification({ message: "Tạo tài liệu thành công!", type: "success" });
+      navigate("/material");
+    } catch (err) {
+      console.error("Tạo tài liệu thất bại:", err);
+      setNotification({ message: "Tạo tài liệu thất bại!", type: "error" });
+    }
   };
 
   const handleDeleteFile = (index: number) => {
@@ -153,24 +217,31 @@ export default function MaterialCreatePage() {
   };
 
   const confirmDeleteFile = () => {
-    if (fileToDeleteIndex !== null) {
-      const newFiles = [...files];
-      newFiles.splice(fileToDeleteIndex, 1);
-      setFiles(newFiles);
-
-      const newIds = [...materialItemIds];
-      newIds.splice(fileToDeleteIndex, 1);
-      setMaterialItemIds(newIds);
-
-      setNotification({ message: "Xóa file thành công", type: "success" });
-      setFileToDeleteIndex(null);
-    }
-  };
-
-  const handleRemoveFile = (index: number) => {
-  setFiles((prev) => prev.filter((_, i) => i !== index));
-  setMaterialItemIds((prev) => prev.filter((_, i) => i !== index));
-  };
+        if (fileToDeleteIndex !== null) {
+          const fileToDelete = files[fileToDeleteIndex];
+          const fileKeyToDelete = `${fileToDelete.name}-${fileToDelete.lastModified}`;
+    
+          if (uploadProgress[fileKeyToDelete] === 'success') {
+            const idIndexToDelete = files
+              .slice(0, fileToDeleteIndex)
+              .filter(f => uploadProgress[`${f.name}-${f.lastModified}`] === 'success').length;
+    
+            const newIds = [...materialItemIds];
+            newIds.splice(idIndexToDelete, 1);
+            setMaterialItemIds(newIds);
+          }
+    
+          const newFiles = files.filter((_, i) => i !== fileToDeleteIndex);
+          setFiles(newFiles);
+    
+          const newProgress = { ...uploadProgress };
+          delete newProgress[fileKeyToDelete];
+          setUploadProgress(newProgress);
+    
+          setNotification({ message: "Xóa file thành công", type: "success" });
+          setFileToDeleteIndex(null);
+        }
+    };
 
  
   const isFormValid = name && files.length > 0 && selectedCourseId && selectedLecturerId;
@@ -292,6 +363,8 @@ export default function MaterialCreatePage() {
           />
         </div>
 
+          {/* File Select */}
+
         <label className="material-create-label block mb-1 font-medium">
           File <span className="text-red-500">*</span>
         </label>
@@ -341,16 +414,35 @@ export default function MaterialCreatePage() {
           />
 
             {files.length > 0 && (
-              <div className="preview-list flex gap-2 mt-2 flex-wrap">
-                {files.map((f, i) => (
-                  <div
-                    key={i}
-                    className="preview-item border p-2 rounded bg-gray-100 relative"
-                  >
-                    <p className="text-sm">{f.name}</p>
-                  </div>
-                ))}
-              </div>
+                <div className="preview-list flex gap-3 mt-4 flex-wrap">
+                  {files.map((f, i) => {
+                    const fileKey = `${f.name}-${f.lastModified}`;
+                    const status = uploadProgress[fileKey];
+
+                    return (
+                        <div key={fileKey} className="preview-item">
+                            <p className="file-name">{f.name}</p>
+                            <div className="file-status">
+                                {status === 'uploading' && <SpinnerIcon />}
+                                {status === 'error' && <ErrorIcon />}
+                                {status !== 'uploading' && (
+                                    <button
+                                        type="button"
+                                        className="delete-file-btn"
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            e.stopPropagation();
+                                            handleDeleteFile(i);
+                                        }}
+                                    >
+                                        <TrashIcon />
+                                    </button>
+                                )}
+                            </div>
+                        </div>
+                    );
+                  })}
+                </div>
             )}
           </div>
 
@@ -389,3 +481,4 @@ export default function MaterialCreatePage() {
     </div>
   );
 }
+
