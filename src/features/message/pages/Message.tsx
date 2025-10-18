@@ -25,7 +25,7 @@ const Message = () => {
         </>
       )}
       <div className='main-content-message'>
-        <Chat id = {studentId} requestId = {requestId}/>
+        <Chat id = {studentId} />
       </div>
     </div>
   )
