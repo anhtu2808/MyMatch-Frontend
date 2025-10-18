@@ -1,14 +1,23 @@
+.action-buttons-request-news-feed{
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+
 .btn-message-news-feed {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 10px;
-    background-color: #0c326f;
-    color: white;
-    gap: 10px;
-    border: none;
-    border-radius: 8px;
-    width: 100%;
+  background-color: #0c326f;
+  color: white;
+  gap: 10px;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  white-space: nowrap;
 }
 
 .btn-message-news-feed:hover {
@@ -203,18 +212,6 @@
   .schedule {
     font-size: 9px;
   }
-  
-  .action-buttons-matching {
-    justify-content: stretch;
-  }
-  
-  .btn-message-matching,
-  .btn-message-matching-accept,
-  .btn-message-matching-reject {
-    flex: 1;
-    justify-content: center;
-    min-width: 0;
-  }
 }
 
 /* Mobile nhỏ (<= 480px) */
@@ -305,26 +302,6 @@
     font-size: 9px;
     margin-top: 2px;
   }
-  
-  .action-buttons-matching {
-    flex-direction: column;
-    gap: 8px;
-  }
-  
-  .btn-message-matching,
-  .btn-message-matching-accept,
-  .btn-message-matching-reject {
-    width: 100%;
-    padding: 10px 12px;
-    font-size: 12px;
-  }
-  
-  /* Ẩn icon SVG trên mobile rất nhỏ để tiết kiệm không gian */
-  .btn-message-matching svg,
-  .btn-message-matching-accept svg,
-  .btn-message-matching-reject svg {
-    display: none;
-  }
 }
 
 /* Mobile cực nhỏ (<= 375px) */
@@ -403,13 +380,6 @@
   
   .schedule {
     font-size: 7px;
-  }
-  
-  .btn-message-matching,
-  .btn-message-matching-accept,
-  .btn-message-matching-reject {
-    padding: 9px 10px;
-    font-size: 10px;
   }
 }
 
