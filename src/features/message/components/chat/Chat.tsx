@@ -12,6 +12,7 @@ import { io, Socket } from "socket.io-client";
 import { useUnreadMessages } from "../UnreadMessagesContext";
 import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
 import Notification from "../../../../components/notification/Notification";
+import { useNavigate } from "react-router-dom";
 
 // --- Interfaces ---
 interface Participant {
@@ -76,7 +77,7 @@ const Chat: React.FC<ChatProps> = ({ id }) => {
   const socketRef = useRef<Socket | null>(null);
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
   const [noti, setNoti] = useState<{ message: string; type: any } | null>(null);
-  
+  const navigation = useNavigate()
   const showNotification = (msg: string, type: any) => {
     setNoti({ message: msg, type });
   };
@@ -170,6 +171,7 @@ const Chat: React.FC<ChatProps> = ({ id }) => {
       } catch (err: any) {
         console.error("Lỗi khi khởi tạo cuộc trò chuyện:", err);
         showNotification(err?.response?.data?.message || "Không thể tải danh sách cuộc trò chuyện.", "error")
+        navigation("/messages")
       } finally {
         setIsLoading(false);
       }

@@ -150,7 +150,7 @@ const mapSlotToApi = (slot: string) => {
       toDays: formData.toDays.map(mapDay),
       xpiresAt: formData.expiresAt instanceof Date && !isNaN(formData.expiresAt.getTime())
         ? formData.expiresAt.toISOString()
-        : null,  // ✅ tránh lỗi
+        : null,
     }
 
     if (isEdit) {
