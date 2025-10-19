@@ -150,7 +150,7 @@ const mapSlotToApi = (slot: string) => {
       toDays: formData.toDays.map(mapDay),
       xpiresAt: formData.expiresAt instanceof Date && !isNaN(formData.expiresAt.getTime())
         ? formData.expiresAt.toISOString()
-        : null,  // ✅ tránh lỗi
+        : null,
     }
 
     if (isEdit) {
@@ -194,10 +194,6 @@ const mapSlotToApi = (slot: string) => {
         <form className="swap-form" onSubmit={handleSubmit}>
           {/* Subject Section */}
           <div className="form-section subject-section">
-            <div className="section-header-create">
-              <div className="section-icon-wrapper blue"><span className="section-icon">📚</span></div>
-              <h3 className="section-title">Môn học</h3>
-            </div>
             <div className="form-group full-width">
               <label className="form-label">Mã môn học <span className="required">*</span></label>
               <input
@@ -216,7 +212,6 @@ const mapSlotToApi = (slot: string) => {
             {/* Current Class */}
             <div className="form-section current-class-section">
               <div className="section-header-create">
-                <div className="section-icon-wrapper blue"><span className="section-icon">📋</span></div>
                 <h3 className="section-title">Lớp hiện tại của bạn</h3>
               </div>
               <div className="form-group">
@@ -256,7 +251,6 @@ const mapSlotToApi = (slot: string) => {
             {/* Desired Class */}
             <div className="form-section desired-class-section">
               <div className="section-header-create">
-                <div className="section-icon-wrapper green"><span className="section-icon">✅</span></div>
                 <h3 className="section-title">Lớp muốn đổi</h3>
               </div>
               <div className="form-group">
