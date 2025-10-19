@@ -1,0 +1,62 @@
+.empty-review-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  background-color: #f8f9fa;
+  border-radius: 12px;
+  text-align: center;
+  margin-top: 24px;
+}
+
+.empty-review-state .empty-icon-wrapper {
+  background-color: #e9ecef;
+  border-radius: 50%;
+  width: 120px; 
+  height: 120px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.empty-review-state .empty-icon-wrapper svg {
+  width: 64px; 
+  height: 64px;
+  stroke: #adb5bd;
+  stroke-width: 1.5; 
+}
+
+
+.empty-review-state h2 {
+  font-size: 24px;
+  font-weight: 600;
+  color: #343a40;
+  margin-bottom: 8px;
+}
+
+.empty-review-state p {
+  color: #6c757d;
+  margin-bottom: 24px;
+  max-width: 450px;
+}
+
+.empty-review-state .btn-add-review {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  border: none;
+  background-color: #0c326f;
+  color: white;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.empty-review-state .btn-add-review:hover {
+  background-color: #0056b3;
+}

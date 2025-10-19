@@ -70,8 +70,9 @@ const ReviewSteps: React.FC<ReviewStepsProps> = ({
   >([]);
   const [classCode, setClassCode] = useState("");
   const [reviewData, setReviewData] = useState<any>(null);
-  const isFormValid =
-    selectedSemester !== "" && selectedCourse !== "" && classCode.trim() !== "";
+  const [isReviewFormValid, setIsReviewFormValid] = useState(false);
+   const isStep2Valid =
+    selectedSemester !== "" && selectedCourse !== "" ;
   const navigate = useNavigate();
   const [notification, setNotification] = useState<{
     message: string;
@@ -99,28 +100,33 @@ const ReviewSteps: React.FC<ReviewStepsProps> = ({
     },
   ];
 
-  const isReviewValid = (reviewData: any) => {
-    if (!reviewData) return false;
+  // const isReviewValid = (reviewData: any) => {
+  //   if (!reviewData) return false;
 
-    if (!reviewData.answers || Object.keys(reviewData.answers).length === 0) {
-      return false;
-    }
+  //   if (!reviewData.answers || Object.keys(reviewData.answers).length === 0) {
+  //     return false;
+  //   }
 
-    for (const value of Object.values(reviewData.answers)) {
-      if (
-        value === null ||
-        value === undefined ||
-        (typeof value === "string" && value.trim() === "")
-      ) {
-        return false;
-      }
-    }
-    if (!reviewData.evidenceUrl || reviewData.evidenceUrl.trim() === "") {
-      return false;
-    }
+  //   for (const value of Object.values(reviewData.answers)) {
+  //     if (
+  //       value === null ||
+  //       value === undefined ||
+  //       (typeof value === "string" && value.trim() === "")
+  //     ) {
+  //       return false;
+  //     }
+  //   }
+    // if (!reviewData.evidenceUrl || reviewData.evidenceUrl.trim() === "") {
+    //   return false;
+    // }
 
-    return true;
-  };
+  //   return true;
+  // };
+
+  const handleReviewFormChange = ({ data, isValid }: { data: any; isValid: boolean }) => {
+  setReviewData(data);
+  setIsReviewFormValid(isValid);
+};
 
   useEffect(() => {
     const universityId = 1;
@@ -250,14 +256,14 @@ const ReviewSteps: React.FC<ReviewStepsProps> = ({
                 />
               </div>
 
-              <div className="form-group">
+              {/* <div className="form-group">
                 <label>Mã lớp</label>
                 <Input
                   placeholder="Ví dụ: SE1801"
                   value={classCode}
                   onChange={(e) => setClassCode(e.target.value)}
                 />
-              </div>
+              </div> */}
             </div>
 
             <div className="step-actions">
@@ -267,7 +273,7 @@ const ReviewSteps: React.FC<ReviewStepsProps> = ({
               <button
                 className="btn-next"
                 onClick={() => onStepChange(3)}
-                disabled={!isFormValid}
+                 disabled={!isStep2Valid}
               >
                 Tiếp theo
               </button>
@@ -280,7 +286,7 @@ const ReviewSteps: React.FC<ReviewStepsProps> = ({
             <h2>Review chi tiết</h2>
             <p>Chia sẻ trải nghiệm của bạn về giảng viên này</p>
             <div className="review-form">
-              <ReviewForm onChange={setReviewData} />
+               <ReviewForm onChange={handleReviewFormChange} />
             </div>
 
             {/* Step actions */}
@@ -290,7 +296,7 @@ const ReviewSteps: React.FC<ReviewStepsProps> = ({
               </button>
               <button
                 className="btn-submit"
-                disabled={!isReviewValid(reviewData)}
+                 disabled={!isReviewFormValid}
                 onClick={async () => {
                   if (!selectedTeacher) {
                     setNotification({
@@ -315,7 +321,7 @@ const ReviewSteps: React.FC<ReviewStepsProps> = ({
                             return {
                               criteriaId: id,
                               score: value,
-                              comment: "string",
+                              comment: "",
                               isYes: false,
                             };
                           }
@@ -324,7 +330,7 @@ const ReviewSteps: React.FC<ReviewStepsProps> = ({
                             return {
                               criteriaId: id,
                               score: 0,
-                              comment: "string",
+                              comment: "",
                               isYes: value === "yes",
                             };
                           }
@@ -333,7 +339,7 @@ const ReviewSteps: React.FC<ReviewStepsProps> = ({
                             return {
                               criteriaId: id,
                               score: 0,
-                              comment: value || "string",
+                              comment: value || "",
                               isYes: false,
                             };
                           }
@@ -341,7 +347,7 @@ const ReviewSteps: React.FC<ReviewStepsProps> = ({
                           return {
                             criteriaId: id,
                             score: 0,
-                            comment: "string",
+                            comment: "",
                             isYes: false,
                           };
                         }
