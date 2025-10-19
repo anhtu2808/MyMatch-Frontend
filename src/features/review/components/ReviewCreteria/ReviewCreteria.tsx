@@ -42,6 +42,7 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ onChange }) => {
   const [answers, setAnswers] = useState<Record<number, any>>({});
   const [evidenceUrl, setEvidenceUrl] = useState<string | null>(null);
   const [isAnonymous, setIsAnonymous] = useState(false);
+  const [isFormValid, setIsFormValid] = useState(false);
 
   useEffect(() => {
     getReviewCriteriaAPI().then((res) => {
@@ -50,12 +51,32 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ onChange }) => {
   }, []);
 
   useEffect(() => {
-    onChange?.({
-      answers,
-      evidenceUrl,
-      isAnonymous,
+    if (criteriaList.length === 0) {
+      setIsFormValid(false);
+      return;
+    }
+    const allAnswered = criteriaList.every((criterion) => {
+      const answer = answers[criterion.id];
+      if (answer === undefined || answer === null) {
+        return false;
+      }
+      if (criterion.type === "comment" && String(answer).trim() === "") {
+        return false;
+      }
+      return true;
     });
-  }, [answers, evidenceUrl, isAnonymous]);
+
+    setIsFormValid(allAnswered);
+  }, [answers, criteriaList]);
+
+  useEffect(() => {
+    const formData = {
+      answers,
+      evidenceUrl, 
+      isAnonymous,
+    };
+    onChange?.({ data: formData, isValid: isFormValid });
+  }, [answers, evidenceUrl, isAnonymous, isFormValid, onChange]);
 
   const handleAnswerChange = (id: number, value: any) => {
     setAnswers((prev) => ({ ...prev, [id]: value }));
@@ -159,8 +180,14 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ onChange }) => {
         </Upload>
 
         <div className="note-text">
-          Để xác thực thông tin review là chính xác, vui lòng upload hình ảnh
-          lớp học FAP thuộc giảng viên bạn review và Attendance report.
+          <ul>
+            <li>
+            Để xác thực thông tin review là chính xác, vui lòng upload hình ảnh lớp học FAP thuộc giảng viên bạn review và Attendance report.
+            </li>
+            <li>
+            Với những review upload bao gồm hình ảnh minh chứng, bạn sẽ được cộng <b>1000 coins</b> sau khi review được duyệt xác minh hình ảnh.
+            </li>
+          </ul>
         </div>
       </div>
 
@@ -181,6 +208,7 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ onChange }) => {
             Review gửi đã gửi đi sẽ không thể chỉnh sửa, vui lòng điền đầy đủ
             thông tin và đọc lại kĩ trước khi nhấn Submit.
           </li>
+          
         </ul>
       </div>
 

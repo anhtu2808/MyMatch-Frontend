@@ -82,31 +82,39 @@ const TeacherFilter: React.FC<TeacherFilterProps> = ({
     fetchCampuses();
   }, []);
 
-  const handleSearch = () => {
-    const filters: {
-      name?: string;
-      code?: string;
-      campusId?: number;
-      sort?: string;
-      isReviewed?: boolean;
-      isMarked?: boolean;
-      myReviews?: boolean;
-    } = {
-      name,
-      code,
-      campusId: campusId === "" ? undefined : Number(campusId),
+  useEffect(() => {
+    const handleSearch = () => {
+      const filters: {
+        name?: string;
+        code?: string;
+        campusId?: number;
+        sort?: string;
+        isReviewed?: boolean;
+        isMarked?: boolean;
+        myReviews?: boolean;
+      } = {
+        name,
+        code,
+        campusId: campusId === "" ? undefined : Number(campusId),
+      };
+
+      if (activeTab === "rated") {
+        filters.isReviewed = true;
+      } else if (activeTab === "marked") {
+        filters.isMarked = true;
+      } else if (activeTab === "myreviews") {
+        filters.myReviews = true;
+      }
+
+      onSearch(filters);
     };
-
-    if (activeTab === "rated") {
-      filters.isReviewed = true;
-    } else if (activeTab === "marked") {
-      filters.isMarked = true;
-    } else if (activeTab === "myreviews") {
-      filters.myReviews = true;
-    }
-
-    onSearch(filters);
-  };
+    const timerId = setTimeout(() => {
+      handleSearch();
+    }, 500);
+    return () => {
+      clearTimeout(timerId);
+    };
+  }, [name, code, campusId, activeTab, onSearch]);
 
   const handleClear = () => {
     setName("");
@@ -115,16 +123,13 @@ const TeacherFilter: React.FC<TeacherFilterProps> = ({
     onSearch({});
   };
 
-  const handleTabClick = (tab: string) => {
-    setActiveTab(tab);
+   const handleManualSearch = (e: React.FormEvent) => {
+    e.preventDefault();
   };
 
   return (
     <form
-      onSubmit={(e) => {
-        e.preventDefault();
-        handleSearch();
-      }}
+      onSubmit={handleManualSearch}
       className="teacher-filter"
     >
       {/* Tabs */}
