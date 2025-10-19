@@ -11,6 +11,7 @@ import { getToken } from "../../../login/services/localStorageService";
 import { io, Socket } from "socket.io-client";
 import { useUnreadMessages } from "../UnreadMessagesContext";
 import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
+import Notification from "../../../../components/notification/Notification";
 
 // --- Interfaces ---
 interface Participant {
@@ -66,7 +67,6 @@ const Chat: React.FC<ChatProps> = ({ id }) => {
   
   // State cho UI
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [isMobileView, setIsMobileView] = useState(false);
 
@@ -75,7 +75,12 @@ const Chat: React.FC<ChatProps> = ({ id }) => {
   const token = getToken();
   const socketRef = useRef<Socket | null>(null);
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
+  const [noti, setNoti] = useState<{ message: string; type: any } | null>(null);
   
+  const showNotification = (msg: string, type: any) => {
+    setNoti({ message: msg, type });
+  };
+
   // --- Logic Helpers & Callbacks ---
 
   // Kiểm tra kích thước màn hình
@@ -95,9 +100,9 @@ const Chat: React.FC<ChatProps> = ({ id }) => {
     try {
       const res = await getMessageAPI(conversationId);
       setMessages(res.result || []);
-    } catch (err) {
+    } catch (err: any) {
       console.error("Fetch messages error:", err);
-      setError("Không thể tải tin nhắn.");
+      showNotification(err?.response?.data?.message || "Không thể tải tin nhắn.", "error")
     }
   }, []);
 
@@ -134,12 +139,9 @@ const Chat: React.FC<ChatProps> = ({ id }) => {
   };
 
   // --- Effects ---
-
-  // Effect chính: Khởi tạo component
   useEffect(() => {
     const initializeChat = async () => {
       setIsLoading(true);
-      setError(null);
       try {
         const listResponse = await getConversationAPI();
         let allConversations = listResponse.result || [];
@@ -165,9 +167,9 @@ const Chat: React.FC<ChatProps> = ({ id }) => {
         
         setConversations(allConversations);
 
-      } catch (err) {
+      } catch (err: any) {
         console.error("Lỗi khi khởi tạo cuộc trò chuyện:", err);
-        setError("Không thể tải danh sách cuộc trò chuyện.");
+        showNotification(err?.response?.data?.message || "Không thể tải danh sách cuộc trò chuyện.", "error")
       } finally {
         setIsLoading(false);
       }
@@ -216,12 +218,9 @@ const Chat: React.FC<ChatProps> = ({ id }) => {
   if (isLoading) {
     return <div className="chat-container-status">Đang tải dữ liệu...</div>;
   }
-  
-  if (error) {
-    return <div className="chat-container-status error">{error}</div>;
-  }
 
   return (
+    <>
     <div className="chat-container">
       {/* Sidebar - Ẩn trên mobile khi có conversation được chọn */}
       <div className={`chat-sidebar ${isMobileView && selectedConversation ? "hide-on-mobile" : ""}`}>
@@ -343,6 +342,14 @@ const Chat: React.FC<ChatProps> = ({ id }) => {
         )}
       </div>
     </div>
+    {noti && (
+        <Notification
+          message={noti.message}
+          type={noti.type}
+          onClose={() => setNoti(null)}
+        />
+      )}
+    </>
   );
 };
 
