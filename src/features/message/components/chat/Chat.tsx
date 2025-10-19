@@ -11,6 +11,8 @@ import { getToken } from "../../../login/services/localStorageService";
 import { io, Socket } from "socket.io-client";
 import { useUnreadMessages } from "../UnreadMessagesContext";
 import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
+import Notification from "../../../../components/notification/Notification";
+import { useNavigate } from "react-router-dom";
 
 // --- Interfaces ---
 interface Participant {
@@ -66,7 +68,6 @@ const Chat: React.FC<ChatProps> = ({ id }) => {
   
   // State cho UI
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [isMobileView, setIsMobileView] = useState(false);
 
@@ -75,7 +76,12 @@ const Chat: React.FC<ChatProps> = ({ id }) => {
   const token = getToken();
   const socketRef = useRef<Socket | null>(null);
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
-  
+  const [noti, setNoti] = useState<{ message: string; type: any } | null>(null);
+  const navigation = useNavigate()
+  const showNotification = (msg: string, type: any) => {
+    setNoti({ message: msg, type });
+  };
+
   // --- Logic Helpers & Callbacks ---
 
   // Kiểm tra kích thước màn hình
@@ -95,9 +101,9 @@ const Chat: React.FC<ChatProps> = ({ id }) => {
     try {
       const res = await getMessageAPI(conversationId);
       setMessages(res.result || []);
-    } catch (err) {
+    } catch (err: any) {
       console.error("Fetch messages error:", err);
-      setError("Không thể tải tin nhắn.");
+      showNotification(err?.response?.data?.message || "Không thể tải tin nhắn.", "error")
     }
   }, []);
 
@@ -134,12 +140,9 @@ const Chat: React.FC<ChatProps> = ({ id }) => {
   };
 
   // --- Effects ---
-
-  // Effect chính: Khởi tạo component
   useEffect(() => {
     const initializeChat = async () => {
       setIsLoading(true);
-      setError(null);
       try {
         const listResponse = await getConversationAPI();
         let allConversations = listResponse.result || [];
@@ -165,9 +168,10 @@ const Chat: React.FC<ChatProps> = ({ id }) => {
         
         setConversations(allConversations);
 
-      } catch (err) {
+      } catch (err: any) {
         console.error("Lỗi khi khởi tạo cuộc trò chuyện:", err);
-        setError("Không thể tải danh sách cuộc trò chuyện.");
+        showNotification(err?.response?.data?.message || "Không thể tải danh sách cuộc trò chuyện.", "error")
+        navigation("/messages")
       } finally {
         setIsLoading(false);
       }
@@ -216,12 +220,9 @@ const Chat: React.FC<ChatProps> = ({ id }) => {
   if (isLoading) {
     return <div className="chat-container-status">Đang tải dữ liệu...</div>;
   }
-  
-  if (error) {
-    return <div className="chat-container-status error">{error}</div>;
-  }
 
   return (
+    <>
     <div className="chat-container">
       {/* Sidebar - Ẩn trên mobile khi có conversation được chọn */}
       <div className={`chat-sidebar ${isMobileView && selectedConversation ? "hide-on-mobile" : ""}`}>
@@ -264,7 +265,7 @@ const Chat: React.FC<ChatProps> = ({ id }) => {
             <div className="chat-conversation-header">
               {isMobileView && (
                 <button className="mobile-back-btn" onClick={handleBackToSidebar}>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-chevron-left-icon lucide-chevron-left"><path d="m15 18-6-6 6-6"/></svg>
                 </button>
               )}
               <img
@@ -343,6 +344,14 @@ const Chat: React.FC<ChatProps> = ({ id }) => {
         )}
       </div>
     </div>
+    {noti && (
+        <Notification
+          message={noti.message}
+          type={noti.type}
+          onClose={() => setNoti(null)}
+        />
+      )}
+    </>
   );
 };
 

@@ -57,7 +57,7 @@ const Banking: React.FC = () => {
                     <div>📝 Bước 1: Nạp Coin (tại trang này)</div>
                     <div>📝 Bước 2: Thanh toán các gói Premium bằng Coin</div>
                   </div>
-                  <button className="banking-membership-btn" onClick={() => navigation("/product")}> Mua</button>
+                  {/* <button className="banking-membership-btn" onClick={() => navigation("/product")}> Mua</button> */}
                 </div>
               </div>
 
