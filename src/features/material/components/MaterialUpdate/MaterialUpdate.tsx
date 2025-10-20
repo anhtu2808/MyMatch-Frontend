@@ -28,6 +28,8 @@ export default function MaterialUpdatePage() {
     ""
   );
   const [lecturerLoading, setLecturerLoading] = useState(false);
+
+  const [price, setPrice] = useState<number | string>("");
   const [notification, setNotification] = useState<{
     message: string;
     type: "success" | "error" | "info" | "warning";
@@ -42,6 +44,7 @@ export default function MaterialUpdatePage() {
         setDescription(material.description);
         setSelectedCourseId(material.course?.id || "");
         setSelectedLecturerId(material.lecturer?.id || "");
+        setPrice(material.price || "");
         // setExistingFileName(material.file?.name || "");
 
         const coursesRes = await getCoursesAPI({
@@ -81,8 +84,14 @@ export default function MaterialUpdatePage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name || !selectedCourseId || !selectedLecturerId) {
+    if (!name || !selectedCourseId || !selectedLecturerId || !price) {
       setNotification({ message: "Vui lòng nhập đầy đủ thông tin!", type: "warning" });
+      return;
+    }
+
+    const numericPrice = Number(price);
+    if (numericPrice < 3000 || numericPrice > 15000) {
+      setNotification({ message: "Giá coin phải từ 3000 đến 15000!", type: "error" });
       return;
     }
 
@@ -92,6 +101,7 @@ export default function MaterialUpdatePage() {
         description,
         courseId: Number(selectedCourseId),
         lecturerId: Number(selectedLecturerId),
+        price: Number(price),
         // file: file || null,
       });
       setNotification({ message: "Cập nhật tài liệu thành công!", type: "success" });
@@ -104,7 +114,9 @@ export default function MaterialUpdatePage() {
     }
   };
 
-  const isFormValid = name && selectedCourseId && selectedLecturerId;
+  
+
+  const isFormValid = name && selectedCourseId && selectedLecturerId && price;
 
   if (loading) return <p>Đang tải...</p>;
 
@@ -177,6 +189,29 @@ export default function MaterialUpdatePage() {
               setSelectedLecturerId(opt ? Number(opt.value) : "")
             }
           />
+        </div>
+
+        <label className="material-update-label block mb-1 font-medium">
+          Giá (Coin) <span className="textt-red-500">*</span>
+        </label>
+        <input
+          type="number"
+          placeholder="Giá tài liệu (ví dụ: 15000)"
+          value={price}
+          onChange={(e) => setPrice(e.target.value)}
+          className="material-update-input border rounded px-3 py-2 w-full"
+          min="3000"
+          max="15000"
+        />
+         <div className="note-text">
+          <ul>
+            <li>
+           Giá coin phải từ 3000 đến 15000.
+            </li>
+            <li>
+             Bạn sẽ nhận được {Math.round(Number(price) * 0.8)} coin sau khi tài liệu được mua.
+            </li>
+          </ul>
         </div>
 
         {/* <label className="material-update-label block mb-1 font-medium">
