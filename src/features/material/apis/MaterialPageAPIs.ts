@@ -125,6 +125,7 @@ export const createMaterialAPI = async (
   name: string,
   description: string,
   courseId: number,
+  price: number,
   lecturerId: number,
   materialItemIds: number[]
 ) => {
@@ -196,6 +197,7 @@ export const updateMaterialAPI = async (
     description?: string;
     courseId: number;
     lecturerId: number;
+    price: number;
   }
 ) => {
   const response = await api.put(`/materials/${id}`, data, {
