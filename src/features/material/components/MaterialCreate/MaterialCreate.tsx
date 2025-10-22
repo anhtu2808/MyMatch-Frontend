@@ -210,8 +210,8 @@ export default function MaterialCreatePage() {
         name,
         description,
         Number(selectedCourseId),
-        Number(selectedLecturerId),
-        numericPrice,
+        numericPrice,       
+        Number(selectedLecturerId), 
         validIds
       );
       setNotification({ message: "Tạo tài liệu thành công!", type: "success" });
