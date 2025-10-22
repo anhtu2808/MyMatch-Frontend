@@ -56,7 +56,7 @@ const ProfileModalForm: React.FC<UserProfileModalProps> = ({ open, onClose, id ,
     useEffect(() => {
       const fetchCourses = async () => {
         try {
-          const response = await getCourseAPI()
+          const response = await getCourseAPI(1, 100)
           setCourses(response?.result?.data || [])
         } catch (error) {
           console.error('Error fetching campuses:', error)
