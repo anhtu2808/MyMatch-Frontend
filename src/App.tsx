@@ -34,7 +34,7 @@ function MainLayoutWithCoin() {
 
   return (
     <>
-      <Outlet /> {/* Các trang như Home, SwapClass,... sẽ được render ở đây */}
+      <Outlet />
       {showCoin && <Coin />}
     </>
   );
