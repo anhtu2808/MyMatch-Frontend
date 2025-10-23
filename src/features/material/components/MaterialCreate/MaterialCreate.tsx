@@ -388,7 +388,7 @@ export default function MaterialCreatePage() {
           min="3000"
           max="15000"
         />
-        <div className="note-text">
+        <div className="material-note-text">
           <ul>
             <li>
            Giá coin phải từ 3000 đến 15000.
