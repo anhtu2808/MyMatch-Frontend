@@ -185,13 +185,31 @@ const ReviewList: React.FC<{ lecturerId: number }> = ({ lecturerId }) => {
   courseOptions.unshift({ id: 0, name: "Tất cả môn học" });
 
   const semesterOptions = Array.from(
-    new Map(
-      reviews
-        .filter((r) => r.semester)
-        .map((r) => [r.semester!.id, r.semester!])
-    ).values()
-  );
+  new Map(
+    reviews
+      .filter((r) => r.semester)
+      .map((r) => [r.semester!.id, r.semester!])
+  ).values()
+);
+
+  semesterOptions.sort((a, b) => {
+    const getSeasonOrder = (name: string) => {
+      if (name.startsWith("SPRING")) return 1;
+      if (name.startsWith("SUMMER")) return 2;
+      if (name.startsWith("FALL")) return 3;
+      return 4; 
+    };
+
+    const [seasonA, yearA] = a.name.split(" ");
+    const [seasonB, yearB] = b.name.split(" ");
+    const yearDiff = parseInt(yearB) - parseInt(yearA); 
+
+    if (yearDiff !== 0) return yearDiff;
+    return getSeasonOrder(seasonA) - getSeasonOrder(seasonB);
+  });
+
   semesterOptions.unshift({ id: 0, name: "Tất cả học kỳ" });
+
 
   useEffect(() => {
     const fetchReviews = async () => {
