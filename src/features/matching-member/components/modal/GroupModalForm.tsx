@@ -385,6 +385,7 @@ const showNotification = (msg: string, type: any) => {
         <div className="group-form-modal-header">
           <h2>Thông tin nhóm</h2>
           <p>Đăng nhóm của bạn để tìm thành viên phù hợp</p>
+          <p className="group-form-modal-required">* Vui lòng nhập đầy đủ thông tin</p>
         </div>
 
         {/* Project */}
