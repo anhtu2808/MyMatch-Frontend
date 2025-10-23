@@ -4,7 +4,7 @@ import Header from "../../../components/header/Header";
 import LecturerInformation from "../components/LecturerInformation/LecturerInformation";
 import LecturerStats from "../components/LecturerStats/LecturerStats";
 import ReviewList from "../components/ReviewList/ReviewList";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import "./LecturerDetail.css";
 import { useResponsive } from "../../../useResponsive";
 import EmptyReviewState from "../components/EmptyReviewState/EmptyReviewState";
@@ -26,10 +26,12 @@ function LecturerDetail() {
   const [reviews, setReviews] = useState<Review[]>([]);
   const [lecturer, setLecturer] = useState<Lecturer | null>(null);
   const [loading, setLoading] = useState(true);
+  const location = useLocation();
 
   useEffect(() => {
     if (!id) return;
     setLoading(true);
+    console.log("Fetching data for ID:", id);
     Promise.all([
       getReviewsAPI({ lecturerId: Number(id) }),
       getLecturerByIdAPI(Number(id)) 
@@ -41,7 +43,7 @@ function LecturerDetail() {
     }).finally(() => {
       setLoading(false);
     });
-  }, [id]);
+  }, [id, location.pathname]);
 
   return (
     <div className="lecturer-detail-container">
