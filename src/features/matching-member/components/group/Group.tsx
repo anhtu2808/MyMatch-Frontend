@@ -85,8 +85,11 @@ export interface Team {
   requestCount: number
 }
 
+interface GroupProps {
+  reload: boolean;
+}
 
-function Group() {
+const Group: React.FC<GroupProps> = ({reload}) => {
   const [open, setOpen] = useState(false);
   const [selectedId, setSelectedId] = useState<number | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
@@ -113,7 +116,7 @@ function Group() {
       }
     }
     fetchGroup()
-  }, [])
+  }, [reload, currentPage])
 
   const handleFilter = (filters: { courseCode: string; skill: string }) => {
   let filtered = groups;

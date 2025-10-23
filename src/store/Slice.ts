@@ -9,7 +9,7 @@ interface UserState {
   token: null,
   campusId: number | null,
   studentId: number | null ,
-  isLoaded: boolean;   // ✅ thêm cờ
+  isLoaded: boolean; 
 }
 
 const initialState: UserState = {
@@ -38,10 +38,10 @@ const userSlice = createSlice({
       state.token = token;
       state.campusId = campus;
       state.studentId = studentId;
-      state.isLoaded = true;   // ✅ thêm dòng này
+      state.isLoaded = true;  
     },
     setLoaded: (state) => {
-      state.isLoaded = true; // ✅ dùng khi API fail
+      state.isLoaded = true; 
     }
   },
 });

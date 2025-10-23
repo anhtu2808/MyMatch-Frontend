@@ -6,6 +6,7 @@ import {
   createGroup,
   getCourseAPI,
   getGroupId,
+  getSemesterAPI,
   getSkillAPI,
   updateGroup,
 } from "../../apis";
@@ -82,6 +83,7 @@ const GroupModalForm: React.FC<GroupDetailModalProps> = ({
 
   const [courses, setCourses] = useState<any[]>([]);
   const [skills, setSkills] = useState<any[]>([]);
+  const [semesters, setSemesters] = useState<any[]>([]);
   const [deletedMemberIds, setDeletedMemberIds] = useState<number[]>([]);
   const [deletedRequestIds, setDeletedRequestIds] = useState<number[]>([]);
 
@@ -105,6 +107,19 @@ const GroupModalForm: React.FC<GroupDetailModalProps> = ({
     }
   }, [open, isEdit, user]);
 
+  // fetch Semester
+  useEffect(() => {
+    const fetchSemeters = async () => {
+      try {
+        const response = await getSemesterAPI()
+        setSemesters(response?.result || []);
+      } catch (error: any) {
+      console.error("Error fetching semester:", error);
+      }
+    };
+    fetchSemeters();
+  }, []);
+
   // fetch courses
   useEffect(() => {
     const fetchCourses = async () => {
@@ -118,6 +133,11 @@ const GroupModalForm: React.FC<GroupDetailModalProps> = ({
     fetchCourses();
   }, []);
 
+  const courseOptions = courses.map(c => ({
+  label: `${c.code} - ${c.name}`,
+  value: c.id,
+}));
+
   // fetch skills
   useEffect(() => {
     const fetchSkills = async () => {
@@ -130,6 +150,11 @@ const GroupModalForm: React.FC<GroupDetailModalProps> = ({
     };
     fetchSkills();
   }, []);
+
+  const skillOptions = skills.map(skill => ({
+    label: skill.name,
+    value: skill.id,
+  }));
 
   // === Member actions ===
   const addMember = () => {
@@ -350,6 +375,8 @@ const showNotification = (msg: string, type: any) => {
     setNoti({ message: msg, type });
   };
 
+
+
   return (
     <>
     <Modal open={open} onCancel={onClose} footer={null} width={800} centered>
@@ -358,6 +385,7 @@ const showNotification = (msg: string, type: any) => {
         <div className="group-form-modal-header">
           <h2>Thông tin nhóm</h2>
           <p>Đăng nhóm của bạn để tìm thành viên phù hợp</p>
+          <p className="group-form-modal-required">* Vui lòng nhập đầy đủ thông tin</p>
         </div>
 
         {/* Project */}
@@ -394,32 +422,26 @@ const showNotification = (msg: string, type: any) => {
           <h4>Thông tin học tập</h4>
           <div className="group-form-info">
             <Select
-              placeholder="Môn học"
+              showSearch
+              allowClear
+              placeholder="Chọn môn học..."
+              optionFilterProp="label"      // tìm theo label
               style={{ width: "100%" }}
               value={groupInfo.courseId || undefined}
               onChange={(value) => setGroupInfo({ ...groupInfo, courseId: value })}
-            >
-              {courses.map((course) => (
-                <Option key={course.id} value={course.id}>
-                  {course?.code}
-                </Option>
-              ))}
-            </Select>
+              options={courseOptions}
+            />
             <Select
               placeholder="Kỳ học"
               style={{ width: "100%" }}
               value={groupInfo.semesterId || undefined}
               onChange={(value) => setGroupInfo({ ...groupInfo, semesterId: value })}
             >
-              <Option value={1}>1</Option>
-              <Option value={2}>2</Option>
-              <Option value={3}>3</Option>
-              <Option value={4}>4</Option>
-              <Option value={5}>5</Option>
-              <Option value={6}>6</Option>
-              <Option value={7}>7</Option>
-              <Option value={8}>8</Option>
-              <Option value={9}>9</Option>
+              {semesters.map((semester) => (
+                <Option key={semester.id} value={semester.id}>
+                  {semester?.name}
+                </Option>
+              ))}
             </Select>
           </div>
         </div>
@@ -441,17 +463,15 @@ const showNotification = (msg: string, type: any) => {
               />
               <Select
                 mode="multiple"
+                showSearch
+                allowClear
+                placeholder="Chọn kỹ năng..."
                 style={{ width: "40%" }}
-                placeholder="Kỹ năng"
                 value={m.skillIds}
                 onChange={(values) => updateMember(index, "skillIds", values)}
-              >
-                {skills.map((skill) => (
-                  <Option key={skill.id} value={skill.id}>
-                    {skill.name}
-                  </Option>
-                ))}
-              </Select>
+                options={skillOptions}
+                optionFilterProp="label"
+              />
               <MinusCircleOutlined onClick={() => removeMember(index)} />
             </div>
           ))}
@@ -472,19 +492,24 @@ const showNotification = (msg: string, type: any) => {
               />
               <Select
                 mode="multiple"
+                showSearch
+                allowClear
+                placeholder="Chọn kỹ năng..."
                 style={{ width: "40%" }}
-                placeholder="Kỹ năng"
                 value={pos.skills?.map((s) => s.skill.id) || []}
                 onChange={(values) =>
-                  updateTeamRequest(index, "skills", values.map((id: number) => ({ id, skill: { id, name: "" } })))
+                  updateTeamRequest(
+                    index,
+                    "skills",
+                    values.map((id: number) => ({
+                      id,
+                      skill: { id, name: skillOptions.find(opt => opt.value === id)?.label || "" }
+                    }))
+                  )
                 }
-              >
-                {skills.map((skill) => (
-                  <Option key={skill.id} value={skill.id}>
-                    {skill.name}
-                  </Option>
-                ))}
-              </Select>
+                options={skillOptions}
+                optionFilterProp="label"
+              />
               <MinusCircleOutlined onClick={() => removeTeamRequest(index)} />
             </div>
           ))}
