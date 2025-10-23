@@ -105,6 +105,8 @@ function MyGroup() {
   const [noti, setNoti] = useState<{ message: string; type: any } | null>(null);
   const [deleteId, setDeleteId] = useState<number | null>(null);
   const [filteredFeeds, setFilteredFeeds] = useState<Team[]>([])
+  const [reload, setReload] = useState(false);
+
 
         const handleOpenGroupModalView = (id: number) => {
         setOpenView(true);
@@ -129,7 +131,7 @@ function MyGroup() {
 
   useEffect(() => {  
   fetchGroupByStudentId()
-  }, [studentId,currentPage])
+  }, [studentId, currentPage, reload])
 
 
   
@@ -252,7 +254,7 @@ const handleReset = () => {
           onPageChange={(p) => setCurrentPage(p)}
         />
       <GroupModalView open={openView} onClose={() => setOpenView(false)} id={Number(selectedId)} />
-      <GroupModalForm open={openForm} onClose={() => setOpenForm(false)} id={Number(selectedId)} isEdit={!!selectedId} onReload={fetchGroupByStudentId} />
+      <GroupModalForm open={openForm} onClose={() => setOpenForm(false)} id={Number(selectedId)} isEdit={!!selectedId} onReload={() => setReload(prev => !prev)} />
     </div>
     {noti && (
         <Notification

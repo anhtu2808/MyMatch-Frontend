@@ -102,6 +102,7 @@ function MyProfile() {
   const [noti, setNoti] = useState<{ message: string; type: any } | null>(null);
   const [deleteId, setDeleteId] = useState<number | null>(null); // confirm delete
   const [filteredFeeds, setFilteredFeeds] = useState<RequestData[]>([])
+  const [reload, setReload] = useState(false);
 
   const handleOpenProfileModalForm = (id: number) => {
       setOpenForm(true);
@@ -125,7 +126,7 @@ function MyProfile() {
 
   useEffect(() => {
   fetchProfileByStudentId()
-  }, [studentId, currentPage])
+  }, [studentId, currentPage, reload])
 
   const confirmDelete = async () => {
     if (!deleteId) return;
@@ -234,7 +235,7 @@ function MyProfile() {
           totalPages={totalElements}
           onPageChange={(p) => setCurrentPage(p)}
         />
-      <ProfileModalForm open={openForm} onClose={() => setOpenForm(false)} id= {Number(selectedId)} isEdit={!!selectedId} onReload={fetchProfileByStudentId}/>
+      <ProfileModalForm open={openForm} onClose={() => setOpenForm(false)} id= {Number(selectedId)} isEdit={!!selectedId} onReload={() => setReload(prev => !prev)}/>
       <ProfileModalView open={openView} onClose={() => setOpenView(false)} id= {Number(selectedId)}/>
     </div>
     {noti && (

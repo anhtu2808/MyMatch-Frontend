@@ -91,7 +91,11 @@ export interface RequestData {
   skills: Skill[];
 }
 
-function Member() {
+interface MemberProps {
+  reload: boolean;
+}
+
+const Member: React.FC<MemberProps> = ({reload}) => {
   const [open, setOpen] = useState(false);
   const [selectedId, setSelectedId] = useState<number | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
@@ -118,7 +122,7 @@ function Member() {
       }
     }
     fetchProfile()
-  }, [currentPage])
+  }, [reload, currentPage])
 
   const handleFilter = (filters: { courseCode: string; skill: string }) => {
   let filtered = members;
@@ -185,7 +189,6 @@ function Member() {
           </div>
         </div>
       ))}
-      {/* ✅ Pagination */}
       <Pagination
           currentPage={currentPage}
           totalPages={totalElements}

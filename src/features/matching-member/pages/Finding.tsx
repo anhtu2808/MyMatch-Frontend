@@ -15,16 +15,16 @@ function Finding() {
     const renderTabContent = () => {
     switch(activeTab) {
       case 0:
-        return <FindingForum />
+        return <FindingForum reload={reload}/>
       case 1:
         return  <MyGroup />
       case 2:
         return <MyProfile />
       default:
-        return <FindingForum />
+        return <FindingForum reload={reload}/>
     }
   }
-
+  const [reload, setReload] = useState(false);
   const [openGroup, setOpenGroup] = useState(false);
   const [openProfile, setOpenProfile] = useState(false)
   const isMobile = useResponsive(1024);
@@ -68,8 +68,8 @@ function Finding() {
              </div>
           </div>
             {renderTabContent()}
-            <ProfileModalForm open={openProfile} onClose={() => setOpenProfile(false)}/>
-            <GroupModalForm open={openGroup} onClose={() => setOpenGroup(false)} />
+            <ProfileModalForm open={openProfile} onClose={() => setOpenProfile(false)} onReload={() => setReload(prev => !prev)}/>
+            <GroupModalForm open={openGroup} onClose={() => setOpenGroup(false)} onReload={() => setReload(prev => !prev)}/>
         </div>
     </div>
   )

@@ -160,7 +160,7 @@ const mapSlotToApi = (slot: string) => {
       await createSwapRequestAPI(payload)
       showNotification("Tạo thành công", "success")
     }
-    setTimeout (() => {navigate("/swap_class")}, 2000)
+    setTimeout (() => {navigate("/swap_class")}, 1000)
     
   } catch (err: any) {
     showNotification(err?.response?.data?.message || "Thất bại", "error")
@@ -221,7 +221,7 @@ const mapSlotToApi = (slot: string) => {
                   onChange={(e) => handleInputChange('fromClass', e.target.value)} />
               </div>
               <div className="form-group">
-                <label className="form-label">Thứ <span className="required">*</span> (tối đa 2 thứ)</label>
+                <label className="form-label">Thứ <span className="required">*</span> (chọn 2 ngày)</label>
                 <Select
                   isMulti
                   options={dayOptions}
@@ -230,7 +230,7 @@ const mapSlotToApi = (slot: string) => {
                     const values = selected.map((s) => s.value);
                     if (values.length <= 2) handleInputChange("fromDays", values);
                   }}
-                  placeholder="Chọn thứ (tối đa 2)" closeMenuOnSelect={false}
+                  placeholder="Chọn đủ 2 ngày để đạt hiệu quả hơn" closeMenuOnSelect={false}
                 />
               </div>
               <div className="form-group">
@@ -259,14 +259,14 @@ const mapSlotToApi = (slot: string) => {
                   onChange={(e) => handleInputChange('targetClass', e.target.value)} />
               </div>
               <div className="form-group">
-                <label className="form-label">Thứ <span className="required">*</span> (tối đa 2 thứ)</label>
+                <label className="form-label">Thứ <span className="required">*</span> (chọn 2 ngày)</label>
                 <Select isMulti options={dayOptions}
                   value={dayOptions.filter(opt => formData.toDays.includes(opt.value))}
                   onChange={(selected) => {
                     const values = selected.map((s) => s.value);
                     if (values.length <= 2) handleInputChange("toDays", values);
                   }}
-                  placeholder="Chọn thứ (tối đa 2)" closeMenuOnSelect={false}
+                  placeholder="Chọn đủ 2 ngày để đạt hiệu quả hơn" closeMenuOnSelect={false}
                 />
               </div>
               <div className="form-group">
