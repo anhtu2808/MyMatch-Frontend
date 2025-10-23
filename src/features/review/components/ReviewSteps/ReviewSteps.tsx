@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useEffect } from "react";
+import { useEffect, useCallback } from "react";
 import TeacherSelector from "../TeacherSelector/TeacherSelector";
 import { useLocation, Location, useNavigate } from "react-router-dom";
 import "./ReviewSteps.css";
@@ -123,10 +123,10 @@ const ReviewSteps: React.FC<ReviewStepsProps> = ({
   //   return true;
   // };
 
-  const handleReviewFormChange = ({ data, isValid }: { data: any; isValid: boolean }) => {
-  setReviewData(data);
-  setIsReviewFormValid(isValid);
-};
+  const handleReviewFormChange = useCallback(({ data, isValid }: { data: any; isValid: boolean }) => {
+    setReviewData(data);
+    setIsReviewFormValid(isValid);
+  }, []);
 
   useEffect(() => {
     const universityId = 1;
@@ -355,11 +355,17 @@ const ReviewSteps: React.FC<ReviewStepsProps> = ({
                     };
 
                     await createReviewAPI(payload);
-
-                    setNotification({
-                      message: "Review đã được gửi thành công!",
-                      type: "success",
+                    setNotification({ 
+                      message: "Review đã được gửi thành công!", 
+                      type: "success" 
                     });
+                    // Giữ lại setTimeout để chờ database xử lý
+                    setTimeout(() => {
+                      if (selectedTeacher?.id) { 
+                       navigate(`/lecturer-detail/${selectedTeacher.id}`);
+                      }
+                     }, 1500);
+
                   } catch (err) {
                     console.error("Error creating review:", err);
                     setNotification({
@@ -380,10 +386,11 @@ const ReviewSteps: React.FC<ReviewStepsProps> = ({
     message={notification.message}
     type={notification.type}
     onClose={() => {
-      const type = notification.type; // lưu type hiện tại
+      const currentType = notification.type;
+      const teacherId = selectedTeacher?.id;
       setNotification(null);
-      if (type === "success" && selectedTeacher) {
-        navigate(`/lecturer-detail/${selectedTeacher.id}`);
+      if (currentType === "success" && teacherId) {
+        navigate(`/lecturer-detail/${teacherId}`);
       }
     }}
   />
