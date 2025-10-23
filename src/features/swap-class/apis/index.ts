@@ -16,7 +16,6 @@ export const deleteSwapRequestAPI = async (id: number) => {
 }
 
 
-// Khai báo enum ở FE
 export enum SwapStatus {
   PENDING = "PENDING",
   APPROVE = "APPROVE",
@@ -64,7 +63,6 @@ export const getSwapRequestAPI = async (params: {
     Object.entries(params).filter(([_, v]) => v !== undefined && v !== null && v !== "")
   );
 
-  // endpoint chính xác
   const response = await api.get(`/swap-requests`, { params: queryParams });
   return response.data;
 };
@@ -73,6 +71,11 @@ export const getLecturersAPI = async (id: number) => {
   const response = await api.get(`/lecturers/${id}`);
   return response.data;
 };
+
+export const getLecturerAPI = async (campusId: number, page: number, size: number) => {
+    const response = await api.get(`/lecturers?campusId=${campusId}&page=${page}&size=${size}`)
+    return response.data
+}
 
 export const getSwapRequestByIdAPI = async (id: number) => {
   const response = await api.get(`/swap-requests/${id}`);
