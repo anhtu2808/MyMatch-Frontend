@@ -255,7 +255,7 @@ const MaterialDetail: React.FC = () => {
 
         <div className="material-detail-stats">
           {/* <p>Định dạng: PDF</p> */}
-          <p>Lượt tải: {material.totalDownloads}</p>
+          {/* <p>Lượt tải: {material.totalDownloads}</p> */}
           <p>Lượt mua: {material.totalPurchases}</p>
           <p>
             <span className="material-detail-purchased">

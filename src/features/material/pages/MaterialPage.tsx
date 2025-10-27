@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import Sidebar from "../../../components/sidebar/Sidebar";
 import Header from "../../../components/header/Header";
 import "./MaterialPage.css";
@@ -75,6 +75,9 @@ const MaterialPage: React.FC = () => {
         courseId,
         lecturerId,
         ownerId: filters.ownerOnly ? userId ?? undefined : undefined,
+        isPurchased: filters.isPurchased, 
+        sortBy: filters.sortBy, 
+        sortDir: filters.sortDir,
       });
 
       const mapped = (res.data || []).map((item: any) => ({
@@ -115,6 +118,11 @@ const MaterialPage: React.FC = () => {
     fetchMaterials();
   }, [filters, page]);
 
+  const handleSearch = useCallback((newFilters: any) => {
+      setFilters(newFilters);
+      setPage(1);
+    }, []);
+
   return (
     <div className="material-page-container">
       {!isMobile && <Sidebar />}
@@ -140,10 +148,7 @@ const MaterialPage: React.FC = () => {
         <MaterialFilter
           activeTab={activeTab}
           setActiveTab={setActiveTab}
-          onSearch={(newFilters) => {
-            setFilters(newFilters);
-            setPage(1);
-          }}
+          onSearch={handleSearch}
         />
         <div className="material-list-container">
           <MaterialList

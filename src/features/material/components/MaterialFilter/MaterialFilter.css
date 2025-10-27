@@ -291,3 +291,127 @@
     padding: 12px 18px;
   }
 }
+
+.material-sort-group {
+  position: relative; /* Quan trọng để định vị menu dropdown */
+ display: flex;
+ flex-direction: column;
+ justify-content: flex-start;
+  gap: 6px; /* Nhất quán với .material-form-group */
+  grid-column: 1 / 2; /* Cột 1 */
+  grid-row: 1 / 2;    /* Hàng 1 */
+}
+
+.material-sort-group label {
+ font-size: 16px;   
+ font-weight: 600;  
+ color: #333;
+}
+
+/* Hộp select giả (div) */
+.material-sort-select {
+ padding: 12px 12px; 
+ border: 1px solid #ddd; 
+ border-radius: 8px; 
+ font-size: 14px;
+ min-width: 180px;
+ outline: none; 
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  user-select: none; /* Ngăn bôi đen chữ khi click */
+  background-color: #fff; 
+}
+
+/* Hiệu ứng focus/hover cho hộp select giả */
+.material-sort-select:focus,
+.material-sort-select:hover {
+ border-color: #0d47a1;
+}
+
+/* Mũi tên icon SVG */
+.sort-arrow {
+  transition: transform 0.2s ease;
+  color: #555;
+  display: flex; /* Đảm bảo căn chỉnh icon */
+  align-items: center;
+}
+.sort-arrow.open {
+  transform: rotate(180deg);
+}
+
+/* Menu dropdown (ul) */
+.material-sort-options {
+  position: absolute;
+  top: calc(100% + 4px); /* Nằm ngay dưới hộp select, có khoảng cách 4px */
+  left: 0;
+  right: 0;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+  padding: 4px;
+  margin: 0;
+  list-style: none;
+  max-height: 250px; /* Giới hạn chiều cao, cho phép cuộn */
+  overflow-y: auto;
+}
+
+/* Các tùy chọn (li) */
+.material-sort-option {
+  padding: 12px 16px;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 6px;
+  margin: 2px;
+}
+
+.material-sort-option.selected {
+  background-color: #0c326f;
+  color: white;
+  font-weight: 500;
+}
+
+
+/* Tùy chọn khi hover (giống trong hình) */
+.material-sort-option:hover {
+  background-color: #f0f4f9; /* Màu nền xám/xanh nhạt khi hover */
+}
+
+
+
+/* Tùy chỉnh thanh cuộn (scrollbar) giống trong hình */
+.material-sort-options::-webkit-scrollbar {
+  width: 8px;
+}
+.material-sort-options::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 8px;
+}
+.material-sort-options::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 8px;
+}
+.material-sort-options::-webkit-scrollbar-thumb:hover {
+  background: #aaa;
+}
+
+
+
+
+.material-actionss {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end; 
+  margin-top: 16px;
+  flex-wrap: wrap; 
+  gap: 16px; 
+}
+
+.material-buttons {
+  display: flex;
+  gap: 8px;
+}
+
