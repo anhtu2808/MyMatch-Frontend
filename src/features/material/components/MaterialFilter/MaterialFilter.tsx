@@ -83,6 +83,8 @@ const MaterialFilter: React.FC<MaterialFilterProps> = ({
   const [course, setCourse] = useState("");
   const [lecturer, setLecturer] = useState("");
   const [sort, setSort] = useState("");
+  const [selectedLabel, setSelectedLabel] = useState("Mặc định");
+  const [isOpen, setIsOpen] = useState(false);
   const [userId, setUserId] = useState<number | null>(null);
   const navigate = useNavigate();
 
@@ -108,6 +110,11 @@ const MaterialFilter: React.FC<MaterialFilterProps> = ({
     };
   }, [name, course, lecturer, activeTab,sort, onSearch]); 
 
+  const selectSort = (value: string, label: string) => {
+    setSort(value);
+    setSelectedLabel(label);
+    setIsOpen(false);
+  };
 
   const handleClear = () => {
     setName("");
@@ -181,21 +188,52 @@ const MaterialFilter: React.FC<MaterialFilterProps> = ({
 
       {/* Sort + Actions */}
       <div className="material-actionss">
-        <div className="material-sort-group">
-      <label htmlFor="sort-select">Sắp xếp theo</label>
-      <select
-      id="sort-select"
-      value={sort}
-      onChange={(e) => setSort(e.target.value)}
-      className="material-sort-select"
-      >
-      <option value="">Mặc định</option>
-      <option value="createAt_DESC">Mới nhất</option>
-      <option value="createAt_ASC">Cũ nhất</option>
-      <option value="purchaseCount_DESC">Lượt mua giảm dần</option>
-      <option value="purchaseCount_ASC">Lượt mua tăng dần</option>
-      </select>
-      </div>
+      <div className="material-sort-group">
+          <label>Sắp xếp theo</label>
+          <div
+            className={`material-sort-select ${isOpen ? "open" : ""}`}
+            onClick={() => setIsOpen(!isOpen)}
+          >
+            <span>{selectedLabel}</span>
+            <span className={`sort-arrow ${isOpen ? "open" : ""}`}><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-chevron-down-icon lucide-chevron-down"><path d="m6 9 6 6 6-6"/></svg></span>
+          </div>
+          {isOpen && (
+            <ul className="material-sort-options">
+              <li
+                className={`material-sort-option ${sort === "" ? "selected" : ""}`}
+                onClick={() => selectSort("", "Mặc định")}
+              >
+                Mặc định
+              </li>
+              <li
+                className={`material-sort-option ${sort === "createAt_DESC" ? "selected" : ""}`}
+                onClick={() => selectSort("createAt_DESC", "Mới nhất")}
+              >
+                Mới nhất
+              </li>
+              <li
+                className={`material-sort-option ${sort === "createAt_ASC" ? "selected" : ""}`}
+                onClick={() => selectSort("createAt_ASC", "Cũ nhất")}
+              >
+                Cũ nhất
+              </li>
+              <li
+                className={`material-sort-option ${sort === "purchaseCount_DESC" ? "selected" : ""}`}
+                onClick={() => selectSort("purchaseCount_DESC", "Lượt mua giảm dần")}
+              >
+                Lượt mua giảm dần
+              </li>
+              <li
+                className={`material-sort-option ${sort === "purchaseCount_ASC" ? "selected" : ""}`}
+                onClick={() => selectSort("purchaseCount_ASC", "Lượt mua tăng dần")}
+              >
+                Lượt mua tăng dần
+              </li>
+
+            </ul>
+          )}
+        </div>
+
         {/* <div className="material-buttons">
           <button className="btn-clear" onClick={handleClear}>
             <ClearIcon className="btn-icon" /> Xóa bộ lọc
