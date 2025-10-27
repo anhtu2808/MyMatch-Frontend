@@ -16,12 +16,11 @@ function Home() {
   const isMobile = useResponsive(1024);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const navigate = useNavigate()
-
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
     if (!token) {
-      dispatch(setLoaded()); // ✅ vẫn phải set để tránh kẹt trạng thái
-      return; // chưa login thì thôi, không gọi API 
+      dispatch(setLoaded()); 
+      return; 
     }
     const fetchProfileAndSetUser = async () => {
       try {
@@ -36,6 +35,7 @@ function Home() {
             studentCode: response?.result?.student?.studentCode,
             role: response?.result?.role,
             token: response?.result?.token,
+            wallet: response?.result?.wallet?.coin
           })
         );
       } catch (error) {
