@@ -66,6 +66,9 @@ interface MaterialFilterProps {
     course?: string;
     lecturer?: string;
     ownerOnly?: boolean;
+    isPurchased?: boolean; 
+    sortBy?: string; 
+    sortDir?: string;
   }) => void;
   activeTab: string;
   setActiveTab: (tab: string) => void;
@@ -79,6 +82,7 @@ const MaterialFilter: React.FC<MaterialFilterProps> = ({
   const [name, setName] = useState("");
   const [course, setCourse] = useState("");
   const [lecturer, setLecturer] = useState("");
+  const [sort, setSort] = useState("");
   const [userId, setUserId] = useState<number | null>(null);
   const navigate = useNavigate();
 
@@ -96,12 +100,13 @@ const MaterialFilter: React.FC<MaterialFilterProps> = ({
 
   useEffect(() => {
     const timerId = setTimeout(() => {
-      onSearch({ name, course, lecturer, ownerOnly: activeTab === "mine" });
+      const [sortBy, sortDir] = sort.split("_");
+      onSearch({ name, course, lecturer, ownerOnly: activeTab === "mine", isPurchased: activeTab === "purchased", sortBy, sortDir,});
     }, 500);
     return () => {
       clearTimeout(timerId);
     };
-  }, [name, course, lecturer, activeTab, onSearch]); 
+  }, [name, course, lecturer, activeTab,sort, onSearch]); 
 
 
   const handleClear = () => {
@@ -112,7 +117,8 @@ const MaterialFilter: React.FC<MaterialFilterProps> = ({
   };
   
   const handleSearch = () => {
-    onSearch({ name, course, lecturer, ownerOnly: activeTab === "mine" });
+    const [sortBy, sortDir] = sort.split("_");
+    onSearch({ name, course, lecturer, ownerOnly: activeTab === "mine" , isPurchased: activeTab === "purchased", sortBy, sortDir,});
   };
 
   return (
@@ -131,6 +137,12 @@ const MaterialFilter: React.FC<MaterialFilterProps> = ({
         >
           Tài liệu đã đăng tải
         </div>
+        <div
+          className={`tab ${activeTab === "purchased" ? "active" : ""}`}
+          onClick={() => setActiveTab("purchased")}
+          >
+          Tài liệu đã mua
+          </div>
       </div>
 
       <br className="material-divider" />
@@ -168,15 +180,30 @@ const MaterialFilter: React.FC<MaterialFilterProps> = ({
       </div>
 
       {/* Sort + Actions */}
-      <div className="material-actions">
-        <div className="material-buttons">
+      <div className="material-actionss">
+        <div className="material-sort-group">
+      <label htmlFor="sort-select">Sắp xếp theo</label>
+      <select
+      id="sort-select"
+      value={sort}
+      onChange={(e) => setSort(e.target.value)}
+      className="material-sort-select"
+      >
+      <option value="">Mặc định</option>
+      <option value="createAt_DESC">Mới nhất</option>
+      <option value="createAt_ASC">Cũ nhất</option>
+      <option value="purchaseCount_DESC">Lượt mua giảm dần</option>
+      <option value="purchaseCount_ASC">Lượt mua tăng dần</option>
+      </select>
+      </div>
+        {/* <div className="material-buttons">
           <button className="btn-clear" onClick={handleClear}>
             <ClearIcon className="btn-icon" /> Xóa bộ lọc
           </button>
           <button className="btn-search" onClick={handleSearch}>
             <SearchIcon className="btn-icon" /> Tìm kiếm
           </button>
-        </div>
+        </div> */}
         <div className="material-actions-create">
           <button
             className="btn-create"

@@ -291,3 +291,47 @@
     padding: 12px 18px;
   }
 }
+
+.material-sort-group {
+ display: flex;
+ flex-direction: column;
+ justify-content: flex-start;
+  gap: 8px;
+}
+
+.material-sort-group label {
+ font-size: 16px;   /* Thay đổi từ 14px */
+ font-weight: 600;  /* Thay đổi từ 500 */
+ /* margin-bottom: 6px; Bỏ vì đã dùng gap */
+ color: #333;
+}
+
+.material-sort-select {
+ padding: 12px 12px; /* Thay đổi từ 8px 12px */
+ border: 1px solid #ddd; /* Thay đổi từ #ccc */
+ border-radius: 8px; /* Thay đổi từ 6px */
+ font-size: 14px;
+ min-width: 180px;
+  outline: none; /* Thêm để nhất quán */
+}
+
+/* Thêm hiệu ứng focus để khớp */
+.material-sort-select:focus {
+  border-color: #0d47a1;
+}
+
+
+.material-actionss {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end; 
+  margin-top: 16px;
+  flex-wrap: wrap; 
+  gap: 16px; 
+}
+
+.material-buttons {
+  display: flex;
+  gap: 8px;
+}
+
