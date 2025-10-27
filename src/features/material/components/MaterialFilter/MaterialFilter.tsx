@@ -66,6 +66,9 @@ interface MaterialFilterProps {
     course?: string;
     lecturer?: string;
     ownerOnly?: boolean;
+    isPurchased?: boolean; 
+    sortBy?: string; 
+    sortDir?: string;
   }) => void;
   activeTab: string;
   setActiveTab: (tab: string) => void;
@@ -79,6 +82,9 @@ const MaterialFilter: React.FC<MaterialFilterProps> = ({
   const [name, setName] = useState("");
   const [course, setCourse] = useState("");
   const [lecturer, setLecturer] = useState("");
+  const [sort, setSort] = useState("");
+  const [selectedLabel, setSelectedLabel] = useState("Mặc định");
+  const [isOpen, setIsOpen] = useState(false);
   const [userId, setUserId] = useState<number | null>(null);
   const navigate = useNavigate();
 
@@ -96,13 +102,19 @@ const MaterialFilter: React.FC<MaterialFilterProps> = ({
 
   useEffect(() => {
     const timerId = setTimeout(() => {
-      onSearch({ name, course, lecturer, ownerOnly: activeTab === "mine" });
+      const [sortBy, sortDir] = sort.split("_");
+      onSearch({ name, course, lecturer, ownerOnly: activeTab === "mine", isPurchased: activeTab === "purchased", sortBy, sortDir,});
     }, 500);
     return () => {
       clearTimeout(timerId);
     };
-  }, [name, course, lecturer, activeTab, onSearch]); 
+  }, [name, course, lecturer, activeTab,sort, onSearch]); 
 
+  const selectSort = (value: string, label: string) => {
+    setSort(value);
+    setSelectedLabel(label);
+    setIsOpen(false);
+  };
 
   const handleClear = () => {
     setName("");
@@ -112,7 +124,8 @@ const MaterialFilter: React.FC<MaterialFilterProps> = ({
   };
   
   const handleSearch = () => {
-    onSearch({ name, course, lecturer, ownerOnly: activeTab === "mine" });
+    const [sortBy, sortDir] = sort.split("_");
+    onSearch({ name, course, lecturer, ownerOnly: activeTab === "mine" , isPurchased: activeTab === "purchased", sortBy, sortDir,});
   };
 
   return (
@@ -131,6 +144,12 @@ const MaterialFilter: React.FC<MaterialFilterProps> = ({
         >
           Tài liệu đã đăng tải
         </div>
+        <div
+          className={`tab ${activeTab === "purchased" ? "active" : ""}`}
+          onClick={() => setActiveTab("purchased")}
+          >
+          Tài liệu đã mua
+          </div>
       </div>
 
       <br className="material-divider" />
@@ -168,15 +187,61 @@ const MaterialFilter: React.FC<MaterialFilterProps> = ({
       </div>
 
       {/* Sort + Actions */}
-      <div className="material-actions">
-        <div className="material-buttons">
+      <div className="material-actionss">
+      <div className="material-sort-group">
+          <label>Sắp xếp theo</label>
+          <div
+            className={`material-sort-select ${isOpen ? "open" : ""}`}
+            onClick={() => setIsOpen(!isOpen)}
+          >
+            <span>{selectedLabel}</span>
+            <span className={`sort-arrow ${isOpen ? "open" : ""}`}><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-chevron-down-icon lucide-chevron-down"><path d="m6 9 6 6 6-6"/></svg></span>
+          </div>
+          {isOpen && (
+            <ul className="material-sort-options">
+              <li
+                className={`material-sort-option ${sort === "" ? "selected" : ""}`}
+                onClick={() => selectSort("", "Mặc định")}
+              >
+                Mặc định
+              </li>
+              <li
+                className={`material-sort-option ${sort === "createAt_DESC" ? "selected" : ""}`}
+                onClick={() => selectSort("createAt_DESC", "Mới nhất")}
+              >
+                Mới nhất
+              </li>
+              <li
+                className={`material-sort-option ${sort === "createAt_ASC" ? "selected" : ""}`}
+                onClick={() => selectSort("createAt_ASC", "Cũ nhất")}
+              >
+                Cũ nhất
+              </li>
+              <li
+                className={`material-sort-option ${sort === "purchaseCount_DESC" ? "selected" : ""}`}
+                onClick={() => selectSort("purchaseCount_DESC", "Lượt mua giảm dần")}
+              >
+                Lượt mua giảm dần
+              </li>
+              <li
+                className={`material-sort-option ${sort === "purchaseCount_ASC" ? "selected" : ""}`}
+                onClick={() => selectSort("purchaseCount_ASC", "Lượt mua tăng dần")}
+              >
+                Lượt mua tăng dần
+              </li>
+
+            </ul>
+          )}
+        </div>
+
+        {/* <div className="material-buttons">
           <button className="btn-clear" onClick={handleClear}>
             <ClearIcon className="btn-icon" /> Xóa bộ lọc
           </button>
           <button className="btn-search" onClick={handleSearch}>
             <SearchIcon className="btn-icon" /> Tìm kiếm
           </button>
-        </div>
+        </div> */}
         <div className="material-actions-create">
           <button
             className="btn-create"

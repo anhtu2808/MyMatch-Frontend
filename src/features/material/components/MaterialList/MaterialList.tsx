@@ -97,7 +97,7 @@ const MaterialList: React.FC<Props> = ({ materials, isMyUploads }) => {
                 {m.course?.code} - {m.name}
               </span>
               <span className="material-stats">
-                ({m.totalDownloads} lượt tải)
+                ({m.totalPurchases} lượt mua)
               </span>
             </div>
 
