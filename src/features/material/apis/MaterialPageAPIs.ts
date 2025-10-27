@@ -51,6 +51,7 @@ export interface GetMaterialsParams {
   courseId?: number;
   lecturerId?: number;
   ownerId?: number;
+  isPurchased?: boolean;
   page?: number;
   size?: number;
   sortBy?: string;
