@@ -82,7 +82,6 @@ function TeachersPage() {
 
           try {
             const courseRes = await getCoursesByLecturerAPI(lec.id);
-            console.log(`courses for lec ${lec.id}:`, courseRes);
             const subjectCount =
               courseRes?.result?.length ??
               (Array.isArray(courseRes) ? courseRes.length : 0);
