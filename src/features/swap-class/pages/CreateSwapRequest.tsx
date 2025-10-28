@@ -40,6 +40,7 @@ const CreateSwapRequest: React.FC = () => {
   const [lecturers, setLecturers] = useState<any[]>([])
   const user = useAppSelector((state) => state.user)
   const campusId = user?.campusId
+  console.log("Coin", user?.wallet);
 
   useEffect(() => {
       const fetchCourses = async () => {
