@@ -10,8 +10,9 @@ import {
   getSkillAPI,
   updateGroup,
 } from "../../apis";
-import { useAppSelector } from "../../../../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
 import Notification from "../../../../components/notification/Notification";
+import { fetchUserProfile } from "../../../../store/Slice";
 
 const { Option } = Select;
 
@@ -69,6 +70,7 @@ const GroupModalForm: React.FC<GroupDetailModalProps> = ({
   isEdit,
 }) => {
   const user = useAppSelector((state) => state.user);
+  const dispatch = useAppDispatch();
 
   const [groupInfo, setGroupInfo] = useState<GroupForm>({
     name: "",
@@ -314,6 +316,7 @@ const GroupModalForm: React.FC<GroupDetailModalProps> = ({
       } else { 
         payload = buildCreatePayload(groupInfo);
         await createGroup(payload);
+        dispatch(fetchUserProfile());
         onReload?.();
         showNotification("Tạo thành công", "success")
       }

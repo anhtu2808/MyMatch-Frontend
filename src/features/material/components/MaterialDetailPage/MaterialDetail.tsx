@@ -8,9 +8,10 @@ import {
   downloadMaterialAPI,
 } from "../../apis/MaterialPageAPIs";
 import "./MaterialDetail.css";
-import { useAppSelector } from "../../../../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
 import Notification from "../../../../components/notification/Notification";
 import ConfirmDelete from "../../../../components/confirm-delete/ConfirmDelete";
+import { fetchUserProfile } from "../../../../store/Slice";
 
 const BackArrowIcon = () => (
   <svg
@@ -38,6 +39,7 @@ const MaterialDetail: React.FC = () => {
   const [showItemList, setShowItemList] = useState(false);
 
   const userId = user?.id;
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (id) {
@@ -58,6 +60,21 @@ const MaterialDetail: React.FC = () => {
 
   const formatDate = (dateStr?: string) =>
     dateStr ? new Date(dateStr + "Z").toLocaleDateString() : "Không rõ";
+
+  const handlePurchase = async () => {
+  try {
+    const response = await purchaseMaterialAPI(material.id);
+    console.log("Purchase response:", response);
+    dispatch(fetchUserProfile());
+    setMaterial(prev => prev ? { ...prev, isPurchased: true } : prev);
+    setNotification({ message: "Mua tài liệu thành công!", type: "success" });
+  } catch (err) {
+    console.error(err);
+    setNotification({ message: "Mua tài liệu thất bại!", type: "error" });
+  } finally {
+    setShowConfirmPurchase(false);
+  }
+};
 
   return (
     <div className="material-detail">
@@ -218,18 +235,19 @@ const MaterialDetail: React.FC = () => {
             content="Bạn có chắc chắn muốn mua tài liệu này không?"
             okText="Mua"
             onCancel={() => setShowConfirmPurchase(false)}
-            onConfirm={async () => {
-              try {
-                await purchaseMaterialAPI(material.id);
-                setMaterial(prev => prev ? { ...prev, isPurchased: true } : prev);
-                setNotification({ message: "Mua tài liệu thành công!", type: "success" });
-              } catch (err) {
-                console.error(err);
-                setNotification({ message: "Mua tài liệu thất bại!", type: "error" });
-              } finally {
-                setShowConfirmPurchase(false);
-              }
-            }}
+            // onConfirm={async () => {
+            //   try {
+            //     await purchaseMaterialAPI(material.id);
+            //     setMaterial(prev => prev ? { ...prev, isPurchased: true } : prev);
+            //     setNotification({ message: "Mua tài liệu thành công!", type: "success" });
+            //   } catch (err) {
+            //     console.error(err);
+            //     setNotification({ message: "Mua tài liệu thất bại!", type: "error" });
+            //   } finally {
+            //     setShowConfirmPurchase(false);
+            //   }
+            // }}
+            onConfirm={handlePurchase}
           />
           </>
         )}

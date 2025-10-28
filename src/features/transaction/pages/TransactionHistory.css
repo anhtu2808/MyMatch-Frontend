@@ -1,0 +1,697 @@
+/* ========== Layout Wrapper (Fix sidebar/header overlap) ========== */
+
+.transaction-main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin-left: 100px; /* Width of sidebar */
+  min-height: 100vh;
+  margin-top: 30px;
+}
+
+/* ========== Page Container ========== */
+.transaction-page-container {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background-color: #FBFAF9;
+  padding: 24px;
+  flex: 1;
+}
+
+/* ========== Card Chung ========== */
+.transaction-card {
+  background-color: white;
+  border-radius: 8px;
+  padding: 24px;
+  margin-bottom: 24px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  width: 1240px;
+}
+
+/* ========== Header Row ========== */
+.transaction-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.transaction-total-count {
+  font-size: 14px;
+  color: #718096;
+  font-weight: 500;
+}
+
+/* ========== Section Title ========== */
+.transaction-section-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1a202c;
+  margin: 0;
+  border-left: 3px solid #3182ce;
+  padding-left: 12px;
+}
+
+/* ========== Loading & Empty State ========== */
+.transaction-loading-text {
+  text-align: center;
+  padding: 60px 20px;
+  color: #718096;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.transaction-spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #e2e8f0;
+  border-top-color: #3182ce;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.transaction-empty-text {
+  text-align: center;
+  padding: 60px 20px;
+  color: #718096;
+}
+
+.transaction-empty-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+.transaction-empty-text p {
+  margin: 0;
+  font-size: 16px;
+}
+
+/* ========== Transaction List ========== */
+.transaction-list {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* ========== Transaction Item ========== */
+.transaction-item {
+  padding: 20px;
+  border-bottom: 1px solid #e2e8f0;
+  transition: background-color 0.2s;
+  cursor: pointer;
+}
+
+.transaction-item:last-child {
+  border-bottom: none;
+}
+
+.transaction-item:hover {
+  background-color: #f7fafc;
+}
+
+.transaction-item-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+/* Left Area */
+.transaction-item-left {
+  flex: 1;
+  min-width: 0;
+}
+
+.transaction-item-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.transaction-item-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.transaction-item-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.transaction-item-info h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1a202c;
+  margin: 0 0 4px 0;
+}
+
+.transaction-item-info p {
+  font-size: 13px;
+  color: #718096;
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.transaction-meta {
+  margin-left: 52px;
+  font-size: 12px;
+  color: #a0aec0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.transaction-meta-row {
+  display: flex;
+  gap: 8px;
+}
+
+.transaction-meta-label {
+  font-weight: 500;
+  flex-shrink: 0;
+}
+
+.transaction-meta-value {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Right Area */
+.transaction-item-right {
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.transaction-amount {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  white-space: nowrap;
+}
+
+.transaction-currency {
+  font-size: 14px;
+  font-weight: 500;
+  margin-left: 4px;
+}
+
+.transaction-badge-group {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
+.transaction-badge-type,
+.transaction-badge-status {
+  font-size: 12px;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+/* ========== Pagination ========== */
+.transaction-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid #e2e8f0;
+  flex-wrap: wrap;
+}
+
+.transaction-pagination button {
+  padding: 8px 16px;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  background-color: white;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  color: #4a5568;
+  transition: all 0.2s;
+}
+
+.transaction-pagination button:hover:not([disabled]) {
+  background-color: #f7fafc;
+  border-color: #cbd5e0;
+}
+
+.transaction-pagination button[disabled] {
+  background-color: #f7fafc;
+  color: #cbd5e0;
+  cursor: not-allowed;
+}
+
+.transaction-page-numbers {
+  display: flex;
+  gap: 8px;
+}
+
+.transaction-page-numbers button {
+  min-width: 40px;
+}
+
+.transaction-page-numbers button.active {
+  background-color: #2d3748;
+  color: white;
+  border-color: #2d3748;
+}
+
+/* ========== RESPONSIVE STYLES ========== */
+
+/* Extra Small Devices - iPhone SE, Small Phones */
+@media (max-width: 375px) {
+  .transaction-main-content {
+    margin-left: 0;
+  }
+
+  .transaction-page-container {
+    padding: 12px;
+    margin-top: 60px;
+  }
+
+  .transaction-card {
+    padding: 16px;
+    margin-bottom: 16px;
+    border-radius: 6px;
+  }
+
+  .transaction-section-title {
+    font-size: 16px;
+    padding-left: 10px;
+  }
+
+  .transaction-header-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .transaction-item {
+    padding: 14px;
+  }
+
+  .transaction-item-content {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .transaction-item-header {
+    gap: 10px;
+  }
+
+  .transaction-item-icon {
+    width: 36px;
+    height: 36px;
+    font-size: 18px;
+  }
+
+  .transaction-item-info h3 {
+    font-size: 14px;
+  }
+
+  .transaction-item-info p {
+    font-size: 12px;
+    white-space: normal;
+  }
+
+  .transaction-meta {
+    margin-left: 46px;
+    font-size: 11px;
+  }
+
+  .transaction-meta-value {
+    white-space: normal;
+    word-break: break-all;
+  }
+
+  .transaction-item-right {
+    text-align: left;
+    width: 100%;
+  }
+
+  .transaction-amount {
+    font-size: 18px;
+  }
+
+  .transaction-currency {
+    font-size: 13px;
+  }
+
+  .transaction-badge-group {
+    justify-content: flex-start;
+  }
+
+  .transaction-badge-type,
+  .transaction-badge-status {
+    font-size: 11px;
+    padding: 3px 10px;
+  }
+
+  .transaction-pagination {
+    gap: 8px;
+  }
+
+  .transaction-pagination button {
+    padding: 6px 12px;
+    font-size: 13px;
+  }
+
+  .transaction-page-numbers {
+    gap: 6px;
+  }
+
+  .transaction-page-numbers button {
+    min-width: 36px;
+  }
+}
+
+/* Small Devices - iPhone 12, 13, Standard Phones */
+@media (min-width: 376px) and (max-width: 480px) {
+  .transaction-main-content {
+    margin-left: 0;
+  }
+
+  .transaction-page-container {
+    padding: 16px;
+    margin-top: 60px;
+  }
+
+  .transaction-card {
+    padding: 18px;
+    margin-bottom: 18px;
+  }
+
+  .transaction-section-title {
+    font-size: 17px;
+  }
+
+  .transaction-header-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .transaction-item {
+    padding: 16px;
+  }
+
+  .transaction-item-content {
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .transaction-item-info p {
+    white-space: normal;
+  }
+
+  .transaction-meta-value {
+    white-space: normal;
+    word-break: break-all;
+  }
+
+  .transaction-item-right {
+    text-align: left;
+    width: 100%;
+  }
+
+  .transaction-badge-group {
+    justify-content: flex-start;
+  }
+}
+
+/* Medium Devices - Tablets Portrait, Large Phones */
+@media (min-width: 481px) and (max-width: 768px) {
+  .transaction-main-content {
+    margin-left: 0;
+  }
+
+  .transaction-page-container {
+    padding: 20px;
+    margin-top: 70px;
+  }
+
+  .transaction-card {
+    padding: 20px;
+  }
+
+  .transaction-item-content {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .transaction-item-right {
+    text-align: left;
+    width: 100%;
+  }
+
+  .transaction-badge-group {
+    justify-content: flex-start;
+  }
+
+  .transaction-meta-value {
+    white-space: normal;
+    word-break: break-all;
+  }
+}
+
+/* Tablets Landscape, Small Laptops */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .transaction-main-content {
+    margin-left: 0;
+  }
+
+  .transaction-page-container {
+    padding: 22px;
+    margin-top: 75px;
+  }
+
+  .transaction-item-content {
+    flex-direction: row;
+  }
+
+  .transaction-item-right {
+    text-align: right;
+  }
+
+  .transaction-badge-group {
+    justify-content: flex-end;
+  }
+}
+
+/* Medium Laptops */
+@media (min-width: 1025px) and (max-width: 1200px) {
+  .transaction-main-content {
+    margin-left: 10px;
+  }
+
+  .transaction-page-container {
+    padding: 24px;
+    margin-top: 80px;
+  }
+}
+
+/* Large Laptops, Standard Desktops */
+@media (min-width: 1201px) and (max-width: 1919px) {
+  .transaction-main-content {
+    margin-left: 160px;
+  }
+
+  .transaction-page-container {
+    padding: 24px;
+    margin-top: 80px;
+  }
+
+  .transaction-card {
+    padding: 28px;
+  }
+}
+
+/* Extra Large Screens - 4K, Ultra Wide */
+@media (min-width: 1920px) {
+  .transaction-main-content {
+    margin-left: 280px;
+  }
+
+  .transaction-page-container {
+    padding: 32px;
+    margin-top: 90px;
+    max-width: 1800px;
+  }
+
+  .transaction-card {
+    padding: 32px;
+  }
+
+  .transaction-section-title {
+    font-size: 20px;
+  }
+
+  .transaction-item {
+    padding: 24px;
+  }
+
+  .transaction-item-icon {
+    width: 48px;
+    height: 48px;
+    font-size: 24px;
+  }
+
+  .transaction-item-info h3 {
+    font-size: 18px;
+  }
+
+  .transaction-amount {
+    font-size: 24px;
+  }
+}
+
+/* Mobile Landscape Adjustments */
+@media (max-height: 500px) and (orientation: landscape) {
+  .transaction-page-container {
+    margin-top: 60px;
+  }
+
+  .transaction-card {
+    padding: 16px;
+  }
+
+  .transaction-item {
+    padding: 12px;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .transaction-page-wrapper {
+    display: block;
+  }
+
+  .transaction-main-content {
+    margin-left: 0;
+  }
+
+  .transaction-page-container {
+    padding: 0;
+    margin-top: 0;
+  }
+
+  .transaction-card {
+    box-shadow: none;
+    page-break-inside: avoid;
+  }
+
+  .transaction-item {
+    page-break-inside: avoid;
+  }
+}
+
+/* Sidebar Drawer Styles for Mobile */
+.sidebar-drawer {
+  position: fixed;
+  top: 0;
+  left: -100%;
+  width: 280px;
+  height: 100vh;
+  background-color: white;
+  z-index: 1000;
+  transition: left 0.3s ease-in-out;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.15);
+}
+
+.sidebar-drawer.open {
+  left: 0;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Dark Mode Support (Optional) */
+@media (prefers-color-scheme: dark) {
+  .transaction-page-wrapper {
+    background-color: #1a202c;
+  }
+
+  .transaction-page-container {
+    background-color: #1a202c;
+  }
+
+  .transaction-card {
+    background-color: #2d3748;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  }
+
+  .transaction-section-title,
+  .transaction-item-info h3 {
+    color: #e2e8f0;
+  }
+
+  .transaction-item-info p,
+  .transaction-meta,
+  .transaction-total-count {
+    color: #a0aec0;
+  }
+
+  .transaction-item {
+    border-bottom-color: #4a5568;
+  }
+
+  .transaction-item:hover {
+    background-color: #374151;
+  }
+
+  .transaction-pagination button {
+    background-color: #2d3748;
+    border-color: #4a5568;
+    color: #e2e8f0;
+  }
+
+  .transaction-pagination button:hover:not([disabled]) {
+    background-color: #374151;
+  }
+
+  .transaction-pagination button[disabled] {
+    background-color: #1a202c;
+    color: #4a5568;
+  }
+
+  .transaction-empty-text,
+  .transaction-loading-text {
+    color: #a0aec0;
+  }
+}

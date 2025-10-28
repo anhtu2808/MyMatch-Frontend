@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react";
 import { Modal, Input, Select } from "antd";
 import "./ProfileModalForm.css";
 import { createProfile, getCourseAPI, getProfileId, getSemesterAPI, getSkillAPI, updateProfile } from "../../apis";
-import { useAppSelector } from "../../../../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
 import Notification from "../../../../components/notification/Notification";
+import { fetchUserProfile } from "../../../../store/Slice";
 const { TextArea } = Input;
 const { Option } = Select
 interface ProfileForm {
@@ -27,6 +28,7 @@ interface UserProfileModalProps {
 
 const ProfileModalForm: React.FC<UserProfileModalProps> = ({ open, onClose, id ,isEdit, onReload}) => {
   const user = useAppSelector((state) => state.user)
+  const dispatch = useAppDispatch();
   const [profileForm, setProfileForm] = useState<ProfileForm>({
     requestDetail: "",
     goal: 0,
@@ -72,7 +74,7 @@ const ProfileModalForm: React.FC<UserProfileModalProps> = ({ open, onClose, id ,
     }, []);
 
     const courseOptions = courses.map(course => ({
-      label: `${course.code} - ${course.name}`, // hiển thị đẹp hơn
+      label: `${course.code} - ${course.name}`, 
       value: course.id,
     }));
 
@@ -92,7 +94,7 @@ const ProfileModalForm: React.FC<UserProfileModalProps> = ({ open, onClose, id ,
     const fetchProfileDetail = async () => {
     if (isEdit && id) {
       try {
-        const res = await getProfileId(id); // API lấy chi tiết profile
+        const res = await getProfileId(id);
         setProfileForm({
           requestDetail: res?.result?.requestDetail,
           goal: res?.result?.goal,
@@ -137,6 +139,7 @@ useEffect(() => {
       showNotification("Cập nhật thành công", "success")
     } else {
       await createProfile(profileForm);
+      dispatch(fetchUserProfile());
       onReload?.()
       showNotification("Tạo thành công", "success")
     }
