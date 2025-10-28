@@ -67,8 +67,6 @@ function TeachersPage() {
         ...filters,
       });
 
-      console.log("getAllLecturerAPI res:", res);
-
       const possibleList =
         res?.result?.data ?? res?.result ?? res?.data ?? res ?? [];
       const items = Array.isArray(possibleList)
