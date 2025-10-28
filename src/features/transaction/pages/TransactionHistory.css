@@ -527,14 +527,10 @@
 
 /* Extra Large Screens - 4K, Ultra Wide */
 @media (min-width: 1920px) {
-  .transaction-main-content {
-    margin-left: 280px;
-  }
-
   .transaction-page-container {
-    padding: 32px;
     margin-top: 90px;
-    max-width: 1800px;
+    margin-left: 60px;
+    margin-right: 110px;
   }
 
   .transaction-card {
@@ -639,60 +635,5 @@
   }
   to {
     opacity: 1;
-  }
-}
-
-/* Dark Mode Support (Optional) */
-@media (prefers-color-scheme: dark) {
-  .transaction-page-wrapper {
-    background-color: #1a202c;
-  }
-
-  .transaction-page-container {
-    background-color: #1a202c;
-  }
-
-  .transaction-card {
-    background-color: #2d3748;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-  }
-
-  .transaction-section-title,
-  .transaction-item-info h3 {
-    color: #e2e8f0;
-  }
-
-  .transaction-item-info p,
-  .transaction-meta,
-  .transaction-total-count {
-    color: #a0aec0;
-  }
-
-  .transaction-item {
-    border-bottom-color: #4a5568;
-  }
-
-  .transaction-item:hover {
-    background-color: #374151;
-  }
-
-  .transaction-pagination button {
-    background-color: #2d3748;
-    border-color: #4a5568;
-    color: #e2e8f0;
-  }
-
-  .transaction-pagination button:hover:not([disabled]) {
-    background-color: #374151;
-  }
-
-  .transaction-pagination button[disabled] {
-    background-color: #1a202c;
-    color: #4a5568;
-  }
-
-  .transaction-empty-text,
-  .transaction-loading-text {
-    color: #a0aec0;
   }
 }
