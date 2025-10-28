@@ -24,7 +24,6 @@
   padding: 24px;
   margin-bottom: 24px;
   box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-  width: 1240px;
 }
 
 /* ========== Header Row ========== */
@@ -522,6 +521,7 @@
 
   .transaction-card {
     padding: 28px;
+    width: 1240px;
   }
 }
 
@@ -539,6 +539,7 @@
 
   .transaction-card {
     padding: 32px;
+    min-width: 1240px;
   }
 
   .transaction-section-title {
