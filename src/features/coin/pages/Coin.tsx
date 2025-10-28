@@ -9,21 +9,6 @@ interface Coin {
 }
 
 const Coin: React.FC = () => {
-    // const [coins, setCoin] = useState<Coin | null>(null) 
-
-    // useEffect(() => {
-    //   const token = localStorage.getItem("accessToken");
-    //   if (!token) return;
-    //     const fetchCoin = async () => {
-    //       try {
-    //         const response = await getCoinAPI();
-    //         setCoin(response.result)
-    //       } catch (err) {
-    //         console.error("Error fetch coin", err)
-    //       }
-    //     }
-    //     fetchCoin()
-    // }, [])
     const wallet = useAppSelector((state) => state.user.wallet);
   return (
     <div className="coin-button">

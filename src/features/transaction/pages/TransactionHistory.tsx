@@ -121,7 +121,7 @@ const TransactionHistory: React.FC = () => {
                     style={{ color: getTypeColor(transaction.type) }}
                   >
                     {transaction.type === 'IN' ? '+' : '-'}
-                    {formatCurrency(transaction.coin)} Xu
+                    {formatCurrency(transaction.coin)} Coin
                   </div>
                   <div className="transaction-badge-group">
                     <span
