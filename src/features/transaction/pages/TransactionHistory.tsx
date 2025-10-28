@@ -19,8 +19,6 @@ interface Transaction {
 const TransactionHistory: React.FC = () => {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
-  const [filter, setFilter] = useState<string>('ALL');
-  const [searchCode, setSearchCode] = useState<string>('');
   const isMobile = useResponsive(1024);
   const [sidebarOpen, setSidebarOpen] = useState(false);
     const fetchTransaction = async () => {
@@ -51,10 +49,6 @@ const TransactionHistory: React.FC = () => {
       case 'FAILED': return '#ef4444';
       default: return '#6b7280';
     }
-  };
-
-  const formatDate = (id: number): string => {
-    return '14:11:31, 23/10/2025';
   };
 
   const formatCurrency = (amount: number): string => {
@@ -117,7 +111,6 @@ const TransactionHistory: React.FC = () => {
 
                   <div className="transaction-meta">
                     <div>Mã GD: {transaction.transactionCode}</div>
-                    <div>Thời gian: {formatDate(transaction.id)}</div>
                   </div>
                 </div>
 
