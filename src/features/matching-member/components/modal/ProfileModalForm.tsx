@@ -74,7 +74,7 @@ const ProfileModalForm: React.FC<UserProfileModalProps> = ({ open, onClose, id ,
     }, []);
 
     const courseOptions = courses.map(course => ({
-      label: `${course.code} - ${course.name}`, // hiển thị đẹp hơn
+      label: `${course.code} - ${course.name}`, 
       value: course.id,
     }));
 
@@ -94,7 +94,7 @@ const ProfileModalForm: React.FC<UserProfileModalProps> = ({ open, onClose, id ,
     const fetchProfileDetail = async () => {
     if (isEdit && id) {
       try {
-        const res = await getProfileId(id); // API lấy chi tiết profile
+        const res = await getProfileId(id);
         setProfileForm({
           requestDetail: res?.result?.requestDetail,
           goal: res?.result?.goal,

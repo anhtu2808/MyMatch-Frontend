@@ -65,12 +65,6 @@ const MaterialDetail: React.FC = () => {
   try {
     const response = await purchaseMaterialAPI(material.id);
     console.log("Purchase response:", response);
-    // if (response.wallet !== undefined && user) {
-    //   dispatch(setUser({
-    //     ...user,
-    //     wallet: response.wallet  
-    //   }));
-    // }
     dispatch(fetchUserProfile());
     setMaterial(prev => prev ? { ...prev, isPurchased: true } : prev);
     setNotification({ message: "Mua tài liệu thành công!", type: "success" });
