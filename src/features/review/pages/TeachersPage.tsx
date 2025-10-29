@@ -67,8 +67,6 @@ function TeachersPage() {
         ...filters,
       });
 
-      console.log("getAllLecturerAPI res:", res);
-
       const possibleList =
         res?.result?.data ?? res?.result ?? res?.data ?? res ?? [];
       const items = Array.isArray(possibleList)
@@ -84,7 +82,6 @@ function TeachersPage() {
 
           try {
             const courseRes = await getCoursesByLecturerAPI(lec.id);
-            console.log(`courses for lec ${lec.id}:`, courseRes);
             const subjectCount =
               courseRes?.result?.length ??
               (Array.isArray(courseRes) ? courseRes.length : 0);
