@@ -69,7 +69,7 @@
 /* Laptop nhỏ (1025px - 1200px) */
 @media (min-width: 1025px) and (max-width: 1534px) {
     .main-content-payment {
-        margin-left: 100px;
+        margin-left: 80px;
         margin-top: 90px;
         padding: 24px;
         width: calc(100vw - 100px);
