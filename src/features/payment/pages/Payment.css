@@ -67,9 +67,9 @@
 }
 
 /* Laptop nhỏ (1025px - 1200px) */
-@media (min-width: 1025px) and (max-width: 1200px) {
+@media (min-width: 1025px) and (max-width: 1534px) {
     .main-content-payment {
-        margin-left: 100px;
+        margin-left: 80px;
         margin-top: 90px;
         padding: 24px;
         width: calc(100vw - 100px);
@@ -77,9 +77,9 @@
 }
 
 /* Desktop thông thường (1201px - 1919px) */
-@media (min-width: 1201px) and (max-width: 1919px) {
+@media (min-width: 1535px) and (max-width: 1919px) {
     .main-content-payment {
-        margin-left: 150px;
+        margin-left: 110px;
         margin-top: 90px;
         padding: 30px;
         width: calc(100vw - 150px);
@@ -89,7 +89,7 @@
 /* Desktop lớn (>= 1920px) */
 @media (min-width: 1920px) {
     .main-content-payment {
-        margin-left: 150px;
+        margin-left: 110px;
         margin-top: 95px;
         padding: 40px;
         width: calc(100vw - 150px);
