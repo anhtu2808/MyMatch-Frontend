@@ -89,7 +89,7 @@
 /* Desktop lớn (>= 1920px) */
 @media (min-width: 1920px) {
     .main-content-payment {
-        margin-left: 150px;
+        margin-left: 110px;
         margin-top: 95px;
         padding: 40px;
         width: calc(100vw - 150px);
