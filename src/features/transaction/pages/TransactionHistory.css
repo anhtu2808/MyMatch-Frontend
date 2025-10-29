@@ -496,20 +496,22 @@
   }
 }
 
-/* Medium Laptops */
-@media (min-width: 1025px) and (max-width: 1200px) {
+/* medium Laptops*/
+@media (min-width: 1025px) and (max-width: 1534px) {
   .transaction-main-content {
     margin-left: 10px;
+    align-items: center;
   }
 
   .transaction-page-container {
     padding: 24px;
     margin-top: 80px;
+    align-items: center;
   }
 }
 
 /* Large Laptops, Standard Desktops */
-@media (min-width: 1201px) and (max-width: 1919px) {
+@media (min-width: 1535px) and (max-width: 1919px) {
   .transaction-main-content {
     margin-left: 160px;
   }
