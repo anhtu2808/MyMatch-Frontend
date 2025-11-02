@@ -103,12 +103,27 @@ const MaterialFilter: React.FC<MaterialFilterProps> = ({
   useEffect(() => {
     const timerId = setTimeout(() => {
       const [sortBy, sortDir] = sort.split("_");
-      onSearch({ name, course, lecturer, ownerOnly: activeTab === "mine", isPurchased: activeTab === "purchased", sortBy, sortDir,});
-    }, 500);
-    return () => {
-      clearTimeout(timerId);
-    };
-  }, [name, course, lecturer, activeTab,sort, onSearch]); 
+     let purchasedParam: boolean | undefined = undefined;
+      if (activeTab === "purchased") {
+        purchasedParam = true;
+      } else if (activeTab === "all") {
+        purchasedParam = undefined; 
+      }
+
+     onSearch({ 
+          name, 
+          course, 
+          lecturer, 
+          ownerOnly: activeTab === "mine", 
+          isPurchased: purchasedParam,
+          sortBy, 
+          sortDir,
+      });
+   }, 500);
+   return () => {
+    clearTimeout(timerId);
+     };
+   }, [name, course, lecturer, activeTab,sort, onSearch]);
 
   const selectSort = (value: string, label: string) => {
     setSort(value);
