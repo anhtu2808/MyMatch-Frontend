@@ -74,7 +74,6 @@ function NewsFeed() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalElements, setTotalElements] = useState(0);
   const pageSize = 10;
-  console.log("newsFeeds", newsFeeds);
   useEffect(() => {
     const fetchNewsFeed = async () => {
       try {

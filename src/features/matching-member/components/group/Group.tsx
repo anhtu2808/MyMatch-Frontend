@@ -98,7 +98,7 @@ const Group: React.FC<GroupProps> = ({reload}) => {
   const navigate = useNavigate()
   const [groups, setGroups] = useState<Team[]>([])
   const [filteredFeeds, setFilteredFeeds] = useState<Team[]>([])
-  console.log("dataaaaaaaaaaaaaa", filteredFeeds);
+  
   const handleOpenGroupModalView = (id: number) => {
   setOpen(true);
   setSelectedId(id)
