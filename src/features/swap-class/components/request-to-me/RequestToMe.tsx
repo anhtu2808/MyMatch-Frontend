@@ -160,7 +160,7 @@ function RequestToMe() {
 
   const handleAcceptSwap = (id: number) => {
     const data = {
-      decision: "APPROVE",
+      decision: "ACCEPTED",
       reason: "approve"
     }
     try{
@@ -178,7 +178,7 @@ function RequestToMe() {
 
   const handleRejectSwap = (id: number) => {
     const data = {
-      decision: "REJECT",
+      decision: "REJECTED",
       reason: "reject"
     }
     try{
