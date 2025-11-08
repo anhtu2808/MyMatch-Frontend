@@ -81,7 +81,7 @@ function RequestToMe() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalElements, setTotalElements] = useState(0);
   const pageSize = 10;
-  console.log("filteredFeeds", filteredFeeds);
+  
   const fetchRequestsMatching = async () => {
       try {
         const response = await getSwapMatchingAPI({
