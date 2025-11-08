@@ -123,7 +123,7 @@ function MyGroup() {
       const response = await getGroupStudentId(Number(studentId), currentPage, pageSize);
       setGroup(response.result.data);
       setFilteredFeeds(response?.result?.data || [])
-      setTotalElements(response.result.totalElements)
+      setTotalElements(response.result.totalPages)
     } catch (err) {
       console.error("Error fetch Group by student id");
     }

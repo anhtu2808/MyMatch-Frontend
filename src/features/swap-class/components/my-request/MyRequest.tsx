@@ -87,7 +87,7 @@ function MyRequest() {
         const response = await getSwapRequestAPI({ studentId: user.studentId ?? undefined, page: currentPage, size: pageSize})
         setMyRequests(response?.result?.data || [])
         setFilteredFeeds(response?.result?.data || [])
-        setTotalElements(response.result.totalElements)
+        setTotalElements(response.result.totalPages)
       } catch (error) {
         console.error('Error fetching my requests:', error)
       }

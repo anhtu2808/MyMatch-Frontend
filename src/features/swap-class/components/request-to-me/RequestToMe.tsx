@@ -90,7 +90,7 @@ function RequestToMe() {
       })
         setRequests(response?.result?.data || [])
         setFilteredFeeds(response?.result?.data || [])
-        setTotalElements(response.result.totalElements)
+        setTotalElements(response.result.totalPages)
       } catch (error) {
         console.error('Error fetching requests:', error)
       }

@@ -80,7 +80,7 @@ function NewsFeed() {
         const response = await getSwapRequestAPI({page: currentPage, size: pageSize, statuses: "SENT"})
         setNewsFeeds(response?.result?.data || [])
         setFilteredFeeds(response?.result?.data || [])
-        setTotalElements(response.result.totalElements)
+        setTotalElements(response.result.totalPages)
       } catch (error) {
         console.error('Error fetching news feed:', error)
       }
