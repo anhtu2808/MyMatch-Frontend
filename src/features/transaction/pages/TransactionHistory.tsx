@@ -4,6 +4,7 @@ import { getTransactionAPI } from '../apis';
 import { useResponsive } from '../../../useResponsive';
 import Sidebar from '../../../components/sidebar/Sidebar';
 import Header from '../../../components/header/Header';
+import { translateStatus } from '../../../components/Translate';
 
 interface Transaction {
   id: number;
@@ -104,7 +105,7 @@ const TransactionHistory: React.FC = () => {
                       )}
                     </div>
                     <div className="transaction-item-info">
-                      <h3>{transaction.source}</h3>
+                      <h3>{translateStatus(transaction.source)}</h3>
                       <p>{transaction.description}</p>
                     </div>
                   </div>
@@ -141,7 +142,7 @@ const TransactionHistory: React.FC = () => {
                         color: getStatusColor(transaction.status),
                       }}
                     >
-                      {transaction.status}
+                      {translateStatus(transaction.status)}
                     </span>
                   </div>
                 </div>

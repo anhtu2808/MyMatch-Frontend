@@ -87,6 +87,7 @@ export interface TeamMember {
 export interface Team {
   id: number;
   name: string;
+  memberCount: number;
   memberMax: number;
   description: string;
   course: Course;
@@ -106,7 +107,6 @@ interface GroupDetailModalProps {
 
 const GroupModalView: React.FC<GroupDetailModalProps> = ({ open, onClose, id}) => {
   const [groupDetail, setGroupDetail] = useState<Team | null>(null)
-
   useEffect(() => {
     if (!open) return
     const fetchGroupDetail = async () => {
@@ -145,7 +145,7 @@ const GroupModalView: React.FC<GroupDetailModalProps> = ({ open, onClose, id}) =
               {groupDetail?.description}
             </p>
           </div>
-          <div className="group-view-member-count">2/{groupDetail?.memberMax} thành viên</div>
+          <div className="group-view-member-count">{groupDetail?.memberCount}/{groupDetail?.memberMax} thành viên</div>
         </div>
 
         {/* Basic info */}

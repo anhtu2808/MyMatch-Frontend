@@ -118,7 +118,7 @@ function MyProfile() {
             const response = await getProfileStudentId(Number(studentId), currentPage, pageSize)
             setProfile(response.result.data)
             setFilteredFeeds(response?.result?.data || [])
-            setTotalElements(response.result.totalElements)
+            setTotalElements(response.result.totalPages)
           } catch (err) {
             console.error("Error fetch Profile by student id", err);
           } 

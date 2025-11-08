@@ -18,8 +18,8 @@ export const deleteSwapRequestAPI = async (id: number) => {
 
 export enum SwapStatus {
   PENDING = "PENDING",
-  APPROVE = "APPROVE",
-  REJECT = "REJECT"
+  APPROVED = "APPROVED",
+  REJECTED = "REJECTED"
 }
 
 export const getSwapMatchingAPI = async (params: {
@@ -33,7 +33,7 @@ export const getSwapMatchingAPI = async (params: {
   studentToId?: number;
   anyStudentId?: number;
   mode?: "MANUAL" | "AUTOMATION";
-  status?: "PENDING" | "APPROVE" | "REJECT";
+  status?: "PENDING" | "APPROVED" | "REJECTED";
 } = {}) => {
   // Lọc ra các param có giá trị (loại bỏ undefined, null, '')
   const queryParams = Object.fromEntries(
@@ -56,6 +56,7 @@ export const getSwapRequestAPI = async (params: {
   slotFrom?: string;
   slotTo?: string;
   visibility?: string;
+  statuses?: string;
   fromClass?: string;
   targetClass?: string;
 } = {}) => {

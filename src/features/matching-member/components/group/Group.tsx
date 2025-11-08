@@ -98,7 +98,7 @@ const Group: React.FC<GroupProps> = ({reload}) => {
   const navigate = useNavigate()
   const [groups, setGroups] = useState<Team[]>([])
   const [filteredFeeds, setFilteredFeeds] = useState<Team[]>([])
-  console.log("dataaaaaaaaaaaaaa", filteredFeeds);
+
   const handleOpenGroupModalView = (id: number) => {
   setOpen(true);
   setSelectedId(id)
@@ -110,7 +110,7 @@ const Group: React.FC<GroupProps> = ({reload}) => {
         const response = await getGroup(currentPage, pageSize)
         setGroups(response.result.data)
         setFilteredFeeds(response?.result?.data || [])
-        setTotalElements(response.result.totalElements);
+        setTotalElements(response.result.totalPages)
       } catch (err) {
         console.error("Error fetch Groups", err);
       }

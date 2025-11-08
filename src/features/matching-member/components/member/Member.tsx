@@ -116,7 +116,7 @@ const Member: React.FC<MemberProps> = ({reload}) => {
         const response = await getProfile(currentPage, pageSize)
         setMembers(response.result.data)
         setFilteredFeeds(response?.result?.data || [])
-        setTotalElements(response.result.totalElements);
+        setTotalElements(response.result.totalPages)
       } catch (err) {
         console.error("Error fetch profile", err);
       }
