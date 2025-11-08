@@ -81,6 +81,7 @@ function RequestToMe() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalElements, setTotalElements] = useState(0);
   const pageSize = 10;
+  console.log("filteredFeeds", filteredFeeds);
   const fetchRequestsMatching = async () => {
       try {
         const response = await getSwapMatchingAPI({
@@ -234,7 +235,7 @@ function RequestToMe() {
               <div className='subject-info'>
                 <span className='subject-label'>Môn học</span>
                 <span className='subject-code'>
-                  {request.requestTo.course.code} - {request.requestTo.course.name} 
+                  {request.requestTo?.course.code || request.requestFrom?.course.code} - {request.requestTo?.course.name || request.requestFrom?.course.name} 
                 </span>
               </div>
             </div>
@@ -244,13 +245,13 @@ function RequestToMe() {
             <div className='swap-section'>
               <h4>Lớp của bạn</h4>
               <div className='class-card want-swap'>
-                <div className='class-code'>{request.requestTo.fromClass}</div>
+                <div className='class-code'>{request.requestTo?.fromClass || request.requestFrom?.fromClass}</div>
                 <div className='class-info'>
                   <div>
-                    {request.requestTo.lecturerFrom.name} - {request.requestTo.lecturerFrom.code}
+                    {request.requestTo?.lecturerFrom.name || request.requestFrom?.lecturerFrom.name} - {request.requestTo?.lecturerFrom.code || request.requestFrom?.lecturerFrom.code}
                   </div>
                   <div className='schedule'>
-                    {request.requestTo.fromDays.join(' _ ')} _ {request.requestTo.slotFrom}
+                    {request.requestTo?.fromDays.join(' _ ') || request.requestFrom?.fromDays.join(' _ ')} _ {request.requestTo?.slotFrom || request.requestFrom?.slotFrom}
                   </div>
                 </div>
               </div>
@@ -265,20 +266,20 @@ function RequestToMe() {
             <div className='swap-section'>
               <h4>Lớp của họ</h4>
               <div className='class-card your-class'>
-                <div className='class-code'>{request.requestTo.targetClass}</div>
+                <div className='class-code'>{request.requestTo?.targetClass || request.requestFrom?.targetClass}</div>
                 <div className='class-info'>
                   <div>
-                    {request.requestTo.lecturerTo.name} - {request.requestTo.lecturerTo.code}
+                    {request.requestTo?.lecturerTo.name || request.requestFrom?.lecturerTo.name} - {request.requestTo?.lecturerTo.code || request.requestFrom?.lecturerTo.code}
                   </div>
                   <div className='schedule'>
-                    {request.requestTo.toDays.join(' _ ')} _ {request.requestTo.slotTo}
+                    {request.requestTo?.toDays.join(' _ ') || request.requestFrom?.toDays.join(' _ ')} _ {request.requestTo?.slotTo || request.requestFrom?.slotTo}
                   </div>
                 </div>
               </div>
             </div>
           </div>
           <div className='action-buttons-matching'>
-            <button className='btn-message-matching' onClick={() => navigation(`/message/${request.requestTo?.student?.id}`)}>
+            <button className="btn-message-matching" onClick={() => navigation(`/message/${request.requestTo?.student?.id ??request.requestFrom?.student?.id}`)}>
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-mails-icon lucide-mails"><path d="M17 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 1-1.732"/><path d="m22 5.5-6.419 4.179a2 2 0 0 1-2.162 0L7 5.5"/><rect x="7" y="3" width="15" height="12" rx="2"/></svg>
               Nhắn tin
               </button>
