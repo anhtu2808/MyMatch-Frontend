@@ -107,7 +107,6 @@ function MyGroup() {
   const [filteredFeeds, setFilteredFeeds] = useState<Team[]>([])
   const [reload, setReload] = useState(false);
 
-
         const handleOpenGroupModalView = (id: number) => {
         setOpenView(true);
         setSelectedId(id)
