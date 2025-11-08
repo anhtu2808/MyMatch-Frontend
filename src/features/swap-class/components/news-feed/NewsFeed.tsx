@@ -178,12 +178,7 @@ function NewsFeed() {
             <div className='swap-section'>
               <h4>Lớp của họ</h4>
               <div className='class-card your-class'>
-                <div className='class-header'>
                   <div className='class-code'>{request.fromClass}</div>
-                  <span className='subject-small'>
-                    {request.course.code}
-                  </span>
-                </div>
                 <div className='class-info'>
                   <div>{request.lecturerFrom.name} - {request.lecturerFrom.code}</div>
                   <div className='schedule'>
@@ -204,7 +199,6 @@ function NewsFeed() {
               <h4>Họ muốn đổi</h4>
               <div className='class-card want-swap'>
                 <div className='class-code'>{request.targetClass}</div>
-                <span className='subject-small'>{request.course.code}</span>
                 <div className='class-info'>
                   <div>{request.lecturerTo.name} - {request.lecturerTo.code}</div>
                   <div className='schedule'>

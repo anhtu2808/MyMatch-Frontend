@@ -206,7 +206,6 @@ const showNotification = (msg: string, type: any) => {
                 <div className='class-header'>
                   <span className='class-code'>{request.fromClass}</span>
                 </div>
-                <div className='subject-small'>{request.course.code}</div>
                 <div className='class-info'>
                   <div>{request.lecturerFrom.name} - {request.lecturerFrom.code}</div>
                   <div className='schedule'>
@@ -229,7 +228,6 @@ const showNotification = (msg: string, type: any) => {
                  <div className='class-header'>
                   <span className='class-code'>{request.targetClass}</span>
                 </div>
-                <div className='subject-small'>{request.course.code}</div>
                 <div className='class-info'>
                   <div>{request.lecturerTo.name} - {request.lecturerTo.code}</div>
                   <div className='schedule'>
