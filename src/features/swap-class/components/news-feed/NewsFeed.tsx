@@ -4,6 +4,7 @@ import { getSwapRequestAPI } from '../../apis'
 import Filter from '../filter/Filter'
 import { useNavigate } from 'react-router-dom'
 import Pagination from '../../../review/components/Pagination/Pagination'
+import { translateStatus } from '../../../../components/Translate'
 
 interface Course {
   id: number
@@ -73,11 +74,11 @@ function NewsFeed() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalElements, setTotalElements] = useState(0);
   const pageSize = 10;
-
+  console.log("newsFeeds", newsFeeds);
   useEffect(() => {
     const fetchNewsFeed = async () => {
       try {
-        const response = await getSwapRequestAPI({page: currentPage, size: pageSize})
+        const response = await getSwapRequestAPI({page: currentPage, size: pageSize, statuses: "SENT"})
         setNewsFeeds(response?.result?.data || [])
         setFilteredFeeds(response?.result?.data || [])
         setTotalElements(response.result.totalElements)
@@ -160,8 +161,8 @@ function NewsFeed() {
             </div>
 
             <div className='status-badges'>
-              <span className={`status-badge ${request.status.toLowerCase()}`}>
-                {request.status === 'SENT' ? 'Đang chờ phản hồi' : request.status}
+              <span className='status-badge pending'>
+                {translateStatus(request.status)}
               </span>
 
               <div className='subject-info'>

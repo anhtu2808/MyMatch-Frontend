@@ -5,6 +5,7 @@ import Filter from '../filter/Filter'
 import { useNavigate } from 'react-router-dom'
 import Notification from '../../../../components/notification/Notification'
 import Pagination from '../../../review/components/Pagination/Pagination'
+import { translateStatus } from '../../../../components/Translate'
 
 interface User {
   id: number
@@ -80,7 +81,6 @@ function RequestToMe() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalElements, setTotalElements] = useState(0);
   const pageSize = 10;
-  console.log("requests trong yêu cầu gửi tới tui", requests);
   const fetchRequestsMatching = async () => {
       try {
         const response = await getSwapMatchingAPI({
@@ -230,7 +230,7 @@ function RequestToMe() {
               </div>
             </div>
             <div className='status-badges'>
-              <span className='status-badge pending'>{request.status}</span>
+              <span className='status-badge pending'>{translateStatus(request.status)}</span>
               <div className='subject-info'>
                 <span className='subject-label'>Môn học</span>
                 <span className='subject-code'>
