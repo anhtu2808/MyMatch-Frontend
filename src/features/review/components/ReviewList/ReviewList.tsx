@@ -151,7 +151,13 @@ const ExpandableText: React.FC<{ text: string; maxLength: number }> = ({
       <p style={{ margin: 0 }}>
         {isExpanded ? text : `${text.substring(0, maxLength)}...`}
       </p>
-      <button className="expand-button" onClick={() => setIsExpanded(!isExpanded)}>
+      <button
+        className="expand-button"
+        onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+          e.stopPropagation();
+          setIsExpanded(!isExpanded);
+        }}
+      >
         {isExpanded ? "Thu gọn" : "Xem thêm"}
       </button>
     </div>
@@ -174,6 +180,7 @@ const ReviewList: React.FC<{ lecturerId: number }> = ({ lecturerId }) => {
   const [reviews, setReviews] = useState<Review[]>([]);
   const [selectedReview, setSelectedReview] = useState<Review | null>(null);
   const navigate = useNavigate();
+  const FALLBACK_AVATAR = "/api/placeholder/96/96";
 
   const courseOptions = Array.from(
     new Map(
@@ -516,12 +523,15 @@ const ReviewList: React.FC<{ lecturerId: number }> = ({ lecturerId }) => {
 
       <div className="reviews-container">
         {displayedReviews.map((review) => {
-          const scoreDetails = review.details.filter(
-            (d) => d.criteria.type === "mark" && d.score !== null
-          );
-          const commentDetails = review.details.filter(
-            (d) => d.criteria.type === "comment" && d.comment
-          );
+            const details = review.details ?? [];
+
+            const scoreDetails = details.filter(
+              (d) => d?.criteria?.type === "mark" && d.score != null
+            );
+
+            const commentDetails = details.filter(
+              (d) => d?.criteria?.type === "comment" && d?.comment
+            );
 
           return (
             <div
@@ -536,6 +546,13 @@ const ReviewList: React.FC<{ lecturerId: number }> = ({ lecturerId }) => {
                       <img
                         src="https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg"
                         alt="Anonymous Avatar"
+                        loading="lazy"
+                        referrerPolicy="no-referrer"
+                        onError={(e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+                          const t = e.currentTarget as HTMLImageElement;
+                          t.onerror = null;
+                          t.src = FALLBACK_AVATAR;
+                        }}
                         style={{
                           width: "100%",
                           height: "100%",
@@ -546,6 +563,13 @@ const ReviewList: React.FC<{ lecturerId: number }> = ({ lecturerId }) => {
                     <img
                       src={review.student.user.avatarUrl}
                       alt="Avatar"
+                      loading="lazy"
+                      referrerPolicy="no-referrer"
+                      onError={(e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+                        const t = e.currentTarget as HTMLImageElement;
+                        t.onerror = null;
+                        t.src = FALLBACK_AVATAR;
+                      }}
                       style={{
                         width: "100%",
                         height: "100%",
@@ -618,10 +642,10 @@ const ReviewList: React.FC<{ lecturerId: number }> = ({ lecturerId }) => {
             </div>
 
             <div className="review-content">
-                {commentDetails.map((d) => (
+                {commentDetails.map((d, idx) => (
                   <ExpandableText
-                    key={d.id}
-                    text={d.comment}
+                    key={d?.id ?? idx}
+                    text={d?.comment ?? ""}
                     maxLength={200}
                   />
                 ))}
@@ -629,10 +653,10 @@ const ReviewList: React.FC<{ lecturerId: number }> = ({ lecturerId }) => {
 
               {scoreDetails.length > 0 && (
                 <div className="review-details-grid">
-                  {scoreDetails.map((detail) => (
-                    <div key={detail.id} className="score-item">
-                      <span className="score-name">{detail.criteria.name}</span>
-                      <span className="score-value">{detail.score}/5</span> 
+                  {scoreDetails.map((detail, idx) => (
+                    <div key={detail?.id ?? idx} className="score-item">
+                      <span className="score-name">{detail?.criteria?.name}</span>
+                      <span className="score-value">{detail?.score}/5</span> 
                     </div>
                   ))}
                 </div>
