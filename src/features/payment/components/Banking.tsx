@@ -70,7 +70,7 @@ const Banking: React.FC = () => {
                   </div>
                   <div className="banking-warning-list">
                     <div>⚠️ Vui lòng chuyển đúng nội dung để tránh thất thoát hợp khống</div>
-                    <div>⚠️ Điền đúng số Coint</div>
+                    <div>⚠️ Điền đúng số Coin</div>
                     <div>⚠️ Sau khi chuyển tiền, vui lòng chờ ít nhất 1 phút để hệ</div>
                     <div>thống xử lý</div>
                     <div>

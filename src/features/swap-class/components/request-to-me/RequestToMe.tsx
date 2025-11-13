@@ -5,6 +5,7 @@ import Filter from '../filter/Filter'
 import { useNavigate } from 'react-router-dom'
 import Notification from '../../../../components/notification/Notification'
 import Pagination from '../../../review/components/Pagination/Pagination'
+import { translateStatus } from '../../../../components/Translate'
 
 interface User {
   id: number
@@ -67,6 +68,8 @@ export interface RequestToMe {
   updateAt: string
   fromDecision: string
   toDecision: string
+  studentTo:  Student
+  studentFrom: Student
 }
 
 
@@ -78,7 +81,7 @@ function RequestToMe() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalElements, setTotalElements] = useState(0);
   const pageSize = 10;
-
+  console.log("filteredFeeds", filteredFeeds);
   const fetchRequestsMatching = async () => {
       try {
         const response = await getSwapMatchingAPI({
@@ -88,7 +91,7 @@ function RequestToMe() {
       })
         setRequests(response?.result?.data || [])
         setFilteredFeeds(response?.result?.data || [])
-        setTotalElements(response.result.totalElements)
+        setTotalElements(response.result.totalPages)
       } catch (error) {
         console.error('Error fetching requests:', error)
       }
@@ -158,17 +161,17 @@ function RequestToMe() {
     setFilteredFeeds(requests)
   }
 
-  const handleAcceptSwap = (id: number) => {
+  const handleAcceptSwap = async (id: number) => {
     const data = {
-      decision: "APPROVE",
+      decision: "ACCEPTED",
       reason: "approve"
     }
     try{
       if(!id){
         console.log("no id to confirm swap request");
       }
-      updateConfirmSwapRequestAPI(data, id)
-      fetchRequestsMatching()
+      await updateConfirmSwapRequestAPI(data, id)
+      await fetchRequestsMatching()
       showNotification("Đã chấp nhận", "success")
     }
     catch(err){
@@ -176,17 +179,17 @@ function RequestToMe() {
     }
   }
 
-  const handleRejectSwap = (id: number) => {
+  const handleRejectSwap = async (id: number) => {
     const data = {
-      decision: "REJECT",
+      decision: "REJECTED",
       reason: "reject"
     }
     try{
       if(!id){
         console.log("no id to confirm swap request");
       }
-      updateConfirmSwapRequestAPI(data, id)
-      fetchRequestsMatching()
+      await updateConfirmSwapRequestAPI(data, id)
+      await fetchRequestsMatching()
       showNotification("Đã từ chối", "success")
     }
     catch(err: any){
@@ -214,13 +217,13 @@ function RequestToMe() {
             <div className='user-info'>
               <div className='avatar'>
                 <img
-                  src={request.requestFrom.student.user?.avatarUrl || "/api/placeholder/40/40"}
+                  src={request.studentTo.user?.avatarUrl || "/api/placeholder/40/40"}
                   alt="User"
                 />
               </div>
               <div className='user-details'>
-                <h3>{request.requestFrom.student.user?.username}</h3>
-                <p>{request.requestFrom.student.user?.email}</p>
+                <h3>{request.studentTo.user?.username}</h3>
+                <p>{request.studentTo.user?.email}</p>
                 <p>Lý do: {request.reason || "Không có lý do"}</p>
                 <span className='time'>
                   {new Date(request.createAt).toLocaleString('vi-VN')}
@@ -228,11 +231,11 @@ function RequestToMe() {
               </div>
             </div>
             <div className='status-badges'>
-              <span className='status-badge pending'>{request.status}</span>
+              <span className='status-badge pending'>{translateStatus(request.status)}</span>
               <div className='subject-info'>
                 <span className='subject-label'>Môn học</span>
                 <span className='subject-code'>
-                  {request.requestFrom.course.code} - {request.requestFrom.course.name} 
+                  {request.requestTo?.course.code || request.requestFrom?.course.code} - {request.requestTo?.course.name || request.requestFrom?.course.name} 
                 </span>
               </div>
             </div>
@@ -242,14 +245,13 @@ function RequestToMe() {
             <div className='swap-section'>
               <h4>Lớp của bạn</h4>
               <div className='class-card want-swap'>
-                <div className='class-code'>{request.requestFrom.fromClass}</div>
-                <div className='subject-small'>{request.requestFrom.course.code}</div>
+                <div className='class-code'>{request.requestTo?.fromClass || request.requestFrom?.fromClass}</div>
                 <div className='class-info'>
                   <div>
-                    {request.requestFrom.lecturerFrom.name} - {request.requestFrom.lecturerFrom.code}
+                    {request.requestTo?.lecturerFrom.name || request.requestFrom?.lecturerFrom.name} - {request.requestTo?.lecturerFrom.code || request.requestFrom?.lecturerFrom.code}
                   </div>
                   <div className='schedule'>
-                    {request.requestFrom.fromDays.join(' _ ')} _ {request.requestFrom.slotFrom}
+                    {request.requestTo?.fromDays.join(' _ ') || request.requestFrom?.fromDays.join(' _ ')} _ {request.requestTo?.slotFrom || request.requestFrom?.slotFrom}
                   </div>
                 </div>
               </div>
@@ -264,21 +266,20 @@ function RequestToMe() {
             <div className='swap-section'>
               <h4>Lớp của họ</h4>
               <div className='class-card your-class'>
-                <div className='class-code'>{request.requestTo.fromClass}</div>
-                <div className='subject-small'>{request.requestTo.course.name}</div>
+                <div className='class-code'>{request.requestTo?.targetClass || request.requestFrom?.targetClass}</div>
                 <div className='class-info'>
                   <div>
-                    {request.requestTo.lecturerTo.name} - {request.requestTo.lecturerTo.code}
+                    {request.requestTo?.lecturerTo.name || request.requestFrom?.lecturerTo.name} - {request.requestTo?.lecturerTo.code || request.requestFrom?.lecturerTo.code}
                   </div>
                   <div className='schedule'>
-                    {request.requestTo.toDays.join(' _ ')} _ {request.requestTo.slotTo}
+                    {request.requestTo?.toDays.join(' _ ') || request.requestFrom?.toDays.join(' _ ')} _ {request.requestTo?.slotTo || request.requestFrom?.slotTo}
                   </div>
                 </div>
               </div>
             </div>
           </div>
           <div className='action-buttons-matching'>
-            <button className='btn-message-matching' onClick={() => navigation(`/message/${request.requestTo?.student?.id}`)}>
+              <button className='btn-message-matching' onClick={() => navigation(`/message/${request.studentTo?.id}`)}>
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-mails-icon lucide-mails"><path d="M17 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 1-1.732"/><path d="m22 5.5-6.419 4.179a2 2 0 0 1-2.162 0L7 5.5"/><rect x="7" y="3" width="15" height="12" rx="2"/></svg>
               Nhắn tin
               </button>

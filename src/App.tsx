@@ -27,6 +27,7 @@ import TermsOfService from "./features/legal/TermsOfService";
 import PrivacyPolicy from "./features/legal/PrivacyPolicy";
 import AboutUsPage from "./features/about/AboutUsPage";
 import NotFound from "./features/not-found/NotFound";
+import TransactionHistory from "./features/transaction/pages/TransactionHistory";
 
 function MainLayoutWithCoin() {
   const token = localStorage.getItem("accessToken");
@@ -34,7 +35,7 @@ function MainLayoutWithCoin() {
 
   return (
     <>
-      <Outlet /> {/* Các trang như Home, SwapClass,... sẽ được render ở đây */}
+      <Outlet />
       {showCoin && <Coin />}
     </>
   );
@@ -67,6 +68,7 @@ function App() {
             <Route path="/material/:id" element={<PrivateRoute><MaterialDetailPage /></PrivateRoute>} />
             <Route path="/material/create" element={<PrivateRoute><CreateMaterial /></PrivateRoute>} />
             <Route path="/material/update/:id" element={<PrivateRoute><UpdateMaterial /></PrivateRoute>} />
+            <Route path="/transaction" element={<PrivateRoute><TransactionHistory /></PrivateRoute>} />
           </Route>
 
           <Route path="/authenticate" element={<Authenticate />} />
