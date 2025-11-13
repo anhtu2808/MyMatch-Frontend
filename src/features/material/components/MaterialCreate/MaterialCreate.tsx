@@ -68,6 +68,8 @@ export default function MaterialCreatePage() {
   const [fileToDeleteIndex, setFileToDeleteIndex] = useState<number | null>(null);
   const [uploadProgress, setUploadProgress] = useState<{ [key: string]: 'uploading' | 'success' | 'error' }>({});
 
+  const [price, setPrice] = useState<number | string>("");
+
   // Load course list
   useEffect(() => {
     const fetchCourses = async () => {
@@ -176,10 +178,17 @@ export default function MaterialCreatePage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!materialItemIds.length || !selectedCourseId || !selectedLecturerId || !name) {
+    if (!materialItemIds.length || !selectedCourseId || !selectedLecturerId || !name|| !price) {
       setNotification({ message: "Vui lòng nhập đầy đủ thông tin!", type: "error" });
       return;
     }
+
+    const numericPrice = Number(price);
+    if (numericPrice < 3000 || numericPrice > 15000) {
+      setNotification({ message: "Giá coin phải từ 3000 đến 15000!", type: "error" });
+      return;
+    }
+
     const validIds = files.reduce((acc, file, index) => {
         const fileKey = `${file.name}-${file.lastModified}`;
         if (uploadProgress[fileKey] === 'success') {
@@ -201,8 +210,9 @@ export default function MaterialCreatePage() {
         name,
         description,
         Number(selectedCourseId),
-        Number(selectedLecturerId),
-        validIds 
+        numericPrice,       
+        Number(selectedLecturerId), 
+        validIds
       );
       setNotification({ message: "Tạo tài liệu thành công!", type: "success" });
       navigate("/material");
@@ -244,7 +254,7 @@ export default function MaterialCreatePage() {
     };
 
  
-  const isFormValid = name && files.length > 0 && selectedCourseId && selectedLecturerId;
+  const isFormValid = name && files.length > 0 && selectedCourseId && selectedLecturerId && price;
 
   return (
     <div className="material-create-container p-6">
@@ -361,6 +371,32 @@ export default function MaterialCreatePage() {
               }),
             }}
           />
+        </div>
+
+
+
+        {/* Price Input */}
+        <label className="material-create-label block mb-1 font-medium">
+          Giá (Coin) <span className="textt-red-500">*</span>
+        </label>
+        <input
+          type="number"
+          placeholder="Giá tài liệu (ví dụ: 15000)"
+          value={price}
+          onChange={(e) => setPrice(e.target.value)}
+          className="material-create-input border rounded px-3 py-2 w-full"
+          min="3000"
+          max="15000"
+        />
+        <div className="material-note-text">
+          <ul>
+            <li>
+           Giá coin phải từ 3000 đến 15000.
+            </li>
+            <li>
+             Bạn sẽ nhận được {Math.round(Number(price) * 0.8)} coin sau khi tài liệu được mua.
+            </li>
+          </ul>
         </div>
 
           {/* File Select */}

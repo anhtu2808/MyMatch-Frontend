@@ -7,7 +7,7 @@ import { useParams } from "react-router-dom";
 import { useResponsive } from '../../../useResponsive'
 
 const Message = () => {
-  const { studentId, requestId } = useParams();
+  const { studentId } = useParams();
   const isMobile = useResponsive(1024);
     const [sidebarOpen, setSidebarOpen] = useState(false);
   return (
@@ -25,7 +25,7 @@ const Message = () => {
         </>
       )}
       <div className='main-content-message'>
-        <Chat id = {studentId} requestId = {requestId}/>
+        <Chat id = {studentId} />
       </div>
     </div>
   )

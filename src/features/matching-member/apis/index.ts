@@ -69,7 +69,13 @@ export const getSkillAPI = async () => {
 }
 
 //Course
-export const getCourseAPI = async () => {
-    const response = await api.get("/courses?universityId=1&page=1&size=10")
+export const getCourseAPI = async (page: number, size: number) => {
+    const response = await api.get(`/courses?universityId=1&page=${page}&size=${size}`)
+    return response.data
+}
+
+//Semester
+export const getSemesterAPI = async () => {
+    const response = await api.get(`/universities/1/semesters`)
     return response.data
 }

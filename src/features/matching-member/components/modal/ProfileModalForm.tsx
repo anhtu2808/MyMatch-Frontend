@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Modal, Input, Select } from "antd";
 import "./ProfileModalForm.css";
-import { createProfile, getCourseAPI, getProfileId, getSkillAPI, updateProfile } from "../../apis";
-import { useAppSelector } from "../../../../store/hooks";
+import { createProfile, getCourseAPI, getProfileId, getSemesterAPI, getSkillAPI, updateProfile } from "../../apis";
+import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
 import Notification from "../../../../components/notification/Notification";
+import { fetchUserProfile } from "../../../../store/Slice";
 const { TextArea } = Input;
 const { Option } = Select
 interface ProfileForm {
@@ -27,6 +28,7 @@ interface UserProfileModalProps {
 
 const ProfileModalForm: React.FC<UserProfileModalProps> = ({ open, onClose, id ,isEdit, onReload}) => {
   const user = useAppSelector((state) => state.user)
+  const dispatch = useAppDispatch();
   const [profileForm, setProfileForm] = useState<ProfileForm>({
     requestDetail: "",
     goal: 0,
@@ -39,6 +41,7 @@ const ProfileModalForm: React.FC<UserProfileModalProps> = ({ open, onClose, id ,
     })
   const [skills, getSkills] = useState<any[]>([])
   const [courses, setCourses] = useState<any[]>([])
+  const [semesters, setSemesters] = useState<any[]>([]);
   const [noti, setNoti] = useState<{ message: string; type: any } | null>(null);
 
     useEffect(() => {
@@ -53,23 +56,45 @@ const ProfileModalForm: React.FC<UserProfileModalProps> = ({ open, onClose, id ,
       fetchSkills()
     }, [])
 
+    const skillOptions = skills.map(skill => ({
+      label: skill.name,
+      value: skill.id,
+    }));
+
     useEffect(() => {
       const fetchCourses = async () => {
         try {
-          const response = await getCourseAPI()
+          const response = await getCourseAPI(1, 100)
           setCourses(response?.result?.data || [])
         } catch (error) {
           console.error('Error fetching campuses:', error)
         }
       }
       fetchCourses()
-    }, [])
+    }, []);
+
+    const courseOptions = courses.map(course => ({
+      label: `${course.code} - ${course.name}`, 
+      value: course.id,
+    }));
+
+    useEffect(() => {
+        const fetchSemeters = async () => {
+          try {
+            const response = await getSemesterAPI()
+            setSemesters(response?.result || []);
+          } catch (error: any) {
+          console.error("Error fetching semester:", error);
+          }
+        };
+        fetchSemeters();
+      }, []);
 
     useEffect(() => {
     const fetchProfileDetail = async () => {
     if (isEdit && id) {
       try {
-        const res = await getProfileId(id); // API lấy chi tiết profile
+        const res = await getProfileId(id);
         setProfileForm({
           requestDetail: res?.result?.requestDetail,
           goal: res?.result?.goal,
@@ -89,7 +114,7 @@ const ProfileModalForm: React.FC<UserProfileModalProps> = ({ open, onClose, id ,
 }, [isEdit, id]);
 
 useEffect(() => {
-  if (open && !isEdit) {  // nếu ko edit thì khi mở modal sẽ được reset các field
+  if (open && !isEdit) {  
     setProfileForm({
       requestDetail: "",
       goal: 0,
@@ -108,12 +133,13 @@ useEffect(() => {
     if (isEdit && id) {
       await updateProfile(id, {
         ...profileForm,
-        status: "OPEN", // theo body yêu cầu
+        status: "OPEN",
       });
       onReload?.()
       showNotification("Cập nhật thành công", "success")
     } else {
       await createProfile(profileForm);
+      dispatch(fetchUserProfile());
       onReload?.()
       showNotification("Tạo thành công", "success")
     }
@@ -148,8 +174,9 @@ const showNotification = (msg: string, type: any) => {
       <div className="profile-form-modal">
         {/* Header */}
         <div className="profile-form-modal-header">
-          <h2>Thông tin profile</h2>
+          <h2>Thông tin hồ sơ cá nhân</h2>
           <p>Đăng profile của bạn để tìm nhóm phù hợp</p>
+          <p className="profile-form-modal-required">* Vui lòng nhập đầy đủ thông tin</p>
         </div>
 
         {/* Basic Info */}
@@ -183,15 +210,11 @@ const showNotification = (msg: string, type: any) => {
               value={profileForm.semesterId}
               onChange={(value) => handleInputChange('semesterId', value)}
             >
-                <Option value="1">1</Option>
-                <Option value="2">2</Option>
-                <Option value="3">3</Option>
-                <Option value="4">4</Option>
-                <Option value="5">5</Option>
-                <Option value="6">6</Option>
-                <Option value="7">7</Option>
-                <Option value="8">8</Option>
-                <Option value="9">9</Option>
+                {semesters.map((semester) => (
+                <Option key={semester.id} value={semester.id}>
+                  {semester?.name}
+                </Option>
+              ))}
             </Select>
           </div>
         </div>
@@ -200,22 +223,16 @@ const showNotification = (msg: string, type: any) => {
         <div className="profile-form-section">
           <h4>Kỹ năng</h4>
           <Select
-            mode="multiple"                  
+            mode="multiple"
+            showSearch
+            allowClear
+            placeholder="Chọn kỹ năng..."
             style={{ width: "100%" }}
-            placeholder="Có thể chọn nhiều kỹ năng"
             value={profileForm.skillIds}
-            onChange={(values) => {
-              if (values.length) {        
-                handleInputChange("skillIds", values);
-              }
-            }}
-          >
-            {skills.map((skill) => (
-              <Select.Option key={skill.id} value={skill.id}>
-                {skill.name}
-              </Select.Option>
-            ))}
-          </Select>
+            onChange={(values) => handleInputChange("skillIds", values)}
+            options={skillOptions}
+            optionFilterProp="label"  // lọc theo label (tên kỹ năng)
+          />
         </div>
 
         {/* Courses */}
@@ -223,17 +240,15 @@ const showNotification = (msg: string, type: any) => {
           <h4>Môn học và mục tiêu điểm</h4>
           <div className="profile-form-two-cols">
             <Select
-              value={profileForm.courseId || undefined}
-              onChange={(value) => handleInputChange('courseId', value)}
-              placeholder='Môn học'
+              showSearch
+              allowClear
+              placeholder="Chọn môn học..."
               style={{ width: '100%' }}
-            >
-                {courses.map((course) => (
-                <Option key={course.id} value={course.id}>
-                  {course?.code}
-                </Option>
-              ))}
-            </Select>
+              value={profileForm.courseId}
+              onChange={(value) => handleInputChange('courseId', value)}
+              options={courseOptions}
+              optionFilterProp="label"  // tìm kiếm theo label
+            />
             <Input placeholder="Mục tiêu mấy điểm" 
             value={profileForm.goal}
             type="number"

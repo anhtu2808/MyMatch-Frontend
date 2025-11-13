@@ -361,3 +361,17 @@
   height: 20px;  
   margin-left: 5px;
 }
+
+
+.material-note-text {
+  background: #fff7e6;
+  padding: 16px;
+  border-radius: 8px;
+  border: 1px solid #ffd591;
+  padding-left: 40px;
+}
+.material-note-text ul {
+  margin: 0;
+  padding-left: 10px;
+  color: #663c00;
+}

@@ -3,16 +3,20 @@ import Member from '../components/member/Member'
 import Group from '../components/group/Group'
 import "./FindingForum.css"
 
-function FindingForum() {
+interface FindingForumProps {
+  reload?: boolean;
+}
+
+const FindingForum: React.FC<FindingForumProps> = ({reload = false}) => {
   const [activeTab, setActiveTab] = useState(0)
   const renderTabContent = () => {
     switch(activeTab) {
       case 0:
-        return <Member />
+        return <Member reload={reload}/>
       case 1:
-        return  <Group />
+        return  <Group  reload={reload}/>
       default:
-        return <Member />
+        return <Member reload={reload}/>
     }
   }
   return (

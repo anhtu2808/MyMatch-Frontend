@@ -4,6 +4,7 @@ import { getSwapRequestAPI } from '../../apis'
 import Filter from '../filter/Filter'
 import { useNavigate } from 'react-router-dom'
 import Pagination from '../../../review/components/Pagination/Pagination'
+import { translateStatus } from '../../../../components/Translate'
 
 interface Course {
   id: number
@@ -73,14 +74,13 @@ function NewsFeed() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalElements, setTotalElements] = useState(0);
   const pageSize = 10;
-
   useEffect(() => {
     const fetchNewsFeed = async () => {
       try {
-        const response = await getSwapRequestAPI({page: currentPage, size: pageSize})
+        const response = await getSwapRequestAPI({page: currentPage, size: pageSize, statuses: "SENT"})
         setNewsFeeds(response?.result?.data || [])
         setFilteredFeeds(response?.result?.data || [])
-        setTotalElements(response.result.totalElements)
+        setTotalElements(response.result.totalPages)
       } catch (error) {
         console.error('Error fetching news feed:', error)
       }
@@ -160,8 +160,8 @@ function NewsFeed() {
             </div>
 
             <div className='status-badges'>
-              <span className={`status-badge ${request.status.toLowerCase()}`}>
-                {request.status === 'SENT' ? 'Đang chờ phản hồi' : request.status}
+              <span className='status-badge pending'>
+                {translateStatus(request.status)}
               </span>
 
               <div className='subject-info'>
@@ -177,12 +177,7 @@ function NewsFeed() {
             <div className='swap-section'>
               <h4>Lớp của họ</h4>
               <div className='class-card your-class'>
-                <div className='class-header'>
                   <div className='class-code'>{request.fromClass}</div>
-                  <span className='subject-small'>
-                    {request.course.code}
-                  </span>
-                </div>
                 <div className='class-info'>
                   <div>{request.lecturerFrom.name} - {request.lecturerFrom.code}</div>
                   <div className='schedule'>
@@ -203,7 +198,6 @@ function NewsFeed() {
               <h4>Họ muốn đổi</h4>
               <div className='class-card want-swap'>
                 <div className='class-code'>{request.targetClass}</div>
-                <span className='subject-small'>{request.course.code}</span>
                 <div className='class-info'>
                   <div>{request.lecturerTo.name} - {request.lecturerTo.code}</div>
                   <div className='schedule'>

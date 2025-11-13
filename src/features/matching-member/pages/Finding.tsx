@@ -15,16 +15,16 @@ function Finding() {
     const renderTabContent = () => {
     switch(activeTab) {
       case 0:
-        return <FindingForum />
+        return <FindingForum reload={reload}/>
       case 1:
         return  <MyGroup />
       case 2:
         return <MyProfile />
       default:
-        return <FindingForum />
+        return <FindingForum reload={reload}/>
     }
   }
-
+  const [reload, setReload] = useState(false);
   const [openGroup, setOpenGroup] = useState(false);
   const [openProfile, setOpenProfile] = useState(false)
   const isMobile = useResponsive(1024);
@@ -60,16 +60,16 @@ function Finding() {
           <div className='button-action-finding-nav'>
           <button className='create-btn-finding' onClick={handleOpenModalGroup}> 
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-circle-plus-icon lucide-circle-plus"><circle cx="12" cy="12" r="10"/><path d="M8 12h8"/><path d="M12 8v8"/></svg>
-             Tạo yêu cầu tìm nhóm
+             Tạo yêu cầu tuyển thành viên
              </button>
           <button className='create-btn-finding' onClick={handleOpenModalProfile}> 
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-circle-plus-icon lucide-circle-plus"><circle cx="12" cy="12" r="10"/><path d="M8 12h8"/><path d="M12 8v8"/></svg>
-             Tạo yêu cầu tìm thành viên</button>
+             Tạo yêu cầu tìm nhóm</button>
              </div>
           </div>
             {renderTabContent()}
-            <ProfileModalForm open={openProfile} onClose={() => setOpenProfile(false)}/>
-            <GroupModalForm open={openGroup} onClose={() => setOpenGroup(false)} />
+            <ProfileModalForm open={openProfile} onClose={() => setOpenProfile(false)} onReload={() => setReload(prev => !prev)}/>
+            <GroupModalForm open={openGroup} onClose={() => setOpenGroup(false)} onReload={() => setReload(prev => !prev)}/>
         </div>
     </div>
   )

@@ -4,12 +4,14 @@ import Sidebar from '../../../components/sidebar/Sidebar'
 import Header from '../../../components/header/Header'
 import './CreateSwapRequest.css'
 import Select from "react-select";
-import { createSwapRequestAPI, getSwapRequestByIdAPI, updateSwapRequestAPI } from '../apis'
+import { createSwapRequestAPI, getLecturerAPI, getSwapRequestByIdAPI, updateSwapRequestAPI } from '../apis'
 import Notification from '../../../components/notification/Notification'
 import { useResponsive } from '../../../useResponsive'
+import { getCourseAPI } from '../../matching-member/apis'
+import { useAppSelector } from '../../../store/hooks'
 
 interface SwapRequestData {
-  codeCourse: string
+  courseId: number
   fromClass: string
   targetClass: string
   codeLecturerFrom: string
@@ -34,7 +36,46 @@ const CreateSwapRequest: React.FC = () => {
   const [noti, setNoti] = useState<{ message: string; type: any } | null>(null);
   const isMobile = useResponsive(1024);
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  
+  const [courses, setCourses] = useState<any[]>([]);
+  const [lecturers, setLecturers] = useState<any[]>([])
+  const user = useAppSelector((state) => state.user)
+  const campusId = user?.campusId
+  console.log("Coin", user?.wallet);
+
+  useEffect(() => {
+      const fetchCourses = async () => {
+        try {
+          const response = await getCourseAPI(1, 100);
+          setCourses(response?.result?.data || []);
+        } catch (error) {
+          console.error("Error fetching courses:", error);
+        }
+      };
+      fetchCourses();
+    }, []);
+
+    const courseOptions = courses.map(c => ({
+      label: `${c.code} - ${c.name}`,
+      value: c.id,
+    }));
+
+  useEffect(() => {
+    const fetchLecturers = async () => {
+      try {
+        const response = await getLecturerAPI(Number(campusId), 1, 100);
+        setLecturers(response?.result?.data || [])
+      } catch (error) {
+        console.error("Error fetching lecturers:", error);
+        }
+    };
+    fetchLecturers();
+  }, [])
+
+  const lecturerOptions = lecturers.map(l => ({
+  label: `${l.code} - ${l.name}`,
+  value: l.code,  // Lưu code giảng viên vào formData
+}));
+
   useEffect(() => {
   if (isEdit) {
     const fetchData = async () => {
@@ -42,7 +83,7 @@ const CreateSwapRequest: React.FC = () => {
         const response = await getSwapRequestByIdAPI(Number(id))
         const data = response?.result
         setFormData({
-          codeCourse: data.course.code,
+          courseId: data.course.id,
           fromClass: data.fromClass,
           targetClass: data.targetClass,
           codeLecturerFrom: data.lecturerFrom.code,
@@ -65,7 +106,7 @@ const CreateSwapRequest: React.FC = () => {
 }, [id])
 
   const [formData, setFormData] = useState<SwapRequestData>({
-    codeCourse: '',
+    courseId: 0,
     fromClass: '',
     targetClass: '',
     codeLecturerFrom: '',
@@ -136,7 +177,7 @@ const mapSlotToApi = (slot: string) => {
 
   try {
     const payload = {
-      codeCourse: formData.codeCourse,
+      courseId: formData.courseId,
       fromClass: formData.fromClass,
       targetClass: formData.targetClass,
       codeLecturerFrom: formData.codeLecturerFrom,
@@ -150,7 +191,7 @@ const mapSlotToApi = (slot: string) => {
       toDays: formData.toDays.map(mapDay),
       xpiresAt: formData.expiresAt instanceof Date && !isNaN(formData.expiresAt.getTime())
         ? formData.expiresAt.toISOString()
-        : null,  // ✅ tránh lỗi
+        : null,
     }
 
     if (isEdit) {
@@ -160,7 +201,7 @@ const mapSlotToApi = (slot: string) => {
       await createSwapRequestAPI(payload)
       showNotification("Tạo thành công", "success")
     }
-    setTimeout (() => {navigate("/swap_class")}, 2000)
+    setTimeout (() => {navigate("/swap_class")}, 1000)
     
   } catch (err: any) {
     showNotification(err?.response?.data?.message || "Thất bại", "error")
@@ -194,20 +235,17 @@ const mapSlotToApi = (slot: string) => {
         <form className="swap-form" onSubmit={handleSubmit}>
           {/* Subject Section */}
           <div className="form-section subject-section">
-            <div className="section-header-create">
-              <div className="section-icon-wrapper blue"><span className="section-icon">📚</span></div>
-              <h3 className="section-title">Môn học</h3>
-            </div>
             <div className="form-group full-width">
               <label className="form-label">Mã môn học <span className="required">*</span></label>
-              <input
-                type="text"
-                className={`form-input ${errors.codeCourse ? 'error' : ''}`}
-                placeholder="VD: EXE201"
-                value={formData.codeCourse}
-                onChange={(e) => handleInputChange('codeCourse', e.target.value)}
-              />
-              {errors.codeCourse && <span className="error-message">{errors.codeCourse}</span>}
+              <Select
+              options={courseOptions} // [{label: "EXE201 - Engineering", value: 1}, ...]
+              placeholder="Chọn môn học"
+              value={courseOptions.find(c => c.value === formData.courseId) || null}
+              onChange={(selected) => handleInputChange('courseId', selected?.value || 0)}
+              classNamePrefix="react-select"
+              isSearchable
+            />
+            {errors.courseId && <span className="error-message">{errors.courseId}</span>}
             </div>
           </div>
 
@@ -216,7 +254,6 @@ const mapSlotToApi = (slot: string) => {
             {/* Current Class */}
             <div className="form-section current-class-section">
               <div className="section-header-create">
-                <div className="section-icon-wrapper blue"><span className="section-icon">📋</span></div>
                 <h3 className="section-title">Lớp hiện tại của bạn</h3>
               </div>
               <div className="form-group">
@@ -226,7 +263,7 @@ const mapSlotToApi = (slot: string) => {
                   onChange={(e) => handleInputChange('fromClass', e.target.value)} />
               </div>
               <div className="form-group">
-                <label className="form-label">Thứ <span className="required">*</span> (tối đa 2 thứ)</label>
+                <label className="form-label">Thứ <span className="required">*</span> (chọn 2 ngày)</label>
                 <Select
                   isMulti
                   options={dayOptions}
@@ -235,7 +272,7 @@ const mapSlotToApi = (slot: string) => {
                     const values = selected.map((s) => s.value);
                     if (values.length <= 2) handleInputChange("fromDays", values);
                   }}
-                  placeholder="Chọn thứ (tối đa 2)" closeMenuOnSelect={false}
+                  placeholder="Chọn đủ 2 ngày để đạt hiệu quả hơn" closeMenuOnSelect={false}
                 />
               </div>
               <div className="form-group">
@@ -248,15 +285,21 @@ const mapSlotToApi = (slot: string) => {
               </div>
               <div className="form-group">
                 <label className="form-label">Mã giảng viên</label>
-                <input type="text" className="form-input" placeholder='VD: HoangNT2' value={formData.codeLecturerFrom} 
-                  onChange={(e) => handleInputChange('codeLecturerFrom', (e.target.value))} />
+                <Select
+                  options={lecturerOptions}
+                  placeholder="Chọn giảng viên"
+                  value={lecturerOptions.find((l) => l.value === formData.codeLecturerFrom) || null}
+                  onChange={(selected) => handleInputChange("codeLecturerFrom", selected?.value || '')}
+                  classNamePrefix="react-select"
+                  isSearchable
+                  isClearable
+                />
               </div>
             </div>
 
             {/* Desired Class */}
             <div className="form-section desired-class-section">
               <div className="section-header-create">
-                <div className="section-icon-wrapper green"><span className="section-icon">✅</span></div>
                 <h3 className="section-title">Lớp muốn đổi</h3>
               </div>
               <div className="form-group">
@@ -265,14 +308,14 @@ const mapSlotToApi = (slot: string) => {
                   onChange={(e) => handleInputChange('targetClass', e.target.value)} />
               </div>
               <div className="form-group">
-                <label className="form-label">Thứ <span className="required">*</span> (tối đa 2 thứ)</label>
+                <label className="form-label">Thứ <span className="required">*</span> (chọn 2 ngày)</label>
                 <Select isMulti options={dayOptions}
                   value={dayOptions.filter(opt => formData.toDays.includes(opt.value))}
                   onChange={(selected) => {
                     const values = selected.map((s) => s.value);
                     if (values.length <= 2) handleInputChange("toDays", values);
                   }}
-                  placeholder="Chọn thứ (tối đa 2)" closeMenuOnSelect={false}
+                  placeholder="Chọn đủ 2 ngày để đạt hiệu quả hơn" closeMenuOnSelect={false}
                 />
               </div>
               <div className="form-group">
@@ -285,8 +328,15 @@ const mapSlotToApi = (slot: string) => {
               </div>
               <div className="form-group">
                 <label className="form-label">Mã giảng viên</label>
-                <input type="text" className="form-input" placeholder='VD: LamNN15' value={formData.codeLecturerTo} 
-                  onChange={(e) => handleInputChange('codeLecturerTo', (e.target.value))} />
+                <Select
+                  options={lecturerOptions}
+                  placeholder="Chọn giảng viên"
+                  value={lecturerOptions.find((l) => l.value === formData.codeLecturerTo) || null}
+                  onChange={(selected) => handleInputChange("codeLecturerTo", selected?.value || '')}
+                  classNamePrefix="react-select"
+                  isSearchable
+                  isClearable
+                />
               </div>
             </div>
           </div>

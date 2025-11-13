@@ -51,6 +51,7 @@ export interface GetMaterialsParams {
   courseId?: number;
   lecturerId?: number;
   ownerId?: number;
+  isPurchased?: boolean;
   page?: number;
   size?: number;
   sortBy?: string;
@@ -125,6 +126,7 @@ export const createMaterialAPI = async (
   name: string,
   description: string,
   courseId: number,
+  price: number,
   lecturerId: number,
   materialItemIds: number[]
 ) => {
@@ -132,7 +134,7 @@ export const createMaterialAPI = async (
   // console.log(payload);
   const materialParams = materialItemIds.map(id => `materialItemIds=${id}`).join("&");
 
-  const url = `/materials?name=${encodeURIComponent(name)}&description=${encodeURIComponent(description)}&courseId=${courseId}&lecturerId=${lecturerId}&${materialParams}`;
+  const url = `/materials?name=${encodeURIComponent(name)}&description=${encodeURIComponent(description)}&courseId=${courseId}&price=${price}&lecturerId=${lecturerId}&${materialParams}`;
 
   const response = await api.post(url, null, {
     headers: {
@@ -196,6 +198,7 @@ export const updateMaterialAPI = async (
     description?: string;
     courseId: number;
     lecturerId: number;
+    price: number;
   }
 ) => {
   const response = await api.put(`/materials/${id}`, data, {

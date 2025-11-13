@@ -76,8 +76,8 @@ export interface Team {
   course: Course;
   semester: Semester;
   campus: Campus;
-  student: Student;
   createAt: string;
+  createdBy: Student;
   teamRequest: TeamRequest[];
   teamMember: any | null;
   image: string;
@@ -85,8 +85,11 @@ export interface Team {
   requestCount: number
 }
 
+interface GroupProps {
+  reload: boolean;
+}
 
-function Group() {
+const Group: React.FC<GroupProps> = ({reload}) => {
   const [open, setOpen] = useState(false);
   const [selectedId, setSelectedId] = useState<number | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
@@ -107,13 +110,13 @@ function Group() {
         const response = await getGroup(currentPage, pageSize)
         setGroups(response.result.data)
         setFilteredFeeds(response?.result?.data || [])
-        setTotalElements(response.result.totalElements);
+        setTotalElements(response.result.totalPages)
       } catch (err) {
         console.error("Error fetch Groups", err);
       }
     }
     fetchGroup()
-  }, [])
+  }, [reload, currentPage])
 
   const handleFilter = (filters: { courseCode: string; skill: string }) => {
   let filtered = groups;
@@ -175,7 +178,7 @@ function Group() {
             </div>
           </div>
           <div className="group-actions">
-            <button className="btn-contact-group" onClick={() => navigate(`/message/${m?.student?.id}`)}>
+            <button className="btn-contact-group" onClick={() => navigate(`/message/${m?.createdBy?.id}`)}>
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-mails-icon lucide-mails"><path d="M17 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 1-1.732"/><path d="m22 5.5-6.419 4.179a2 2 0 0 1-2.162 0L7 5.5"/><rect x="7" y="3" width="15" height="12" rx="2"/></svg>
               Liên hệ</button>
             <button className="btn-profile-group" onClick={() => handleOpenGroupModalView(m.id)}>

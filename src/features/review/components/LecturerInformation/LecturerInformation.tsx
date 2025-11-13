@@ -225,7 +225,7 @@ const LecturerInformation: React.FC<LecturerInformationProps> = ({
                   ))}
                 </div>
                 <div>
-                  <span className="rating-text">
+                  <span className="rating-textt">
                     {averageScore.toFixed(1)}/5.0{" "}
                   </span>
                   <span className="review-count">

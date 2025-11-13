@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import Sidebar from "../../../components/sidebar/Sidebar";
 import Header from "../../../components/header/Header";
 import TeacherPageComponents, {
@@ -36,22 +36,25 @@ function TeachersPage() {
     );
   };
 
-  const mapLecturerToTeacher = (
-    lecturer: any,
-    subjectCount = 0
-  ): TeacherCardData => ({
-    id: lecturer.id, // thêm id từ API
-    name: lecturer.fullName || lecturer.name,
-    username: lecturer.code || lecturer.username,
-    avatar: lecturer.avatarUrl || "/default-avatar.png",
-    courses:
+  const mapLecturerToTeacher = useCallback(
+    (
+      lecturer: any,
+      subjectCount = 0
+      ): TeacherCardData => ({
+      id: lecturer.id,
+      name: lecturer.fullName || lecturer.name,
+      username: lecturer.code || lecturer.username,
+      avatar: lecturer.avatarUrl || "/default-avatar.png",
+      courses:
       lecturer.campus?.university?.courses?.map((c: any) => c.name) || [],
-    rating: lecturer.rating || 0,
-    reviews: lecturer.reviewCount || 0,
-    subjects: subjectCount,
-  });
+      rating: lecturer.rating || 0,
+      reviews: lecturer.reviewCount || 0,
+      subjects: subjectCount,
+   }),
+    [] 
+  );
 
-  const fetchLecturers = async () => {
+  const fetchLecturers = useCallback(async () => {
     setLoading(true);
     try {
       if (activeTab === "myreviews") {
@@ -63,8 +66,6 @@ function TeachersPage() {
         size: 9,
         ...filters,
       });
-
-      console.log("getAllLecturerAPI res:", res);
 
       const possibleList =
         res?.result?.data ?? res?.result ?? res?.data ?? res ?? [];
@@ -81,7 +82,6 @@ function TeachersPage() {
 
           try {
             const courseRes = await getCoursesByLecturerAPI(lec.id);
-            console.log(`courses for lec ${lec.id}:`, courseRes);
             const subjectCount =
               courseRes?.result?.length ??
               (Array.isArray(courseRes) ? courseRes.length : 0);
@@ -101,7 +101,7 @@ function TeachersPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [activeTab, page, filters, mapLecturerToTeacher]);
 
   useEffect(() => {
     if (activeTab === "rated") {
@@ -118,7 +118,14 @@ function TeachersPage() {
 
   useEffect(() => {
     fetchLecturers();
-  }, [filters, page]);
+  }, [fetchLecturers]);
+
+  const handleSearch = useCallback((newFilters: any) => {
+    const filtersWithTab: any = { ...newFilters };
+    if (activeTab === "rated") filtersWithTab.isReviewed = true;
+    setFilters(filtersWithTab);
+    setPage(1);
+  }, [activeTab]);
 
   return (
     <div className="teachers-page-container">
@@ -143,13 +150,7 @@ function TeachersPage() {
         <TeacherFilter
           activeTab={activeTab}
           setActiveTab={setActiveTab}
-          onSearch={(newFilters) => {
-            const filtersWithTab: any = { ...newFilters };
-            if (activeTab === "rated") filtersWithTab.isReviewed = true;
-            // if (activeTab === "marked") filtersWithTab.isMarked = true;
-            setFilters(filtersWithTab);
-            setPage(1);
-          }}
+          onSearch={handleSearch}
         />
 
       <div className="teacher-card-list">
