@@ -9,13 +9,14 @@ import { getProfileAPI } from "../../profile/apis";
 import { setUser, setLoaded } from "../../../store/Slice";
 import { useResponsive } from "../../../useResponsive";
 import Footer from "../../../components/footer/Footer";
-import { useNavigate } from "react-router-dom";
+import { ReviewRewardNotification } from "../components/ReviewRewardNotification";
+import { Gift, Sparkles } from "lucide-react";
 
 function Home() {
   const dispatch = useAppDispatch();
   const isMobile = useResponsive(1024);
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const navigate = useNavigate()
+  const [showRewardPopup, setShowRewardPopup] = useState(false);
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
     if (!token) {
@@ -85,22 +86,29 @@ function Home() {
                 </p>
               </div>
 
-              <button className="ai-banner-button" onClick={() => navigate("/teachers")}>
-                <div className="button-shimmer"></div>
-                <svg
-                  className="button-icon"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
-                  />
-                </svg>
-                <span className="button-text">Hãy thử ngay</span>
+              {/* Reward Button - ATTRACTIVE */}
+            <button 
+                className="reward-button" 
+                onClick={() => setShowRewardPopup(true)}
+              >
+                {/* Hiệu ứng Glow nền */}
+                <div className="reward-glow"></div>
+                
+                {/* Nội dung nút */}
+                <div className="reward-content-wrapper">
+                  <div className="reward-icon-box">
+                    <Gift size={24} strokeWidth={2.5} />
+                  </div>
+                  
+                  <div className="reward-text-group">
+                    <span className="reward-title">Nhận Thưởng!</span>
+                    <span className="reward-subtitle">1,500 coins khi review giảng viên</span>
+                  </div>
+                  
+                  <div className="reward-sparkle-icon">
+                    <Sparkles size={20} />
+                  </div>
+                </div>
               </button>
             </div>
 
@@ -119,6 +127,42 @@ function Home() {
         </div>
       </div>
       <Footer />
+
+      {/* Reward Popup */}
+      <ReviewRewardNotification 
+        isOpen={showRewardPopup}
+        onClose={() => setShowRewardPopup(false)}
+      />
+
+      <style>{`
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+          }
+          to {
+            opacity: 1;
+          }
+        }
+
+        @keyframes scaleIn {
+          from {
+            opacity: 0;
+            transform: scale(0.9);
+          }
+          to {
+            opacity: 1;
+            transform: scale(1);
+          }
+        }
+
+        .animate-fadeIn {
+          animation: fadeIn 0.2s ease-out;
+        }
+
+        .animate-scaleIn {
+          animation: scaleIn 0.3s ease-out;
+        }
+      `}</style>
     </div>
   );
 }
