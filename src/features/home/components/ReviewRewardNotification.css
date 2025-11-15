@@ -60,7 +60,7 @@
 .reward-header {
   flex-shrink: 0; /* Không cho phép co lại */
   position: relative;
-  background: linear-gradient(to right, #9333ea, #a855f7, #ec4899);
+  background: linear-gradient(135deg, #4a5568 0%, #2d3748 50%, #1a365d 100%);
   padding: 20px 16px 16px;
   text-align: center;
   color: white;
@@ -208,7 +208,7 @@
 }
 
 /* 6. Footer - Cố định dưới đáy */
-.footer-section {
+.footer-section-reward {
   flex-shrink: 0; /* Không cho phép co lại */
   padding: 16px;
   background: #fff; /* Đảm bảo nền trắng che scroll */
@@ -261,7 +261,7 @@
 
 .btn-primary {
   flex: 1;
-  background: linear-gradient(to right, #9333ea, #db2777);
+  background: linear-gradient(135deg, #4a5568 0%, #2d3748 50%, #1a365d 100%);
   color: white;
   box-shadow: 0 4px 12px rgba(147, 51, 234, 0.2);
 }
@@ -287,7 +287,7 @@
   .rewards-list { padding: 12px; }
   .reward-card { padding: 10px; }
   
-  .footer-section { padding: 10px; }
+  .footer-section-reward { padding: 10px; }
   .tip-box { display: none; } /* Ẩn mẹo nếu màn hình quá lùn */
 }
 
@@ -341,7 +341,7 @@
   }
 
   /* 4. Footer & Nút bấm: QUAN TRỌNG NHẤT - Xếp dọc nút */
-  .footer-section {
+  .footer-section-reward {
     padding: 10px 12px 12px;
   }
 
