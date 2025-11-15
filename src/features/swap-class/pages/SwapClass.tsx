@@ -21,13 +21,13 @@ function SwapClass() {
   const renderTabContent = () => {
     switch(activeTab) {
       case 0:
-        return <MyRequest />
+        return  <NewsFeed />
       case 1:
-        return  <RequestToMe />
+        return  <MyRequest />
       case 2:
-        return <NewsFeed />
+        return <RequestToMe />
       default:
-        return <MyRequest />
+        return <NewsFeed />
     }
   }
 

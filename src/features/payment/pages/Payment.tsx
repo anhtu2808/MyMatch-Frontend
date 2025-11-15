@@ -1,13 +1,20 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Header from '../../../components/header/Header'
 import Sidebar from '../../../components/sidebar/Sidebar'
 import Banking from '../components/Banking'
 import "./Payment.css"
 import { useResponsive } from '../../../useResponsive'
+import { useAppDispatch } from '../../../store/hooks'
+import { fetchUserProfile } from '../../../store/Slice'
 
 function Payment() {
   const isMobile = useResponsive(1024);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(fetchUserProfile());
+  }, [dispatch]);
   
   return (
     <div className='payment-container'>

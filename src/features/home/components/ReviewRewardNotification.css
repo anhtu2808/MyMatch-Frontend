@@ -60,7 +60,7 @@
 .reward-header {
   flex-shrink: 0; /* Không cho phép co lại */
   position: relative;
-  background: linear-gradient(to right, #9333ea, #a855f7, #ec4899);
+  background: linear-gradient(135deg, #4a5568 0%, #2d3748 50%, #1a365d 100%);
   padding: 20px 16px 16px;
   text-align: center;
   color: white;
@@ -261,7 +261,7 @@
 
 .btn-primary {
   flex: 1;
-  background: linear-gradient(to right, #9333ea, #db2777);
+  background: linear-gradient(135deg, #4a5568 0%, #2d3748 50%, #1a365d 100%);
   color: white;
   box-shadow: 0 4px 12px rgba(147, 51, 234, 0.2);
 }
