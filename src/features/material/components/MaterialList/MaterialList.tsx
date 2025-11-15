@@ -77,6 +77,19 @@ const MaterialList: React.FC<Props> = ({ materials, isMyUploads }) => {
     return <div className="material-empty">Không có tài liệu nào</div>;
   }
 
+  const formatPrice = (p?: number) => {
+    if (p == null) return "-";
+    if (p === 0) return "Miễn phí";
+    try {
+      return new Intl.NumberFormat("vi-VN", {
+        style: "currency",
+        currency: "Coins",
+      }).format(p);
+    } catch (err) {
+      return p.toString();
+    }
+  };
+
   const handleClick = (id: number) => {
     navigate(`/material/${id}`);
   };
@@ -93,12 +106,13 @@ const MaterialList: React.FC<Props> = ({ materials, isMyUploads }) => {
         >
           <div className="material-info">
             <div className="material-header">
-              <span className="material-title">
-                {m.course?.code} - {m.name}
-              </span>
-              <span className="material-stats">
-                ({m.totalPurchases} lượt mua)
-              </span>
+              <div className="left">
+                <span className="material-title">
+                  {m.course?.code} - {m.name}
+                </span>
+                <span className="material-stats">({m.totalPurchases} lượt mua)</span>
+              </div>
+              {/* price will be aligned with status on the right */}
             </div>
 
             <div className="material-meta">
@@ -110,49 +124,53 @@ const MaterialList: React.FC<Props> = ({ materials, isMyUploads }) => {
             </div>
           </div>
 
-          {!isMyUploads && (
-            <div className="material-status">
-              {m.isPurchased ? (
-                <span className="material-purchased">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="lucide lucide-badge-russian-ruble-icon lucide-badge-russian-ruble"
-                  >
-                    <path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z" />
-                    <path d="M9 16h5" />
-                    <path d="M9 12h5a2 2 0 1 0 0-4h-3v9" />
-                  </svg>
-                </span>
-              ) : (
-                <span className="material-not-purchased">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="lucide lucide-badge-russian-ruble-icon lucide-badge-russian-ruble"
-                  >
-                    <path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z" />
-                    <path d="M9 16h5" />
-                    <path d="M9 12h5a2 2 0 1 0 0-4h-3v9" />
-                  </svg>
-                </span>
-              )}
-            </div>
-          )}
+          {/* right area: price + purchase status */}
+          <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+            <span className="material-price">{formatPrice(m.price)}</span>
+            {!isMyUploads && (
+              <div className="material-status">
+                {m.isPurchased ? (
+                  <span className="material-purchased">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className="lucide lucide-badge-russian-ruble-icon lucide-badge-russian-ruble"
+                    >
+                      <path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z" />
+                      <path d="M9 16h5" />
+                      <path d="M9 12h5a2 2 0 1 0 0-4h-3v9" />
+                    </svg>
+                  </span>
+                ) : (
+                  <span className="material-not-purchased">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className="lucide lucide-badge-russian-ruble-icon lucide-badge-russian-ruble"
+                    >
+                      <path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z" />
+                      <path d="M9 16h5" />
+                      <path d="M9 12h5a2 2 0 1 0 0-4h-3v9" />
+                    </svg>
+                  </span>
+                )}
+              </div>
+            )}
+          </div>
 
           {isMyUploads && (
             <button

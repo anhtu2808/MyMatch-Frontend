@@ -62,11 +62,21 @@ const MaterialDetail: React.FC = () => {
     dateStr ? new Date(dateStr + "Z").toLocaleDateString() : "Không rõ";
 
   const handlePurchase = async () => {
+  const price = material.price ?? 0;
+  const wallet = user?.wallet ?? 0;
+
+  if (wallet < price) {
+    setShowConfirmPurchase(false);
+    setNotification({ message: "Số dư coin không đủ, hãy nạp coin để mua tài liệu này.", type: "error" });
+    setTimeout(() => navigate("/payment"), 900);
+    return;
+  }
+
   try {
     const response = await purchaseMaterialAPI(material.id);
     console.log("Purchase response:", response);
     dispatch(fetchUserProfile());
-    setMaterial(prev => prev ? { ...prev, isPurchased: true } : prev);
+    setMaterial((prev) => (prev ? { ...prev, isPurchased: true } : prev));
     setNotification({ message: "Mua tài liệu thành công!", type: "success" });
   } catch (err) {
     console.error(err);
