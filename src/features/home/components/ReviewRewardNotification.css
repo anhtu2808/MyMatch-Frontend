@@ -208,7 +208,7 @@
 }
 
 /* 6. Footer - Cố định dưới đáy */
-.footer-section {
+.footer-section-reward {
   flex-shrink: 0; /* Không cho phép co lại */
   padding: 16px;
   background: #fff; /* Đảm bảo nền trắng che scroll */
@@ -287,7 +287,7 @@
   .rewards-list { padding: 12px; }
   .reward-card { padding: 10px; }
   
-  .footer-section { padding: 10px; }
+  .footer-section-reward { padding: 10px; }
   .tip-box { display: none; } /* Ẩn mẹo nếu màn hình quá lùn */
 }
 
@@ -341,7 +341,7 @@
   }
 
   /* 4. Footer & Nút bấm: QUAN TRỌNG NHẤT - Xếp dọc nút */
-  .footer-section {
+  .footer-section-reward {
     padding: 10px 12px 12px;
   }
 
