@@ -77,7 +77,7 @@ export const ReviewRewardNotification = ({ isOpen, onClose }) => {
         </div>
 
         {/* Footer */}
-        <div className="footer-section">
+        <div className="footer-section-reward">
           <div className="tip-box">
             <div className="tip-icon">
               <SparklesIcon />
