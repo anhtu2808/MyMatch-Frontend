@@ -78,58 +78,63 @@ const ReviewDetail: React.FC = () => {
         {/* --- Step 3 review details --- */}
         <div className="criteria-item-box">
           <h2>Review chi tiết</h2>
-          {review.details.map((d: any) => (
-            <div key={d.id} className="criteria-item">
-              <div className="criteria-header">
-                <div className="criteria-title">
-                  <h4>{d.criteria.name}</h4>
-                  {d.criteria.description && (
-                    <p className="criteria-description">
-                      {d.criteria.description}
-                    </p>
+          {(() => {
+            const details = review.details ?? [];
+            return details
+              .filter((d: any) => d && d.criteria)
+              .map((d: any) => (
+                <div key={d.id ?? `${d?.criteria?.id ?? 'unknown'}-${Math.random()}`} className="criteria-item">
+                  <div className="criteria-header">
+                    <div className="criteria-title">
+                      <h4>{d?.criteria?.name ?? "(Tiêu chí chưa có tên)"}</h4>
+                      {d?.criteria?.description && (
+                        <p className="criteria-description">
+                          {d.criteria.description}
+                        </p>
+                      )}
+                    </div>
+                    {d?.criteria?.type === "mark" && (
+                      <span className="score-text">{d?.score ?? "-"}/5</span>
+                    )}
+                  </div>
+
+                  {d?.criteria?.type === "mark" && (
+                    <div className="mark-options">
+                      {[1, 2, 3, 4, 5].map((n) => (
+                        <button
+                          key={n}
+                          className={`mark-btn ${d?.score >= n ? "selected" : ""}`}
+                          disabled
+                        >
+                          {n}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+
+                  {d?.criteria?.type === "yes_no" && (
+                    <div className="yesno-options">
+                      <button
+                        className={`yes-btn ${d?.isYes ? "selected" : ""}`}
+                        disabled
+                      >
+                        Yes
+                      </button>
+                      <button
+                        className={`no-btn ${!d?.isYes ? "selected" : ""}`}
+                        disabled
+                      >
+                        No
+                      </button>
+                    </div>
+                  )}
+
+                  {d?.criteria?.type === "comment" && (
+                    <Input.TextArea rows={3} value={d?.comment ?? ""} disabled />
                   )}
                 </div>
-                {d.criteria.type === "mark" && (
-                  <span className="score-text">{d.score}/5</span>
-                )}
-              </div>
-
-              {d.criteria.type === "mark" && (
-                <div className="mark-options">
-                  {[1, 2, 3, 4, 5].map((n) => (
-                    <button
-                      key={n}
-                      className={`mark-btn ${d.score >= n ? "selected" : ""}`}
-                      disabled
-                    >
-                      {n}
-                    </button>
-                  ))}
-                </div>
-              )}
-
-              {d.criteria.type === "yes_no" && (
-                <div className="yesno-options">
-                  <button
-                    className={`yes-btn ${d.isYes ? "selected" : ""}`}
-                    disabled
-                  >
-                    Yes
-                  </button>
-                  <button
-                    className={`no-btn ${!d.isYes ? "selected" : ""}`}
-                    disabled
-                  >
-                    No
-                  </button>
-                </div>
-              )}
-
-              {d.criteria.type === "comment" && (
-                <Input.TextArea rows={3} value={d.comment} disabled />
-              )}
-            </div>
-          ))}
+              ));
+          })()}
         </div>
 
         {/* Evidence */}

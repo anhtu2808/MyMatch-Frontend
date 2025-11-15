@@ -244,7 +244,7 @@ const ReviewList: React.FC<{ lecturerId: number }> = ({ lecturerId }) => {
     fetchReviews();
   }, [lecturerId, courseId, semesterId, isAnonymous]);
 
-  const displayedReviews = showAllReviews ? reviews : reviews.slice(0, 1);
+  const displayedReviews = showAllReviews ? reviews : reviews.slice(0, 10);
 
   const renderStars = (rating: number) =>
     Array.from({ length: 5 }, (_, index) => (
@@ -691,7 +691,7 @@ const ReviewList: React.FC<{ lecturerId: number }> = ({ lecturerId }) => {
       })}
       </div>
 
-      {!showAllReviews && reviews.length > 1 && (
+      {!showAllReviews && reviews.length > 10 && (
         <div className="load-more-container">
           <button
             className="load-more-btn"
