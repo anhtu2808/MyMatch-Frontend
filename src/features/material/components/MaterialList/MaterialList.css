@@ -227,3 +227,49 @@
     font-size: 13px;
   }
 }
+
+/* Enhanced header and price badge */
+.material-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.material-header .left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.material-header .right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.material-price {
+  background: linear-gradient(180deg,#ecfdf3,#e6fff0);
+  color: #065f46;
+  font-weight: 700;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(6,95,70,0.08);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.6) inset;
+  font-size: 13px;
+}
+
+.material-price:hover {
+  transform: translateY(-1px);
+}
+
+.material-info {
+  padding-right: 12px;
+}
+
+.material-header .material-stats {
+  color: #6b7280;
+  font-size: 13px;
+}
